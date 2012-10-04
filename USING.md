@@ -17,13 +17,12 @@ Apart from a bundle of gems (see flapjack.gemspec for runtime gems, and Gemfile 
 
 ## What components do
 
-
 Executables:
 
   * `flapjack` => starts multiple components ('pikelets') within the one ruby process as specified in the configuration file.
   * `flapjack-nagios-receiver` => reads nagios check output on standard input and places them on the events queue in redis as JSON blobs. Currently unable to be run in-process with `flapjack`
 
-There are more fun executables in the bin directory.
+There are more executables in the bin directory (TODO describe them here).
 
 Pikelets:
 
@@ -31,14 +30,14 @@ Pikelets:
   * `email_notifier` => generates email notifications (resque, mail)
   * `sms_notifier` => generates sms notifications (resque)
   * `jabber_gateway` => connects to an XMPP (jabber) server, sends notifications (to rooms and individuals), handles acknowledgements from jabber users and other commands (blather)
-  * `web` => web UI (sinatra, thin)
+  * `pagerduty_gateway` => sends notifications to and accepts acknowledgements from [PagerDuty](http://www.pagerduty.com/) (NB: you will need to have a registered PagerDuty account to use this)
+  * `oobetet` => "out-of-band" end-to-end testing, used for monitoring other instances of flapjack to ensure that they are running correctly
+  * `web` => browsable web interface (sinatra, thin)
   * `api` => HTTP API server (sinatra, thin)
 
 Pikelets are flapjack components which can be run within the same ruby process, or as separate processes.
 
 The simplest configuration will have one `flapjack` process running executive, web, and some notification gateways, and one `flapjack-nagios-receiver` process receiving events from Nagios and placing them on the events queue for processing by executive.
-
-
 
 
 
@@ -56,10 +55,103 @@ cp etc/flapjack-config.yaml.example etc/flapjack-config.yaml
 
 Edit the configuration to suit (redis connection, smtp server, jabber server, sms gateway, etc.)
 
-The default FLAPJACK_ENV is "development" if there is no environment variable set.
+The default FLAPJACK_ENV is "development" if there is no environment variable set. The value of FLAPJACK_ENV is used as the configuration key, to choose which of the top-level configuration hashes in the YAML file should be loaded.
 
-TODO more detail
+An example configuration stanza is replicated below, along with comments illustrating how the configuration settings are used.
 
+```yaml
+development:
+  pid_file: tmp/pids/flapjack.pid
+  log_file: log/flapjack.log
+  # whether or not flapjack should run daemonized (using the daemons gem)
+  daemonize: no
+  redis:
+    # the redis server hostname to connect to
+    host: 127.0.0.1
+    # the redis server port to connect to
+    port: 6379
+    # the redis database number to use
+    db: 13
+  executive:
+    # whether or not this pikelet should be started
+    enabled: yes
+    email_queue: email_notifications
+    sms_queue: sms_notifications
+    jabber_queue: jabber_notifications
+    notification_log_file: log/flapjack-notification.log
+  email_notifier:
+    # whether or not this pikelet should be started
+    enabled: yes
+    # the redis queue the pikelet will look for notifications on
+    queue: email_notifications
+    smtp_config:
+      # these values are passed directly through to the mail gem's SMTP configuration,
+      # and can be omitted if the defaults are acceptable
+      port: 25
+      address: "localhost"
+      domain: 'localhost.localdomain'
+      user_name: nil
+      password: nil
+      authentication: nil
+      enable_starttls_auto: true
+  sms_notifier:
+    # whether or not this pikelet should be started
+    enabled: yes
+    # the redis queue the pikelet will look for notifications on
+    queue: sms_notifications
+    username: "ermahgerd"
+    password: "xxxx"
+  jabber_gateway:
+    # whether or not this pikelet should be started
+    enabled: yes
+    # the redis queue the pikelet will look for notifications on
+    queue: jabber_notifications
+    # the jabber server hostname to connect to
+    server: "jabber.domain.tld"
+    # the jabber server port to connect to
+    port: 5222
+    # the jabber username to present for signing in
+    jabberid: "flapjack@jabber.domain.tld"
+    # the jabber password to present for signing in
+    password: "good-password"
+    # the user alias the pikelet should use
+    alias: "flapjack"
+    # the Multi-User Chats the pikelet should join and announce to
+    rooms:
+      - "flapjacktest@conference.jabber.domain.tld"
+      - "log@conference.jabber.domain.tld"
+  oobetet:
+    # whether or not this pikelet should be started
+    enabled: yes
+    # server, port, jabberid, password, alias, rooms: see the jabber pikelet
+    server: "jabber.domain.tld"
+    port: 5222
+    jabberid: "flapjacktest@jabber.domain.tld"
+    password: "nuther-good-password"
+    alias: "flapjacktest"
+    watched_check: "PING"
+    watched_entity: "foo.bar.net"
+    max_latency: 300
+    pagerduty_contact: "11111111111111111111111111111111"
+    rooms:
+      - "flapjacktest@conference.jabber.domain.tld"
+      - "log@conference.jabber.domain.tld"
+  pagerduty_gateway:
+    # whether or not this pikelet should be started
+    enabled: yes
+    # the redis queue the pikelet will look for notifications on
+    queue: pagerduty_notifications
+  web:
+    # whether or not this pikelet should be started
+    enabled: yes
+    # the port the web server should be run on
+    port: 5080
+  api:
+    # whether or not this pikelet should be started
+    enabled: yes
+    # the port the API server should be run on
+    port: 5081
+```
 
 
 ### Configuring Nagios
@@ -161,10 +253,10 @@ The `flapjack-populator` script provides a mechanism for importing contacts and 
     bin/flapjack-populator import-contacts --from tmp/dummy_contacts.json --config /etc/flapjack/flapjack-config.yml
     bin/flapjack-populator import-entities --from tmp/dummy_entities.json --config /etc/flapjack/flapjack-config.yml
 
-There are example files, and example ruby code which generated them, in the tmp/ directory. The format of these files is described herein.
+There are example files, and example ruby code which generated them, in the tmp/ directory. The format of these files is described herein:
 
 
-## Format of JSON contact + entity data
+### Format of JSON contact + entity data
 
 The `flapjack-populator` script populates the event processing/notification database with entities and contacts. This initialises the entities for which checks will be monitored, which contacts are interested in which entities, and the notification details for these contacts (email address, mobile number for SMS, etc.).
 
@@ -172,7 +264,8 @@ The import process will delete any existing matching object (matching on ID) bef
 
 The two JSON files are specified as follows:
 
- ### Contacts
+
+### Contacts
 
 The contacts json import data is an array of contacts as follows:
 
@@ -190,9 +283,6 @@ PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty acco
 PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
 PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
 ```
-
-
-Notes:
 
 * The MEDIA hash contains zero or more key-value pairs where the key is the media type (eg "sms", "email", "jabber", etc) and the value is the address (ie mobile number, email address, jabber id etc).
 * The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
