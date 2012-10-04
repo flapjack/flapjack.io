@@ -49,15 +49,15 @@ TODO -- high-level overview, diagram, some notes
 
 ## Configuring Flapjack components
 
+Copy the example config file into place:
+
 ```
 cp etc/flapjack-config.yaml.example etc/flapjack-config.yaml
 ```
 
-Edit the configuration to suit (redis connection, smtp server, jabber server, sms gateway, etc.)
+and then edit the configuration to suit. The value of the environment variable `FLAPJACK_ENV` is used as the configuration key, to choose which of the top-level configuration hashes in the YAML file should be loaded. (The default FLAPJACK_ENV is "development" if there is no environment variable set.)
 
-The default FLAPJACK_ENV is "development" if there is no environment variable set. The value of FLAPJACK_ENV is used as the configuration key, to choose which of the top-level configuration hashes in the YAML file should be loaded.
-
-An example configuration stanza is replicated below, along with comments illustrating how the configuration settings are used.
+An example configuration stanza is replicated below, along with comments describing the function of the configuration settings.
 
 ```yaml
 development:
@@ -179,6 +179,7 @@ Create the named pipe if it doesn't already exist:
 
     mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
 
+
 ## Running Flapjack
 
 
@@ -191,6 +192,7 @@ Create the named pipe if it doesn't already exist:
 
 The command line option for daemonize overrides whatever is set in the config file.
 
+
 ### flapjack-nagios-receiver
 
 There is a control script that uses [Daemons](http://daemons.rubyforge.org/) to start, stop, restart, show status etc of the flapjack-nagios-receiver process. Options after -- are passed through to flapjack-nagios-receiver. Run it like so:
@@ -200,7 +202,7 @@ There is a control script that uses [Daemons](http://daemons.rubyforge.org/) to 
     flapjack-nagios-receiver-control restart -- --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
     flapjack-nagios-receiver-control stop
 
-* Bypassing daemons control script: *
+#### Bypassing daemons control script
 
 Specify the path to the nagios named pipe (fifo):
 
