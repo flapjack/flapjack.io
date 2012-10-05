@@ -57,3 +57,5 @@ Architecture
 ------------
 
 TODO -- more detailed than in USING.md
+
+FIXME document check data format, for writing new check receivers
