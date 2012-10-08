@@ -34,7 +34,7 @@ and the following gems:
 
 You'll need a working C compiler installed for the gems above with binary components (`eventmachine`, `yajl-ruby` and `hiredis`).
 
-We want to remove the number of gems that Flapjack relies on -- any pull requests will be gratefully received.
+We want to lower the number of gems that Flapjack relies on -- any pull requests will be gratefully received.
 
 
 ## What components do
