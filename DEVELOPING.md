@@ -52,7 +52,6 @@ gem build flapjack.gemspec
 ```
 
 
-
 Architecture
 ------------
 
