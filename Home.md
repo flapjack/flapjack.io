@@ -1,8 +1,8 @@
 
-[Using Flapjack](https://github.com/ali-graham/flapjack/wiki/USING)
+[Using Flapjack](https://github.com/flpjck/flapjack/wiki/USING)
 
-[Developing Flapjack](https://github.com/ali-graham/flapjack/wiki/DEVELOPING)
+[Developing Flapjack](https://github.com/flpjck/flapjack/wiki/DEVELOPING)
 
-[Debugging Flapjack](https://github.com/ali-graham/flapjack/wiki/DEBUGGING)
+[Debugging Flapjack](https://github.com/flpjck/flapjack/wiki/DEBUGGING)
 
-[Flapjack Glossary](https://github.com/ali-graham/flapjack/wiki/GLOSSARY)
+[Flapjack Glossary](https://github.com/flpjck/flapjack/wiki/GLOSSARY)
