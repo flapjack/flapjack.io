@@ -2,9 +2,9 @@ Here are some useful ways of debugging various things in Flapjack.
 
 ### Redis Connection Leaks ###
 
-The following command reports every five seconds the number of connections to Redis (as reported by `lsof`) and the totall number of EventMachine external protocol connections currently in place:
+The following command reports every five seconds the number of connections to Redis (as reported by `lsof`) and the total number of EventMachine external protocol connections currently in place:
 
-production paths:
+Production paths:
 
 ```bash
 while true ; do
@@ -17,7 +17,7 @@ while true ; do
 done
 ```
 
-development paths:
+Development paths:
 
 ```bash
 while true ; do

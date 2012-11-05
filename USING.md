@@ -186,7 +186,7 @@ development:
 
 You need a Nagios prior to version 3.3 as this breaks perfdata output for checks which don't generate performance data (stuff after a | in the check output). We are developing and running against Nagios version 3.2.3 with success.
 
-nagios.cfg config file changes:
+`nagios.cfg` config file changes:
 
 ```
 # modified lines:
