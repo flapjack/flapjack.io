@@ -48,14 +48,16 @@ There are more executables in the bin directory (FIXME describe them here).
 
 Pikelets:
 
-  * `executive` => processes events off a queue (a redis list) and decides what actions to take (alert, record state changes, etc)
-  * `email_notifier` => generates email notifications (resque, mail)
-  * `sms_notifier` => generates sms notifications (resque)
-  * `jabber_gateway` => connects to an XMPP (jabber) server, sends notifications (to rooms and individuals), handles acknowledgements from jabber users and other commands (blather)
-  * `pagerduty_gateway` => sends notifications to and accepts acknowledgements from [PagerDuty](http://www.pagerduty.com/) (NB: you will need to have a registered PagerDuty account to use this)
-  * `oobetet` => "out-of-band" end-to-end testing, used for monitoring other instances of flapjack to ensure that they are running correctly
-  * `web` => browsable web interface (sinatra, thin)
-  * `api` => HTTP API server (sinatra, thin)
+*   `executive` => processes events off a queue (a redis list) and decides what actions to take (alert, record state changes, etc)
+
+*   gateways
+    * `email` => generates email notifications (resque, mail)
+    * `sms` => generates sms notifications (resque)
+    * `jabber` => connects to an XMPP (jabber) server, sends notifications (to rooms and individuals), handles acknowledgements from jabber users and other commands (blather)
+    * `pagerduty` => sends notifications to and accepts acknowledgements from [PagerDuty](http://www.pagerduty.com/) (NB: you will need to have a registered PagerDuty account to use this)
+    * `web` => browsable web interface (sinatra, thin)
+    * `api` => HTTP API server (sinatra, thin)
+    * `oobetet` => "out-of-band" end-to-end testing, used for monitoring other instances of flapjack to ensure that they are running correctly
 
 Pikelets are flapjack components which can be run within the same ruby process, or as separate processes.
 
@@ -106,79 +108,81 @@ development:
     email_queue: email_notifications
     sms_queue: sms_notifications
     jabber_queue: jabber_notifications
+    pagerduty_queue: pagerduty_notifications
     notification_log_file: log/flapjack-notification.log
-  email_notifier:
-    # whether or not this pikelet should be started
-    enabled: yes
-    # the redis queue the pikelet will look for notifications on
-    queue: email_notifications
-    smtp_config:
-      # these values are passed directly through to the mail gem's SMTP configuration,
-      # and can be omitted if the defaults are acceptable
-      port: 25
-      address: "localhost"
-      domain: 'localhost.localdomain'
-      user_name: nil
-      password: nil
-      authentication: nil
-      enable_starttls_auto: true
-  sms_notifier:
-    # whether or not this pikelet should be started
-    enabled: yes
-    # the redis queue the pikelet will look for notifications on
-    queue: sms_notifications
-    username: "ermahgerd"
-    password: "xxxx"
-  jabber_gateway:
-    # whether or not this pikelet should be started
-    enabled: yes
-    # the redis queue the pikelet will look for notifications on
-    queue: jabber_notifications
-    # the jabber server hostname to connect to
-    server: "jabber.domain.tld"
-    # the jabber server port to connect to
-    port: 5222
-    # the jabber username to present for signing in
-    jabberid: "flapjack@jabber.domain.tld"
-    # the jabber password to present for signing in
-    password: "good-password"
-    # the user alias the pikelet should use
-    alias: "flapjack"
-    # the Multi-User Chats the pikelet should join and announce to
-    rooms:
-      - "flapjacktest@conference.jabber.domain.tld"
-      - "log@conference.jabber.domain.tld"
-  oobetet:
-    # whether or not this pikelet should be started
-    enabled: yes
-    # server, port, jabberid, password, alias, rooms: see the jabber pikelet
-    server: "jabber.domain.tld"
-    port: 5222
-    jabberid: "flapjacktest@jabber.domain.tld"
-    password: "nuther-good-password"
-    alias: "flapjacktest"
-    watched_check: "PING"
-    watched_entity: "foo.bar.net"
-    max_latency: 300
-    pagerduty_contact: "11111111111111111111111111111111"
-    rooms:
-      - "flapjacktest@conference.jabber.domain.tld"
-      - "log@conference.jabber.domain.tld"
-  pagerduty_gateway:
-    # whether or not this pikelet should be started
-    enabled: yes
-    # the redis queue the pikelet will look for notifications on
-    queue: pagerduty_notifications
-  web:
-    # whether or not this pikelet should be started
-    enabled: yes
-    # the port the web server should be run on
-    port: 5080
-  api:
-    # whether or not this pikelet should be started
-    enabled: yes
-    # the port the API server should be run on
-    port: 5081
+  gateways:
+    email:
+      # whether or not this pikelet should be started
+      enabled: yes
+      # the redis queue the pikelet will look for notifications on
+      queue: email_notifications
+      smtp_config:
+        # these values are passed directly through to the mail gem's SMTP configuration,
+        # and can be omitted if the defaults are acceptable
+        port: 25
+        address: "localhost"
+        domain: 'localhost.localdomain'
+        user_name: nil
+        password: nil
+        authentication: nil
+        enable_starttls_auto: true
+    sms:
+      # whether or not this pikelet should be started
+      enabled: yes
+      # the redis queue the pikelet will look for notifications on
+      queue: sms_notifications
+      username: "ermahgerd"
+      password: "xxxx"
+    jabber:
+      # whether or not this pikelet should be started
+      enabled: yes
+      # the redis queue the pikelet will look for notifications on
+      queue: jabber_notifications
+      # the jabber server hostname to connect to
+      server: "jabber.domain.tld"
+      # the jabber server port to connect to
+      port: 5222
+      # the jabber username to present for signing in
+      jabberid: "flapjack@jabber.domain.tld"
+      # the jabber password to present for signing in
+      password: "good-password"
+      # the user alias the pikelet should use
+      alias: "flapjack"
+      # the Multi-User Chats the pikelet should join and announce to
+      rooms:
+        - "flapjacktest@conference.jabber.domain.tld"
+        - "log@conference.jabber.domain.tld"
+    oobetet:
+      # whether or not this pikelet should be started
+      enabled: yes
+      # server, port, jabberid, password, alias, rooms: see the jabber pikelet
+      server: "jabber.domain.tld"
+      port: 5222
+      jabberid: "flapjacktest@jabber.domain.tld"
+      password: "nuther-good-password"
+      alias: "flapjacktest"
+      watched_check: "PING"
+      watched_entity: "foo.bar.net"
+      max_latency: 300
+      pagerduty_contact: "11111111111111111111111111111111"
+      rooms:
+        - "flapjacktest@conference.jabber.domain.tld"
+        - "log@conference.jabber.domain.tld"
+    pagerduty:
+      # whether or not this pikelet should be started
+      enabled: yes
+      # the redis queue the pikelet will look for notifications on
+      queue: pagerduty_notifications
+    web:
+      # whether or not this pikelet should be started
+      enabled: yes
+      # the port the web server should be run on
+      port: 5080
+    api:
+      # whether or not this pikelet should be started
+      enabled: yes
+      # the port the API server should be run on
+      port: 5081
 ```
 
 
@@ -244,7 +248,7 @@ Now as nagios feeds check execution results into the perfdata named pipe, flapja
 
 Flapjack executive processes events from the 'events' list in redis. It does a blocking read on redis so new events are picked off the events list and processed as soon as they created.
 
-When executive decides somebody ought to be notified (for a problem, recovery, or acknowledgement or what-have-you) it looks up contact information and then creates a notification job on one of the notification queues (eg sms_notifications) in rescue, or via the jabber_notifications or pagerduty_notifications redis lists which are processed by the jabber_gateway and pagerduty_gateway respectively.
+When executive decides somebody ought to be notified (for a problem, recovery, or acknowledgement or what-have-you) it looks up contact information and then creates a notification job on one of the notification queues (eg sms_notifications) in rescue, or via the jabber_notifications or pagerduty_notifications redis lists which are processed by the jabber and pagerduty gateways respectively.
 
 
 ### Resque Workers
@@ -277,6 +281,7 @@ This will start a resque-web instance listening on port 8282, connecting to the 
 We use the following redis database numbers by convention:
 
 * 0 => production
+* 6 => quickstart
 * 13 => development
 * 14 => testing
 

@@ -33,7 +33,7 @@ To run the integration tests, check out the code and run:
 rake features
 ```
 
-NB, if the cucumber tests fail with a [spurious lexing error](https://github.com/cucumber/gherkin/issues/182) on line 2 of events.feature, then try this:
+NB, if the cucumber tests fail with a [spurious lexing error](https://github.com/cucumber/gherkin/issues/182) then try this:
 
 ```bash
 cucumber -f fuubar features

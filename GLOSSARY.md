@@ -5,7 +5,7 @@ As implemented for the reporting API functions, these are placeholder terms only
 <dt>Entity</dt>
 <dd>A system or group of systems being monitored. An entity can be as simple as a VM or as complex as a datacenter containing racks of servers running farms of VMs.</dd>
 <dt>Check</dt>
-<dd>Something that represents the collects the point-in-time state of an entity.</dd>
+<dd>A particular attribute of an entity which for which we care about changes in state</dd>
 <dt>Outage</dt>
 <dd>Period of time from when a check goes into the `CRITICAL` state to when it comes out of that state again.</dd>
 <dt>Scheduled maintenance</dt>
