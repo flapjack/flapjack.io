@@ -7,7 +7,8 @@ Flapjack is using redis as its data store. Here are the data structures in use.
 ```
 events (list) -> [ EVENT, EVENT, ... ]
 
-EVENT      (string) - a ruby hash serialised in JSON: { 'host' => ENTITY, 'service' => SERVICE, 'type' => EVENT_TYPE, 'state' => STATE }
+EVENT      (string) - a ruby hash serialised in JSON: { 'host' => ENTITY, 'service' => SERVICE,
+                      'type' => EVENT_TYPE, 'state' => STATE }
 EVENT_TYPE (string) - one of 'service' or 'action'
 STATE      (string) - one of 'ok', 'warning', 'critical', 'unknown', 'acknowledgement'
 ```
@@ -113,14 +114,16 @@ ENTITY:CHECK:TIMESTAMP:unscheduled_maintenance:summary (string) -> SUMMARY
 
 TIMESTAMP - start of the unscheduled maintenance period
 DURATION  - the elapsed time of the unscheduled maintenance (including any extensions to the original period)
-SUMMARY   - populated from the summary of the acknowledgement(s) (summaries to be glued together if there are multiple during an unscheduled outage)
+SUMMARY   - populated from the summary of the acknowledgement(s) (summaries to be glued together if there are
+            multiple during an unscheduled outage)
 ```
 
 In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:
 
 *Sorted unscheduled maintenance timestamps*
 ```
-ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -> ( TIMESTAMP, TIMESTAMP; TIMESTAMP, TIMESTAMP; ... )
+ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -> ( TIMESTAMP, TIMESTAMP;
+                                                                          TIMESTAMP, TIMESTAMP; ... )
 ```
 
 ### Scheduled Maintenance
@@ -142,16 +145,19 @@ ENTITY:CHECK:TIMESTAMP:scheduled_maintenance:summary (string) -> SUMMARY
 
 TIMESTAMP - start of the scheduled maintenance period
 DURATION  - the elapsed time of the scheduled maintenance window (including any extensions to the original period)
-SUMMARY    - populated from the summary of the scheduled maintenance creation event(s) (summaries to be glued together if there are multiple)
+SUMMARY   - populated from the summary of the scheduled maintenance creation event(s) (summaries to be glued
+            together if there are multiple)
 ```
 
 In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:
 
 *Sorted scheduled maintenance timestamps*
 ```
-ENTITY:CHECK:sorted_scheduled_maintenance_timestamps (ordered set) -> ( TIMESTAMP, TIMESTAMP; TIMESTAMP, TIMESTAMP; ... )
+ENTITY:CHECK:sorted_scheduled_maintenance_timestamps (ordered set) -> ( TIMESTAMP, TIMESTAMP;
+                                                                        TIMESTAMP, TIMESTAMP; ... )
 
-TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the score and value of each item in the ordered set)
+TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the score and value of each
+            item in the ordered set)
 ```
 
 ### Notifications
@@ -181,7 +187,8 @@ We may well need to add some extra data about each notification, eg timestamp of
 We need to store contacts for entities and checks in redis, after extraction from customer care, so we know who to send alerts to.
 
 ```
-contact:CONTACT_ID           (hash) -> { 'first_name' => FIRST_NAME, 'last_name' => LAST_NAME, 'email' => EMAIL }
+contact:CONTACT_ID           (hash) -> { 'first_name' => FIRST_NAME, 'last_name' => LAST_NAME,
+                                         'email' => EMAIL }
 contact_media:CONTACT_ID     (hash) -> { 'email' => EMAIL, 'sms' => PHONE_NUMBER, 'jabber' => JABBER_ID,
                                          'pagerduty' => PAGERDUTY_SERVICE_KEY }
 contact_pagerduty:CONTACT_ID (hash) -> { 'subdomain': PAGERDUTY_SUBDOMAIN, 'username': PAGERDUTY_USERNAME,
@@ -189,10 +196,14 @@ contact_pagerduty:CONTACT_ID (hash) -> { 'subdomain': PAGERDUTY_SUBDOMAIN, 'user
 contact_tag:TAG              (set)  -> ( CONTACT_ID, CONTACT_ID, ...)
 CONTACT_ID: the ID number of the contact in custcare
 PHONE_NUMBER: a phone number in international format, starting with +
-JABBER_ID             (string) - the jabber id of the contact, eg 'adalovelace@jabber.charlesbabbage.com', can be a group chat
-PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
-PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "bltprf" in the case of https://bltprf.pagerduty.com/
-PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
+JABBER_ID             (string) - the jabber id of the contact, eg 'adalovelace@jabber.charlesbabbage.com',
+                                 can be a group chat
+PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service'
+                                 within this contact's PagerDuty account
+PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "foobar" in the case
+                                 of https://foobar.pagerduty.com/
+PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data
+                                 back out of PagerDuty
 PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
 TAG                   (string) - arbitrary tag
 ```
@@ -215,8 +226,9 @@ entity:ENTITY_ID            (hash) -> { 'name' => ENTITY }
 entity_id:ENTITY          (string) -> ENTITY_ID
 entity_tag:TAG               (set) -> ( ENTITY_ID, ENTITY_ID, ... )
 
-ENTITY_ID is a unique, immutable identifier given to each entity. This allows the name of the entity to change (eg a host gets renamed) and synchronisation to not go out of whack.
-TAG - arbitrary tag
+ENTITY_ID - a unique, immutable identifier given to each entity. This allows the name of the entity
+            to change (eg a host gets renamed) and synchronisation to not go out of whack.
+TAG       - arbitrary tag
 ```
 
 Note, it may be more sensible to flip ENTITY and ENTITY_ID around so that there's less lookups involved in each notification. (the ID is really only here for matching up when importing new / changed entities.)
@@ -240,6 +252,7 @@ To support multiple concurrent executive instances:
 
 ```
 executive_instances    (ordered set) -> (BOOTTIME, HOSTIDENT:PID; BOOTTIME, HOSTIDENT:PID; ...)
-event_counters:HOSTIDENT:PID  (hash) -> { all => COUNTER, ok => COUNTER, failure => COUNTER, action => COUNTER }
+event_counters:HOSTIDENT:PID  (hash) -> { all => COUNTER, ok => COUNTER, failure => COUNTER,
+                                          action => COUNTER }
 ```
 
