@@ -1,12 +1,11 @@
 ## Importing contacts and entities (CLI)
 
-The `flapjack-populator` script provides a mechanism for importing contacts and entities from JSON formatted import files.
+The REST API and the `flapjack-populator` script provide a mechanisms for importing contacts and entities in JSON format. Here are some command line examples:
 
     bin/flapjack-populator import-contacts --from tmp/dummy_contacts.json --config /etc/flapjack/flapjack-config.yml
     bin/flapjack-populator import-entities --from tmp/dummy_entities.json --config /etc/flapjack/flapjack-config.yml
 
 There are example files, and example ruby code which generated them, in the tmp/ directory. The format of these files is described herein:
-
 
 ### Format of JSON contact + entity data
 
@@ -213,3 +212,88 @@ entities.push(entity)
 
 puts Yajl::Encoder.encode(entities, :pretty => true)
 ```
+
+## JSON format for API responses
+
+The Flapjack API provides various views into its current state, history etc.
+
+### Checks per Entity
+
+For a given entity, return a list of all checks against this entity
+
+API URL: TODO
+
+e.g.
+
+    wget http://127.0.0.1:3081/entities/foo-app-01%2efoobar%2enet/statuses
+
+may produce:
+
+```yaml
+[{"name":"HOST",
+  "state":"up",
+  "in_unscheduled_maintenance":false,
+  "in_scheduled_maintenance":false,
+  "last_update":1345701755,
+  "last_problem_notification":0,
+  "last_recovery_notification":0,
+  "last_acknowledgement_notification":0},
+ {"name":"HTTP Port 443",
+  "state":"ok",
+  "in_unscheduled_maintenance":false,
+  "in_scheduled_maintenance":false,
+  "last_update":1345701757,
+  "last_problem_notification":0,
+  "last_recovery_notification":0,
+  "last_acknowledgement_notification":0},
+ {"name":"PING",
+  "state":"ok",
+  "in_unscheduled_maintenance":false,
+  "in_scheduled_maintenance":false,
+  "last_update":1345701757,
+  "last_problem_notification":0,
+  "last_recovery_notification":0,
+  "last_acknowledgement_notification":0},
+ {"name":"VMware MKS",
+  "state":"ok",
+  "in_unscheduled_maintenance":false,
+  "in_scheduled_maintenance":false,
+  "last_update":1345701757,
+  "last_problem_notification":0,
+  "last_recovery_notification":0,
+  "last_acknowledgement_notification":0}
+]
+```
+
+### Check Status per Entity (many)
+
+A list of entities can be supplied for efficiency, and an array containing a hash for each entity, and each check as a key within the hash. For each check, current state is included.
+
+API URL: TODO
+
+```text
+ENTITIES (array) = [ENTITY, ENTITY, ...]
+ENTITY    (hash) = { "id": "ENTITY_ID", "name": "NAME", "checks": CHECKS }
+CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "name": "CHECK_NAME",
+                     "state": "CHECK_STATE",
+                     "in_unscheduled_maintenance": "BOOLEAN",
+                     "in_scheduled_maintenance": "BOOLEAN",
+                     "last_update": TIMESTAMP,
+                     "last_problem_notification": TIMESTAMP,
+                     "last_recovery_notification": TIMESTAMP,
+                     "last_acknowledgement_notification": TIMESTAMP }
+
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+BOOLEAN:   one of 'true' or 'false'
+```
+
+### Scheduled Maintenance per Check
+
+Return all scheduled maintenance periods for a given check (past, present and future)
+
+### Unscheduled Maintenance per Check
+
+Return all unscheduled maintenance periods for a given check (past, present and future)
+
+
