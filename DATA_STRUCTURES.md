@@ -184,7 +184,7 @@ We may well need to add some extra data about each notification, eg timestamp of
 
 ### Contacts
 
-We need to store contacts for entities and checks in redis, after extraction from customer care, so we know who to send alerts to.
+Contacts are populated from an external system via REST API or the flapjack-populator command line utility. See IMPORTING.
 
 ```text
 contact:CONTACT_ID           (hash) -> { 'first_name' => FIRST_NAME, 'last_name' => LAST_NAME,
@@ -194,8 +194,9 @@ contact_media:CONTACT_ID     (hash) -> { 'email' => EMAIL, 'sms' => PHONE_NUMBER
 contact_pagerduty:CONTACT_ID (hash) -> { 'subdomain': PAGERDUTY_SUBDOMAIN, 'username': PAGERDUTY_USERNAME,
                                          'password': PAGERDUTY_PASSWORD }
 contact_tag:TAG              (set)  -> ( CONTACT_ID, CONTACT_ID, ...)
-CONTACT_ID: the ID number of the contact in custcare
-PHONE_NUMBER: a phone number in international format, starting with +
+
+CONTACT_ID            (string) - an external reference / identifier for this contact (used for synchronisation)
+PHONE_NUMBER          (string) -  a phone number in international format, starting with +
 JABBER_ID             (string) - the jabber id of the contact, eg 'adalovelace@jabber.charlesbabbage.com',
                                  can be a group chat
 PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service'
