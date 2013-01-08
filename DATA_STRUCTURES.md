@@ -8,7 +8,7 @@ Flapjack is using redis as its data store. Here are the data structures in use.
 events (list) -> [ EVENT, EVENT, ... ]
 
 EVENT      (string) - a ruby hash serialised in JSON: { 'host' => ENTITY, 'service' => SERVICE,
-                      'type' => EVENT_TYPE, 'state' => STATE }
+                                                        'type' => EVENT_TYPE, 'state' => STATE }
 EVENT_TYPE (string) - one of 'service' or 'action'
 STATE      (string) - one of 'ok', 'warning', 'critical', 'unknown', 'acknowledgement'
 ```
