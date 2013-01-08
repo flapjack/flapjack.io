@@ -7,10 +7,19 @@ Flapjack is using redis as its data store. Here are the data structures in use.
 ```text
 events (list) -> [ EVENT, EVENT, ... ]
 
-EVENT      (string) - a ruby hash serialised in JSON: { 'host' => ENTITY, 'service' => SERVICE,
-                                                        'type' => EVENT_TYPE, 'state' => STATE }
+EVENT      (string) - a ruby hash serialised in JSON: { 'entity'    => ENTITY,
+                                                        'check'     => CHECK,
+                                                        'type'      => EVENT_TYPE,
+                                                        'state'     => STATE,
+                                                        'timestamp' => TIMESTAMP,
+                                                        'summary'   => SUMMARY }
+ENTITY     (string) - name of the relevant entity (eg fqdn)
+CHECK      (string) - the check name ('service description' in nagios terminology)
 EVENT_TYPE (string) - one of 'service' or 'action'
 STATE      (string) - one of 'ok', 'warning', 'critical', 'unknown', 'acknowledgement'
+TIMESTAMP  (string) - timestamp of the event's creation (unix time)
+SUMMARY    (string) - the check output in the case of a service event, otherwise a
+                      message created for an acknowledgement or similar
 ```
 
 ### Jabber notification queue
