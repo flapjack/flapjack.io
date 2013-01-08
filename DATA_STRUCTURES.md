@@ -196,7 +196,7 @@ contact_pagerduty:CONTACT_ID (hash) -> { 'subdomain': PAGERDUTY_SUBDOMAIN, 'user
 contact_tag:TAG              (set)  -> ( CONTACT_ID, CONTACT_ID, ...)
 
 CONTACT_ID            (string) - an external reference / identifier for this contact (used for synchronisation)
-PHONE_NUMBER          (string) -  a phone number in international format, starting with +
+PHONE_NUMBER          (string) - a phone number in international format, starting with +
 JABBER_ID             (string) - the jabber id of the contact, eg 'adalovelace@jabber.charlesbabbage.com',
                                  can be a group chat
 PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service'
@@ -212,8 +212,7 @@ TAG                   (string) - arbitrary tag
 Notes:
 
 - `contact:CONTACT_ID` is about the contact, `contac_media:CONTACT_ID` lists which contact methods to use for this contact (so if it just contains sms then we'll only notify this person by sms).
-- Initially IM and Phone notification media will not be supported (just SMS and Email).
-- `EMAIL` ... note that this is potentially duplicated, the email field in contact:CONTACT_ID is really just for matching up users and is not used as a contact media
+- `EMAIL` ... note that this is potentially duplicated, the email field in `contact:CONTACT_ID` is really just for matching up users and is not used as a contact media
 - `JABBER_ID` - may be a jabber id of an individual, or of a group chat room. If a group chat room this jabber_id should also be included in the flapjack configuration file so that flapjack jabber gateway joins the group chat
 
 ### Entity and Check Contacts
