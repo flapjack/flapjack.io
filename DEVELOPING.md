@@ -57,6 +57,14 @@ To push the gem to rubygems.org run:
 rake release
 ```
 
+Data Structures
+---------------
+See [Data Structures](DATA_STRUCTURES)
+
+Import and Export Formats
+-------------------------
+See [Importing and API](IMPORTING)
+
 Architecture
 ------------
 
