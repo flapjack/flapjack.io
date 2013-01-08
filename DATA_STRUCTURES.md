@@ -4,7 +4,7 @@ Flapjack is using redis as its data store. Here are the data structures in use.
 
 ### Event queue
 
-```
+```text
 events (list) -> [ EVENT, EVENT, ... ]
 
 EVENT      (string) - a ruby hash serialised in JSON: { 'host' => ENTITY, 'service' => SERVICE,
@@ -15,7 +15,7 @@ STATE      (string) - one of 'ok', 'warning', 'critical', 'unknown', 'acknowledg
 
 ### Jabber notification queue
 
-```
+```text
 jabber_notifications (list) -> [ NOTIFICATION, NOTIFICATION, ... ]
 
 NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
@@ -23,7 +23,7 @@ NOTIFICATION (string) - ruby hash representing the notification object, serialis
 
 ### PagerDuty notification queue
 
-```
+```text
 pagerduty_notifications (list) -> [ NOTIFICATION, NOTIFICATION, ... ]
 
 NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
@@ -33,7 +33,7 @@ NOTIFICATION (string) - ruby hash representing the notification object, serialis
 
 *Current state*
 
-```
+```text
 check:ENTITY:CHECK (hash) -> { 'state' => STATE, 'last_change' => TIMESTAMP, 'last_update' => TIMESTAMP }
 ```
 
@@ -43,7 +43,7 @@ The current state hash above is redundant given the All state changes structures
 The `last_update` timestamp is updated for every service event received for the service.
 
 *All state changes*
-```
+```text
 ENTITY:CHECK:states                    (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:TIMESTAMP:state         (string) -> STATE
 ENTITY:CHECK:TIMESTAMP:summary       (string) -> SUMMARY
@@ -57,13 +57,13 @@ In order to query against this data while filtering by timestamp range, the foll
 
 *Sorted state timestamps*
 
-```
+```text
 ENTITY:CHECK:sorted_state_timestamps (sorted set) -> (TIMESTAMP, TIMESTAMP; TIMESTAP, TIMESTAMP; ...)
 ```
 
 ### Storing all action events
 
-```
+```text
 ENTITY:CHECK:actions (hash) -> { TIMESTAMP => STATE }
 
 STATE (string) - eg 'acknowledgement'
@@ -83,13 +83,13 @@ This should probably be a hash, or a set of keys as per service state changes, s
 
 ### Mass failures, eg for a client
 
-```
+```text
 mass_failed_client:CLIENT (string) -> TIMESTAMP
 
 TIMESTAMP - holds the time the mass failure begun, unix time
 ```
 
-```
+```text
 mass_failure_events_client:CLIENT (ordered set) -> ( DURATION, TIMESTAMP; DURATION, TIMESTAMP; ... )
 
 DURATION - initially 0, populated with the total duration (seconds) of the mass failure event when it ends
@@ -100,14 +100,14 @@ DURATION - initially 0, populated with the total duration (seconds) of the mass 
 This key will only be present during the unschedule maintenance period for quick lookup of whether a service is in unschedule maintenance. An expiry TTL will be put on the key so it automatically goes away (default 4 hrs expiry time).
 
 *Current state*
-```
+```text
 ENTITY:CHECK:unscheduled_maintenance (string with expiry) -> TIMESTAMP
 
 TIMESTAMP - the time the unscheduled maintenance begun
 ```
 
 *Collect all unscheduled outages for reporting etc*
-```
+```text
 ENTITY:CHECK:unscheduled_maintenances             (ordered set) -> ( DURATION, TIMESTAMP;
                                                                      DURATION, TIMESTAMP; ... )
 ENTITY:CHECK:TIMESTAMP:unscheduled_maintenance:summary (string) -> SUMMARY
@@ -121,7 +121,7 @@ SUMMARY   - populated from the summary of the acknowledgement(s) (summaries to b
 In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:
 
 *Sorted unscheduled maintenance timestamps*
-```
+```text
 ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -> ( TIMESTAMP, TIMESTAMP;
                                                                           TIMESTAMP, TIMESTAMP; ... )
 ```
@@ -131,14 +131,14 @@ ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -> ( TIMEST
 This key will only be present during the scheduled maintenance period for quick lookup of whether a check is in scheduled maintenance. An expiry TTL (4 hours by default) will be put on the key so it destroys itself after this time.
 
 *Current state*
-```
+```text
 ENTITY:CHECK:scheduled_maintenance (string with expiry) -> TIMESTAMP
 
 TIMESTAMP - the time the scheduled maintenance begun
 ```
 
 *All future scheduled outages, and left for reporting purposes*
-```
+```text
 ENTITY:CHECK:scheduled_maintenances (ordered set)             -> ( DURATION, TIMESTAMP;
                                                                    DURATION, TIMESTAMP; ... )
 ENTITY:CHECK:TIMESTAMP:scheduled_maintenance:summary (string) -> SUMMARY
@@ -152,7 +152,7 @@ SUMMARY   - populated from the summary of the scheduled maintenance creation eve
 In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:
 
 *Sorted scheduled maintenance timestamps*
-```
+```text
 ENTITY:CHECK:sorted_scheduled_maintenance_timestamps (ordered set) -> ( TIMESTAMP, TIMESTAMP;
                                                                         TIMESTAMP, TIMESTAMP; ... )
 
@@ -165,7 +165,7 @@ TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the s
 We need to store alerts that have been sent out, for problems, recoveries, and acknowledgements. We'll need to track who they are sent as well but for now it's just whether an alert has been generated or not.
 
 *Last alert of each type (problem, recovery, acknowledgement)*
-```
+```text
 ENTITY:CHECK:last_problem_notification         (string) -> TIMESTAMP
 ENTITY:CHECK:last_recovery_notification        (string) -> TIMESTAMP
 ENTITY:CHECK:last_acknowledgement_notification (string) -> TIMESTAMP
@@ -174,7 +174,7 @@ TIMESTAMP - the time of the last notification sent of the corresponding type (pr
 ```
 
 *Retention of all alerts*
-```
+```text
 ENTITY:CHECK:problem_notifications         (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:recovery_notifications        (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:acknowledgement_notifications (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
@@ -186,7 +186,7 @@ We may well need to add some extra data about each notification, eg timestamp of
 
 We need to store contacts for entities and checks in redis, after extraction from customer care, so we know who to send alerts to.
 
-```
+```text
 contact:CONTACT_ID           (hash) -> { 'first_name' => FIRST_NAME, 'last_name' => LAST_NAME,
                                          'email' => EMAIL }
 contact_media:CONTACT_ID     (hash) -> { 'email' => EMAIL, 'sms' => PHONE_NUMBER, 'jabber' => JABBER_ID,
@@ -219,7 +219,7 @@ Notes:
 
 Which contacts are interested in which entities and/or which checks?
 
-```
+```text
 contacts_for:ENTITY_ID       (set) -> ( CONTACT_ID, CONTACT_ID, ... )
 contacts_for:ENTITY_ID:CHECK (set) -> ( CONTACT_ID, CONTACT_ID, ... )
 entity:ENTITY_ID            (hash) -> { 'name' => ENTITY }
@@ -239,7 +239,7 @@ Also, the `entity:ENTITY_ID` hash could be just a string, but I'm guessing we'll
 
 The following counters are incremented during event processing so we can see how many events flapjack is processing, and of which types.
 
-```
+```text
 event_counters (hash) -> { all => COUNTER, ok => COUNTER, failure => COUNTER, action => COUNTER }
 boot_time    (string) -> TIMESTAMP
 
@@ -250,7 +250,7 @@ COUNTER - incrementing integer counter, reset to zero when the event processor b
 
 To support multiple concurrent executive instances:
 
-```
+```text
 executive_instances    (ordered set) -> (BOOTTIME, HOSTIDENT:PID; BOOTTIME, HOSTIDENT:PID; ...)
 event_counters:HOSTIDENT:PID  (hash) -> { all => COUNTER, ok => COUNTER, failure => COUNTER,
                                           action => COUNTER }
