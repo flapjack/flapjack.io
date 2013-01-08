@@ -2,36 +2,30 @@
 
 Flapjack is using redis as its data store. Here are the data structures in use.
 
-Note: After using this schema for a while, I now think it would make more sense to put the namespacing words at the beginning of the keys, eg instead of ENTITY:CHECK:states it should be states:ENTITY:CHECK. Mostly just so it's consistent, so when we're doing key globbing the wildcard is always at the end (or the middle) and never at the start of the pattern.
-
 ### Event queue
-
 
 ```
 events (list) -> [ EVENT, EVENT, ... ]
 
-EVENT is a ruby hash serialised in JSON: { 'host' => ENTITY, 'service' => SERVICE, 'type' => EVENT_TYPE, 'state' => STATE }
-EVENT_TYPE is one of 'service' or 'action'
-STATE is one of 'ok', 'warning', 'critical', 'unknown', 'acknowledgement'
+EVENT      (string) - a ruby hash serialised in JSON: { 'host' => ENTITY, 'service' => SERVICE, 'type' => EVENT_TYPE, 'state' => STATE }
+EVENT_TYPE (string) - one of 'service' or 'action'
+STATE      (string) - one of 'ok', 'warning', 'critical', 'unknown', 'acknowledgement'
 ```
 
-
 ### Jabber notification queue
-
 
 ```
 jabber_notifications (list) -> [ NOTIFICATION, NOTIFICATION, ... ]
 
-NOTIFICATION - ruby hash representing the notification object, serialised in JSON
+NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
 ```
-
 
 ### PagerDuty notification queue
 
 ```
 pagerduty_notifications (list) -> [ NOTIFICATION, NOTIFICATION, ... ]
 
-NOTIFICATION - ruby hash representing the notification object, serialised in JSON
+NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
 ```
 
 ### Storing all service state changes
@@ -48,13 +42,12 @@ The current state hash above is redundant given the All state changes structures
 The `last_update` timestamp is updated for every service event received for the service.
 
 *All state changes*
-
 ```
-ENTITY:CHECK:states (list)           -> [ TIMESTAMP, TIMESTAMP, ... ]
-ENTITY:CHECK:TIMESTAMP:state         -> STATE
-ENTITY:CHECK:TIMESTAMP:summary       -> STRING
-ENTITY:CHECK:TIMESTAMP:count         -> INTEGER
-ENTITY:CHECK:TIMESTAMP:check_latency -> INTEGER
+ENTITY:CHECK:states                    (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:TIMESTAMP:state         (string) -> STATE
+ENTITY:CHECK:TIMESTAMP:summary       (string) -> SUMMARY
+ENTITY:CHECK:TIMESTAMP:count         (string) -> COUNT
+ENTITY:CHECK:TIMESTAMP:check_latency (string) -> LATENCY
 ```
 
 The All state changes may be better implemented as a serialised ruby hash in a single key rather than four keys per service as it is now.
@@ -72,7 +65,7 @@ ENTITY:CHECK:sorted_state_timestamps (sorted set) -> (TIMESTAMP, TIMESTAMP; TIME
 ```
 ENTITY:CHECK:actions (hash) -> { TIMESTAMP => STATE }
 
-STATE can be 'acknowledgement' ...
+STATE (string) - eg 'acknowledgement'
 ```
 
 This should probably be a hash, or a set of keys as per service state changes, so we can store more information about the action event such as an acknowledgement message like 'will have this fixed in a jiffy, seen this problem before'.
@@ -92,13 +85,13 @@ This should probably be a hash, or a set of keys as per service state changes, s
 ```
 mass_failed_client:CLIENT (string) -> TIMESTAMP
 
-TIMESTAMP holds the time the mass failure begun
+TIMESTAMP - holds the time the mass failure begun, unix time
 ```
 
 ```
 mass_failure_events_client:CLIENT (ordered set) -> ( DURATION, TIMESTAMP; DURATION, TIMESTAMP; ... )
 
-DURATION: initially 0, populated with the total duration (seconds) of the mass failure event when it ends
+DURATION - initially 0, populated with the total duration (seconds) of the mass failure event when it ends
 ```
 
 ### Unscheduled Maintenance
@@ -109,17 +102,18 @@ This key will only be present during the unschedule maintenance period for quick
 ```
 ENTITY:CHECK:unscheduled_maintenance (string with expiry) -> TIMESTAMP
 
-TIMESTAMP is the time the unscheduled maintenance begun
+TIMESTAMP - the time the unscheduled maintenance begun
 ```
 
 *Collect all unscheduled outages for reporting etc*
 ```
-ENTITY:CHECK:unscheduled_maintenances (ordered set) -> ( DURATION, TIMESTAMP; DURATION, TIMESTAMP; ... )
+ENTITY:CHECK:unscheduled_maintenances             (ordered set) -> ( DURATION, TIMESTAMP;
+                                                                     DURATION, TIMESTAMP; ... )
 ENTITY:CHECK:TIMESTAMP:unscheduled_maintenance:summary (string) -> SUMMARY
 
 TIMESTAMP - start of the unscheduled maintenance period
-DURATION - the elapsed time of the unscheduled maintenance (including any extensions to the original period)
-SUMMARY - populated from the summary of the acknowledgement(s) (summaries to be glued together if there are multiple during an unscheduled outage)
+DURATION  - the elapsed time of the unscheduled maintenance (including any extensions to the original period)
+SUMMARY   - populated from the summary of the acknowledgement(s) (summaries to be glued together if there are multiple during an unscheduled outage)
 ```
 
 In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:
@@ -137,17 +131,18 @@ This key will only be present during the scheduled maintenance period for quick 
 ```
 ENTITY:CHECK:scheduled_maintenance (string with expiry) -> TIMESTAMP
 
-TIMESTAMP is the time the scheduled maintenance begun
+TIMESTAMP - the time the scheduled maintenance begun
 ```
 
 *All future scheduled outages, and left for reporting purposes*
 ```
-ENTITY:CHECK:scheduled_maintenances (ordered set) -> ( DURATION, TIMESTAMP; DURATION, TIMESTAMP; ... )
+ENTITY:CHECK:scheduled_maintenances (ordered set)             -> ( DURATION, TIMESTAMP;
+                                                                   DURATION, TIMESTAMP; ... )
 ENTITY:CHECK:TIMESTAMP:scheduled_maintenance:summary (string) -> SUMMARY
 
 TIMESTAMP - start of the scheduled maintenance period
-DURATION - the elapsed time of the scheduled maintenance window (including any extensions to the original period)
-SUMMARY - populated from the summary of the scheduled maintenance creation event(s) (summaries to be glued together if there are multiple)
+DURATION  - the elapsed time of the scheduled maintenance window (including any extensions to the original period)
+SUMMARY    - populated from the summary of the scheduled maintenance creation event(s) (summaries to be glued together if there are multiple)
 ```
 
 In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:
@@ -169,7 +164,7 @@ ENTITY:CHECK:last_problem_notification         (string) -> TIMESTAMP
 ENTITY:CHECK:last_recovery_notification        (string) -> TIMESTAMP
 ENTITY:CHECK:last_acknowledgement_notification (string) -> TIMESTAMP
 
-TIMESTAMP is (obviously) the time of the last notification sent of the corresponding type (problem, recovery, acknowledgement)
+TIMESTAMP - the time of the last notification sent of the corresponding type (problem, recovery, acknowledgement)
 ```
 
 *Retention of all alerts*
