@@ -43,6 +43,8 @@ Executables:
 
   * `flapjack` => starts multiple components ('pikelets') within the one ruby process as specified in the configuration file.
   * `flapjack-nagios-receiver` => reads nagios check output on standard input and places them on the events queue in redis as JSON blobs. Currently unable to be run in-process with `flapjack`
+  * `flapper` => runs a daemon that intermittently listens on port 12345 (one minute on, one minute off, ...)
+    to be used for generating heartbeat events for end to end monitoring of flapjack
 
 There are more executables in the bin directory (FIXME describe them here).
 
@@ -110,12 +112,16 @@ development:
     jabber_queue: jabber_notifications
     pagerduty_queue: pagerduty_notifications
     notification_log_file: log/flapjack-notification.log
+    logger:
+      level: INFO
   gateways:
     email:
       # whether or not this pikelet should be started
       enabled: yes
       # the redis queue the pikelet will look for notifications on
       queue: email_notifications
+      logger:
+        level: INFO
       smtp_config:
         # these values are passed directly through to the mail gem's SMTP configuration,
         # and can be omitted if the defaults are acceptable
@@ -133,6 +139,8 @@ development:
       queue: sms_notifications
       username: "ermahgerd"
       password: "xxxx"
+      logger:
+        level: INFO
     jabber:
       # whether or not this pikelet should be started
       enabled: yes
@@ -152,6 +160,8 @@ development:
       rooms:
         - "flapjacktest@conference.jabber.domain.tld"
         - "log@conference.jabber.domain.tld"
+      logger:
+        level: INFO
     oobetet:
       # whether or not this pikelet should be started
       enabled: yes
@@ -168,21 +178,29 @@ development:
       rooms:
         - "flapjacktest@conference.jabber.domain.tld"
         - "log@conference.jabber.domain.tld"
+      logger:
+        level: INFO
     pagerduty:
       # whether or not this pikelet should be started
       enabled: yes
       # the redis queue the pikelet will look for notifications on
       queue: pagerduty_notifications
+      logger:
+        level: INFO
     web:
       # whether or not this pikelet should be started
       enabled: yes
       # the port the web server should be run on
       port: 5080
+      logger:
+        level: INFO
     api:
       # whether or not this pikelet should be started
       enabled: yes
       # the port the API server should be run on
       port: 5081
+      logger:
+        level: INFO
 ```
 
 
@@ -214,35 +232,52 @@ Create the named pipe if it doesn't already exist:
 
 ## Running Flapjack
 
+    flapjack COMMAND [OPTIONS]
 
-    bin/flapjack [options]
+    Commands
+         start                           start flapjack
+         stop                            stop flapjack
+         restart                         (re)start flapjack
+         reload                          reload flapjack configuration
+         status                          see if flapjack is running
 
-    $ flapjack --help
-    Usage: flapjack [options]
+    Options
         -c, --config [PATH]              PATH to the config file to use
         -d, --[no-]daemonize             Daemonize?
+        -p, --pidfile [PATH]             PATH to the pidfile to write to
+        -l, --logfile [PATH]             PATH to the logfile to write to
 
-The command line option for daemonize overrides whatever is set in the config file.
+The command line options override whatever is set in the config file for these configuration items.
 
+-h or --help can be given to show the above usage information.
 
 ### flapjack-nagios-receiver
 
-There is a control script that uses [Daemons](http://daemons.rubyforge.org/) to start, stop, restart, show status etc of the flapjack-nagios-receiver process. Options after -- are passed through to flapjack-nagios-receiver. Run it like so:
+    flapjack-nagios-receiver COMMAND [OPTIONS]
 
-    flapjack-nagios-receiver-control start -- --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
-    flapjack-nagios-receiver-control status
-    flapjack-nagios-receiver-control restart -- --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
-    flapjack-nagios-receiver-control stop
+    Commands
+         start                           start flapjack-nagios-receiver
+         stop                            stop flapjack-nagios-receiver
+         restart                         (re)start flapjack-nagios-receiver
+         status                          see if flapjack-nagios-receiver is running
 
-#### Bypassing daemons control script
+    Options
+        -c, --config [PATH]              PATH to the config file to use
+        -f, --fifo FIFO                  Path to the nagios perfdata named pipe
+        -d, --[no-]daemonize             Daemonize?
+        -p, --pidfile [PATH]             PATH to the pidfile to write to
+        -l, --logfile [PATH]             PATH to the logfile to write to
 
-Specify the path to the nagios named pipe (fifo):
+Examples:
+```
+flapjack-nagios-receiver-control start --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
+flapjack-nagios-receiver-control status
+flapjack-nagios-receiver-control restart --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
+flapjack-nagios-receiver-control stop
+```
+-h or --help can be given to show the above usage information.
 
-    flapjack-nagios-receiver --fifo /var/cache/nagios3/event_stream.fifo
-
-Now as nagios feeds check execution results into the perfdata named pipe, flapjack-nagios-receiver will convert them to JSON encoded ruby objects and insert them into the *events* queue.
-
-
+Currently, only the redis database connection information is read out of the specified flapjack configuration file, for the current FLAPJACK_ENV environment.
 
 ### executive
 
@@ -265,16 +300,16 @@ One resque worker that processes both queues (but prioritises SMS above email) c
 
 resque sets the command name so grep'ing ps output for `rake` or `ruby` will NOT find resque processes. Search instead for `resque`. (and remember the 'q').
 
-To background it you can add `BACKGROUND=yes`. Excellent documentation is available in [Resque's README](https://github.com/defunkt/resque/blob/master/README.markdown)
+To background it you can add `BACKGROUND=yes`. Useful documentation is available in [Resque's README](https://github.com/defunkt/resque/blob/master/README.markdown)
 
 ### Resque Queue Management with resque-web
 
 If you need to inspect or purge the queues managed by resque you'll want to start up an instance of resque-web. This will by default connect to redis database 0 which is fine for production but in development you'll need to specify database id 13 (or whatever you have it set to in the flapjack config) eg:
 
 ```bash
-resque-web -p 8282 -r localhost:6379:13
+resque-web -p 4082 -r localhost:6379:13
 ```
-This will start a resque-web instance listening on port 8282, connecting to the redis server on localhost port 6379, and selecting database 13.
+This will start a resque-web instance listening on port 4082, connecting to the redis server on localhost port 6379, and selecting database 13.
 
 ### Redis Database Instances
 
@@ -312,9 +347,12 @@ The contacts json import data is an array of contacts as follows:
 
 ```
 CONTACTS  (array) = [CONTACT, CONTACT, ...]
-CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME, "email": EMAIL, "media": MEDIA }
+CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
+                      "email": EMAIL, "media": MEDIA }
 MEDIA     (hash)  = { MEDIA_TYPE: MEDIA_ADDRESS, MEDIA_TYPE: MEDIA_ADDRESS, "pagerduty": PAGERDUTY... }
-PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN, "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
+PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
+                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
+TAGS      (array) = ["TAG", "TAG", ...]
 
 CONTACT_ID            (string) - a unique, immutable identifier for this contact
 MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
@@ -323,8 +361,10 @@ PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, co
 PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
 PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
 PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
+TAG                   (string) - a tag, you know?
 ```
 
+Notes:
 * The MEDIA hash contains zero or more key-value pairs where the key is the media type (eg "sms", "email", "jabber", etc) and the value is the address (ie mobile number, email address, jabber id etc).
 * The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
 * The value for ID must be unique and must never change as it is used for synchronisation during updates.
@@ -341,7 +381,11 @@ Example - three contacts with varying media
     "media": {
       "sms": "+61412345678",
       "email": "johnj@example.com"
-    }
+    },
+    "tags": [
+      "source:titanium",
+      "foo"
+    ]
   },
   {
     "id": "363",
@@ -350,7 +394,11 @@ Example - three contacts with varying media
     "email": "janej@example.com",
     "media": {
       "email": "janej@example.com"
-    }
+    },
+    "tags": [
+      "source:titanium",
+      "bar"
+    ]
   },
   {
     "id": "364",
@@ -359,7 +407,12 @@ Example - three contacts with varying media
     "email": "rogerw@example.com",
     "media": {
       "jabber": "roger@conference.example.com"
-    }
+    },
+    "tags": [
+      "source:titanium",
+      "bar",
+      "foo"
+    ]
   }
 ]
 ```
@@ -367,9 +420,13 @@ Example - three contacts with varying media
 Example ruby code to construct this format:
 
 ```ruby
+#!/usr/bin/env ruby
+
 require 'yajl'
 
 contacts = []
+
+tags = [ 'source:titanium', 'foo']
 
 media = { :sms   => '+61412345678',
           :email => 'johnj@example.com' }
@@ -378,36 +435,13 @@ contact = { :id         => '362',
             :first_name => 'John',
             :last_name  => 'Johnson',
             :email      => 'johnj@example.com',
-            :media      => media }
-
-contacts.push(contact)
-
-
-media = { :email => 'janej@example.com' }
-
-contact = { :id         => '363',
-            :first_name => 'Jane',
-            :last_name  => 'Janeley',
-            :email      => 'janej@example.com',
-            :media      => media }
-
-contacts.push(contact)
-
-
-media = { :jabber => 'roger@conference.example.com' }
-
-contact = { :id         => '364',
-            :first_name => 'Roger',
-            :last_name  => 'Wilco',
-            :email      => 'rogerw@example.com',
-            :media      => media }
+            :media      => media,
+            :tags       => tags }
 
 contacts.push(contact)
 
 puts Yajl::Encoder.encode(contacts, :pretty => true)
 ```
-
-
 
 ### Entities
 
@@ -415,12 +449,15 @@ The entities json import file is an array of entities as follows:
 
 ```
 ENTITIES (array) = [ENTITY, ENTITY, ...]
-ENTITY   (hash)  = { "id": ENTITY_ID, "name": NAME, "contacts": CONTACTS }
-CONTACTS (array) = { CONTACT_ID, CONTACT_ID, ... }
+ENTITY   (hash)  = { "id": "ENTITY_ID", "name": "NAME", "contacts": CONTACTS, "tags": TAGS }
+CONTACTS (array) = { "CONTACT_ID", "CONTACT_ID", ... }
+TAGS     (array) = [ "TAG", "TAG", ... ]
+
 
 ENTITY_ID     (string) - a unique, immutable identifier for this entity
-CONTACT_ID    (string) - a unique identifier for each contact (key'd to CONTACT_ID in the contacts import)
-NAME          (string) - name of the entity, eg a hostname / service identifier. Syntax rules for unqualified hostnames applies to this field (e.g. only alphanumeric, mustn't start with a number, etc.)
+CONTACT_ID    (string) - a unique identifier for each contact (key'd to CONTACT_ID in the contacts import, surprise)
+NAME          (string) - name of the entity, eg a hostname / service identifier. syntax rules for unqualified hostnames applies to this field (eg only alphanumeric, mustn't start with a number etc) TODO: actually, perhaps this needs to allow FQDNs? Essentially it needs to match up with whatever is put into the nagios check config.
+TAG           (string) - a tag
 ```
 
 Example - three entities with a different selection of contacts interested in each
@@ -434,14 +471,21 @@ Example - three entities with a different selection of contacts interested in ea
       "362",
       "363",
       "364"
+    ],
+    "tags": [
+      "source:titanium",
+      "foo"
     ]
   },
   {
     "id": "10002",
     "name": "clientx-app-02",
     "contacts": [
-      "362",
-      "364"
+      "362"
+    ],
+    "tags": [
+      "source:titanium",
+      "bar"
     ]
   },
   {
@@ -450,35 +494,45 @@ Example - three entities with a different selection of contacts interested in ea
     "contacts": [
       "363",
       "364"
+    ],
+    "tags": [
+      "source:titanium"
     ]
   }
 ]
 ```
 
-
 Example code to construct this format:
 
 ```ruby
+#!/usr/bin/env ruby
+
 require 'yajl'
 
 entities = []
 
 contacts = ['362', '363', '364']
-entity = { :id          => '10001',
-           :name        => 'clientx-app-01',
-           :contacts    => contacts }
+tags     = ["source:titanium", "foo"]
+entity   = { :id          => '10001',
+             :name        => 'clientx-app-01',
+             :contacts    => contacts,
+             :tags        => tags }
 entities.push(entity)
 
-contacts = ['0362']
-entity = { :id          => '10002',
-           :name        => 'clientx-app-02',
-           :contacts    => contacts }
+contacts = ['362']
+tags     = ["source:titanium", "bar"]
+entity   = { :id          => '10002',
+             :name        => 'clientx-app-02',
+             :contacts    => contacts,
+             :tags        => tags }
 entities.push(entity)
 
-contacts = ['0363', '0364']
+contacts = ['363', '364']
+tags     = ["source:titanium"]
 entity = { :id          => '10003',
            :name        => 'clienty-app-01',
-           :contacts    => contacts }
+           :contacts    => contacts,
+           :tags        => tags }
 entities.push(entity)
 
 puts Yajl::Encoder.encode(entities, :pretty => true)
