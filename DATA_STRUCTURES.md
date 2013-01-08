@@ -37,7 +37,6 @@ NOTIFICATION (string) - ruby hash representing the notification object, serialis
 check:ENTITY:CHECK (hash) -> { 'state' => STATE, 'last_change' => TIMESTAMP, 'last_update' => TIMESTAMP }
 ```
 
-
 The current state hash above is redundant given the All state changes structures below, but may provide a speed improvement.
 
 The `last_update` timestamp is updated for every service event received for the service.
@@ -50,8 +49,6 @@ ENTITY:CHECK:TIMESTAMP:summary       (string) -> SUMMARY
 ENTITY:CHECK:TIMESTAMP:count         (string) -> COUNT
 ENTITY:CHECK:TIMESTAMP:check_latency (string) -> LATENCY
 ```
-
-The All state changes may be better implemented as a serialised ruby hash in a single key rather than four keys per service as it is now.
 
 In order to query against this data while filtering by timestamp range, the following mirror of the list is being maintained:
 
@@ -68,8 +65,6 @@ ENTITY:CHECK:actions (hash) -> { TIMESTAMP => STATE }
 
 STATE (string) - eg 'acknowledgement'
 ```
-
-This should probably be a hash, or a set of keys as per service state changes, so we can store more information about the action event such as an acknowledgement message like 'will have this fixed in a jiffy, seen this problem before'.
 
 ### Failed checks
 
@@ -180,8 +175,6 @@ ENTITY:CHECK:recovery_notifications        (list) -> [ TIMESTAMP, TIMESTAMP, ...
 ENTITY:CHECK:acknowledgement_notifications (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ```
 
-We may well need to add some extra data about each notification, eg timestamp of related (un)scheduled maintenance, timestamp of related check state changes (failure and ok).
-
 ### Contacts
 
 Contacts are populated from an external system via REST API or the flapjack-populator command line utility. See IMPORTING.
@@ -230,10 +223,6 @@ ENTITY_ID - a unique, immutable identifier given to each entity. This allows the
             to change (eg a host gets renamed) and synchronisation to not go out of whack.
 TAG       - arbitrary tag
 ```
-
-Note, it may be more sensible to flip ENTITY and ENTITY_ID around so that there's less lookups involved in each notification. (the ID is really only here for matching up when importing new / changed entities.)
-
-Also, the `entity:ENTITY_ID` hash could be just a string, but I'm guessing we'll find other entity meta data we'll want to throw in here.
 
 ### Event processor statistics
 
