@@ -239,6 +239,8 @@ TAG       - arbitrary tag
 
 ### Notification Rules
 
+*Note: this is currently entirely in the design phase so entirely speculative and will certainly change during subsequent design and development cycles. See gh-55*
+
 A contact may have a set of notification rules to fine tune when, and by what means, they are notified.
 
 ```text
