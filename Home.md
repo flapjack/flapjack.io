@@ -6,5 +6,5 @@ Sections:
 - [Developing Flapjack](wiki/DEVELOPING)
 - [Redis Data Structure](wiki/DATA_STRUCTURES)
 - [Importing and API](wiki/IMPORTING)
-- [Debugging Flapjack](wiki/DEBUGGING.md)
-- [Flapjack Glossary](GLOSSARY.md)
+- [Debugging Flapjack](wiki/DEBUGGING)
+- [Flapjack Glossary](wiki/GLOSSARY)
