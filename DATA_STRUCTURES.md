@@ -253,9 +253,10 @@ TAG_LIST            (string, json) - array of tags
 ENTITY_LIST         (string, json) - array of entities
 TIME_RESTRICTIONS   (string, json) - array of TIME_RESTRICTIONs
 
-TIME_RESTRICTION (json hash) -> { start_time => TIME, end_time => TIME, days_of_week => DAYS_OF_WEEK }
+TIME_RESTRICTION (json hash) -> { start_time => TIME, duration => SECONDS, days_of_week => DAYS_OF_WEEK }
 
 TIME             (integer) - seconds after midnight UTC
+SECONDS          (integer) - a duration - number of seconds
 DAYS_OF_WEEK       (array) - list of days of the week (UTC) for which the start_time applies,
                              eg: [ 'monday', 'tuesday', 'wednesday', 'thursday' ]
 ```
