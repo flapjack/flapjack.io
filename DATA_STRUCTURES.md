@@ -213,9 +213,13 @@ TAG                   (string) - arbitrary tag
 
 Notes:
 
-- `contact:CONTACT_ID` is about the contact, `contac_media:CONTACT_ID` lists which contact methods to use for this contact (so if it just contains sms then we'll only notify this person by sms).
-- `EMAIL` ... note that this is potentially duplicated, the email field in `contact:CONTACT_ID` is really just for matching up users and is not used as a contact media
-- `JABBER_ID` - may be a jabber id of an individual, or of a group chat room. If a group chat room this jabber_id should also be included in the flapjack configuration file so that flapjack jabber gateway joins the group chat
+- `contact:CONTACT_ID` is about the contact, `contac_media:CONTACT_ID` lists which contact methods to use
+  for this contact (so if it just contains sms then we'll only notify this person by sms).
+- `EMAIL` ... note that this is potentially duplicated, the email field in `contact:CONTACT_ID` is really
+  just for matching up users and is not used as a contact media
+- `JABBER_ID` - may be a jabber id of an individual, or of a group chat room. If a group chat room this
+  jabber_id should also be included in the flapjack configuration file so that flapjack jabber gateway joins
+  the group chat
 
 ### Entity and Check Contacts
 
@@ -231,6 +235,27 @@ entity_tag:TAG               (set) -> ( ENTITY_ID, ENTITY_ID, ... )
 ENTITY_ID - a unique, immutable identifier given to each entity. This allows the name of the entity
             to change (eg a host gets renamed) and synchronisation to not go out of whack.
 TAG       - arbitrary tag
+```
+
+### Notification Rules
+
+A contact may have a set of notification rules to fine tune when, and by what means, they are notified.
+
+```text
+contact_notification_rules:CONTACT_ID (set) -> { RULE_ID }
+notification_rule:RULE_ID            (hash) -> { 'entity_tags'       => TAG_LIST,
+                                                 'entities'          => ENTITY_LIST,
+                                                 'time_restrictions' => TIME_RESTRICTIONS,
+
+TAG_LIST            (string, json) - array of tags
+ENTITY_LIST         (string, json) - array of entities
+TIME_RESTRICTIONS   (string, json) - array of TIME_RESTRICTIONs
+
+TIME_RESTRICTION (json hash) -> { start_time => TIME, end_time => TIME, days_of_week => DAYS_OF_WEEK }
+
+TIME             (integer) - seconds after midnight UTC
+DAYS_OF_WEEK       (array) - list of days of the week (UTC) for which the start_time applies,
+                             eg: [ 'monday', 'tuesday', 'wednesday', 'thursday' ]
 ```
 
 ### Event processor statistics
