@@ -245,13 +245,18 @@ A contact may have a set of notification rules to fine tune when, and by what me
 
 ```text
 contact_notification_rules:CONTACT_ID (set) -> { RULE_ID }
-notification_rule:RULE_ID            (hash) -> { 'entity_tags'       => TAG_LIST,
+notification_rule:RULE_ID            (hash) -> {
+                                                 'entity_tags'       => TAG_LIST,
                                                  'entities'          => ENTITY_LIST,
                                                  'time_restrictions' => TIME_RESTRICTIONS,
+                                                 'warning_media'     => MEDIA_LIST,
+                                                 'critical_media'    => MEDIA_LIST,
+                                               }
 
 TAG_LIST            (string, json) - array of tags
 ENTITY_LIST         (string, json) - array of entities
 TIME_RESTRICTIONS   (string, json) - array of TIME_RESTRICTIONs
+MEDIA_LIST          (string, json) - array of medias eg ['email', 'sms']
 
 TIME_RESTRICTION (json hash) -> { start_time => TIME, duration => SECONDS, days_of_week => DAYS_OF_WEEK }
 
