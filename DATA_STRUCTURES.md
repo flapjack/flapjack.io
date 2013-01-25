@@ -166,7 +166,7 @@ TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the s
 
 ### Notifications
 
-We need to store alerts that have been sent out, for problems, recoveries, and acknowledgements. We'll need to track who they are sent as well but for now it's just whether an alert has been generated or not.
+We need to store notifications that have been generated (not necessarily sent out, see Alerts), for problems, recoveries, and acknowledgements.
 
 *Last alert of each type (problem, recovery, acknowledgement)*
 ```text
