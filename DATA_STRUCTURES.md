@@ -177,11 +177,49 @@ ENTITY:CHECK:last_acknowledgement_notification (string) -> TIMESTAMP
 TIMESTAMP - the time of the last notification sent of the corresponding type (problem, recovery, acknowledgement)
 ```
 
-*Retention of all alerts*
+*Retention of all notifications*
 ```text
 ENTITY:CHECK:problem_notifications         (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:recovery_notifications        (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:acknowledgement_notifications (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
+```
+
+### Alerts
+
+Alerts correspond to messages that get emitted by Flapjack. A 'notification' may result in 0 or more alerts being sent out, depending on notification rules and intervals configured on the contacts for the check in question.
+
+**Note: the following is currently in the design/development phase so entirely speculative and will certainly change during subsequent design and development cycles.** See https://github.com/flpjck/flapjack/issues/55
+
+```text
+ ... which of the following it makes sense to actually implement i'm not sure of right now ...
+ ... possible cases of YAGNI and premature optimisation follow ...
+
+drop_alerts_for_contact:CONTACT_ID                          (string with expiry) -> DURATION
+drop_alerts_for_contact:CONTACT_ID:MEDIA                    (string with expiry) -> DURATION
+drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK       (string with expiry) -> DURATION
+drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE (string with expiry) -> DURATION
+
+alerts                                                     (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alerts_by_contact:CONTACT_ID                               (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_contact:CONTACT_ID:MEDIA                         (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_contact:CONTACT_ID:MEDIA:ENTITY:CHECK            (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE      (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alerts_by_check:ENTITY:CHECK                               (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_check:ENTITY:CHECK:CONTACT_ID                    (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_check:ENTITY:CHECK:CONTACT_ID:MEDIA              (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_check:ENTITY:CHECK:CONTACT_ID:MEDIA:STATE        (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alert:ALERT_ID  (hash) -> { timestamp => TIMESTAMP,
+                            contact   => CONTACT_ID,
+                            media     => MEDIA,
+                            address   => ADDRESS,
+                            check     => ENTITY:CHECK,
+                            type      => NOTIFICATION_TYPE,
+                            state     => STATE,
+                            body      => BODY, }
+
 ```
 
 ### Contacts
@@ -246,17 +284,20 @@ A contact may have a set of notification rules to fine tune when, and by what me
 ```text
 contact_notification_rules:CONTACT_ID (set) -> { RULE_ID }
 notification_rule:RULE_ID            (hash) -> {
-                                                 'entity_tags'       => TAG_LIST,
-                                                 'entities'          => ENTITY_LIST,
-                                                 'time_restrictions' => TIME_RESTRICTIONS,
-                                                 'warning_media'     => MEDIA_LIST,
-                                                 'critical_media'    => MEDIA_LIST,
+                                                 'entity_tags'        => TAG_LIST,
+                                                 'entities'           => ENTITY_LIST,
+                                                 'time_restrictions'  => TIME_RESTRICTIONS,
+                                                 'warning_media'      => MEDIA_LIST,
+                                                 'critical_media'     => MEDIA_LIST,
+                                                 'warning_blackhole'  => BOOLEAN,
+                                                 'critical_blackhole' => BOOLEAN,
                                                }
 
 TAG_LIST            (string, json) - array of tags
 ENTITY_LIST         (string, json) - array of entities
 TIME_RESTRICTIONS   (string, json) - array of TIME_RESTRICTIONs
 MEDIA_LIST          (string, json) - array of medias eg ['email', 'sms']
+BOOLEAN                   (string) - 'true' or 'false'
 
 TIME_RESTRICTION (json hash) -> { start_time => TIME, duration => SECONDS, days_of_week => DAYS_OF_WEEK }
 
