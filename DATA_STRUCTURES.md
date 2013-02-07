@@ -171,6 +171,8 @@ We need to store notifications that have been generated (not necessarily sent ou
 *Last alert of each type (problem, recovery, acknowledgement)*
 ```text
 ENTITY:CHECK:last_problem_notification         (string) -> TIMESTAMP
+ENTITY:CHECK:last_warning_notification         (string) -> TIMESTAMP
+ENTITY:CHECK:last_critical_notification        (string) -> TIMESTAMP
 ENTITY:CHECK:last_recovery_notification        (string) -> TIMESTAMP
 ENTITY:CHECK:last_acknowledgement_notification (string) -> TIMESTAMP
 
@@ -180,6 +182,8 @@ TIMESTAMP - the time of the last notification sent of the corresponding type (pr
 *Retention of all notifications*
 ```text
 ENTITY:CHECK:problem_notifications         (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:warning_notifications         (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:critical_notifications        (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:recovery_notifications        (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:acknowledgement_notifications (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ```
@@ -227,15 +231,25 @@ alert:ALERT_ID  (hash) -> { timestamp => TIMESTAMP,
 Contacts are populated from an external system via REST API or the flapjack-populator command line utility. See IMPORTING.
 
 ```text
-contact:CONTACT_ID           (hash) -> { 'first_name' => FIRST_NAME, 'last_name' => LAST_NAME,
-                                         'email' => EMAIL }
-contact_media:CONTACT_ID     (hash) -> { 'email' => EMAIL, 'sms' => PHONE_NUMBER, 'jabber' => JABBER_ID,
+contact:CONTACT_ID           (hash) -> { 'first_name' => FIRST_NAME,
+                                         'last_name'  => LAST_NAME,
+                                         'email'      => EMAIL }
+contact_media:CONTACT_ID     (hash) -> { 'email'     => EMAIL,
+                                         'sms'       => PHONE_NUMBER,
+                                         'jabber'    => JABBER_ID,
                                          'pagerduty' => PAGERDUTY_SERVICE_KEY }
-contact_pagerduty:CONTACT_ID (hash) -> { 'subdomain': PAGERDUTY_SUBDOMAIN, 'username': PAGERDUTY_USERNAME,
-                                         'password': PAGERDUTY_PASSWORD }
-contact_tag:TAG              (set)  -> ( CONTACT_ID, CONTACT_ID, ...)
+contact_tz:CONTACT_ID      (string) -> TIMEZONE
+contact_media_intervals:CONTACT_ID  -> { 'email'     => INTERVAL,
+                             (hash)      'sms'       => INTERVAL,
+                                         'jabber'    => INTERVAL,
+                                         'pagerduty' => INTERVAL }
+contact_pagerduty:CONTACT_ID (hash) -> { 'subdomain' => PAGERDUTY_SUBDOMAIN,
+                                         'username'  => PAGERDUTY_USERNAME,
+                                         'password'  => PAGERDUTY_PASSWORD }
+contact_tag:TAG               (set) -> ( CONTACT_ID, CONTACT_ID, ...)
 
 CONTACT_ID            (string) - an external reference / identifier for this contact (used for synchronisation)
+INTERVAL              (string) - number of seconds in between repeat alerts
 PHONE_NUMBER          (string) - a phone number in international format, starting with +
 JABBER_ID             (string) - the jabber id of the contact, eg 'adalovelace@jabber.charlesbabbage.com',
                                  can be a group chat
@@ -247,6 +261,8 @@ PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic 
                                  back out of PagerDuty
 PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
 TAG                   (string) - arbitrary tag
+TIMEZONE              (string) - a timezone string representing the user's local timezone, eg 'Australia/Broken_Hill'
+                                 see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/
 ```
 
 Notes:
@@ -299,13 +315,10 @@ TIME_RESTRICTIONS   (string, json) - array of TIME_RESTRICTIONs
 MEDIA_LIST          (string, json) - array of medias eg ['email', 'sms']
 BOOLEAN                   (string) - 'true' or 'false'
 
-TIME_RESTRICTION (json hash) -> { start_time => TIME, duration => SECONDS, days_of_week => DAYS_OF_WEEK }
+TIME_RESTRICTION (json hash) -> { ice_cube hash representation of an RFC 2445 iCalendar schedule }
 
-TIME             (integer) - seconds after midnight UTC
-SECONDS          (integer) - a duration - number of seconds
-DAYS_OF_WEEK       (array) - list of days of the week (UTC) for which the start_time applies,
-                             eg: [ 'monday', 'tuesday', 'wednesday', 'thursday' ]
 ```
+Refer https://github.com/seejohnrun/ice_cube
 
 ### Event processor statistics
 
