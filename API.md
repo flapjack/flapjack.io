@@ -35,7 +35,14 @@ Get the status of the specified check, or for all checks of the specified entity
 get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 
-### GET /outages/ENTITY[/CHECK]?start_time=START_TIME&end_time=END_TIME
+### GET /outages/ENTITY[/CHECK]
+**Parameters**
+<dl>
+<dt>start_time</dt>
+<dd>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00</dd>
+<dt>end_time</dt>
+<dd>end time of the period in ISO 8601 format/dd>
+</dl>
 
 Get the list of outages for the specified check, or for all checks of the specified entity if no check is given.
 ```ruby
