@@ -41,8 +41,12 @@ get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 <dt>start_time</dt>
 <dd>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00</dd>
 <dt>end_time</dt>
-<dd>end time of the period in ISO 8601 format/dd>
+<dd>end time of the period in ISO 8601 format</dd>
 </dl>
+<table>
+<tr> <td>start_time </td> <td>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00 </td> </tr>
+<tr> <td>end_time   </td> <td>end time of the period in ISO 8601 format </td> </tr>
+</table>
 
 Get the list of outages for the specified check, or for all checks of the specified entity if no check is given.
 ```ruby
