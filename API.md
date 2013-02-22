@@ -16,7 +16,7 @@ API URLs
 - `POST /contacts`
 
 
-==GET /entities
+###GET /entities
 ```ruby
 get '/entities'
 ```
