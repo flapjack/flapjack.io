@@ -44,7 +44,9 @@ get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 
 ### GET /outages/ENTITY[/CHECK]
+
 **Optional parameters:** _start_time, end_time_
+
 Get the list of outages for the specified check, or for all checks of the specified entity if no check is given.
 
 
