@@ -2,23 +2,25 @@
 API URLs
 ========
 
-- GET /entities
-- GET /checks/ENTITY
-- GET /status/ENTITY[:CHECK]
-- GET /outages/ENTITY[:CHECK]
-- GET /unscheduled_maintenances/ENTITY[:CHECK]
-- GET /scheduled_maintenances/ENTITY[:CHECK]
-- GET /downtime/ENTITY[:CHECK]
+- `GET /entities`
+- `GET /checks/ENTITY`
+- `GET /status/ENTITY[:CHECK]`
+- `GET /outages/ENTITY[:CHECK]`
+- `GET /unscheduled_maintenances/ENTITY[:CHECK]`
+- `GET /scheduled_maintenances/ENTITY[:CHECK]`
+- `GET /downtime/ENTITY[:CHECK]`
 
-- POST /scheduled_maintenances/ENTITY/CHECK
-- POST /acknowledgements/ENTITY/CHECK
-- POST /test_notifications/ENTITY/CHECK
-- POST /entities
-- POST /contacts
+- `POST /scheduled_maintenances/ENTITY/CHECK`
+- `POST /acknowledgements/ENTITY/CHECK`
+- `POST /test_notifications/ENTITY/CHECK`
+- `POST /entities`
+- `POST /contacts`
 
 
 *GET /entities*
-    get '/entities'
+```
+get '/entities'
+```
 
 *GET /checks/ENTITY*
     get '/checks/:entity'
