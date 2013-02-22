@@ -1,6 +1,6 @@
 ## Importing contacts and entities (CLI)
 
-The REST API and the `flapjack-populator` script provide a mechanisms for importing contacts and entities in JSON format. Here are some command line examples:
+The REST API and the `flapjack-populator` script provide a mechanisms for importing contacts and entities in JSON format. Here are some command line examples for `flapjack-populator`:
 
     bin/flapjack-populator import-contacts --from tmp/dummy_contacts.json --config /etc/flapjack/flapjack-config.yml
     bin/flapjack-populator import-entities --from tmp/dummy_entities.json --config /etc/flapjack/flapjack-config.yml
@@ -221,15 +221,15 @@ The Flapjack API provides various views into its current state, history etc.
 
 For a given entity, return a list of all checks against this entity
 
-API URL: TODO
+API URL:  GET /entities/ENTITY/statuses
 
 e.g.
 
-    wget http://127.0.0.1:3081/entities/foo-app-01%2efoobar%2enet/statuses
+    curl http://127.0.0.1:3081/entities/foo-app-01%2efoobar%2enet/statuses
 
 may produce:
 
-```yaml
+```json
 [{"name":"HOST",
   "state":"up",
   "in_unscheduled_maintenance":false,
@@ -269,7 +269,9 @@ may produce:
 
 A list of entities can be supplied for efficiency, and an array containing a hash for each entity, and each check as a key within the hash. For each check, current state is included.
 
-API URL: TODO
+API URL: GET /entities
+
+*Response:*
 
 ```text
 ENTITIES (array) = [ENTITY, ENTITY, ...]
