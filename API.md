@@ -36,13 +36,6 @@ get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 
 ### GET /outages/ENTITY[/CHECK]
-**Parameters**
-<dl>
-<dt>start_time</dt>
-<dd>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00</dd>
-<dt>end_time</dt>
-<dd>end time of the period in ISO 8601 format</dd>
-</dl>
 <table>
 <tr> <th>parameter             </th> <th>description </th> </tr>
 <tr> <td>start_time (optional) </td> <td>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00 </td> </tr>
