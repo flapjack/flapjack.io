@@ -9,7 +9,6 @@ API URLs
 - `GET /unscheduled_maintenances/ENTITY[:CHECK]`
 - `GET /scheduled_maintenances/ENTITY[:CHECK]`
 - `GET /downtime/ENTITY[:CHECK]`
-
 - `POST /scheduled_maintenances/ENTITY/CHECK`
 - `POST /acknowledgements/ENTITY/CHECK`
 - `POST /test_notifications/ENTITY/CHECK`
@@ -18,39 +17,61 @@ API URLs
 
 
 *GET /entities*
-```
+```ruby
 get '/entities'
 ```
 
 *GET /checks/ENTITY*
-    get '/checks/:entity'
+```ruby
+get '/checks/:entity'
+```
 
 *GET /status/ENTITY[:CHECK]*
-    get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```ruby
+get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```
 
 *GET /outages/ENTITY[:CHECK]*
-    get %r{/outages/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```ruby
+get %r{/outages/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```
 
 *GET /unscheduled_maintenances/ENTITY[:CHECK]*
-    get %r{/unscheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```ruby
+get %r{/unscheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```
 
 *GET /scheduled_maintenances/ENTITY[:CHECK]*
-    get %r{/scheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```ruby
+get %r{/scheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```
 
 *GET /downtime/ENTITY[:CHECK]*
-    get %r{/downtime/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```ruby
+get %r{/downtime/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```
 
 *POST /scheduled_maintenances/ENTITY/CHECK'*
-    post '/scheduled_maintenances/:entity/:check'
+```ruby
+post '/scheduled_maintenances/:entity/:check'
+```
 
 *POST /test_notifications/ENTITY/CHECK*
-    post '/test_notifications/:entity/:check'
+```ruby
+post '/test_notifications/:entity/:check'
+```
 
 *POST /entities*
-    post '/entities'
+```ruby
+post '/entities'
+```
 
 *POST /contacts*
-    post '/contacts'
+```ruby
+post '/contacts'
+```
 
 *POST /acknowledgements/ENTITY/CHECK'*
-    post '/acknowledgements/:entity/:check'
+```ruby
+post '/acknowledgements/:entity/:check'
+```
