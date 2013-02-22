@@ -5,11 +5,11 @@ API URLs
 ```text
 GET /entities
 GET /checks/ENTITY
-GET /status/ENTITY[:CHECK]
-GET /outages/ENTITY[:CHECK]
-GET /unscheduled_maintenances/ENTITY[:CHECK]
-GET /scheduled_maintenances/ENTITY[:CHECK]
-GET /downtime/ENTITY[:CHECK]
+GET /status/ENTITY[/CHECK]
+GET /outages/ENTITY[/CHECK]
+GET /unscheduled_maintenances/ENTITY[/CHECK]
+GET /scheduled_maintenances/ENTITY[/CHECK]
+GET /downtime/ENTITY[/CHECK]
 POST /scheduled_maintenances/ENTITY/CHECK
 POST /acknowledgements/ENTITY/CHECK
 POST /test_notifications/ENTITY/CHECK
@@ -18,37 +18,44 @@ POST /contacts
 ```
 
 ### GET /entities
+Retrieve all the entities.
 ```ruby
 get '/entities'
 ```
 
 ### GET /checks/ENTITY
+Retrieve the names of the checks for the specified entity.
 ```ruby
 get '/checks/:entity'
 ```
 
-### GET /status/ENTITY[:CHECK]
+### GET /status/ENTITY[/CHECK]
+Get the status of the specified check, or for all checks of the specified entity if no check is given.
 ```ruby
 get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 
-### GET /outages/ENTITY[:CHECK]
+### GET /outages/ENTITY[/CHECK]?start_time=START_TIME&end_time=END_TIME
+
+Get the list of outages for the specified check, or for all checks of the specified entity if no check is given.
 ```ruby
 get %r{/outages/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 
-### GET /unscheduled_maintenances/ENTITY[:CHECK]
+### GET /unscheduled_maintenances/ENTITY[/CHECK]
+Get the list of unscheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
 ```ruby
 get %r{/unscheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 
-### GET /scheduled_maintenances/ENTITY[:CHECK]
+### GET /scheduled_maintenances/ENTITY[/CHECK]
+Get the list of scheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
 ```ruby
 get %r{/scheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 
-### GET /downtime/ENTITY[:CHECK]
-
+### GET /downtime/ENTITY[/CHECK]
+Get the list of downtimes for the specified check, or for all checks of the specified entity if no check is given. Downtime is outages minus scheduled maintenances across any given time period.
 ```ruby
 get %r{/downtime/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
