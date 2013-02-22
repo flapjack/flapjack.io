@@ -2,7 +2,7 @@
 API URLs
 ========
 
-- `GET /entities`
+- [link](#get-/entities) `GET /entities`
 - `GET /checks/ENTITY`
 - `GET /status/ENTITY[:CHECK]`
 - `GET /outages/ENTITY[:CHECK]`
