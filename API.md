@@ -17,6 +17,14 @@ POST /entities
 POST /contacts
 ```
 
+### Query Paramaters
+
+<table>
+<tr> <th>parameter             </th> <th>description </th> </tr>
+<tr> <td>start_time (optional) </td> <td>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00 </td> </tr>
+<tr> <td>end_time   (optional) </td> <td>end time of the period in ISO 8601 format </td> </tr>
+</table>
+
 ### GET /entities
 Retrieve all the entities.
 ```ruby
@@ -36,13 +44,9 @@ get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 
 ### GET /outages/ENTITY[/CHECK]
+Optional parameters: start_time, end_time
 Get the list of outages for the specified check, or for all checks of the specified entity if no check is given.
 
-<table>
-<tr> <th>parameter             </th> <th>description </th> </tr>
-<tr> <td>start_time (optional) </td> <td>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00 </td> </tr>
-<tr> <td>end_time   (optional) </td> <td>end time of the period in ISO 8601 format </td> </tr>
-</table>
 
 ```ruby
 get %r{/outages/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
