@@ -316,13 +316,13 @@ Creates scheduled maintenance for the specified check.
 
 **Example**
 ```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
-  -d '{
-        "start_time": 1361791228,
-        "duration": 3600,
-        "summary": "SHUT IT ALL DOWN!"
-      }' \
-  http://localhost:4091/scheduled_maintenances/client1-localhost-test-2/HOST
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "start_time": 1361791228,
+    "duration": 3600,
+    "summary": "SHUT IT ALL DOWN!"
+  }' \
+ http://localhost:4091/scheduled_maintenances/client1-localhost-test-2/HOST
 ```
 
 **Response** Status: 204 (No Content)
@@ -333,12 +333,12 @@ Acknowledges a problem on the specified check and creates unscheduled maintenanc
 
 **Example**
 ```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
-  -d '{
-        "duration": 3600,
-        "summary": "AL - working on it"
-      }' \
-  http://localhost:4091/acknowledgements/client1-localhost-test-2/HOST
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "duration": 3600,
+    "summary": "AL - working on it"
+  }' \
+ http://localhost:4091/acknowledgements/client1-localhost-test-2/HOST
 ```
 
 <a id="post_test_notifications">&nbsp;</a>
@@ -358,23 +358,23 @@ Creates or updates entities from the supplied entities, using id as key.
 
 **Example**
 ```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
-  -d '{
-        "entities": [
-          {
-            "id": "825",
-            "name": "foo.example.com",
-            "contacts": [
-              "21",
-              "22"
-            ],
-            "tags": [
-              "foo"
-            ]
-          }
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "entities": [
+      {
+        "id": "825",
+        "name": "foo.example.com",
+        "contacts": [
+          "21",
+          "22"
+        ],
+        "tags": [
+          "foo"
         ]
-      }' \
-  http://localhost:4091/entities
+      }
+    ]
+  }' \
+ http://localhost:4091/entities
 ```
 **Response** Status: 200 OK
 
@@ -384,25 +384,26 @@ Deletes all contacts before importing the supplied contacts.
 
 **Example**
 ```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
-  -d '{
-        "contacts": [
-          {
-            "id": "21",
-            "first_name": "Ada",
-            "last_name": "Lovelace",
-            "email": "ada@example.com",
-            "media": {
-              "sms": "+61412345678",
-              "email": "ada@example.com"
-            },
-            "tags": [
-              "legend",
-              "first computer programmer"
-            ]
-          }
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "contacts": [
+      {
+        "id": "21",
+        "first_name": "Ada",
+        "last_name": "Lovelace",
+        "email": "ada@example.com",
+        "media": {
+          "sms": "+61412345678",
+          "email": "ada@example.com"
+        },
+        "tags": [
+          "legend",
+          "first computer programmer"
         ]
-      }' \
-  http://localhost:4091/contacts
+      }
+    ]
+  }' \
+ http://localhost:4091/contacts
 ```
+**Response** Status: 200 OK
 
