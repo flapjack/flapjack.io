@@ -1,6 +1,9 @@
 
 API URLs
 ========
+
+Flapjack's HTTP API currently provides the following queries, data import functions and actions:
+
 <ul>
   <li><a href="#get_entities"> GET /entities</a></li>
   <li><a href="#get_checks"> GET /checks/ENTITY</a></li>
@@ -17,6 +20,8 @@ API URLs
 </ul>
 
 ### Query Paramaters
+
+Some of the GET queries can take some optional query string parameters as follows:
 
 <table>
   <tr>
@@ -308,35 +313,57 @@ curl "http://localhost:4091/downtime/client1-localhost-test-2/HOST?start_time=20
 <a id="post_scheduled_maintenances">&nbsp;</a>
 ### POST /scheduled_maintenances/ENTITY/CHECK'
 Creates scheduled maintenance for the specified check.
-```ruby
-post '/scheduled_maintenances/:entity/:check'
+
+**Example**
+```bash
+curl -X POST -H "Content-type: application/json" \
+  -d 'TODO' \
+  "http://localhost:4091/scheduled_maintenances/client1-localhost-test-2/HOST"
 ```
+
+**Response** Status: 200 OK
 
 <a id="post_acknowledgements">&nbsp;</a>
 ### POST /acknowledgements/ENTITY/CHECK'
 Acknowledges a problem on the specified check and creates unscheduled maintenance. 4 hrs is the default period but can be specied in the body. An optional message may also be supplied.
-```ruby
-post '/acknowledgements/:entity/:check'
+
+**Example**
+```bash
+curl -X POST -H "Content-type: application/json" \
+  -d 'TODO' \
+  "http://localhost:4091/acknowledgements/client1-localhost-test-2/HOST"
 ```
 
 <a id="post_test_notifications">&nbsp;</a>
 ### POST /test_notifications/ENTITY/CHECK
 Generates test notifications for the specified check.
-```ruby
-post '/test_notifications/:entity/:check'
+
+**Example**
+```bash
+curl -X POST "http://localhost:4091/test_notifications/client1-localhost-test-2/HOST"
 ```
+
+**Response** Status: 200 OK
 
 <a id="post_entities">&nbsp;</a>
 ### POST /entities
 Creates or updates entities from the supplied entities, using id as key.
-```ruby
-post '/entities'
+
+**Example**
+```bash
+curl -X POST -H "Content-type: application/json" \
+  -d 'TODO' \
+  "http://localhost:4091/entities"
 ```
 
 <a id="post_contacts">&nbsp;</a>
 ### POST /contacts
 Deletes all contacts before importing the supplied contacts.
-```ruby
-post '/contacts'
+
+**Example**
+```bash
+curl -X POST -H "Content-type: application/json" \
+  -d 'TODO' \
+  "http://localhost:4091/contacts"
 ```
 

@@ -221,14 +221,6 @@ The Flapjack API provides various views into its current state, history etc.
 
 For a given entity, return a list of all checks against this entity
 
-API URL:  GET /entities/ENTITY/statuses
-
-e.g.
-
-    curl http://127.0.0.1:3081/entities/foo-app-01%2efoobar%2enet/statuses
-
-may produce:
-
 ```json
 [{"name":"HOST",
   "state":"up",
