@@ -134,16 +134,16 @@ curl http://localhost:4091/status/client1-localhost-test-2/HTTP%20Port%20443
 ```
 **Response** Status: 200 OK
 ```json
-{
-   "last_recovery_notification" : null,
-   "last_acknowledgement_notification" : null,
-   "last_update" : null,
-   "name" : "HTTP",
-   "last_problem_notification" : null,
-   "in_scheduled_maintenance" : false,
-   "in_unscheduled_maintenance" : false,
-   "state" : null
-}
+ {
+    "last_recovery_notification" : null,
+    "last_acknowledgement_notification" : null,
+    "last_update" : 1356853261,
+    "name" : "HTTP Port 443",
+    "last_problem_notification" : 1356853151,
+    "in_scheduled_maintenance" : false,
+    "in_unscheduled_maintenance" : false,
+    "state" : "critical"
+ }
 ```
 
 ### GET /outages/ENTITY[/CHECK]
@@ -199,18 +199,11 @@ curl http://localhost:4091/outages/client1-localhost-test-2
 ```
 **Example 2**
 ```bash
-curl http://localhost:4091/outages/client1-localhost-test-2/HOST
+curl http://localhost:4091/outages/client1-localhost-test-2/HOST?start_time=2012-12-24T00:00:00Z
 ```
 **Response** Status: 200 OK
 ```json
 [
-   {
-      "end_time" : 1355958411,
-      "summary" : "(Host Check Timed Out)",
-      "start_time" : 1355958401,
-      "duration" : 10,
-      "state" : "critical"
-   },
    {
       "end_time" : 1356562502,
       "summary" : "(Host Check Timed Out)",
@@ -228,7 +221,7 @@ get %r{/unscheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w
 ```
 **Example**
 ```bash
-curl http://localhost:4091/checks/client1-localhost-test-2
+curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
 ```json
@@ -241,7 +234,7 @@ get %r{/scheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+)
 ```
 **Example**
 ```bash
-curl http://localhost:4091/checks/client1-localhost-test-2
+curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
 ```json
@@ -254,7 +247,7 @@ get %r{/downtime/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 **Example**
 ```bash
-curl http://localhost:4091/checks/client1-localhost-test-2
+curl http://localhost:4091/downtime/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
 ```json
