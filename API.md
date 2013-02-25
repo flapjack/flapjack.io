@@ -6,7 +6,13 @@ GET /checks/ENTITY
 GET /status/ENTITY[/CHECK]
 GET /outages/ENTITY[/CHECK]
 GET /unscheduled_maintenances/ENTITY[/CHECK]
-<a href="#get_scheduled_maintenances">GET /scheduled_maintenances/ENTITY[/CHECK]</a>
+
+
+<ul>
+  <li><a href="#get_scheduled_maintenances">GET /scheduled_maintenances/ENTITY[/CHECK]</a></li>
+  <li><a href="#get_downtime">GET /downtime/ENTITY[/CHECK]</a></li>
+</ul>
+
 GET /downtime/ENTITY[/CHECK]
 POST /scheduled_maintenances/ENTITY/CHECK
 POST /acknowledgements/ENTITY/CHECK
