@@ -1,6 +1,18 @@
 
 API URLs
 ========
+GET /entities
+GET /checks/ENTITY
+GET /status/ENTITY[/CHECK]
+GET /outages/ENTITY[/CHECK]
+GET /unscheduled_maintenances/ENTITY[/CHECK]
+<a href="#get_scheduled_maintenances">GET /scheduled_maintenances/ENTITY[/CHECK]</a>
+GET /downtime/ENTITY[/CHECK]
+POST /scheduled_maintenances/ENTITY/CHECK
+POST /acknowledgements/ENTITY/CHECK
+POST /test_notifications/ENTITY/CHECK
+POST /entities
+POST /contacts
 
 ```text
 GET /entities
@@ -233,11 +245,13 @@ curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-1
 ]
 ```
 
+<a id="get_scheduled_maintenances">&nbsp;</a>
 ### GET /scheduled_maintenances/ENTITY[/CHECK]
 
 **Optional parameters:** _start_time, end_time_
 
 Get the list of scheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
+
 **Example**
 ```bash
 curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
