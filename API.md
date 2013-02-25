@@ -224,8 +224,7 @@ get %r{/unscheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w
 curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
-```json
-```
+TODO
 
 ### GET /scheduled_maintenances/ENTITY[/CHECK]
 Get the list of scheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
@@ -237,8 +236,7 @@ get %r{/scheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+)
 curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
-```json
-```
+TODO
 
 ### GET /downtime/ENTITY[/CHECK]
 Get the list of downtimes for the specified check, or for all checks of the specified entity if no check is given. Downtime is outages minus scheduled maintenances across any given time period.
@@ -250,8 +248,7 @@ get %r{/downtime/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 curl http://localhost:4091/downtime/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
-```json
-```
+TODO
 
 ### POST /scheduled_maintenances/ENTITY/CHECK'
 Creates scheduled maintenance for the specified check.
