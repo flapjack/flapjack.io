@@ -40,7 +40,25 @@ Some of the GET queries can take some optional query string parameters as follow
 
 <a id="get_entities">&nbsp;</a>
 ### GET /entities
-Retrieve an array of all entities, including core attributes of any checks on the entity.
+Retrieve an array of all entities including core attributes and state of any checks on the entity.
+
+**Output JSON Format**
+```text
+ENTITIES (array) = [ENTITY, ENTITY, ...]
+ENTITY    (hash) = { "id": "ENTITY_ID", "name": "NAME", "checks": CHECKS }
+CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "name": "CHECK_NAME",
+                     "state": "CHECK_STATE",
+                     "in_unscheduled_maintenance": "BOOLEAN",
+                     "in_scheduled_maintenance": "BOOLEAN",
+                     "last_update": TIMESTAMP,
+                     "last_problem_notification": TIMESTAMP,
+                     "last_recovery_notification": TIMESTAMP,
+                     "last_acknowledgement_notification": TIMESTAMP }
+
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+BOOLEAN:   one of 'true' or 'false'
+```
 
 **Example**
 ```bash
@@ -324,7 +342,6 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
   }' \
  http://localhost:4091/scheduled_maintenances/client1-localhost-test-2/HOST
 ```
-
 **Response** Status: 204 (No Content)
 
 <a id="post_acknowledgements">&nbsp;</a>
@@ -340,6 +357,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
   }' \
  http://localhost:4091/acknowledgements/client1-localhost-test-2/HOST
 ```
+**Response** Status: 204 (No Content)
 
 <a id="post_test_notifications">&nbsp;</a>
 ### POST /test_notifications/ENTITY/CHECK
