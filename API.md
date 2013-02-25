@@ -1,24 +1,20 @@
 
 API URLs
 ========
-GET /entities
-GET /checks/ENTITY
-GET /status/ENTITY[/CHECK]
-GET /outages/ENTITY[/CHECK]
-GET /unscheduled_maintenances/ENTITY[/CHECK]
-
-
 <ul>
-  <li><a href="#get_scheduled_maintenances"><tt>GET /scheduled_maintenances/ENTITY[/CHECK]</tt></a></li>
+  <li><a href="#get_entities"> GET /entities</a></li>
+  <li><a href="#get_checks"> GET /checks/ENTITY</a></li>
+  <li><a href="#get_status"> GET /status/ENTITY[/CHECK]</a></li>
+  <li><a href="#get_outages"> GET /outages/ENTITY[/CHECK]</a></li>
+  <li><a href="#get_unscheduled_maintenances"> GET /unscheduled_maintenances/ENTITY[/CHECK]</a></li>
+  <li><a href="#get_scheduled_maintenances">GET /scheduled_maintenances/ENTITY[/CHECK]</a></li>
   <li><a href="#get_downtime">GET /downtime/ENTITY[/CHECK]</a></li>
+  <li><a href="#post_scheduled_maintenances">POST /scheduled_maintenances/ENTITY/CHECK</a></li>
+  <li><a href="#post_acknowledgements">POST /acknowledgements/ENTITY/CHECK</a></li>
+  <li><a href="#post_test_notifications">POST /test_notifications/ENTITY/CHECK</a></li>
+  <li><a href="#post_entities">POST /entities</a></li>
+  <li><a href="#post_contacts">POST /contacts</a></li>
 </ul>
-
-GET /downtime/ENTITY[/CHECK]
-POST /scheduled_maintenances/ENTITY/CHECK
-POST /acknowledgements/ENTITY/CHECK
-POST /test_notifications/ENTITY/CHECK
-POST /entities
-POST /contacts
 
 ```text
 GET /entities
@@ -52,6 +48,7 @@ POST /contacts
   </tr>
 </table>
 
+<a id="get_entities">&nbsp;</a>
 ### GET /entities
 Retrieve an array of all entities, including core attributes of any checks on the entity.
 
@@ -91,6 +88,7 @@ curl http://localhost:4091/entities
 ]
 ```
 
+<a id="get_checks">&nbsp;</a>
 ### GET /checks/ENTITY
 Retrieve the names of the checks for the specified entity.
 
@@ -106,6 +104,7 @@ curl http://localhost:4091/checks/client1-localhost-test-2
 ]
 ```
 
+<a id="get_status">&nbsp;</a>
 ### GET /status/ENTITY[/CHECK]
 Get the status of the specified check, or for all checks of the specified entity if no check is given.
 
@@ -157,6 +156,7 @@ curl http://localhost:4091/status/client1-localhost-test-2/HTTP%20Port%20443
  }
 ```
 
+<a id="get_outages">&nbsp;</a>
 ### GET /outages/ENTITY[/CHECK]
 
 **Optional parameters:** _start_time, end_time_
@@ -220,6 +220,7 @@ curl http://localhost:4091/outages/client1-localhost-test-2/HOST?start_time=2012
 ]
 ```
 
+<a id="get_unscheduled_maintenances">&nbsp;</a>
 ### GET /unscheduled_maintenances/ENTITY[/CHECK]
 
 **Optional parameters:** _start_time, end_time_
@@ -276,6 +277,7 @@ curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
 ]
 ```
 
+<a id="get_downtime">&nbsp;</a>
 ### GET /downtime/ENTITY[/CHECK]
 
 **Optional parameters:** _start_time, end_time_
@@ -318,30 +320,35 @@ curl "http://localhost:4091/downtime/client1-localhost-test-2/HOST?start_time=20
 }
 ```
 
+<a id="post_scheduled_maintenances">&nbsp;</a>
 ### POST /scheduled_maintenances/ENTITY/CHECK'
 Creates scheduled maintenance for the specified check.
 ```ruby
 post '/scheduled_maintenances/:entity/:check'
 ```
 
+<a id="post_acknowledgements">&nbsp;</a>
 ### POST /acknowledgements/ENTITY/CHECK'
 Acknowledges a problem on the specified check and creates unscheduled maintenance. 4 hrs is the default period but can be specied in the body. An optional message may also be supplied.
 ```ruby
 post '/acknowledgements/:entity/:check'
 ```
 
+<a id="post_test_notifications">&nbsp;</a>
 ### POST /test_notifications/ENTITY/CHECK
 Generates test notifications for the specified check.
 ```ruby
 post '/test_notifications/:entity/:check'
 ```
 
+<a id="post_entities">&nbsp;</a>
 ### POST /entities
 Creates or updates entities from the supplied entities, using id as key.
 ```ruby
 post '/entities'
 ```
 
+<a id="post_contacts">&nbsp;</a>
 ### POST /contacts
 Deletes all contacts before importing the supplied contacts.
 ```ruby
