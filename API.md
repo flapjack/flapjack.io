@@ -9,7 +9,7 @@ GET /unscheduled_maintenances/ENTITY[/CHECK]
 
 
 <ul>
-  <li><a href="#get_scheduled_maintenances">GET /scheduled_maintenances/ENTITY[/CHECK]</a></li>
+  <li><a href="#get_scheduled_maintenances"><tt>GET /scheduled_maintenances/ENTITY[/CHECK]</tt></a></li>
   <li><a href="#get_downtime">GET /downtime/ENTITY[/CHECK]</a></li>
 </ul>
 
