@@ -36,9 +36,7 @@ POST /contacts
 
 ### GET /entities
 Retrieve an array of all entities, including core attributes of any checks on the entity.
-```ruby
-get '/entities'
-```
+
 **Example**
 ```bash
 curl http://localhost:4091/entities
@@ -77,9 +75,7 @@ curl http://localhost:4091/entities
 
 ### GET /checks/ENTITY
 Retrieve the names of the checks for the specified entity.
-```ruby
-get '/checks/:entity'
-```
+
 **Example**
 ```bash
 curl http://localhost:4091/checks/client1-localhost-test-2
@@ -94,9 +90,6 @@ curl http://localhost:4091/checks/client1-localhost-test-2
 
 ### GET /status/ENTITY[/CHECK]
 Get the status of the specified check, or for all checks of the specified entity if no check is given.
-```ruby
-get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
-```
 
 **Example 1**
 ```bash
@@ -151,11 +144,6 @@ curl http://localhost:4091/status/client1-localhost-test-2/HTTP%20Port%20443
 **Optional parameters:** _start_time, end_time_
 
 Get the list of outages for the specified check, or for all checks of the specified entity if no check is given.
-
-
-```ruby
-get %r{/outages/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
-```
 
 **Example 1**
 ```bash
@@ -215,40 +203,100 @@ curl http://localhost:4091/outages/client1-localhost-test-2/HOST?start_time=2012
 ```
 
 ### GET /unscheduled_maintenances/ENTITY[/CHECK]
+
+**Optional parameters:** _start_time, end_time_
+
 Get the list of unscheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
-```ruby
-get %r{/unscheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
-```
+
 **Example**
 ```bash
-curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-2
+curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-1
 ```
 **Response** Status: 200 OK
-TODO
+```json
+[
+   {
+      "check" : "HOST",
+      "unscheduled_maintenance" : []
+   },
+   {
+      "check" : "HTTP Port 443",
+      "unscheduled_maintenance" : [
+         {
+            "end_time" : 1356067056,
+            "summary" : "- JR looking",
+            "start_time" : 1356044450,
+            "duration" : 22606
+         }
+      ]
+   }
+]
+```
 
 ### GET /scheduled_maintenances/ENTITY[/CHECK]
+
+**Optional parameters:** _start_time, end_time_
+
 Get the list of scheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
-```ruby
-get %r{/scheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
-```
 **Example**
 ```bash
 curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
-TODO
+```json
+[
+   {
+      "check" : "HOST",
+      "scheduled_maintenance" : []
+   },
+   {
+      "check" : "HTTP Port 443",
+      "scheduled_maintenance" : []
+   }
+]
+```
 
 ### GET /downtime/ENTITY[/CHECK]
-Get the list of downtimes for the specified check, or for all checks of the specified entity if no check is given. Downtime is outages minus scheduled maintenances across any given time period.
-```ruby
-get %r{/downtime/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
-```
+
+**Optional parameters:** _start_time, end_time_
+
+Get the list of downtimes for the specified check, or for all checks of the specified entity if no check is given. Downtime is outages minus scheduled maintenances across any given time period. The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.
+
+Note that a start_time and end_time must be specified in order for the percentages to be calculated.
+
 **Example**
 ```bash
-curl http://localhost:4091/downtime/client1-localhost-test-2
+curl "http://localhost:4091/downtime/client1-localhost-test-2/HOST?start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
 ```
 **Response** Status: 200 OK
-TODO
+```json
+{
+   "downtime" : [
+      {
+         "end_time" : 1355958411,
+         "summary" : "(Host Check Timed Out)",
+         "start_time" : 1355958401,
+         "duration" : 10,
+         "state" : "critical"
+      },
+      {
+         "end_time" : 1356562502,
+         "summary" : "(Host Check Timed Out)",
+         "start_time" : 1356562492,
+         "duration" : 10,
+         "state" : "critical"
+      }
+   ],
+   "percentages" : {
+      "ok" : 99.9992532855436,
+      "critical" : 0.000746714456391876
+   },
+   "total_seconds" : {
+      "ok" : 2678380,
+      "critical" : 20
+   }
+}
+```
 
 ### POST /scheduled_maintenances/ENTITY/CHECK'
 Creates scheduled maintenance for the specified check.
