@@ -20,15 +20,59 @@ POST /contacts
 ### Query Paramaters
 
 <table>
-<tr> <th>parameter  </th> <th>description </th> </tr>
-<tr> <td>start_time </td> <td>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00 </td> </tr>
-<tr> <td>end_time   </td> <td>end time of the period in ISO 8601 format </td> </tr>
+  <tr>
+    <th>parameter </th>
+    <th>description </th>
+  </tr>
+  <tr>
+    <td>start_time </td>
+    <td>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00. Absence means 'beginning of time'. </td>
+  </tr>
+  <tr>
+    <td>end_time   </td>
+    <td>end time of the period in ISO 8601 format. Absence means 'end of days'.</td>
+  </tr>
 </table>
 
 ### GET /entities
-Retrieve all the entities.
+Retrieve an array of all entities, including core attributes of any checks on the entity.
 ```ruby
 get '/entities'
+```
+**Example**
+```bash
+curl http://localhost:4091/entities
+```
+**Response** Status: 200 OK
+```json
+[
+   {
+      "checks" : [
+         {
+            "last_recovery_notification" : null,
+            "last_acknowledgement_notification" : null,
+            "last_update" : 1356853261,
+            "name" : "HOST",
+            "last_problem_notification" : null,
+            "in_scheduled_maintenance" : false,
+            "in_unscheduled_maintenance" : false,
+            "state" : "ok"
+         },
+         {
+            "last_recovery_notification" : null,
+            "last_acknowledgement_notification" : null,
+            "last_update" : 1356853261,
+            "name" : "HTTP Port 443",
+            "last_problem_notification" : 1356853151,
+            "in_scheduled_maintenance" : false,
+            "in_unscheduled_maintenance" : false,
+            "state" : "critical"
+         }
+      ],
+      "name" : "client1-localhost-test-2",
+      "id" : "10002"
+   }
+]
 ```
 
 ### GET /checks/ENTITY
@@ -36,11 +80,70 @@ Retrieve the names of the checks for the specified entity.
 ```ruby
 get '/checks/:entity'
 ```
+**Example**
+```bash
+curl http://localhost:4091/checks/client1-localhost-test-2
+```
+**Response** Status: 200 OK
+```json
+[
+   "HOST",
+   "HTTP Port 443"
+]
+```
 
 ### GET /status/ENTITY[/CHECK]
 Get the status of the specified check, or for all checks of the specified entity if no check is given.
 ```ruby
 get %r{/status/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```
+
+**Example 1**
+```bash
+curl http://localhost:4091/status/client1-localhost-test-2
+```
+**Response** Status: 200 OK
+```json
+[
+   {
+      "last_recovery_notification" : null,
+      "last_acknowledgement_notification" : null,
+      "last_update" : 1356853261,
+      "name" : "HOST",
+      "last_problem_notification" : null,
+      "in_scheduled_maintenance" : false,
+      "in_unscheduled_maintenance" : false,
+      "state" : "ok"
+   },
+   {
+      "last_recovery_notification" : null,
+      "last_acknowledgement_notification" : null,
+      "last_update" : 1356853261,
+      "name" : "HTTP Port 443",
+      "last_problem_notification" : 1356853151,
+      "in_scheduled_maintenance" : false,
+      "in_unscheduled_maintenance" : false,
+      "state" : "critical"
+   }
+]
+```
+
+**Example 2**
+```bash
+curl http://localhost:4091/status/client1-localhost-test-2/HTTP%20Port%20443
+```
+**Response** Status: 200 OK
+```json
+{
+   "last_recovery_notification" : null,
+   "last_acknowledgement_notification" : null,
+   "last_update" : null,
+   "name" : "HTTP",
+   "last_problem_notification" : null,
+   "in_scheduled_maintenance" : false,
+   "in_unscheduled_maintenance" : false,
+   "state" : null
+}
 ```
 
 ### GET /outages/ENTITY[/CHECK]
@@ -54,10 +157,81 @@ Get the list of outages for the specified check, or for all checks of the specif
 get %r{/outages/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
 
+**Example 1**
+```bash
+curl http://localhost:4091/outages/client1-localhost-test-2
+```
+**Response** Status: 200 OK
+```json
+[
+   {
+      "outages" : [
+         {
+            "end_time" : 1355958411,
+            "summary" : "(Host Check Timed Out)",
+            "start_time" : 1355958401,
+            "duration" : 10,
+            "state" : "critical"
+         },
+         {
+            "end_time" : 1356562502,
+            "summary" : "(Host Check Timed Out)",
+            "start_time" : 1356562492,
+            "duration" : 10,
+            "state" : "critical"
+         }
+      ],
+      "check" : "HOST"
+   },
+   {
+      "outages" : [
+         {
+            "end_time" : null,
+            "summary" : "Connection refused",
+            "start_time" : 1355917335,
+            "duration" : null,
+            "state" : "critical"
+         }
+      ],
+      "check" : "HTTP Port 443"
+   }
+]
+```
+**Example 2**
+```bash
+curl http://localhost:4091/outages/client1-localhost-test-2/HOST
+```
+**Response** Status: 200 OK
+```json
+[
+   {
+      "end_time" : 1355958411,
+      "summary" : "(Host Check Timed Out)",
+      "start_time" : 1355958401,
+      "duration" : 10,
+      "state" : "critical"
+   },
+   {
+      "end_time" : 1356562502,
+      "summary" : "(Host Check Timed Out)",
+      "start_time" : 1356562492,
+      "duration" : 10,
+      "state" : "critical"
+   }
+]
+```
+
 ### GET /unscheduled_maintenances/ENTITY[/CHECK]
 Get the list of unscheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
 ```ruby
 get %r{/unscheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```
+**Example**
+```bash
+curl http://localhost:4091/checks/client1-localhost-test-2
+```
+**Response** Status: 200 OK
+```json
 ```
 
 ### GET /scheduled_maintenances/ENTITY[/CHECK]
@@ -65,11 +239,25 @@ Get the list of scheduled maintenance periods for the specified check, or for al
 ```ruby
 get %r{/scheduled_maintenances/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
 ```
+**Example**
+```bash
+curl http://localhost:4091/checks/client1-localhost-test-2
+```
+**Response** Status: 200 OK
+```json
+```
 
 ### GET /downtime/ENTITY[/CHECK]
 Get the list of downtimes for the specified check, or for all checks of the specified entity if no check is given. Downtime is outages minus scheduled maintenances across any given time period.
 ```ruby
 get %r{/downtime/([a-zA-Z0-9][a-zA-Z0-9\.\-]*[a-zA-Z0-9])(?:/(\w+))?}
+```
+**Example**
+```bash
+curl http://localhost:4091/checks/client1-localhost-test-2
+```
+**Response** Status: 200 OK
+```json
 ```
 
 ### POST /scheduled_maintenances/ENTITY/CHECK'
