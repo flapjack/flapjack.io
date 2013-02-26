@@ -19,6 +19,8 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#post_contacts">POST /contacts</a></li>
 </ul>
 
+See also the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) which provides a ruby consumer of this API.
+
 ### Query Paramaters
 
 Some of the GET queries can take some optional query string parameters as follows:
