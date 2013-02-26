@@ -357,7 +357,7 @@ curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
 
 **Optional parameters:** _start_time, end_time_
 
-Get the list of downtimes for the specified check, or for all checks of the specified entity if no check is given. Downtime is outages minus scheduled maintenances across any given time period (See [the glossary](/GLOSSARY)). The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.
+Get the list of downtimes for the specified check, or for all checks of the specified entity if no check is given. Downtime is outages minus scheduled maintenances across any given time period (See [the glossary](GLOSSARY)). The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.
 
 Note that a start_time and end_time must be specified in order for the percentages to be calculated.
 
