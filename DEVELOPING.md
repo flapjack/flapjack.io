@@ -39,6 +39,21 @@ NB, if the cucumber tests fail with a [spurious lexing error](https://github.com
 cucumber -f fuubar features
 ```
 
+Startup and Shutdown
+--------------------
+Ensure your local redis server is running, and then to start:
+```bash
+bin/flapjack start
+```
+stop:
+```bash
+bin/flapjack stop
+```
+status:
+```bash
+bin/flapjack status
+```
+See [Using](USING) for more information.
 
 Releasing
 ---------
@@ -61,9 +76,13 @@ Data Structures
 ---------------
 See [Data Structures](DATA_STRUCTURES)
 
-Import and Export Formats
--------------------------
-See [Importing and API](IMPORTING)
+RESTful API for input, output and actions
+-----------------------------------------
+See [API](API)
+
+Importing via the command line
+------------------------------
+See [Importing](IMPORTING)
 
 Architecture
 ------------
