@@ -257,37 +257,3 @@ For a given entity, return a list of all checks against this entity
 ]
 ```
 
-### Check Status per Entity (many)
-
-A list of entities can be supplied for efficiency, and an array containing a hash for each entity, and each check as a key within the hash. For each check, current state is included.
-
-API URL: GET /entities
-
-*Response:*
-
-```text
-ENTITIES (array) = [ENTITY, ENTITY, ...]
-ENTITY    (hash) = { "id": "ENTITY_ID", "name": "NAME", "checks": CHECKS }
-CHECKS   (array) = [ CHECK, CHECK, ... ]
-CHECK     (hash) = { "name": "CHECK_NAME",
-                     "state": "CHECK_STATE",
-                     "in_unscheduled_maintenance": "BOOLEAN",
-                     "in_scheduled_maintenance": "BOOLEAN",
-                     "last_update": TIMESTAMP,
-                     "last_problem_notification": TIMESTAMP,
-                     "last_recovery_notification": TIMESTAMP,
-                     "last_acknowledgement_notification": TIMESTAMP }
-
-TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
-BOOLEAN:   one of 'true' or 'false'
-```
-
-### Scheduled Maintenance per Check
-
-Return all scheduled maintenance periods for a given check (past, present and future)
-
-### Unscheduled Maintenance per Check
-
-Return all unscheduled maintenance periods for a given check (past, present and future)
-
-

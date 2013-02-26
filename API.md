@@ -49,8 +49,8 @@ ENTITY    (hash) = { "id": "ENTITY_ID", "name": "NAME", "checks": CHECKS }
 CHECKS   (array) = [ CHECK, CHECK, ... ]
 CHECK     (hash) = { "name": "CHECK_NAME",
                      "state": "CHECK_STATE",
-                     "in_unscheduled_maintenance": "BOOLEAN",
-                     "in_scheduled_maintenance": "BOOLEAN",
+                     "in_unscheduled_maintenance": BOOLEAN,
+                     "in_scheduled_maintenance": BOOLEAN,
                      "last_update": TIMESTAMP,
                      "last_problem_notification": TIMESTAMP,
                      "last_recovery_notification": TIMESTAMP,
@@ -100,6 +100,11 @@ curl http://localhost:4091/entities
 ### GET /checks/ENTITY
 Retrieve the names of the checks for the specified entity.
 
+**Output JSON Format**
+```text
+CHECKS   (array) = [ CHECK_NAME, CHECK_NAME, ... ]
+```
+
 **Example**
 ```bash
 curl http://localhost:4091/checks/client1-localhost-test-2
@@ -115,6 +120,22 @@ curl http://localhost:4091/checks/client1-localhost-test-2
 <a id="get_status">&nbsp;</a>
 ### GET /status/ENTITY[/CHECK]
 Get the status of the specified check, or for all checks of the specified entity if no check is given.
+
+**Output JSON Format**
+```text
+CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "name": "CHECK_NAME",
+                     "state": "CHECK_STATE",
+                     "in_unscheduled_maintenance": BOOLEAN,
+                     "in_scheduled_maintenance": BOOLEAN,
+                     "last_update": TIMESTAMP,
+                     "last_problem_notification": TIMESTAMP,
+                     "last_recovery_notification": TIMESTAMP,
+                     "last_acknowledgement_notification": TIMESTAMP }
+
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+BOOLEAN:   one of 'true' or 'false'
+```
 
 **Example 1**
 ```bash
@@ -169,6 +190,22 @@ curl http://localhost:4091/status/client1-localhost-test-2/HTTP%20Port%20443
 
 **Optional parameters:** _start_time, end_time_
 
+**Output JSON Format**
+```text
+CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "check": "CHECK_NAME",
+                     "outages": OUTAGES }
+OUTAGES  (array) = [ OUTAGE, OUTAGE, ... ]
+OUTAGE    (hash) = { "start_time": TIMESTAMP,
+                     "end_time": TIMESTAMP,
+                     "duration": DURATION,
+                     "state": "STATE",
+                     "summary": "SUMMARY" }
+
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+DURATION: period of time in seconds, integer
+```
+
 Get the list of outages for the specified check, or for all checks of the specified entity if no check is given.
 
 **Example 1**
@@ -179,6 +216,7 @@ curl http://localhost:4091/outages/client1-localhost-test-2
 ```json
 [
    {
+      "check" : "HOST",
       "outages" : [
          {
             "end_time" : 1355958411,
@@ -194,10 +232,10 @@ curl http://localhost:4091/outages/client1-localhost-test-2
             "duration" : 10,
             "state" : "critical"
          }
-      ],
-      "check" : "HOST"
+      ]
    },
    {
+      "check" : "HTTP Port 443",
       "outages" : [
          {
             "end_time" : null,
@@ -206,8 +244,7 @@ curl http://localhost:4091/outages/client1-localhost-test-2
             "duration" : null,
             "state" : "critical"
          }
-      ],
-      "check" : "HTTP Port 443"
+      ]
    }
 ]
 ```
@@ -232,6 +269,21 @@ curl http://localhost:4091/outages/client1-localhost-test-2/HOST?start_time=2012
 ### GET /unscheduled_maintenances/ENTITY[/CHECK]
 
 **Optional parameters:** _start_time, end_time_
+
+**Output JSON Format**
+```text
+CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "check": "CHECK_NAME",
+                     "unscheduled_maintenance": MAINTS }
+MAINTS   (array) = [ MAINT, MAINT, ... ]
+MAINT     (hash) = { "start_time": TIMESTAMP,
+                     "end_time": TIMESTAMP,
+                     "duration": DURATION,
+                     "summary": "SUMMARY" }
+
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+DURATION: period of time in seconds, integer
+```
 
 Get the list of unscheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
 
@@ -265,6 +317,21 @@ curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-1
 
 **Optional parameters:** _start_time, end_time_
 
+**Output JSON Format**
+```text
+CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "check": "CHECK_NAME",
+                     "scheduled_maintenance": MAINTS }
+MAINTS   (array) = [ MAINT, MAINT, ... ]
+MAINT     (hash) = { "start_time": TIMESTAMP,
+                     "end_time": TIMESTAMP,
+                     "duration": DURATION,
+                     "summary": "SUMMARY" }
+
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+DURATION: period of time in seconds, integer
+```
+
 Get the list of scheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
 
 **Example**
@@ -293,6 +360,26 @@ curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
 Get the list of downtimes for the specified check, or for all checks of the specified entity if no check is given. Downtime is outages minus scheduled maintenances across any given time period. The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.
 
 Note that a start_time and end_time must be specified in order for the percentages to be calculated.
+
+**Output JSON Format**
+```text
+CHECKS   (array)  = [ CHECK, CHECK, ... ]
+CHECK     (hash)  = { "check": "CHECK_NAME",
+                      "downtime": FOO }
+FOO       (hash)  = { "downtime": DOWNTIMES,
+                      "percentages": PERCENTAGES,
+                      "total_seconds": TOTAL_SECONDS }
+DOWNTIMES (array) = [ DOWNTIME, DOWNTIME, ... ]
+DOWNTIME  (hash)  = { "start_time": TIMESTAMP,
+                      "end_time": TIMESTAMP,
+                      "duration": DURATION,
+                      "state": "STATE",
+                      "summary": "SUMMARY" }
+
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+DURATION: period of time in seconds, integer
+STATE: one of 'ok', 'warning', 'critical', or 'unknown'
+```
 
 **Example**
 ```bash
@@ -332,6 +419,13 @@ curl "http://localhost:4091/downtime/client1-localhost-test-2/HOST?start_time=20
 ### POST /scheduled_maintenances/ENTITY/CHECK'
 Creates scheduled maintenance for the specified check.
 
+**Input JSON Format**
+```text
+MAINT (hash) = { "start_time": TIMESTAMP,
+                 "duration": DURATION,
+                 "summary": "SUMMARY" }
+```
+
 **Example**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
@@ -348,6 +442,12 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 ### POST /acknowledgements/ENTITY/CHECK'
 Acknowledges a problem on the specified check and creates unscheduled maintenance. 4 hrs is the default period but can be specied in the body. An optional message may also be supplied.
 
+**Input JSON Format**
+```text
+ACK (hash) = { "duration": DURATION,
+               "summary": "SUMMARY" }
+```
+
 **Example**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
@@ -361,7 +461,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 <a id="post_test_notifications">&nbsp;</a>
 ### POST /test_notifications/ENTITY/CHECK
-Generates test notifications for the specified check.
+Generates test notifications for the specified check. Body can be left empty.
 
 **Example**
 ```bash
@@ -373,6 +473,23 @@ curl -X POST "http://localhost:4091/test_notifications/client1-localhost-test-2/
 <a id="post_entities">&nbsp;</a>
 ### POST /entities
 Creates or updates entities from the supplied entities, using id as key.
+
+**Input JSON Format**
+```text
+ENTITIES (array) = [ENTITY, ENTITY, ...]
+ENTITY   (hash)  = { "id": "ENTITY_ID",
+                     "name": "NAME",
+                     "contacts": CONTACTS,
+                     "tags": TAGS }
+CONTACTS (array) = [ "CONTACT_ID", "CONTACT_ID", ... ]
+TAGS     (array) = [ "TAG", "TAG", ... ]
+
+
+ENTITY_ID     (string) - a unique, immutable identifier for this entity
+CONTACT_ID    (string) - a unique identifier for each contact (key'd to CONTACT_ID in the contacts import, surprise)
+NAME          (string) - name of the entity, eg a hostname / service identifier. syntax rules for unqualified hostnames applies to this field (eg only alphanumeric, mustn't start with a number etc) TODO: actually, perhaps this needs to allow FQDNs? Essentially it needs to match up with whatever is put into the nagios check config.
+TAG           (string) - a tag
+```
 
 **Example**
 ```bash
@@ -399,6 +516,33 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 <a id="post_contacts">&nbsp;</a>
 ### POST /contacts
 Deletes all contacts before importing the supplied contacts.
+
+**Input JSON Format**
+```text
+CONTACTS  (array) = [CONTACT, CONTACT, ...]
+CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
+                      "email": EMAIL, "media": MEDIA }
+MEDIA     (hash)  = { MEDIA_TYPE: MEDIA_ADDRESS, MEDIA_TYPE: MEDIA_ADDRESS, "pagerduty": PAGERDUTY... }
+PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
+                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
+TAGS      (array) = ["TAG", "TAG", ...]
+
+CONTACT_ID            (string) - a unique, immutable identifier for this contact
+MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
+MEDIA_ADDRESS         (string) - address to send to for the paired MEDIA_TYPE, eg an email address, mobile phone number, or jabber id
+PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
+PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
+PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
+PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
+TAG                   (string) - a tag, you know?
+```
+
+Notes:
+* The MEDIA hash contains zero or more key-value pairs where the key is the media type (eg "sms", "email", "jabber", etc) and the value is the address (ie mobile number, email address, jabber id etc).
+* The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
+* The value for ID must be unique and must never change as it is used for synchronisation during updates.
+* The "pagerduty" hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.
+```
 
 **Example**
 ```bash
