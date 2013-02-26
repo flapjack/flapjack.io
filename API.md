@@ -363,19 +363,24 @@ Note that a start_time and end_time must be specified in order for the percentag
 
 **Output JSON Format**
 ```text
-CHECKS   (array)  = [ CHECK, CHECK, ... ]
-CHECK     (hash)  = { "check": "CHECK_NAME",
-                      "downtime": DOWNTIME }
-DOWNTIME  (hash)  = { "downtime": PERIODS,
-                      "percentages": PERCENTAGES,
-                      "total_seconds": TOTAL_SECONDS }
-PERIODS   (array) = [ PERIOD, PERIOD, ... ]
-PERIOD     (hash) = { "start_time": TIMESTAMP,
-                      "end_time": TIMESTAMP,
-                      "duration": DURATION,
-                      "state": "STATE",
-                      "summary": "SUMMARY" }
+CHECKS     (array)  = [ CHECK, CHECK, ... ]
+CHECK       (hash)  = { "check": "CHECK_NAME",
+                        "downtime": DOWNTIME }
+DOWNTIME    (hash)  = { "downtime": PERIODS,
+                        "percentages": PERCENTAGES,
+                        "total_seconds": TOTAL_SECONDS }
+PERIODS     (array) = [ PERIOD, PERIOD, ... ]
+PERIOD       (hash) = { "start_time": TIMESTAMP,
+                        "end_time": TIMESTAMP,
+                        "duration": DURATION,
+                        "state": "STATE",
+                        "summary": "SUMMARY" }
+PERCENTAGES   (hash) = { "ok": PERCENTAGE,
+                         "critical": PERCENTAGE }
+TOTAL_SECONDS (hash) = { "ok": DURATION,
+                         "critical": DURATION }
 
+PERCENTAGE: floating point number between 0 and 100 representing a percentage
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
 STATE: one of 'ok', 'warning', 'critical', or 'unknown'
