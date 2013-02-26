@@ -18,33 +18,6 @@ The two JSON files are specified as follows:
 
 ### Contacts
 
-The contacts json import data is an array of contacts as follows:
-
-```
-CONTACTS  (array) = [CONTACT, CONTACT, ...]
-CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
-                      "email": EMAIL, "media": MEDIA }
-MEDIA     (hash)  = { MEDIA_TYPE: MEDIA_ADDRESS, MEDIA_TYPE: MEDIA_ADDRESS, "pagerduty": PAGERDUTY... }
-PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
-                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
-TAGS      (array) = ["TAG", "TAG", ...]
-
-CONTACT_ID            (string) - a unique, immutable identifier for this contact
-MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
-MEDIA_ADDRESS         (string) - address to send to for the paired MEDIA_TYPE, eg an email address, mobile phone number, or jabber id
-PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
-PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
-PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
-PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
-TAG                   (string) - a tag, you know?
-```
-
-Notes:
-* The MEDIA hash contains zero or more key-value pairs where the key is the media type (eg "sms", "email", "jabber", etc) and the value is the address (ie mobile number, email address, jabber id etc).
-* The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
-* The value for ID must be unique and must never change as it is used for synchronisation during updates.
-* The "pagerduty" hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.
-
 Example - three contacts with varying media
 ```json
 [
@@ -119,21 +92,6 @@ puts Yajl::Encoder.encode(contacts, :pretty => true)
 ```
 
 ### Entities
-
-The entities json import file is an array of entities as follows:
-
-```
-ENTITIES (array) = [ENTITY, ENTITY, ...]
-ENTITY   (hash)  = { "id": "ENTITY_ID", "name": "NAME", "contacts": CONTACTS, "tags": TAGS }
-CONTACTS (array) = { "CONTACT_ID", "CONTACT_ID", ... }
-TAGS     (array) = [ "TAG", "TAG", ... ]
-
-
-ENTITY_ID     (string) - a unique, immutable identifier for this entity
-CONTACT_ID    (string) - a unique identifier for each contact (key'd to CONTACT_ID in the contacts import, surprise)
-NAME          (string) - name of the entity, eg a hostname / service identifier. syntax rules for unqualified hostnames applies to this field (eg only alphanumeric, mustn't start with a number etc) TODO: actually, perhaps this needs to allow FQDNs? Essentially it needs to match up with whatever is put into the nagios check config.
-TAG           (string) - a tag
-```
 
 Example - three entities with a different selection of contacts interested in each
 

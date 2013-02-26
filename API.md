@@ -365,12 +365,12 @@ Note that a start_time and end_time must be specified in order for the percentag
 ```text
 CHECKS   (array)  = [ CHECK, CHECK, ... ]
 CHECK     (hash)  = { "check": "CHECK_NAME",
-                      "downtime": FOO }
-FOO       (hash)  = { "downtime": DOWNTIMES,
+                      "downtime": DOWNTIME }
+DOWNTIME  (hash)  = { "downtime": PERIODS,
                       "percentages": PERCENTAGES,
                       "total_seconds": TOTAL_SECONDS }
-DOWNTIMES (array) = [ DOWNTIME, DOWNTIME, ... ]
-DOWNTIME  (hash)  = { "start_time": TIMESTAMP,
+PERIODS   (array) = [ PERIOD, PERIOD, ... ]
+PERIOD     (hash) = { "start_time": TIMESTAMP,
                       "end_time": TIMESTAMP,
                       "duration": DURATION,
                       "state": "STATE",
@@ -476,7 +476,7 @@ Creates or updates entities from the supplied entities, using id as key.
 
 **Input JSON Format**
 ```text
-ENTITIES (array) = [ENTITY, ENTITY, ...]
+ENTITIES (array) = [ ENTITY, ENTITY, ...]
 ENTITY   (hash)  = { "id": "ENTITY_ID",
                      "name": "NAME",
                      "contacts": CONTACTS,
@@ -519,13 +519,13 @@ Deletes all contacts before importing the supplied contacts.
 
 **Input JSON Format**
 ```text
-CONTACTS  (array) = [CONTACT, CONTACT, ...]
+CONTACTS  (array) = [ CONTACT, CONTACT, ...]
 CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
                       "email": EMAIL, "media": MEDIA }
 MEDIA     (hash)  = { MEDIA_TYPE: MEDIA_ADDRESS, MEDIA_TYPE: MEDIA_ADDRESS, "pagerduty": PAGERDUTY... }
 PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
                       "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
-TAGS      (array) = ["TAG", "TAG", ...]
+TAGS      (array) = [ "TAG", "TAG", ...]
 
 CONTACT_ID            (string) - a unique, immutable identifier for this contact
 MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
