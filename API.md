@@ -376,15 +376,24 @@ PERIOD       (hash) = { "start_time": TIMESTAMP,
                         "state": "STATE",
                         "summary": "SUMMARY" }
 PERCENTAGES   (hash) = { "ok": PERCENTAGE,
-                         "critical": PERCENTAGE }
+                         "warning": PERCENTAGE,
+                         "critical": PERCENTAGE,
+                         "unknown": PERCENTAGE }
 TOTAL_SECONDS (hash) = { "ok": DURATION,
-                         "critical": DURATION }
+                         "warning": DURATION,
+                         "critical": DURATION,
+                         "unknown": DURATION }
 
 PERCENTAGE: floating point number between 0 and 100 representing a percentage
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
 STATE: one of 'ok', 'warning', 'critical', or 'unknown'
 ```
+
+Notes:
+* the states under PERCENTAGES and TOTAL_SECONDS may be omitted if they are zero.
+* the non-ok states under PERCENTAGES and TOTAL_SECONDS represent total downtime for this state.
+* the ok state time is calculated as: total report period - sum of non OK downtime durations
 
 **Example**
 ```bash
