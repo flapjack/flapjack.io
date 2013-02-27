@@ -589,6 +589,44 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 The following API interactions are in the design phase and are likely to change before and/or during implementation.
 
 <a id="post_contacts">&nbsp;</a>
+### GET /contacts
+
+Returns all the contacts in the same format as `POST /contacts` requires.
+
+<a id="post_contacts">&nbsp;</a>
+### GET /contacts/CONTACT_ID
+
+Returns the core information about the specified contact.
+
+**Example**
+```bash
+curl http://localhost:4091/contacts/23
+```
+
+```json
+{
+  "id": "21",
+  "first_name": "Ada",
+  "last_name": "Lovelace",
+  "email": "ada@example.com",
+  "media": {
+    "sms": "+61412345678",
+    "email": "ada@example.com"
+  },
+  "media_intervals": {
+    "sms": 900,
+    "email": 1800
+  },
+  "timezone": "Australia/Broken_Hill",
+  "tags": [
+    "legend",
+    "first computer programmer"
+  ]
+}
+```
+FIXME: the split of media / media_intervals above retains backwards compatability with the existing contacts import, however it's at odds with the new /contacts/CONTACT_ID/media API function, which includes the interval under the media. ... Maybe the details of media, media_intervals and timezone should be removed from this view.
+
+<a id="post_contacts">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/notification_rules
 
 Lists the IDs of this contact's notification rules.
@@ -725,17 +763,6 @@ curl -w 'response: %{http_code} \n' -X DELETE \
  http://localhost:4091/contacts/23/notification_rules/1
 ```
 **Response** Status: 204 OK
-
-
-<a id="post_contacts">&nbsp;</a>
-### GET /contacts
-
-Returns a list of all contacts
-
-<a id="post_contacts">&nbsp;</a>
-### GET /contacts/CONTACT_ID
-
-Returns the core information about the specified contact.
 
 <a id="post_contacts">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/media
