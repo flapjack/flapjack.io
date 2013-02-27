@@ -17,6 +17,18 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#post_test_notifications">POST /test_notifications/ENTITY/CHECK</a></li>
   <li><a href="#post_entities">POST /entities</a></li>
   <li><a href="#post_contacts">POST /contacts</a></li>
+  <li><a href="#vapourware">Vapourware</a></li>
+  <li><a href="#get_contacts">GET /contacts</a></li>
+  <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
+  <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
+  <li><a href="#get_contacts_id_notification_rules_id">GET /contacts/CONTACT_ID/notification_rules/RULE_ID</a></li>
+  <li><a href="#post_contacts_id_notification_rules">POST /contacts/CONTACT_ID/notification_rules</a></li>
+  <li><a href="#put_contacts_id_notification_rules_id">PUT, DELETE /contacts/CONTACT_ID/notification_rules/id</a></li>
+  <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
+  <li><a href="#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media</a></li>
+  <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
+  <li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
+  <li><a href="#put_contacts_id_timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</a></li>
 </ul>
 
 See also the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) gem which provides a ruby consumer of this API.
@@ -584,16 +596,17 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 ```
 **Response** Status: 200 OK
 
+<a id="vapourware">&nbsp;</a>
 ## Warning: Vapourware Follows!
 
 The following API interactions are in the design phase and are likely to change before and/or during implementation.
 
-<a id="post_contacts">&nbsp;</a>
+<a id="get_contacts">&nbsp;</a>
 ### GET /contacts
 
 Returns all the contacts in the same format as `POST /contacts` requires.
 
-<a id="post_contacts">&nbsp;</a>
+<a id="get_contacts_id">&nbsp;</a>
 ### GET /contacts/CONTACT_ID
 
 Returns the core information about the specified contact.
@@ -626,7 +639,7 @@ curl http://localhost:4091/contacts/23
 ```
 FIXME: the split of media / media_intervals above retains backwards compatability with the existing contacts import, however it's at odds with the new /contacts/CONTACT_ID/media API function, which includes the interval under the media. ... Maybe the details of media, media_intervals and timezone should be removed from this view.
 
-<a id="post_contacts">&nbsp;</a>
+<a id="get_contacts_id_notification_rules">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/notification_rules
 
 Lists the IDs of this contact's notification rules.
@@ -642,7 +655,7 @@ curl http://localhost:4091/contacts/23/notification_rules
 ]
 ```
 
-<a id="post_contacts">&nbsp;</a>
+<a id="get_contacts_id_notification_rules_id">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/notification_rules/RULE_ID
 
 Get the specified notification rule for this user
@@ -679,7 +692,7 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/contacts/23/notificati
 }
 ```
 
-<a id="post_contacts">&nbsp;</a>
+<a id="post_contacts_id_notification_rules">&nbsp;</a>
 ### POST /contacts/CONTACT_ID/notification_rules
 
 Create a new notification rule for the specified contact.
@@ -764,7 +777,7 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 ```
 **Response** Status: 204 OK
 
-<a id="post_contacts">&nbsp;</a>
+<a id="get_contacts_id_media">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/media
 
 Returns a list of media (addresses, intervals) of the specified contact.
@@ -777,13 +790,13 @@ curl -w 'response: %{http_code} \n' \
 
 
 
-<a id="post_contacts">&nbsp;</a>
+<a id="get_contacts_id_media_media">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/media/MEDIA
 
 Retrieve the specified media of the contact.
 
 
-<a id="post_contacts">&nbsp;</a>
+<a id="put_contacts_id_media_media">&nbsp;</a>
 ### PUT, DELETE /contacts/CONTACT_ID/media/MEDIA
 
 Create or update (PUT) or delete (DELETE) a contact media for the contact
@@ -817,7 +830,7 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 * any missing attributes in an update will remove those attributes (eg interval)
 * address can't be removed and will cause a validation error
 
-<a id="post_contacts">&nbsp;</a>
+<a id="get_contacts_id_timezone">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/timezone
 
 Returns the timezone string for the contact.
@@ -835,7 +848,7 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/contacts/23/timezone
 ```
 FIXME: too much repetition to have the response include the key name "timezone"? Perhaps just return a string?
 
-<a id="post_contacts">&nbsp;</a>
+<a id="put_contacts_id_timezone">&nbsp;</a>
 ### PUT, DELETE /contacts/CONTACT_ID/timezone
 
 Sets (PUT) or deletes (DELETE) the timezone string for the contact.
