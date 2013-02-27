@@ -671,7 +671,8 @@ curl http://localhost:4091/contacts/21/notification_rules
 **Response** Status: 200 OK
 ```json
 [
-  "j4xh6jfh"
+  "1",
+  "2"
 ]
 ```
 
