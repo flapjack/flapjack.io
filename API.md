@@ -604,7 +604,36 @@ The following API interactions are in the design phase and are likely to change 
 <a id="get_contacts">&nbsp;</a>
 ### GET /contacts
 
-Returns all the contacts in the same format as `POST /contacts` requires.
+Returns all the contacts
+
+**Example**
+```bash
+curl http://localhost:4091/contacts
+```
+
+```json
+[
+  {
+    "id": "21",
+    "first_name": "Ada",
+    "last_name": "Lovelace",
+    "email": "ada@example.com",
+    "tags": [
+      "legend",
+      "first computer programmer"
+    ]
+  },
+  {
+    "id": "22",
+    "first_name": "Charles",
+    "last_name": "Babbage",
+    "email": "babbage@example.com",
+    "tags": [
+      "grump"
+    ]
+  }
+]
+```
 
 <a id="get_contacts_id">&nbsp;</a>
 ### GET /contacts/CONTACT_ID
@@ -613,7 +642,7 @@ Returns the core information about the specified contact.
 
 **Example**
 ```bash
-curl http://localhost:4091/contacts/23
+curl http://localhost:4091/contacts/21
 ```
 
 ```json
@@ -622,15 +651,6 @@ curl http://localhost:4091/contacts/23
   "first_name": "Ada",
   "last_name": "Lovelace",
   "email": "ada@example.com",
-  "media": {
-    "sms": "+61412345678",
-    "email": "ada@example.com"
-  },
-  "media_intervals": {
-    "sms": 900,
-    "email": 1800
-  },
-  "timezone": "Australia/Broken_Hill",
   "tags": [
     "legend",
     "first computer programmer"
@@ -646,7 +666,7 @@ Lists the IDs of this contact's notification rules.
 
 **Example**
 ```bash
-curl http://localhost:4091/contacts/23/notification_rules
+curl http://localhost:4091/contacts/21/notification_rules
 ```
 **Response** Status: 200 OK
 ```json
@@ -662,7 +682,7 @@ Get the specified notification rule for this user
 
 **Example**
 ```bash
-curl -w 'response: %{http_code} \n' http://localhost:4091/contacts/23/notification_rules/1
+curl -w 'response: %{http_code} \n' http://localhost:4091/contacts/21/notification_rules/1
 ```
 **Response** Status: 200 OK
 ```json
@@ -723,7 +743,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "warning_blackhole": false,
     "critical_blackhole": false
   }' \
- http://localhost:4091/contacts/23/notification_rules
+ http://localhost:4091/contacts/21/notification_rules
 ```
 **Response** Status: 200 OK
 
@@ -764,7 +784,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
     "warning_blackhole": false,
     "critical_blackhole": false
   }' \
- http://localhost:4091/contacts/23/notification_rules/1
+ http://localhost:4091/contacts/21/notification_rules/1
 ```
 **Response** Status: 200 OK
 
@@ -773,7 +793,7 @@ Returns the notification rule object as per GET.
 **Example 2 - DELETE**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- http://localhost:4091/contacts/23/notification_rules/1
+ http://localhost:4091/contacts/21/notification_rules/1
 ```
 **Response** Status: 204 OK
 
@@ -785,7 +805,7 @@ Returns a list of media (addresses, intervals) of the specified contact.
 **Example**
 ```bash
 curl -w 'response: %{http_code} \n' \
- http://localhost:4091/contacts/23/media
+ http://localhost:4091/contacts/21/media
 ```
 
 
@@ -808,7 +828,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
     "address": "dmitri@example.com",
     "interval": 900
   }' \
- http://localhost:4091/contacts/23/media/email
+ http://localhost:4091/contacts/21/media/email
 ```
 **Response** Status: 200 OK
 ```json
@@ -821,7 +841,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 **Example 2 - DELETE**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- http://localhost:4091/contacts/23/media/pagerduty
+ http://localhost:4091/contacts/21/media/pagerduty
 ```
 **Response** Status: 204 OK
 
@@ -837,7 +857,7 @@ Returns the timezone string for the contact.
 
 **Example**
 ```text
-curl -w 'response: %{http_code} \n' http://localhost:4091/contacts/23/timezone
+curl -w 'response: %{http_code} \n' http://localhost:4091/contacts/21/timezone
 ```
 
 **Response** Status: 200 OK
@@ -859,7 +879,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
  '{
     "timezone": "Australia/Broken_Hill"
   }' \
- http://localhost:4091/contacts/23/timezone
+ http://localhost:4091/contacts/21/timezone
 ```
 
 **Response** Status: 200 OK
