@@ -672,6 +672,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
  http://localhost:4091/contacts/23/notification_rules
 ```
 **Response** Status: 200 OK
+
 Returns the notification rule object as per GET.
 
 Notes:
@@ -711,6 +712,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
  http://localhost:4091/contacts/23/notification_rules/1
 ```
 **Response** Status: 200 OK
+
 Returns the notification rule object as per GET.
 
 **Example 2 - DELETE**
