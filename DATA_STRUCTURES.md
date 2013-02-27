@@ -299,7 +299,7 @@ A contact may have a set of notification rules to fine tune when, and by what me
 
 ```text
 contact_notification_rules:CONTACT_ID (set) -> { RULE_ID }
-notification_rule:RULE_ID            (hash) -> {
+notification_rule:CONTACT_ID:RULE_ID (hash) -> {
                                                  'entity_tags'        => TAG_LIST,
                                                  'entities'           => ENTITY_LIST,
                                                  'time_restrictions'  => TIME_RESTRICTIONS,
