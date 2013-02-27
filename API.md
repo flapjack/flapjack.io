@@ -654,25 +654,83 @@ Notes:
 
 ### GET /contacts/CONTACT_ID
 
+Returns the core information about the specified contact.
 
-### POST /contacts/CONTACT_ID
+### GET /contacts/CONTACT_ID/media
 
-Create or update attributes of a contact.
+Returns the media (addresses, intervals) of the specified contact.
 
-**Example**
-```json
+
+### PUT /contacts/CONTACT_ID/media/MEDIA_TYPE
+
+Create or update a contact media for the contact
+
+**Example 1**
+```text
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
-    "media_intervals": {
-      "sms": 900,
-      "email": 300
-    },
-    "timezone": "Australia/Sydney"
+    "address": "dmitri@example.com",
+    "interval": 900
   }' \
- http://localhost:4091/contacts/23
+ http://localhost:4091/contacts/23/email
 ```
+
+**Example 2**
+```text
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "address": "J5BDHCYD78749HSOND8",
+    "interval": 300
+  }' \
+ http://localhost:4091/contacts/23/media/pagerduty
+```
+
 **Response** Status: 200 OK
 Returns the whole contact object.
+
+Notes:
+* any missing attributes in an update will remove those attributes (eg interval)
+* address can't be removed and will cause a validation error
+
+### GET /contacts/CONTACT_ID/timezone
+
+Returns the timezone string for the contact.
+
+**Example**
+```text
+curl -w 'response: %{http_code} \n' http://localhost:4091/contacts/23/timezone
+```
+
+**Response** Status: 200 OK
+```json
+{
+  "timezone": "Australia/Broken_Hill"
+}
+```
+FIXME: too much repetition to have the response include the key name "timezone"? Perhaps just return a string?
+
+### PUT /contacts/CONTACT_ID/timezone
+
+Sets the timezone string for the contact.
+
+**Example**
+```text
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "timezone": "Australia/Broken_Hill"
+  }' \
+ http://localhost:4091/contacts/23/timezone
+```
+
+**Response** Status: 200 OK
+```json
+{
+  "timezone": "Australia/Broken_Hill"
+}
+```
+
+Notes:
+* the timezone string must be one defined in the tzinfo database, see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/
 
 ### DELETE /contacts/CONTACT_ID
 
