@@ -558,7 +558,6 @@ Notes:
 * The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
 * The value for ID must be unique and must never change as it is used for synchronisation during updates.
 * The "pagerduty" hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.
-```
 
 **Example**
 ```bash
@@ -584,4 +583,66 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
  http://localhost:4091/contacts
 ```
 **Response** Status: 200 OK
+
+## Warning: Vapourware Follows!
+
+The following API interactions are in the design phase and are likely to change before and/or during implementation.
+
+### GET /contacts/CONTACT_ID/notification_rules
+
+```json
+[
+  "j4xh6jfh"
+]
+
+### GET /contacts/CONTACT_ID/notification_rules/RULE_ID
+
+
+### POST /contacts/CONTACT_ID/notification_rules
+
+```json
+{
+  "rule_id": 'j4xh6jfh',
+  "entity_tags": [
+    "database",
+    "physical"
+  ],
+  "entities": [
+    "foo-app-01.example.com"
+  ],
+  "time_restrictions": [
+    {
+      "TODO": "TODO"
+    }
+  ],
+  "warning_media": [
+    "email"
+  ],
+  "critical_media": [
+    "sms",
+    "email"
+  ],
+  "warning_blackhole": false,
+  "critical_blackhole": false
+}
+```
+
+### DELETE /contacts/CONTACT_ID/notification_rules/RULE_ID
+
+
+### GET /contacts
+
+
+### GET /contacts/CONTACT_ID
+
+
+### POST /contacts/CONTACT_ID
+
+{ 'media_intervals': { 'sms': 900, 'email': 300 },
+  'timezone': 'Australia/Sydney' }
+
+
+### DELETE /contacts/CONTACT_ID
+
+... can't see how we'd handle deletion of an individual media_interval, eg sms, with this scheme. Looks more like deleting a whole contact.
 
