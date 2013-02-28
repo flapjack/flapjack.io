@@ -19,7 +19,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#post_contacts">POST /contacts</a></li>
 </ul>
 
-[**Vapourware**](#vapourware)
+[Vapourware:](#vapourware)
 
 <ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
