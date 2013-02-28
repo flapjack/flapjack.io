@@ -17,7 +17,11 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#post_test_notifications">POST /test_notifications/ENTITY/CHECK</a></li>
   <li><a href="#post_entities">POST /entities</a></li>
   <li><a href="#post_contacts">POST /contacts</a></li>
-  <li><a href="#vapourware">Vapourware</a></li>
+</ul>
+
+[**Vapourware**](#vapourware)
+
+<ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
   <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
