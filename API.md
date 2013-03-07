@@ -661,7 +661,6 @@ curl http://localhost:4091/contacts/21
   ]
 }
 ```
-FIXME: the split of media / media_intervals above retains backwards compatability with the existing contacts import, however it's at odds with the new /contacts/CONTACT_ID/media API function, which includes the interval under the media. ... Maybe the details of media, media_intervals and timezone should be removed from this view.
 
 <a id="get_contacts_id_notification_rules">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/notification_rules
