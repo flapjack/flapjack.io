@@ -717,7 +717,7 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/notification_rules/08f
 }
 ```
 
-<a id="post_contacts_id_notification_rules">&nbsp;</a>
+<a id="post_notification_rules">&nbsp;</a>
 ### POST /notification_rules
 
 Create a new notification rule.
