@@ -642,7 +642,7 @@ curl http://localhost:4091/contacts
 <a id="get_contacts_id">&nbsp;</a>
 ### GET /contacts/CONTACT_ID
 
-Returns the core information about the specified contact.
+Returns the core information of a specified contact.
 
 **Example**
 ```bash
@@ -682,7 +682,7 @@ curl http://localhost:4091/contacts/21/notification_rules
 <a id="get_notification_rules_id">&nbsp;</a>
 ### GET /notification_rules/RULE_ID
 
-Get the specified notification rule
+Returns a specified notification rule.
 
 **Example**
 ```bash
@@ -691,7 +691,7 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/notification_rules/08f
 **Response** Status: 200 OK
 ```json
 {
-  "rule_id": "08f607c7-618d-460a-b3fe-868464eb6045",
+  "id": "08f607c7-618d-460a-b3fe-868464eb6045",
   "contact_id": "21",
   "entity_tags": [
     "database",
@@ -720,7 +720,7 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/notification_rules/08f
 <a id="post_notification_rules">&nbsp;</a>
 ### POST /notification_rules
 
-Create a new notification rule.
+Creates a new notification rule.
 
 **Example**
 ```bash
@@ -762,7 +762,7 @@ Returns the notification rule object as per GET.
 <a id="put_notification_rules_id">&nbsp;</a>
 ### PUT, DELETE /notification_rules/RULE_ID
 
-Update (PUT) or delete (DELETE) a notification rule
+Updates or deletes a notification rule
 
 **Example**
 ```bash
@@ -806,7 +806,9 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 <a id="get_contacts_id_media">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/media
 
-Returns a list of media (addresses, intervals) of the specified contact.
+Returns the media of a contact.
+
+Includes media type, address, and interval.
 
 **Example**
 ```bash
@@ -819,13 +821,13 @@ curl -w 'response: %{http_code} \n' \
 <a id="get_contacts_id_media_media">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/media/MEDIA
 
-Retrieve the specified media of the contact.
+Returns the specified media of a contact.
 
 
 <a id="put_contacts_id_media_media">&nbsp;</a>
 ### PUT, DELETE /contacts/CONTACT_ID/media/MEDIA
 
-Create or update (PUT) or delete (DELETE) a contact media for the contact
+Creates or updates (PUT) or deletes (DELETE) a media of a contact
 
 **Example 1 - PUT**
 ```bash
@@ -859,7 +861,7 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 <a id="get_contacts_id_timezone">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/timezone
 
-Returns the timezone string for the contact.
+Returns the timezone of a contact.
 
 **Example**
 ```text
@@ -877,7 +879,7 @@ FIXME: too much repetition to have the response include the key name "timezone"?
 <a id="put_contacts_id_timezone">&nbsp;</a>
 ### PUT, DELETE /contacts/CONTACT_ID/timezone
 
-Sets (PUT) or deletes (DELETE) the timezone string for the contact.
+Sets (PUT) or deletes (DELETE) the timezone of a contact.
 
 **Example**
 ```text
