@@ -665,7 +665,7 @@ curl http://localhost:4091/contacts/21
 <a id="get_contacts_id_notification_rules">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/notification_rules
 
-Lists the IDs of a contact's notification rules.
+Lists a contact's notification rules.
 
 **Example**
 ```bash
@@ -674,8 +674,56 @@ curl http://localhost:4091/contacts/21/notification_rules
 **Response** Status: 200 OK
 ```json
 [
-  "08f607c7-618d-460a-b3fe-868464eb6045",
-  "2be654d8-9ad4-42b7-963d-f6727dc302a2"
+  {
+    "id": "08f607c7-618d-460a-b3fe-868464eb6045",
+    "contact_id": "21",
+    "entity_tags": [
+      "database",
+      "physical"
+    ],
+    "entities": [
+      "foo-app-01.example.com"
+    ],
+    "time_restrictions": [
+      {
+        "TODO": "TODO"
+      }
+    ],
+    "warning_media": [
+      "email"
+    ],
+    "critical_media": [
+      "sms",
+      "email"
+    ],
+    "warning_blackhole": false,
+    "critical_blackhole": false
+  },
+  {
+    "id": "2be654d8-9ad4-42b7-963d-f6727dc302a2",
+    "contact_id": "21",
+    "entity_tags": [
+      "database",
+      "physical"
+    ],
+    "entities": [
+      "foo-app-02.example.com"
+    ],
+    "time_restrictions": [
+      {
+        "TODO": "TODO"
+      }
+    ],
+    "warning_media": [
+      "email"
+    ],
+    "critical_media": [
+      "sms",
+      "email"
+    ],
+    "warning_blackhole": false,
+    "critical_blackhole": false
+  }
 ]
 ```
 
