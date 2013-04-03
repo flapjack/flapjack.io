@@ -23,6 +23,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 
 <ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
+  <li><a href="#post_contacts_new">POST /contacts</a></li>
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
   <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
   <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>
@@ -545,7 +546,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 ```
 **Response** Status: 200 OK
 
-<a id="post_contacts">&nbsp;</a>
+<a id="post_contacts_new">&nbsp;</a>
 ### POST /contacts
 Deletes all contacts before importing the supplied contacts.
 
