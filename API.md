@@ -549,6 +549,8 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 ### POST /contacts
 Deletes all contacts before importing the supplied contacts.
 
+**Note:** this is changing. See the new design under the vapourware section, below.
+
 **Input JSON Format**
 ```text
 CONTACTS  (array) = [ CONTACT, CONTACT, ...]
@@ -638,6 +640,73 @@ curl http://localhost:4091/contacts
   }
 ]
 ```
+
+<a id="post_contacts">&nbsp;</a>
+### POST /contacts
+Deletes all contacts before importing the supplied contacts.
+
+**Note:** this is an incompable modification of the former interface (v0.6.1 and prior)
+
+**Input JSON Format**
+```text
+CONTACTS  (array) = [ CONTACT, CONTACT, ...]
+CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
+                      "email": EMAIL, "media": MEDIAS }
+MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, ... }
+MEDIA     (hash)  = { "address": MEDIA_ADDRESS,
+                      "interval": INTERVAL,
+                      "pagerduty": PAGERDUTY }
+PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
+                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
+TAGS      (array) = [ "TAG", "TAG", ...]
+
+CONTACT_ID            (string) - a unique, immutable identifier for this contact
+MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
+MEDIA_ADDRESS         (string) - address to send to for the paired MEDIA_TYPE, eg an email address, mobile phone number, or jabber id
+PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
+PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
+PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
+PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
+TAG                   (string) - a tag, you know?
+INTERVAL              (string) - number of seconds to repeat the same alert on this media type
+```
+
+**Notes:**
+* The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
+* The value for ID must be unique and must never change as it is used for synchronisation during updates.
+* The "pagerduty" hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "contacts": [
+      {
+        "id": "21",
+        "first_name": "Ada",
+        "last_name": "Lovelace",
+        "email": "ada@example.com",
+        "media": {
+          "sms": {
+            "address": "+61412345678",
+            "interval": "3600"
+          },
+          "email": {
+            "address": "ada@example.com",
+            "interval": "7200"
+          }
+        },
+        "tags": [
+          "legend",
+          "first computer programmer"
+        ]
+      }
+    ]
+  }' \
+ http://localhost:4091/contacts
+```
+**Response** Status: 200 OK
+
 
 <a id="get_contacts_id">&nbsp;</a>
 ### GET /contacts/CONTACT_ID
