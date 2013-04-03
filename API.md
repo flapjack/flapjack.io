@@ -653,10 +653,9 @@ Deletes all contacts before importing the supplied contacts.
 CONTACTS  (array) = [ CONTACT, CONTACT, ...]
 CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
                       "email": EMAIL, "media": MEDIAS }
-MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, ... }
+MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, "pagerduty": PAGERDUTY... }
 MEDIA     (hash)  = { "address": MEDIA_ADDRESS,
-                      "interval": INTERVAL,
-                      "pagerduty": PAGERDUTY }
+                      "interval": INTERVAL }
 PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
                       "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
 TAGS      (array) = [ "TAG", "TAG", ...]
