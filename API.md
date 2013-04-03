@@ -546,7 +546,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 ```
 **Response** Status: 200 OK
 
-<a id="post_contacts_new">&nbsp;</a>
+<a id="post_contacts">&nbsp;</a>
 ### POST /contacts
 Deletes all contacts before importing the supplied contacts.
 
@@ -642,7 +642,7 @@ curl http://localhost:4091/contacts
 ]
 ```
 
-<a id="post_contacts">&nbsp;</a>
+<a id="post_contacts_new">&nbsp;</a>
 ### POST /contacts
 Deletes all contacts before importing the supplied contacts.
 
