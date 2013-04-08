@@ -1104,6 +1104,7 @@ curl http://localhost:4091/entities/client1-localhost-test-1/tags
 
 Add tags to an entity.
 
+**Example 1 - JSON params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
