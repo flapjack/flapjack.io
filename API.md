@@ -34,6 +34,14 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
   <li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
   <li><a href="#put_contacts_id_timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</a></li>
+
+  <li><a href="#get_contacts_id_tags">GET /contacts/CONTACT_ID/tags</a></li>
+  <li><a href="#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
+  <li><a href="#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
+
+  <li><a href="#get_entities_id_tags">GET /entities/ENTITY/tags</a></li>
+  <li><a href="#post_entities_id_tags">POST /entities/ENTITY/tags</a></li>
+  <li><a href="#delete_entities_id_tags">DELETE /entities/ENTITY/tags</a></li>
 </ul>
 
 See also the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) gem which provides a ruby consumer of this API.
@@ -981,7 +989,7 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 Returns the timezone of a contact.
 
 **Example**
-```text
+```bash
 curl -w 'response: %{http_code} \n' http://localhost:4091/contacts/21/timezone
 ```
 
@@ -999,7 +1007,7 @@ FIXME: too much repetition to have the response include the key name "timezone"?
 Sets (PUT) or deletes (DELETE) the timezone of a contact.
 
 **Example**
-```text
+```bash
 curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
  '{
     "timezone": "Australia/Broken_Hill"
@@ -1017,3 +1025,121 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 **Notes:**
 * the timezone string must be one defined in the tzinfo database, see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/
 
+
+
+<a name="get_contacts_id_tags">&nbsp;</a>
+### GET /contacts/CONTACT_ID/tags
+
+Gets the tags for a contact.
+
+**Example**
+```bash
+curl http://localhost:4091/contacts/21/tags
+```
+**Response** Status: 200 OK
+```json
+["user", "admin"]
+```
+
+<a name="post_contacts_id_tags">&nbsp;</a>
+### POST /contacts/CONTACT_ID/tags
+
+Add tags to a contact.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "tag": ["admin", "user"]
+  }' \
+ http://localhost:4091/contacts/21/tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST \
+ "http://localhost:4091/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
+```
+**Response** Status: 200 OK
+```json
+["user", "admin"]
+```
+
+<a name="delete_contacts_id_tags">&nbsp;</a>
+### DELETE /contacts/CONTACT_ID/tags
+
+Delete tags from a contact.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
+ '{
+    "tag": ["admin", "user"]
+  }' \
+ http://localhost:4091/contacts/21/tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+ "http://localhost:4091/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
+```
+**Response** Status: 204 No Content
+
+
+<a name="get_entities_id_tags">&nbsp;</a>
+### GET /entities/ENTITY/tags
+
+Gets the tags for a entity.
+
+**Example**
+```bash
+curl http://localhost:4091/entities/client1-localhost-test-1/tags
+```
+**Response** Status: 200 OK
+```json
+["web", "app"]
+```
+
+<a name="post_entities_id_tags">&nbsp;</a>
+### POST /entities/ENTITY/tags
+
+Add tags to an entity.
+
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "tag": ["web", "app"]
+  }' \
+ http://localhost:4091/entities/client1-localhost-test-1/tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST \
+ "http://localhost:4091/entities/client1-localhost-test-1/tags?tag\[\]=web&tag\[\]=app"
+```
+**Response** Status: 200 OK
+```json
+["web", "app"]
+```
+
+Add tags to an entity.
+
+<a name="delete_entities_id_tags">&nbsp;</a>
+### DELETE /entities/ENTITY/tags
+
+Delete tags from an entity.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
+ '{
+    "tag": ["web", "app"]
+  }' \
+ http://localhost:4091/entities/client1-localhost-test-1/tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+ "http://localhost:4091/entities/client1-localhost-test-1/tags?tag\[\]=web&tag\[\]=app"
+```
+
+**Response** Status: 204 No Content
