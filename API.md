@@ -1116,7 +1116,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
                "client1-localhost-test-2" : ["upgrade"]}
   }' \
  http://localhost:4091/contacts/21/entity_tags
- ```
+```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
@@ -1141,7 +1141,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
                "client1-localhost-test-2" : ["upgrade"]}
   }' \
  http://localhost:4091/contacts/21/entity_tags
- ```
+```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
