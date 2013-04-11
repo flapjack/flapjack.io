@@ -39,6 +39,10 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
   <li><a href="#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
 
+  <li><a href="#get_contacts_id_entitytags">GET /contacts/CONTACT_ID/entity_tags</a></li>
+  <li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
+  <li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
+
   <li><a href="#get_entities_id_tags">GET /entities/ENTITY/tags</a></li>
   <li><a href="#post_entities_id_tags">POST /entities/ENTITY/tags</a></li>
   <li><a href="#delete_entities_id_tags">DELETE /entities/ENTITY/tags</a></li>
@@ -1084,6 +1088,66 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 ```
 **Response** Status: 204 No Content
 
+<a name="get_contacts_id_entitytags">&nbsp;</a>
+### GET /contacts/CONTACT_ID/entity_tags
+
+Gets the tags for all entities linked to a contact.
+
+**Example**
+```bash
+curl http://localhost:4091/contacts/21/entity_tags
+```
+**Response** Status: 200 OK
+```json
+{"client1-localhost-test-1" : ["example", "app"],
+ "client1-localhost-test-2" : ["example", "database"]}
+```
+
+<a name="post_contacts_id_entitytags">&nbsp;</a>
+### POST /contacts/CONTACT_ID/entity_tags
+
+Add tags to entities linked to a contact.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "entity": {"client1-localhost-test-1" : ["decommission", "unneeded"],
+               "client1-localhost-test-2" : ["upgrade"]}
+  }' \
+ http://localhost:4091/contacts/21/entity_tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST \
+ "http://localhost:4091/contacts/21/entity_tags?entity\[client1-localhost-test-1\]=decommission&entity\[client1-localhost-test-1\]=unneeded&entity\[client1-localhost-test-2\]=upgrade"
+```
+**Response** Status: 200 OK
+```json
+{"client1-localhost-test-1" : ["example", "app", "decommission", "unneeded"],
+ "client1-localhost-test-2" : ["example", "database", "upgrade"]}
+```
+
+<a name="delete_contacts_id_entitytags">&nbsp;</a>
+### DELETE /contacts/CONTACT_ID/entity_tags
+
+Delete tags from entities linked to a contact.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
+ '{
+    "entity": {"client1-localhost-test-1" : ["unneeded"],
+               "client1-localhost-test-2" : ["upgrade"]}
+  }' \
+ http://localhost:4091/contacts/21/entity_tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+ "http://localhost:4091/contacts/21/entity_tags?entity\[client1-localhost-test-1\]=unneeded&entity\[client1-localhost-test-2\]=upgrade"
+```
+**Response** Status: 204 No Content
 
 <a name="get_entities_id_tags">&nbsp;</a>
 ### GET /entities/ENTITY/tags
