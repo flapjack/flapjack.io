@@ -532,7 +532,7 @@ TAGS     (array) = [ "TAG", "TAG", ... ]
 
 ENTITY_ID     (string) - a unique, immutable identifier for this entity
 CONTACT_ID    (string) - a unique identifier for each contact (key'd to CONTACT_ID in the contacts import, surprise)
-NAME          (string) - name of the entity, eg a hostname / service identifier. syntax rules for unqualified hostnames applies to this field (eg only alphanumeric, mustn't start with a number etc) TODO: actually, perhaps this needs to allow FQDNs? Essentially it needs to match up with whatever is put into the nagios check config.
+NAME          (string) - name of the entity, eg a hostname / service identifier. syntax rules for hostnames (qualified or no) applies to this field, refer RFC 1123. This needs to match up with whatever is put into the check execution configuration, eg FQDN.
 TAG           (string) - a tag
 ```
 
@@ -767,7 +767,22 @@ curl http://localhost:4091/contacts/21/notification_rules
     ],
     "time_restrictions": [
       {
-        "TODO": "TODO"
+        "summary": "Weekly on Weekdays",
+        "start_time": "2013-01-28 08:00:00 +1030",
+        "end_time": "2013-01-28 18:00:00 +1030",
+        "rrules": [
+          {
+            "validations": {
+              "day": [1,2,3,4,5]
+            },
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
+          }
+        ],
+        "exrules": [],
+        "rtimes": [],
+        "extimes": []
       }
     ],
     "warning_media": [
