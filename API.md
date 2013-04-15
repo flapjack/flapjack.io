@@ -805,11 +805,7 @@ curl http://localhost:4091/contacts/21/notification_rules
     "entities": [
       "foo-app-02.example.com"
     ],
-    "time_restrictions": [
-      {
-        "TODO": "TODO"
-      }
-    ],
+    "time_restrictions": [],
     "warning_media": [
       "email"
     ],
@@ -846,7 +842,22 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/notification_rules/08f
   ],
   "time_restrictions": [
     {
-      "TODO": "TODO"
+      "summary": "Weekly on Weekdays",
+      "start_time": "2013-01-28 08:00:00 +1030",
+      "end_time": "2013-01-28 18:00:00 +1030",
+      "rrules": [
+        {
+          "validations": {
+            "day": [1,2,3,4,5]
+          },
+          "rule_type": "Weekly",
+          "interval": 1,
+          "week_start": 0
+        }
+      ],
+      "exrules": [],
+      "rtimes": [],
+      "extimes": []
     }
   ],
   "warning_media": [
@@ -880,7 +891,21 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     ],
     "time_restrictions": [
       {
-        "TODO": "TODO"
+        "start_time": "2013-01-28 08:00:00 +1030",
+        "end_time": "2013-01-28 18:00:00 +1030",
+        "rrules": [
+          {
+            "validations": {
+              "day": [1,2,3,4,5]
+            },
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
+          }
+        ],
+        "exrules": [],
+        "rtimes": [],
+        "extimes": []
       }
     ],
     "warning_media": [
@@ -921,7 +946,21 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
     ],
     "time_restrictions": [
       {
-        "TODO": "TODO"
+        "start_time": "2013-01-28 08:00:00 +1030",
+        "end_time": "2013-01-28 18:00:00 +1030",
+        "rrules": [
+          {
+            "validations": {
+              "day": [1,2,3,4,5]
+            },
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
+          }
+        ],
+        "exrules": [],
+        "rtimes": [],
+        "extimes": []
       }
     ],
     "warning_media": [
