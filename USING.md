@@ -3,7 +3,8 @@
 <ul>
   <li><a href="#installing">Installing</a></li>
 </ul>
-- [Installing](installing)
+
+- [Installing](#installing)
 - [Dependencies](#dependencies)
 - [Architecture](#architecture)
 - [Components](#components)
