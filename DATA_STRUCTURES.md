@@ -322,7 +322,10 @@ TIME_RESTRICTION (json hash) ->
         "extimes":    [ EXTIME, EXTIME, ... ]
       }
 
-TIME_ZONELESS - time string with no timezone or UTF offset information (taken to be in the contact's configured timezone, or the configured default contact timezone), format: YYYY-MM-DD HH:MM:SS eg "2013-04-18 15:00:00". Used to represent the start and end time of the FIRST OCCURRANCE of the repeating time period.
+TIME_ZONELESS - time string with no timezone or UTF offset information (taken to be
+  in the contact's configured timezone, or the configured default contact timezone),
+  format: YYYY-MM-DD HH:MM:SS eg "2013-04-18 15:00:00". Used to represent the start
+  and end time of the FIRST OCCURRANCE of the repeating time period.
 RRULE - See the ice_cube documentation and the iCal specification for details. Here's an example of an RRULE:
           {
             "validations": {
