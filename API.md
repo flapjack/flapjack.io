@@ -586,7 +586,7 @@ curl http://localhost:4091/contacts
 ]
 ```
 
-<a id="post_contacts_new">&nbsp;</a>
+<a id="post_contacts">&nbsp;</a>
 ### POST /contacts
 Deletes all contacts before importing the supplied contacts.
 
