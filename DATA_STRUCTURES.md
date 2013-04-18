@@ -192,8 +192,6 @@ ENTITY:CHECK:acknowledgement_notifications (list) -> [ TIMESTAMP, TIMESTAMP, ...
 
 Alerts correspond to messages that get emitted by Flapjack. A 'notification' may result in 0 or more alerts being sent out, depending on notification rules and intervals configured on the contacts for the check in question.
 
-**Note: the following is currently in the design/development phase so entirely speculative and will certainly change during subsequent design and development cycles.** See https://github.com/flpjck/flapjack/issues/55
-
 ```text
  ... which of the following it makes sense to actually implement i'm not sure of right now ...
  ... possible cases of YAGNI and premature optimisation follow ...
@@ -293,8 +291,6 @@ TAG       - arbitrary tag
 
 ### Notification Rules
 
-**Note: this is currently entirely in the design phase so entirely speculative and will certainly change during subsequent design and development cycles.** See https://github.com/flpjck/flapjack/issues/55
-
 A contact may have a set of notification rules to fine tune when, and by what means, they are notified.
 
 ```text
@@ -316,10 +312,30 @@ TIME_RESTRICTIONS   (string, json) - array of TIME_RESTRICTIONs
 MEDIA_LIST          (string, json) - array of medias eg ['email', 'sms']
 BOOLEAN                   (string) - 'true' or 'false'
 
-TIME_RESTRICTION (json hash) -> { ice_cube hash representation of an RFC 2445 iCalendar schedule }
+TIME_RESTRICTION (json hash) ->
+      {
+        "start_time": "TIME_ZONELESS",
+        "end_time":   "TIME_ZONELESS",
+        "rrules":     [ RRULE, RRULE, ... ],
+        "exrules":    [ EXRULE, EXRULE, ... ],
+        "rtimes":     [ RTIME, RTIME, ... ],
+        "extimes":    [ EXTIME, EXTIME, ... ]
+      }
 
+TIME_ZONELESS - time string with no timezone or UTF offset information (taken to be in the contact's configured timezone, or the configured default contact timezone), format: YYYY-MM-DD HH:MM:SS eg "2013-04-18 15:00:00". Used to represent the start and end time of the FIRST OCCURRANCE of the repeating time period.
+RRULE - See the ice_cube documentation and the iCal specification for details. Here's an example of an RRULE:
+          {
+            "validations": {
+              "day": [1,2,3,4,5]
+            },
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
+          }
+EXRULE, RTIME, EXTIME - See the ice_cube documentation and the iCal specification for details.
 ```
-Refer https://github.com/seejohnrun/ice_cube
+Notes
+* TIME_RESTRICTION is a hash representation of an RFC 2445 iCalendar schedule. It is the same format accepted by the flapjack API. When acting on the time restrictions within a notification rule, flapjack modifies the format of the hash to be compatible with [ice_cube](https://github.com/seejohnrun/ice_cube)'s hash format before instantiating an IceCube::Schedule object to operate on.
 
 ### Event processor statistics
 

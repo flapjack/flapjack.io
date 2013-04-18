@@ -6,24 +6,18 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 
 <ul>
   <li><a href="#get_entities"> GET /entities</a></li>
+  <li><a href="#post_entities">POST /entities</a></li>
   <li><a href="#get_checks"> GET /checks/ENTITY</a></li>
   <li><a href="#get_status"> GET /status/ENTITY[/CHECK]</a></li>
   <li><a href="#get_outages"> GET /outages/ENTITY[/CHECK]</a></li>
   <li><a href="#get_unscheduled_maintenances"> GET /unscheduled_maintenances/ENTITY[/CHECK]</a></li>
-  <li><a href="#get_scheduled_maintenances">GET /scheduled_maintenances/ENTITY[/CHECK]</a></li>
-  <li><a href="#get_downtime">GET /downtime/ENTITY[/CHECK]</a></li>
-  <li><a href="#post_scheduled_maintenances">POST /scheduled_maintenances/ENTITY/CHECK</a></li>
   <li><a href="#post_acknowledgements">POST /acknowledgements/ENTITY/CHECK</a></li>
+  <li><a href="#get_scheduled_maintenances">GET /scheduled_maintenances/ENTITY[/CHECK]</a></li>
+  <li><a href="#post_scheduled_maintenances">POST /scheduled_maintenances/ENTITY/CHECK</a></li>
+  <li><a href="#get_downtime">GET /downtime/ENTITY[/CHECK]</a></li>
   <li><a href="#post_test_notifications">POST /test_notifications/ENTITY/CHECK</a></li>
-  <li><a href="#post_entities">POST /entities</a></li>
-  <li><a href="#post_contacts">POST /contacts</a></li>
-</ul>
-
-[Vapourware:](#vapourware)
-
-<ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
-  <li><a href="#post_contacts_new">POST /contacts</a></li>
+  <li><a href="#post_contacts">POST /contacts</a></li>
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
   <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
   <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>
@@ -34,15 +28,12 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
   <li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
   <li><a href="#put_contacts_id_timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</a></li>
-
   <li><a href="#get_contacts_id_tags">GET /contacts/CONTACT_ID/tags</a></li>
   <li><a href="#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
   <li><a href="#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
-
   <li><a href="#get_contacts_id_entitytags">GET /contacts/CONTACT_ID/entity_tags</a></li>
   <li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
   <li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
-
   <li><a href="#get_entities_id_tags">GET /entities/ENTITY/tags</a></li>
   <li><a href="#post_entities_id_tags">POST /entities/ENTITY/tags</a></li>
   <li><a href="#delete_entities_id_tags">DELETE /entities/ENTITY/tags</a></li>
@@ -126,6 +117,50 @@ curl http://localhost:4091/entities
    }
 ]
 ```
+
+<a id="post_entities">&nbsp;</a>
+### POST /entities
+Creates or updates entities from the supplied entities, using id as key.
+
+**Input JSON Format**
+```text
+ENTITIES (array) = [ ENTITY, ENTITY, ...]
+ENTITY   (hash)  = { "id": "ENTITY_ID",
+                     "name": "NAME",
+                     "contacts": CONTACTS,
+                     "tags": TAGS }
+CONTACTS (array) = [ "CONTACT_ID", "CONTACT_ID", ... ]
+TAGS     (array) = [ "TAG", "TAG", ... ]
+
+
+ENTITY_ID     (string) - a unique, immutable identifier for this entity
+CONTACT_ID    (string) - a unique identifier for each contact (key'd to CONTACT_ID in the contacts import, surprise)
+NAME          (string) - name of the entity, eg a hostname / service identifier. syntax rules for hostnames (qualified or no) applies to this field, refer RFC 1123. This needs to match up with whatever is put into the check execution configuration, eg FQDN.
+TAG           (string) - a tag
+```
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "entities": [
+      {
+        "id": "825",
+        "name": "foo.example.com",
+        "contacts": [
+          "21",
+          "22"
+        ],
+        "tags": [
+          "foo"
+        ]
+      }
+    ]
+  }' \
+ http://localhost:4091/entities
+```
+**Response** Status: 200 OK
+
 
 <a id="get_checks">&nbsp;</a>
 ### GET /checks/ENTITY
@@ -343,6 +378,28 @@ curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-1
 ]
 ```
 
+<a id="post_acknowledgements">&nbsp;</a>
+### POST /acknowledgements/ENTITY/CHECK'
+Acknowledges a problem on the specified check and creates unscheduled maintenance. 4 hrs is the default period but can be specied in the body. An optional message may also be supplied.
+
+**Input JSON Format**
+```text
+ACK (hash) = { "duration": DURATION,
+               "summary": "SUMMARY" }
+```
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "duration": 3600,
+    "summary": "AL - working on it"
+  }' \
+ http://localhost:4091/acknowledgements/client1-localhost-test-2/HOST
+```
+**Response** Status: 204 (No Content)
+
+
 <a id="get_scheduled_maintenances">&nbsp;</a>
 ### GET /scheduled_maintenances/ENTITY[/CHECK]
 
@@ -382,6 +439,30 @@ curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
    }
 ]
 ```
+
+<a id="post_scheduled_maintenances">&nbsp;</a>
+### POST /scheduled_maintenances/ENTITY/CHECK'
+Creates scheduled maintenance for the specified check.
+
+**Input JSON Format**
+```text
+MAINT (hash) = { "start_time": TIMESTAMP,
+                 "duration": DURATION,
+                 "summary": "SUMMARY" }
+```
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "start_time": 1361791228,
+    "duration": 3600,
+    "summary": "SHUT IT ALL DOWN!"
+  }' \
+ http://localhost:4091/scheduled_maintenances/client1-localhost-test-2/HOST
+```
+**Response** Status: 204 (No Content)
+
 
 <a id="get_downtime">&nbsp;</a>
 ### GET /downtime/ENTITY[/CHECK]
@@ -460,50 +541,6 @@ curl "http://localhost:4091/downtime/client1-localhost-test-2/HOST?start_time=20
 }
 ```
 
-<a id="post_scheduled_maintenances">&nbsp;</a>
-### POST /scheduled_maintenances/ENTITY/CHECK'
-Creates scheduled maintenance for the specified check.
-
-**Input JSON Format**
-```text
-MAINT (hash) = { "start_time": TIMESTAMP,
-                 "duration": DURATION,
-                 "summary": "SUMMARY" }
-```
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "start_time": 1361791228,
-    "duration": 3600,
-    "summary": "SHUT IT ALL DOWN!"
-  }' \
- http://localhost:4091/scheduled_maintenances/client1-localhost-test-2/HOST
-```
-**Response** Status: 204 (No Content)
-
-<a id="post_acknowledgements">&nbsp;</a>
-### POST /acknowledgements/ENTITY/CHECK'
-Acknowledges a problem on the specified check and creates unscheduled maintenance. 4 hrs is the default period but can be specied in the body. An optional message may also be supplied.
-
-**Input JSON Format**
-```text
-ACK (hash) = { "duration": DURATION,
-               "summary": "SUMMARY" }
-```
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "duration": 3600,
-    "summary": "AL - working on it"
-  }' \
- http://localhost:4091/acknowledgements/client1-localhost-test-2/HOST
-```
-**Response** Status: 204 (No Content)
-
 <a id="post_test_notifications">&nbsp;</a>
 ### POST /test_notifications/ENTITY/CHECK
 Generates test notifications for the specified check. Body can be left empty.
@@ -514,111 +551,6 @@ curl -X POST "http://localhost:4091/test_notifications/client1-localhost-test-2/
 ```
 
 **Response** Status: 204 No Content
-
-<a id="post_entities">&nbsp;</a>
-### POST /entities
-Creates or updates entities from the supplied entities, using id as key.
-
-**Input JSON Format**
-```text
-ENTITIES (array) = [ ENTITY, ENTITY, ...]
-ENTITY   (hash)  = { "id": "ENTITY_ID",
-                     "name": "NAME",
-                     "contacts": CONTACTS,
-                     "tags": TAGS }
-CONTACTS (array) = [ "CONTACT_ID", "CONTACT_ID", ... ]
-TAGS     (array) = [ "TAG", "TAG", ... ]
-
-
-ENTITY_ID     (string) - a unique, immutable identifier for this entity
-CONTACT_ID    (string) - a unique identifier for each contact (key'd to CONTACT_ID in the contacts import, surprise)
-NAME          (string) - name of the entity, eg a hostname / service identifier. syntax rules for hostnames (qualified or no) applies to this field, refer RFC 1123. This needs to match up with whatever is put into the check execution configuration, eg FQDN.
-TAG           (string) - a tag
-```
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "entities": [
-      {
-        "id": "825",
-        "name": "foo.example.com",
-        "contacts": [
-          "21",
-          "22"
-        ],
-        "tags": [
-          "foo"
-        ]
-      }
-    ]
-  }' \
- http://localhost:4091/entities
-```
-**Response** Status: 200 OK
-
-<a id="post_contacts">&nbsp;</a>
-### POST /contacts
-Deletes all contacts before importing the supplied contacts.
-
-**Note:** this is changing. See the new design under the vapourware section, below.
-
-**Input JSON Format**
-```text
-CONTACTS  (array) = [ CONTACT, CONTACT, ...]
-CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
-                      "email": EMAIL, "media": MEDIA }
-MEDIA     (hash)  = { MEDIA_TYPE: MEDIA_ADDRESS, MEDIA_TYPE: MEDIA_ADDRESS, "pagerduty": PAGERDUTY... }
-PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
-                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
-TAGS      (array) = [ "TAG", "TAG", ...]
-
-CONTACT_ID            (string) - a unique, immutable identifier for this contact
-MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
-MEDIA_ADDRESS         (string) - address to send to for the paired MEDIA_TYPE, eg an email address, mobile phone number, or jabber id
-PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
-PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
-PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
-PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
-TAG                   (string) - a tag, you know?
-```
-
-**Notes:**
-* The MEDIA hash contains zero or more key-value pairs where the key is the media type (eg "sms", "email", "jabber", etc) and the value is the address (ie mobile number, email address, jabber id etc).
-* The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
-* The value for ID must be unique and must never change as it is used for synchronisation during updates.
-* The "pagerduty" hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "contacts": [
-      {
-        "id": "21",
-        "first_name": "Ada",
-        "last_name": "Lovelace",
-        "email": "ada@example.com",
-        "media": {
-          "sms": "+61412345678",
-          "email": "ada@example.com"
-        },
-        "tags": [
-          "legend",
-          "first computer programmer"
-        ]
-      }
-    ]
-  }' \
- http://localhost:4091/contacts
-```
-**Response** Status: 200 OK
-
-<a id="vapourware">&nbsp;</a>
-## Warning: Vapourware Follows!
-
-The following API interactions are in the design phase and are likely to change before and/or during implementation.
 
 <a id="get_contacts">&nbsp;</a>
 ### GET /contacts
@@ -657,8 +589,6 @@ curl http://localhost:4091/contacts
 <a id="post_contacts_new">&nbsp;</a>
 ### POST /contacts
 Deletes all contacts before importing the supplied contacts.
-
-**Note:** this is an incompable modification of the former interface (v0.6.1 and prior)
 
 **Input JSON Format**
 ```text
@@ -767,7 +697,6 @@ curl http://localhost:4091/contacts/21/notification_rules
     ],
     "time_restrictions": [
       {
-        "summary": "Weekly on Weekdays",
         "start_time": "2013-01-28 08:00:00",
         "end_time": "2013-01-28 18:00:00",
         "rrules": [
@@ -842,7 +771,6 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/notification_rules/08f
   ],
   "time_restrictions": [
     {
-      "summary": "Weekly on Weekdays",
       "start_time": "2013-01-28 08:00:00",
       "end_time": "2013-01-28 18:00:00",
       "rrules": [
