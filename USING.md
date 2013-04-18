@@ -8,9 +8,10 @@
 - [Dependencies](#dependencies)
 - [Architecture](#architecture)
 - [Components](#components)
-- [Configuring Components](#configuring-components)
+- [Configuring Components](#configuring_components)
 - [Running](#running)
 
+<a id="installing">&nbsp;</a>
 ## Installing
 
 Install the Flapjack gem:
@@ -18,6 +19,7 @@ Install the Flapjack gem:
     sudo gem install flapjack
 
 
+<a id="dependencies">&nbsp;</a>
 ## Dependencies
 
 - Ruby >= 1.9
@@ -48,6 +50,7 @@ You'll need a working C compiler installed for the gems above with binary compon
 
 We want to lower the number of gems that Flapjack relies on -- any pull requests will be gratefully received.
 
+<a id="architecture">&nbsp;</a>
 ## Architecture
 
   Check Receivers ---> Executive ---> Gateways
@@ -58,6 +61,7 @@ The Flapjack **Executive** reads events from the events queue and determines whi
 
 Flapjack **Gateways** serve as the public interface to Flapjack. There are *unidirectional* notifiers (e.g. `email` and `sms`, which read notifications from a queue and send them out to registered contacts, there are *bidirectional* notifiers (e.g. `jabber`, `pagerduty`) which do the above and also offer a back-channel for acknowledgements etc., and there are also `web` and `api` gateways for retrieving reporting data, creating maintenance periods, acknowledging checks, etc.
 
+<a id="components">&nbsp;</a>
 ## Components
 
 Executables:
@@ -89,6 +93,7 @@ The simplest configuration will have one `flapjack` process running executive, w
 
 
 
+<a id="configuring_components">&nbsp;</a>
 ## Configuring Components
 
 Copy the example config file into place:
@@ -240,6 +245,7 @@ Create the named pipe if it doesn't already exist:
     mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
 
 
+<a id="running">&nbsp;</a>
 ## Running
 
     flapjack COMMAND [OPTIONS]
