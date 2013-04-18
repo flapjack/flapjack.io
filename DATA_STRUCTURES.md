@@ -260,7 +260,8 @@ PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic 
 PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
 TAG                   (string) - arbitrary tag
 TIMEZONE              (string) - a timezone string representing the user's local timezone, eg 'Australia/Broken_Hill'
-                                 see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/
+                                 see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/,
+                                 http://api.rubyonrails.org/classes/ActiveSupport/TimeZone.html
 ```
 
 Notes:
