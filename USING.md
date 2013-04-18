@@ -1,6 +1,6 @@
 ## Contents
 
-- [Installing][installing]
+- [Installing](installing)
 - [Dependencies](#dependencies)
 - [Architecture](#architecture)
 - [Components](#components)
