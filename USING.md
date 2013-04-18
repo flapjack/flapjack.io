@@ -1,9 +1,5 @@
 ## Contents
 
-<ul>
-  <li><a href="#installing">Installing</a></li>
-</ul>
-
 - [Installing](#installing)
 - [Dependencies](#dependencies)
 - [Architecture](#architecture)
