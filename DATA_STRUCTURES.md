@@ -22,6 +22,21 @@ SUMMARY    (string) - the check output in the case of a service event, otherwise
                       message created for an acknowledgement or similar
 ```
 
+### Event Archive (sliding window)
+
+Version 0.7.1 +
+
+If enabled in the configuration (environment / executive / archive_events) flapjack
+will save a copy of events as they are being processed into this data structure. The
+keys used for the archive are changed every hour and an expiry placed on the keys
+taken from the configuration (environment / executive / events_archive_maxage - seconds).
+
+```text
+events_archive:YYYYMMDDHH (list, with expiry) -> [ EVENT, EVENT, ...]
+
+EVENT - see the Event queue documentation above
+```
+
 ### Jabber notification queue
 
 ```text

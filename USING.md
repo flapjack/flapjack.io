@@ -123,6 +123,12 @@ development:
     jabber_queue: jabber_notifications
     pagerduty_queue: pagerduty_notifications
     notification_log_file: log/flapjack-notification.log
+    # contacts with no timezone string specified will be considered to be in this timezone:
+    default_contact_timezone: Australia/Broken_Hill
+    # whether to archive events as they are processed
+    archive_events: true
+    # how long to retain the hourly buckets of archived keys (via redis expiry)
+    events_archive_maxage: 3600
     logger:
       level: INFO
   gateways:
