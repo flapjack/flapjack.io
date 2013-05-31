@@ -1,4 +1,3 @@
-
 API URLs
 ========
 
@@ -159,7 +158,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
   }' \
  http://localhost:4091/entities
 ```
-**Response** Status: 200 OK
+**Response** Status: 204 No Content
 
 
 <a id="get_checks">&nbsp;</a>
@@ -647,7 +646,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
   }' \
  http://localhost:4091/contacts
 ```
-**Response** Status: 200 OK
+**Response** Status: 204 No Content
 
 
 <a id="get_contacts_id">&nbsp;</a>
