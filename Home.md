@@ -1,4 +1,4 @@
-**Welcome to the Flapjack Wiki.**
+### Welcome to the Flapjack Wiki.
 
 Sections:
 
@@ -9,3 +9,15 @@ Sections:
 - [Importing](wiki/IMPORTING)
 - [Debugging Flapjack](wiki/DEBUGGING)
 - [Flapjack Glossary](wiki/GLOSSARY)
+
+### Logo
+
+Logo derived from [Pancake](http://www.flickr.com/photos/ewedistrict/23110406/)
+by Brandon Martin-Anderson, and is
+[CC Attribution-Share Alike 2.0 Generic](http://creativecommons.org/licenses/by-sa/2.0/deed.en)
+ licenced.
+
+Formats:
+
+* [PNG](https://raw.github.com/wiki/flpjck/flapjack/flapjack-highres.png)
+* [SVG](https://raw.github.com/wiki/flpjck/flapjack/flapjack-logo.svg)
