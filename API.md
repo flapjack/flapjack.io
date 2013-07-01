@@ -4,17 +4,19 @@ API URLs
 Flapjack's HTTP API currently provides the following queries, data import functions and actions:
 
 <ul>
-  <li><a href="#get_entities"> GET /entities</a></li>
+  <li><a href="#get_entities">GET /entities</a></li>
   <li><a href="#post_entities">POST /entities</a></li>
-  <li><a href="#get_checks"> GET /checks/ENTITY</a></li>
-  <li><a href="#get_status"> GET /status/ENTITY[/CHECK]</a></li>
-  <li><a href="#get_outages"> GET /outages/ENTITY[/CHECK]</a></li>
-  <li><a href="#get_unscheduled_maintenances"> GET /unscheduled_maintenances/ENTITY[/CHECK]</a></li>
+  <li><a href="#get_checks">GET /checks/ENTITY</a></li>
+  <li><a href="#get_status">GET /status[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#get_outages">GET /outages[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#get_unscheduled_maintenances">GET /unscheduled_maintenances[/ENTITY[/CHECK]]</a></li>
   <li><a href="#post_acknowledgements">POST /acknowledgements/ENTITY/CHECK</a></li>
-  <li><a href="#get_scheduled_maintenances">GET /scheduled_maintenances/ENTITY[/CHECK]</a></li>
-  <li><a href="#post_scheduled_maintenances">POST /scheduled_maintenances/ENTITY/CHECK</a></li>
-  <li><a href="#get_downtime">GET /downtime/ENTITY[/CHECK]</a></li>
-  <li><a href="#post_test_notifications">POST /test_notifications/ENTITY/CHECK</a></li>
+  <li><a href="#delete_unscheduled_maintenances">DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#get_scheduled_maintenances">GET /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#post_scheduled_maintenances">POST /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#delete_scheduled_maintenances">DELETE /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#get_downtime">GET /downtime[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#post_test_notifications">POST /test_notifications[/ENTITY[/CHECK]]</a></li>
   <li><a href="#get_contacts">GET /contacts</a></li>
   <li><a href="#post_contacts">POST /contacts</a></li>
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
@@ -46,18 +48,56 @@ Some of the GET queries can take some optional query string parameters as follow
 
 <table>
   <tr>
-    <th>parameter </th>
-    <th>description </th>
+    <th>parameter</th>
+    <th>description</th>
   </tr>
   <tr>
-    <td>start_time </td>
-    <td>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00. Absence means 'beginning of time'. </td>
+    <td>start_time</td>
+    <td>start time of the period in ISO 8601 format, eg 2013-02-22T15:39:39+11:00. Absence means 'beginning of time'.</td>
   </tr>
   <tr>
-    <td>end_time   </td>
+    <td>end_time</td>
     <td>end time of the period in ISO 8601 format. Absence means 'end of days'.</td>
   </tr>
 </table>
+
+These five GET queries:
+
+<ul>
+  <li><a href="#get_status">GET /status[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#get_outages">GET /outages[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#get_unscheduled_maintenances">GET /unscheduled_maintenances[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#get_scheduled_maintenances">GET /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
+  <li><a href="#get_downtime">GET /downtime[/ENTITY[/CHECK]]</a></li>
+</ul>
+
+take ENTITY and CHECK strings as part of the URL for backwards compatibility; they
+also offer a more flexible parameter scheme by which the data for multiple entities
+and checks can be requested.
+
+<table>
+  <tr>
+    <th>parameter</th>
+    <th>description</th>
+  </tr>
+  <tr>
+    <td>entity / entity[]</td>
+    <td>Request the data for all the checks from one entity (e.g. ``/status?entity=ENTITY``) or from multiple entities (e.g. ``/status?entity[]=ENTITY1&entity[]=ENTITY2``)</td>
+  </tr>
+  <tr>
+    <td>check[ENTITY]</td>
+    <td>Request the data for a single check from an entity (e.g. ``/status?check[ENTITY]=CHECK``), multiple checks from a single entity (e.g. ``/status?check[ENTITY]=CHECK1&check[ENTITY]=CHECK2``), or multiple checks from different entities (e.g. ``/status?check[ENTITY1]=CHECK1&check[ENTITY2]=CHECK2``).
+      <br>
+      <br>
+      Also note that this can be combined with the entity parameters: ``/status?entity=ENTITY1&check[ENTITY2]=CHECK`` is a valid query.
+    </td>
+  </tr>
+</table>
+
+The corresponding POST/DELETE methods take a similar parameter set, but the
+data is expressed as encoded form parameters, or serialized as JSON, etc.
+
+---
 
 <a id="get_entities">&nbsp;</a>
 ### GET /entities
@@ -183,8 +223,8 @@ curl http://localhost:4091/checks/client1-localhost-test-2
 ```
 
 <a id="get_status">&nbsp;</a>
-### GET /status/ENTITY[/CHECK]
-Get the status of the specified check, or for all checks of the specified entity if no check is given.
+### GET /status[/ENTITY[/CHECK]]
+Get the status of a specified check, or for all checks of a specified entity, or for checks on multiple entities.
 
 **Output JSON Format**
 ```text
@@ -202,6 +242,8 @@ CHECK     (hash) = { "name": "CHECK_NAME",
 
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 BOOLEAN:   one of 'true' or 'false'
+
+NB: a bulk query wraps each returned array item with entity & check details (see example 3).
 ```
 
 **Example 1**
@@ -240,7 +282,7 @@ curl http://localhost:4091/status/client1-localhost-test-2
 
 **Example 2**
 ```bash
-curl http://localhost:4091/status/client1-localhost-test-2/HTTP%20Port%20443
+curl http://localhost:4091/status/client1-localhost-test-2/HTTP+Port+443
 ```
 **Response** Status: 200 OK
 ```json
@@ -258,8 +300,48 @@ curl http://localhost:4091/status/client1-localhost-test-2/HTTP%20Port%20443
  }
 ```
 
+**Example 3**
+```bash
+curl http://localhost:4091/status?check[client1-localhost-test-2]=HOST&check[client1-localhost-test-2]=HTTP+Port+443
+```
+**Response** Status: 200 OK
+```json
+[
+  {
+    "entity" : "client1-localhost-test-2",
+    "check" : "HOST",
+    "status" :
+    {
+      "last_recovery_notification" : null,
+      "last_acknowledgement_notification" : null,
+      "last_update" : 1356853261,
+      "name" : "HOST",
+      "last_problem_notification" : null,
+      "in_scheduled_maintenance" : false,
+      "in_unscheduled_maintenance" : false,
+      "state" : "ok",
+    }
+  },
+  {
+    "entity" : "client1-localhost-test-2",
+    "check" : "HTTP Port 443",
+    "status" :
+    {
+      "last_recovery_notification" : null,
+      "last_acknowledgement_notification" : null,
+      "last_update" : 1356853261,
+      "name" : "HTTP Port 443",
+      "last_problem_notification" : 1356853151,
+      "in_scheduled_maintenance" : false,
+      "in_unscheduled_maintenance" : false,
+      "state" : "critical"
+    }
+  }
+]
+```
+
 <a id="get_outages">&nbsp;</a>
-### GET /outages/ENTITY[/CHECK]
+### GET /outages[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -277,9 +359,11 @@ OUTAGE    (hash) = { "start_time": TIMESTAMP,
 
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
+
+NB: a bulk query adds entity names to the CHECK hash (see example 3).
 ```
 
-Get the list of outages for the specified check, or for all checks of the specified entity if no check is given.
+Get the list of outages for a check, or for all checks of an entity, or for checks on multiple entities.
 
 **Example 1**
 ```bash
@@ -321,6 +405,7 @@ curl http://localhost:4091/outages/client1-localhost-test-2
    }
 ]
 ```
+
 **Example 2**
 ```bash
 curl http://localhost:4091/outages/client1-localhost-test-2/HOST?start_time=2012-12-24T00:00:00Z
@@ -338,8 +423,51 @@ curl http://localhost:4091/outages/client1-localhost-test-2/HOST?start_time=2012
 ]
 ```
 
+**Example 3**
+```bash
+curl http://localhost:4091/outages?entity=client1-localhost-test-1&check[client1-localhost-test-2]=HTTP+Port+443
+```
+**Response** Status: 200 OK
+```json
+[
+   {
+      "entity" : "client1-localhost-test-1",
+      "check" : "HOST",
+      "outages" : [
+         {
+            "end_time" : 1355958411,
+            "summary" : "(Host Check Timed Out)",
+            "start_time" : 1355958401,
+            "duration" : 10,
+            "state" : "critical"
+         },
+         {
+            "end_time" : 1356562502,
+            "summary" : "(Host Check Timed Out)",
+            "start_time" : 1356562492,
+            "duration" : 10,
+            "state" : "critical"
+         }
+      ]
+   },
+   {
+      "entity" : "client1-localhost-test-2",
+      "check" : "HTTP Port 443",
+      "outages" : [
+         {
+            "end_time" : null,
+            "summary" : "Connection refused",
+            "start_time" : 1355917335,
+            "duration" : null,
+            "state" : "critical"
+         }
+      ]
+   }
+]
+```
+
 <a id="get_unscheduled_maintenances">&nbsp;</a>
-### GET /unscheduled_maintenances/ENTITY[/CHECK]
+### GET /unscheduled_maintenances[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -356,11 +484,13 @@ MAINT     (hash) = { "start_time": TIMESTAMP,
 
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
+
+NB: a bulk query adds entity names to the CHECK hash (see example 2).
 ```
 
-Get the list of unscheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
+Get the list of unscheduled maintenance periods for a check, or for all checks of an entity, or for checks on multiple entities.
 
-**Example**
+**Example 1**
 ```bash
 curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-1
 ```
@@ -385,17 +515,67 @@ curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-1
 ]
 ```
 
+**Example 2**
+```bash
+curl http://localhost:4091/unscheduled_maintenances?entity[]=client1-localhost-test-1&entity[]=client1-localhost-test-2
+```
+**Response** Status: 200 OK
+```json
+[
+   {
+      "entity" : "client1-localhost-test-1",
+      "check" : "HOST",
+      "unscheduled_maintenance" : []
+   },
+   {
+      "entity" : "client1-localhost-test-1",
+      "check" : "HTTP Port 443",
+      "unscheduled_maintenance" : [
+         {
+            "end_time" : 1356067056,
+            "summary" : "- JR looking",
+            "start_time" : 1356044450,
+            "duration" : 22606
+         }
+      ]
+   },
+   {
+      "entity" : "client1-localhost-test-2",
+      "check" : "HOST",
+      "unscheduled_maintenance" : []
+   },
+   {
+      "entity" : "client1-localhost-test-2",
+      "check" : "HTTP Port 443",
+      "unscheduled_maintenance" : []
+   }
+]
+```
+
 <a id="post_acknowledgements">&nbsp;</a>
-### POST /acknowledgements/ENTITY/CHECK'
-Acknowledges a problem on the specified check and creates unscheduled maintenance. 4 hrs is the default period but can be specied in the body. An optional message may also be supplied.
+### POST /acknowledgements[/ENTITY[/CHECK]]'
+Acknowledges a problem on a check (or for all checks of an entity, or for checks on multiple entities) and creates unscheduled maintenance. 4 hrs is the default period but can be specified in the body. An optional message may also be supplied.
 
 **Input JSON Format**
 ```text
 ACK (hash) = { "duration": DURATION,
                "summary": "SUMMARY" }
+
+(BULK is merged into the above hash if the entity and check are not provided
+in the request URL.)
+
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
+ENTITY      (string) = entity name
+ENTITIES    (string) = ENTITY or
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
+CHECK       (string) = check name
+CHECKS      (string) = CHECK or
+             (array)   [CHECK, ...]
 ```
 
-**Example**
+**Example 1**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
@@ -406,9 +586,66 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 ```
 **Response** Status: 204 (No Content)
 
+**Example 2**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "check" : {
+      "client1-localhost-test-2" : ["ping", "ssh"]
+    },
+    "duration": 3600,
+    "summary": "AL - working on it"
+  }' \
+ http://localhost:4091/acknowledgements
+```
+**Response** Status: 204 (No Content)
+
+
+<a id="delete_unscheduled_maintenances">&nbsp;</a>
+### DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]'
+Deletes an unscheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied -- the deletion will take effect immediately if it is not.
+
+**Input JSON Format**
+```text
+UNSCHED_MAINT (hash) = { "end_time": TIME }
+
+(BULK is merged into the above hash if the entity and check are not provided
+in the request URL.)
+
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
+ENTITY      (string) = entity name
+ENTITIES    (string) = ENTITY or
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
+CHECK       (string) = check name
+CHECKS      (string) = CHECK or
+             (array)   [CHECK, ...]
+```
+
+**Example 1**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" \
+ http://localhost:4091/unscheduled_maintenances/client1-localhost-test-2/HOST
+```
+**Response** Status: 204 (No Content)
+
+**Example 2**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
+ '{
+    "check" : {
+      "client1-localhost-test-2" : ["ping", "ssh"]
+    },
+    "end_time" : "2012-12-21T15:47:36+10:30",
+  }' \
+ http://localhost:4091/unscheduled_maintenances
+```
+**Response** Status: 204 (No Content)
+
 
 <a id="get_scheduled_maintenances">&nbsp;</a>
-### GET /scheduled_maintenances/ENTITY[/CHECK]
+### GET /scheduled_maintenances[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -425,11 +662,13 @@ MAINT     (hash) = { "start_time": TIMESTAMP,
 
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
+
+NB: a bulk query adds entity names to the CHECK hash (see example 2).
 ```
 
-Get the list of scheduled maintenance periods for the specified check, or for all checks of the specified entity if no check is given.
+Get the list of scheduled maintenance periods for a check (or for all checks of an entity, or for checks on multiple entities).
 
-**Example**
+**Example 1**
 ```bash
 curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
 ```
@@ -447,22 +686,50 @@ curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
 ]
 ```
 
+**Example 2**
+```bash
+curl http://localhost:4091/scheduled_maintenances?check[client1-localhost-test-2]=HOST
+```
+**Response** Status: 200 OK
+```json
+[
+   {
+      "entity" : "client1-localhost-test-2",
+      "check" : "HOST",
+      "scheduled_maintenance" : []
+   }
+]
+```
+
 <a id="post_scheduled_maintenances">&nbsp;</a>
-### POST /scheduled_maintenances/ENTITY/CHECK'
+### POST /scheduled_maintenances[/ENTITY/CHECK]'
 Creates scheduled maintenance for the specified check.
 
 **Input JSON Format**
 ```text
-MAINT (hash) = { "start_time": TIMESTAMP,
+MAINT (hash) = { "start_time": TIME,
                  "duration": DURATION,
                  "summary": "SUMMARY" }
+
+(BULK is merged into the above hash if the entity and check are not provided
+in the request URL.)
+
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
+ENTITY      (string) = entity name
+ENTITIES    (string) = ENTITY or
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
+CHECK       (string) = check name
+CHECKS      (string) = CHECK or
+             (array)   [CHECK, ...]
 ```
 
-**Example**
+**Example 1**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
-    "start_time": 1361791228,
+    "start_time": "2012-12-21T15:47:36+10:30",
     "duration": 3600,
     "summary": "SHUT IT ALL DOWN!"
   }' \
@@ -470,13 +737,72 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 ```
 **Response** Status: 204 (No Content)
 
+**Example 2**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "entity" : "client1-localhost-test-1",
+    "check" : {
+      "client1-localhost-test-2" : "HOST"
+    },
+    "start_time": "2012-12-21T15:47:36+10:30",
+    "duration": 3600,
+    "summary": "SHUT IT ALL DOWN!"
+  }' \
+ http://localhost:4091/scheduled_maintenances
+```
+**Response** Status: 204 (No Content)
+
+
+<a id="delete_scheduled_maintenances">&nbsp;</a>
+### DELETE /scheduled_maintenances[/ENTITY[/CHECK]]'
+Deletes an scheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied -- the deletion will take effect immediately if it is not.
+
+**Input JSON Format**
+```text
+SCHED_MAINT (hash) = { "end_time": TIME }
+
+(BULK is merged into the above hash if the entity and check are not provided
+in the request URL.)
+
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
+ENTITY      (string) = entity name
+ENTITIES    (string) = ENTITY or
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
+CHECK       (string) = check name
+CHECKS      (string) = CHECK or
+             (array)   [CHECK, ...]
+```
+
+**Example 1**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" \
+ http://localhost:4091/scheduled_maintenances/client1-localhost-test-2/HOST
+```
+**Response** Status: 204 (No Content)
+
+**Example 2**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
+ '{
+    "check" : {
+      "client1-localhost-test-2" : ["ping", "ssh"]
+    },
+    "end_time" : "2012-12-21T15:47:36+10:30",
+  }' \
+ http://localhost:4091/scheduled_maintenances
+```
+**Response** Status: 204 (No Content)
+
 
 <a id="get_downtime">&nbsp;</a>
-### GET /downtime/ENTITY[/CHECK]
+### GET /downtime[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
-Get the list of downtimes for the specified check, or for all checks of the specified entity if no check is given. Downtime is outages minus scheduled maintenances across any given time period (See [the glossary](GLOSSARY)). The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.
+Get the list of downtimes for a check (or for all checks of an entity, or for checks on multiple entities). Downtime is outages minus scheduled maintenances across any given time period (See [the glossary](GLOSSARY)). The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.
 
 Note that a start_time and end_time must be specified in order for the percentages to be calculated.
 
@@ -507,6 +833,8 @@ PERCENTAGE: floating point number between 0 and 100 representing a percentage
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
 STATE: one of 'ok', 'warning', 'critical', or 'unknown'
+
+NB: a bulk query adds entity names to the CHECK hash (see example 2).
 ```
 
 **Notes:**
@@ -514,7 +842,7 @@ STATE: one of 'ok', 'warning', 'critical', or 'unknown'
 * the non-ok states under PERCENTAGES and TOTAL_SECONDS represent total downtime for this state.
 * the ok state time is calculated as: total report period - sum of non OK downtime durations
 
-**Example**
+**Example 1**
 ```bash
 curl "http://localhost:4091/downtime/client1-localhost-test-2/HOST?start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
 ```
@@ -548,13 +876,45 @@ curl "http://localhost:4091/downtime/client1-localhost-test-2/HOST?start_time=20
 }
 ```
 
+**Example 2**
+```bash
+curl "http://localhost:4091/downtime?check[client1-localhost-test-2]=HOST&start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
+```
+**Response** Status: 200 OK
+(See the Response section for the previous example.)
+
+
 <a id="post_test_notifications">&nbsp;</a>
-### POST /test_notifications/ENTITY/CHECK
+### POST /test_notifications[/ENTITY/CHECK]
 Generates test notifications for the specified check. Body can be left empty.
 
-**Example**
+**Input JSON Format**
+```text
+(BULK is only used if the entity and check are not provided in the request URL.)
+
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
+ENTITY      (string) = entity name
+ENTITIES    (string) = ENTITY or
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
+CHECK       (string) = check name
+CHECKS      (string) = CHECK or
+             (array)   [CHECK, ...]
+```
+
+**Example 1**
 ```bash
-curl -X POST "http://localhost:4091/test_notifications/client1-localhost-test-2/HOST"
+curl -X POST "http://localhost:4091/test_notifications/client1-localhost-test-1/HOST"
+```
+
+**Example 2**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "entity": "client1-localhost-test-2"
+  }' \
+ http://localhost:4091/test_notifications
 ```
 
 **Response** Status: 204 No Content
