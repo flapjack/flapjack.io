@@ -9,6 +9,8 @@ Sections:
 - [Importing](wiki/IMPORTING)
 - [Debugging Flapjack](wiki/DEBUGGING)
 - [Flapjack Glossary](wiki/GLOSSARY)
+- [Releasing Flapjack](wiki/Releasing)
+- Methods for [promoting Flapjack](wiki/Promoting)
 
 ### Logo
 
