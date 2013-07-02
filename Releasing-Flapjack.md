@@ -23,13 +23,11 @@
 
 ## Are we happy with how Flapjack is packaged and distributed?
 
-* We have problems when we want to easily deploy a branch to a staging environment
+* We have problems when we want to easily deploy a branch to a development/QA environment
 * There are two targets: development releases, and public releases
-
 * [Opscode](http://opscode.com) have written a way to package up large dependency trees
 * They've called this [Omnibus](https://github.com/opscode/omnibus)
 * It statically compiles Ruby, and pulls in all the dependencies under a single directory
-* There's an extension for fpm cookery to build packages with all their dependencies
 
 ### Problems we have right now:
 
@@ -46,24 +44,18 @@
 * This isn't necessarily a bad thing, as long as we make it possible to install Flapjack via RubyGems
 * A lot of early adopters are running Arch Linux, so we should target that platform
 
-* logstash has a different approach
-** logstash bundles up all the gems + a copy of JRuby into a single jar
-** Anyone that has a JVM can then run the jar
-** This would allow flapjack to be run easily on Windows, Linux, OS X
+### Are there alternative ways of releasing Flapjack?
 
-## What should we do right now?
+* [logstash](http://logstash.net) takes a different approach
+  * logstash bundles up all the gems + a copy of JRuby into a single jar
+  * Anyone that has a JVM can then run the jar
+  * This would allow Flapjack to be run easily on Windows, Linux, OS X
 
-* Let's solve the problem now for current users of Flapjack
-* Worry about other users later
-* If we solve the problem for the current users, hopefully there will be overlap with other people
-* We want to create a great user experience for people running Flapjack the first time
-** People should be able to run Flapjack without any config
-** This would populate some default contacts, "standard reference data"
-* Use Omnibus to build packages for Debian, RedHat, Arch 
-* Omnibus lowers the barrier of entry, because users don't need to worry about all the dependencies
+## What do we want Flapjack releases to look like?
 
-* This doesn't solve the development release problem
-* We want to verify these development releases that:
-** We haven't broken API integration
-** Flapjack is functioning as expected
-
+1. We want to create a great user experience for people running Flapjack the first time
+  * People should be able to run Flapjack without any config
+  * This would populate some default contacts, "standard reference data"
+1. Use [Omnibus to build packages](https://github.com/flpjck/omnibus-flapjack) for Debian, RedHat, Arch 
+  * Omnibus lowers the barrier of entry, because users don't need to worry about all the dependencies
+1. Release a Vagrant box that uses the [Omnibus-built packages](https://github.com/flpjck/omnibus-flapjack)
