@@ -63,3 +63,4 @@
   * Or run our own package repository infrastructure at packages.flapjack.io?
 1. Update install documentation to reference package repos
 1. Release a Vagrant box that install packages via Puppet
+  * This will act as a reference implementation for integrating Flapjack into your monitoring stack
