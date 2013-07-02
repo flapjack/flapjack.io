@@ -9,16 +9,16 @@
 
 * Users install Redis
 * Users install the gem, then they need to mess with the config file
-* We are currently managing the config files with Puppet under /etc/flapjack
-* We create a log directory under /var/log/flapjack
+* We are currently managing the config files with Puppet under `/etc/flapjack`
+* We create a log directory under `/var/log/flapjack`
 
 ## How does Flapjack run?
 
-* Internally, Flapjack functionality is contained in pikelets (term coined by [@ali-graham](http://github.com/ali-graham)\)
-* We can run many pikelets in a single process
+* Internally, Flapjack functionality is contained in Pikelets (term coined by [@ali-graham](http://github.com/ali-graham)\)
+* We can run many Pikelets in a single process
 * In the future we may fire up separate EventMachine loops
 * Right now there is a single EM loop
-* The config file controls which pikelets are booted
+* The config file controls which Pikelets are booted
 * The config file controls the logging levels
 
 ## Are we happy with how Flapjack is packaged and distributed?
