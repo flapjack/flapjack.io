@@ -56,6 +56,10 @@
 1. We want to create a great user experience for people running Flapjack the first time
   * People should be able to run Flapjack without any config
   * This would populate some default contacts, "standard reference data"
-1. Use [Omnibus to build packages](https://github.com/flpjck/omnibus-flapjack) for Debian, RedHat, Arch 
+1. Build Flapjack [packages with Omnibus](https://github.com/flpjck/omnibus-flapjack) for Debian, RedHat, Arch 
   * Omnibus lowers the barrier of entry, because users don't need to worry about all the dependencies
-1. Release a Vagrant box that uses the [Omnibus-built packages](https://github.com/flpjck/omnibus-flapjack)
+1. Publish packages in a public repository
+  * Do we use a Launchpad PPA?
+  * Or run our own package repository infrastructure at packages.flapjack.io?
+1. Update install documentation to reference package repos
+1. Release a Vagrant box that install packages via Puppet
