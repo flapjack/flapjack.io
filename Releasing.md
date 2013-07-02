@@ -5,7 +5,7 @@
 * There is a single gem for [flapjack](https://rubygems.org/gems/flapjack)
 * There is a single gem for [flapjack-diner](https://rubygems.org/gems/flapjack-diner)
 
-## How does a user install Flapjack?
+## How does a user currently install Flapjack?
 
 * Users install Redis
 * Users install the gem, then they need to mess with the config file
