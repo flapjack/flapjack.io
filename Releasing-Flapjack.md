@@ -1,18 +1,18 @@
-# How is Flapjack currently distributed?
+## How is Flapjack currently distributed?
 
 * As a [gem on rubygems.org](https://rubygems.org/gems/flapjack)
 * We have a Rake task to [build the gem](https://github.com/flpjck/flapjack/wiki/DEVELOPING#releasing)
 * There is a single gem for [flapjack](https://rubygems.org/gems/flapjack)
 * There is a single gem for [flapjack-diner](https://rubygems.org/gems/flapjack-diner)
 
-# How does a user install Flapjack?
+## How does a user install Flapjack?
 
 * Users install Redis
 * Users install the gem, then they need to mess with the config file
 * We are currently managing the config files with Puppet under /etc/flapjack
 * We create a log directory under /var/log/flapjack
 
-# How does Flapjack run?
+## How does Flapjack run?
 
 * Internally, Flapjack functionality is contained in pikelets (term coined by [@ali-graham](http://github.com/ali-graham)\)
 * We can run many pikelets in a single process
@@ -21,7 +21,7 @@
 * The config file controls which pikelets are booted
 * The config file controls the logging levels
 
-# Are we happy with how Flapjack is packaged and distributed?
+## Are we happy with how Flapjack is packaged and distributed?
 
 * We have problems when we want to easily deploy a branch to a staging environment
 * There are two targets: development releases, and public releases
@@ -31,14 +31,14 @@
 * It statically compiles Ruby, and pulls in all the dependencies under a single directory
 * There's an extension for fpm cookery to build packages with all their dependencies
 
-## Problems we have right now:
+### Problems we have right now:
 
 * The install instructions aren't that great
 * We don't provide info on where the configs should be placed
 * We don't ship a default config (are there sensible defaults?)
 * Should we create an example config file on boot, if none is supplied?
 
-## Are RubyGems a good distribution mechanism?
+### Are RubyGems a good distribution mechanism?
 
 * When the project gets large enough, we should consider splitting the gem up
 * One issue with Omnibus is that it only produces RPMs and debs
@@ -51,7 +51,7 @@
 ** Anyone that has a JVM can then run the jar
 ** This would allow flapjack to be run easily on Windows, Linux, OS X
 
-# What should we do right now?
+## What should we do right now?
 
 * Let's solve the problem now for current users of Flapjack
 * Worry about other users later
