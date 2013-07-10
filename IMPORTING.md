@@ -77,7 +77,7 @@ Example ruby code to construct this format:
 ```ruby
 #!/usr/bin/env ruby
 
-require 'yajl'
+require 'json'
 
 contacts = []
 
@@ -95,7 +95,7 @@ contact = { :id         => '362',
 
 contacts.push(contact)
 
-puts Yajl::Encoder.encode(contacts, :pretty => true)
+puts JSON.generate(contacts)
 ```
 
 ### Entities Example
@@ -147,7 +147,7 @@ Example code to construct this format:
 ```ruby
 #!/usr/bin/env ruby
 
-require 'yajl'
+require 'json'
 
 entities = []
 
@@ -175,6 +175,6 @@ entity = { :id          => '10003',
            :tags        => tags }
 entities.push(entity)
 
-puts Yajl::Encoder.encode(entities, :pretty => true)
+puts JSON.generate(entities, :pretty => true)
 ```
 

@@ -20,13 +20,11 @@ Install the Flapjack gem:
 
 - Ruby >= 1.9
 - Redis >= 2.4.15
-- yajl
 
 and the following gems:
 
 * `daemons`
-* `log4r`
-* `yajl-ruby`
+* `oj`
 * `redis`
 * `eventmachine` (~> 1.0.0)
 * `hiredis`
@@ -42,7 +40,7 @@ and the following gems:
 * `chronic`
 * `chronic_duration`
 
-You'll need a working C compiler installed for the gems above with binary components (`eventmachine`, `yajl-ruby` and `hiredis`).
+You'll need a working C compiler installed for the gems above with binary components (`eventmachine`, `oj` and `hiredis`).
 
 We want to lower the number of gems that Flapjack relies on -- any pull requests will be gratefully received.
 
