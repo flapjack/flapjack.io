@@ -53,7 +53,7 @@ pagerduty_notifications (list) -> [ NOTIFICATION, NOTIFICATION, ... ]
 NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
 ```
 
-### Storing all service state changes
+### Storing all check state changes
 
 *Current state*
 
@@ -99,6 +99,14 @@ STATE (string) - eg 'acknowledgement'
 *Failed services under a client id*
 
     failed_checks:CLIENT (sorted set) -> ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
+
+### Current checks
+
+NOTE: Currently Vapourware, follow along at gh-104
+
+Any time an event is received from the check execution system for a check, the check's timestamp (rank) is updated in this sorted set. If a check isn't in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.
+
+    current_checks (sorted set) => ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
 
 ### Mass failures, eg for a client
 
