@@ -100,13 +100,16 @@ STATE (string) - eg 'acknowledgement'
 
     failed_checks:CLIENT (sorted set) -> ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
 
-### Current checks
+### Current checks and entities
 
 NOTE: Currently Vapourware, follow along at gh-104
 
-Any time an event is received from the check execution system for a check, the check's timestamp (rank) is updated in this sorted set. If a check isn't in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.
+Any time an event is received from the check execution system for a check, the check's timestamp (rank) is updated in the sorted set for the entity. If a check isn't in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.
 
-    current_checks (sorted set) => ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
+Related to this is the current_entities sorted set, which contains all entities that have current checks, ordered by the timestamp of the latest check event received for each entity.
+
+    current_checks:ENTITY (sorted set) => ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+    current_entities (sorted set) => ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
 
 ### Mass failures, eg for a client
 
