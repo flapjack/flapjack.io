@@ -102,8 +102,6 @@ STATE (string) - eg 'acknowledgement'
 
 ### Current checks and entities
 
-NOTE: Currently Vapourware, follow along at gh-104
-
 Any time an event is received from the check execution system for a check, the check's timestamp (rank) is updated in the sorted set for the entity. If a check isn't in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.
 
 Related to this is the current_entities sorted set, which contains all entities that have current checks, ordered by the timestamp of the latest check event received for each entity.
@@ -219,13 +217,12 @@ ENTITY:CHECK:acknowledgement_notifications (list) -> [ TIMESTAMP, TIMESTAMP, ...
 Alerts correspond to messages that get emitted by Flapjack. A 'notification' may result in 0 or more alerts being sent out, depending on notification rules and intervals configured on the contacts for the check in question.
 
 ```text
- ... which of the following it makes sense to actually implement i'm not sure of right now ...
- ... possible cases of YAGNI and premature optimisation follow ...
-
 drop_alerts_for_contact:CONTACT_ID                          (string with expiry) -> DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA                    (string with expiry) -> DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK       (string with expiry) -> DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE (string with expiry) -> DURATION
+
+# Vapourware warning: the alerts and alerts_by_* data structures are in the design phase and as yet unimplemented. Work being tracked in gh-182 ... This data structure will change as it is not time bucketed, and needs to be (for ease of aging out old data)
 
 alerts                                                     (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
 
