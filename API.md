@@ -108,8 +108,14 @@ Retrieve an array of all entities including core attributes and state of any che
 ENTITIES (array) = [ENTITY, ENTITY, ...]
 ENTITY    (hash) = { "id": "ENTITY_ID", "name": "NAME", "checks": CHECKS }
 CHECKS   (array) = [ CHECK, CHECK, ... ]
-CHECK     (hash) = { "name": "CHECK_NAME",
+CHECK     (hash) = { "check": "CHECK_NAME",
+                     "entity": "ENTITY_NAME",
+                     "status": STATUS }
+STATUS    (hash) = { "name": "CHECK_NAME",
                      "state": "CHECK_STATE",
+                     "enabled": BOOLEAN,
+                     "summary": STRING,
+                     "details": STRING or NULL,
                      "in_unscheduled_maintenance": BOOLEAN,
                      "in_scheduled_maintenance": BOOLEAN,
                      "last_update": TIMESTAMP,
@@ -131,24 +137,21 @@ curl http://localhost:4091/entities
    {
       "checks" : [
          {
-            "last_recovery_notification" : null,
-            "last_acknowledgement_notification" : null,
-            "last_update" : 1356853261,
-            "name" : "HOST",
-            "last_problem_notification" : null,
-            "in_scheduled_maintenance" : false,
-            "in_unscheduled_maintenance" : false,
-            "state" : "ok"
-         },
-         {
-            "last_recovery_notification" : null,
-            "last_acknowledgement_notification" : null,
-            "last_update" : 1356853261,
-            "name" : "HTTP Port 443",
-            "last_problem_notification" : 1356853151,
-            "in_scheduled_maintenance" : false,
-            "in_unscheduled_maintenance" : false,
-            "state" : "critical"
+            "entity" : "client1-localhost-test-2",
+            "check" : "HOST",
+            "status" : {
+              "name" : "HOST",
+              "state" : "ok",
+              "enabled" : true,
+              "summary" : "OK",
+              "details" : null,
+              "in_scheduled_maintenance" : false,
+              "in_unscheduled_maintenance" : false,
+              "last_update" : 1356853261,
+              "last_problem_notification" : null,
+              "last_recovery_notification" : null,
+              "last_acknowledgement_notification" : null,
+           }
          }
       ],
       "name" : "client1-localhost-test-2",
@@ -320,6 +323,9 @@ curl http://localhost:4091/status?check[client1-localhost-test-2]=HOST&check[cli
       "in_scheduled_maintenance" : false,
       "in_unscheduled_maintenance" : false,
       "state" : "ok",
+      "summary" : "host is up",
+      "details" : null,
+      "enabled" : true
     }
   },
   {
@@ -334,7 +340,10 @@ curl http://localhost:4091/status?check[client1-localhost-test-2]=HOST&check[cli
       "last_problem_notification" : 1356853151,
       "in_scheduled_maintenance" : false,
       "in_unscheduled_maintenance" : false,
-      "state" : "critical"
+      "state" : "critical",
+      "summary" : "Connection Refused",
+      "details" : null,
+      "enabled" : true
     }
   }
 ]
