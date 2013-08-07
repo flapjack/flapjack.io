@@ -1064,7 +1064,7 @@ curl http://localhost:4091/contacts/21/notification_rules
   {
     "id": "08f607c7-618d-460a-b3fe-868464eb6045",
     "contact_id": "21",
-    "entity_tags": [
+    "tags": [
       "database",
       "physical"
     ],
@@ -1103,7 +1103,7 @@ curl http://localhost:4091/contacts/21/notification_rules
   {
     "id": "2be654d8-9ad4-42b7-963d-f6727dc302a2",
     "contact_id": "21",
-    "entity_tags": [
+    "tags": [
       "database",
       "physical"
     ],
@@ -1138,7 +1138,7 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/notification_rules/08f
 {
   "id": "08f607c7-618d-460a-b3fe-868464eb6045",
   "contact_id": "21",
-  "entity_tags": [
+  "tags": [
     "database",
     "physical"
   ],
@@ -1186,7 +1186,7 @@ Creates a new notification rule.
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
     "contact_id": "21",
-    "entity_tags": [
+    "tags": [
       "database",
       "physical"
     ],
@@ -1244,7 +1244,7 @@ Updates or deletes a notification rule
 ```bash
 curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
  '{
-    "entity_tags": [
+    "tags": [
       "database",
       "physical"
     ],
