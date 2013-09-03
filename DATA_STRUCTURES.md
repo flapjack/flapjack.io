@@ -267,6 +267,7 @@ contact_media_intervals:CONTACT_ID  -> { 'email'     => INTERVAL,
 contact_pagerduty:CONTACT_ID (hash) -> { 'subdomain' => PAGERDUTY_SUBDOMAIN,
                                          'username'  => PAGERDUTY_USERNAME,
                                          'password'  => PAGERDUTY_PASSWORD }
+contact_rollup_threshold:CONTACT_ID (string) -> FAILURE_THRESHOLD
 contact_tag:TAG               (set) -> ( CONTACT_ID, CONTACT_ID, ...)
 
 CONTACT_ID            (string) - an external reference / identifier for this contact (used for synchronisation)
@@ -285,6 +286,7 @@ TAG                   (string) - arbitrary tag
 TIMEZONE              (string) - a timezone string representing the user's local timezone, eg 'Australia/Broken_Hill'
                                  see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/,
                                  http://api.rubyonrails.org/classes/ActiveSupport/TimeZone.html
+FAILURE_THRESHOLD     (string) - the number of failing checks this contact has before rollup kicks in
 ```
 
 Notes:
