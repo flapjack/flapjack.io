@@ -138,15 +138,17 @@ development:
       logger:
         level: INFO
       smtp_config:
-        # these values are passed directly through to the mail gem's SMTP configuration,
+        # these values are passed directly through to EventMachine::Protocols::SmtpClient configuration,
         # and can be omitted if the defaults are acceptable
+        host: "localhost"
         port: 25
-        address: "localhost"
         domain: 'localhost.localdomain'
-        user_name: nil
-        password: nil
-        authentication: nil
-        enable_starttls_auto: true
+        starttls: false
+        from: 'flapjack@localhost.localdomain'
+        #auth:
+        #  type: :plain
+        #  username: vera
+        #  password: xxxxxxxx
     sms:
       # whether or not this pikelet should be started
       enabled: yes
