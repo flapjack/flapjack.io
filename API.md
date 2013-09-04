@@ -1009,11 +1009,13 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
         "media": {
           "sms": {
             "address": "+61412345678",
-            "interval": "3600"
+            "interval": "3600",
+            "rollup_threshold": "5"
           },
           "email": {
             "address": "ada@example.com",
-            "interval": "7200"
+            "interval": "7200",
+            "rollup_threshold": null
           }
         },
         "tags": [
@@ -1324,7 +1326,8 @@ Creates or updates (PUT) or deletes (DELETE) a media of a contact
 curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
  '{
     "address": "dmitri@example.com",
-    "interval": 900
+    "interval": 900,
+    "rollup_threshold": 3
   }' \
  http://localhost:4091/contacts/21/media/email
 ```
@@ -1332,7 +1335,8 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 ```json
 {
   "address": "dmitri@example.com",
-  "interval": 900
+  "interval": 900,
+  "rollup_threshold": 3
 }
 ```
 
