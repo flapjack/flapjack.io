@@ -964,7 +964,7 @@ curl http://localhost:4091/contacts
 
 <a id="post_contacts">&nbsp;</a>
 ### POST /contacts
-Deletes all contacts before importing the supplied contacts.
+Overwrite all contacts in flapjack. Any existing contacts not found in the supplied JSON payload will be deleted, then newly supplied contacts created, and existing contacts updated.
 
 **Input JSON Format**
 ```text
@@ -973,7 +973,8 @@ CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": L
                       "email": EMAIL, "media": MEDIAS }
 MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, "pagerduty": PAGERDUTY... }
 MEDIA     (hash)  = { "address": MEDIA_ADDRESS,
-                      "interval": INTERVAL }
+                      "interval": INTERVAL,
+                      "rollup_threshold": FAILURE_COUNT }
 PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
                       "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
 TAGS      (array) = [ "TAG", "TAG", ...]
@@ -987,6 +988,7 @@ PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic 
 PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
 TAG                   (string) - a tag, you know?
 INTERVAL              (string) - number of seconds to repeat the same alert on this media type
+FAILURE_COUNT         (string) - the number of failing checks this contact has before rollup kicks in, 0 and null mean never
 ```
 
 **Notes:**
@@ -1298,15 +1300,13 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 
 Returns the media of a contact.
 
-Includes media type, address, and interval.
+Includes media type, address, interval, and rollup threshold.
 
 **Example**
 ```bash
 curl -w 'response: %{http_code} \n' \
  http://localhost:4091/contacts/21/media
 ```
-
-
 
 <a id="get_contacts_id_media_media">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/media/MEDIA
