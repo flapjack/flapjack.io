@@ -96,10 +96,6 @@ STATE (string) - eg 'acknowledgement'
 
     failed_checks (sorted set) -> ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
 
-*Failed services under a client id*
-
-    failed_checks:CLIENT (sorted set) -> ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
-
 ### Current checks and entities
 
 Any time an event is received from the check execution system for a check, the check's timestamp (rank) is updated in the sorted set for the entity. If a check isn't in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.
@@ -108,20 +104,6 @@ Related to this is the current_entities sorted set, which contains all entities 
 
     current_checks:ENTITY (sorted set) => ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
     current_entities (sorted set) => ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
-
-### Mass failures, eg for a client
-
-```text
-mass_failed_client:CLIENT (string) -> TIMESTAMP
-
-TIMESTAMP - holds the time the mass failure begun, unix time
-```
-
-```text
-mass_failure_events_client:CLIENT (ordered set) -> ( DURATION, TIMESTAMP; DURATION, TIMESTAMP; ... )
-
-DURATION - initially 0, populated with the total duration (seconds) of the mass failure event when it ends
-```
 
 ### Unscheduled Maintenance
 
@@ -222,19 +204,26 @@ drop_alerts_for_contact:CONTACT_ID:MEDIA                    (string with expiry)
 drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK       (string with expiry) -> DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE (string with expiry) -> DURATION
 
-# Vapourware warning: the alerts and alerts_by_* data structures are in the design phase and as yet unimplemented. Work being tracked in gh-182 ... This data structure will change as it is not time bucketed, and needs to be (for ease of aging out old data)
+# Vapourware warning: the alerts and alerts_by_* data structures are in the design phase and as yet
+unimplemented. Work being tracked in gh-182 ... This data structure will change as it is not time
+bucketed, and needs to be (for ease of aging out old data)
 
 alerts                                                     (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
 
 alerts_by_contact:CONTACT_ID                               (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
 alerts_by_contact:CONTACT_ID:MEDIA                         (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
-alerts_by_contact:CONTACT_ID:MEDIA:ENTITY:CHECK            (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
-alerts_by_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE      (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_contact:CONTACT_ID:MEDIA:ENTITY:CHECK *          (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE *    (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alerts_by_entity:ENTITY *                                  (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
 
 alerts_by_check:ENTITY:CHECK                               (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
-alerts_by_check:ENTITY:CHECK:CONTACT_ID                    (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
-alerts_by_check:ENTITY:CHECK:CONTACT_ID:MEDIA              (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
-alerts_by_check:ENTITY:CHECK:CONTACT_ID:MEDIA:STATE        (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_check:ENTITY:CHECK:CONTACT_ID *                  (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_check:ENTITY:CHECK:CONTACT_ID:MEDIA *            (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_check:ENTITY:CHECK:CONTACT_ID:MEDIA:STATE *      (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alerts_by_time:DATE       (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_time:DATE:HH *  (sorted set) -> [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
 
 alert:ALERT_ID  (hash) -> { timestamp => TIMESTAMP,
                             contact   => CONTACT_ID,
@@ -243,7 +232,15 @@ alert:ALERT_ID  (hash) -> { timestamp => TIMESTAMP,
                             check     => ENTITY:CHECK,
                             type      => NOTIFICATION_TYPE,
                             state     => STATE,
+                            subject   => SUBJECT,
                             body      => BODY, }
+
+ALERT_ID - unique identifier for the alert (UUID?)
+DATE     - date string of the form YYYYMMDD
+HOUR     - 2 character string representing the hour, eg '00', '01', ... '23'
+*        - this key type is probably overkill
+SUBJECT  - for email alerts, the subject
+BODY     - for email alerts, the body of the email message. for sms, pagerduty, jabber, the whole message content.
 
 ```
 
