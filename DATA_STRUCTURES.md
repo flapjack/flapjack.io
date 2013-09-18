@@ -177,6 +177,7 @@ We need to store notifications that have been generated (not necessarily sent ou
 *Last alert of each type (problem, recovery, acknowledgement)*
 ```text
 ENTITY:CHECK:last_problem_notification         (string) -> TIMESTAMP
+ENTITY:CHECK:last_unknown_notification         (string) -> TIMESTAMP
 ENTITY:CHECK:last_warning_notification         (string) -> TIMESTAMP
 ENTITY:CHECK:last_critical_notification        (string) -> TIMESTAMP
 ENTITY:CHECK:last_recovery_notification        (string) -> TIMESTAMP
@@ -188,6 +189,7 @@ TIMESTAMP - the time of the last notification sent of the corresponding type (pr
 *Retention of all notifications*
 ```text
 ENTITY:CHECK:problem_notifications         (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:unknown_notifications         (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:warning_notifications         (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:critical_notifications        (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:recovery_notifications        (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
@@ -327,8 +329,10 @@ notification_rule:RULE_ID (hash) -> {
                                       'entity_tags'        => TAG_LIST,
                                       'entities'           => ENTITY_LIST,
                                       'time_restrictions'  => TIME_RESTRICTIONS,
+                                      'unknown_media'      => MEDIA_LIST,
                                       'warning_media'      => MEDIA_LIST,
                                       'critical_media'     => MEDIA_LIST,
+                                      'unknown_blackhole'  => BOOLEAN,
                                       'warning_blackhole'  => BOOLEAN,
                                       'critical_blackhole' => BOOLEAN,
                                     }

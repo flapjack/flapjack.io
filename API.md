@@ -1094,6 +1094,7 @@ curl http://localhost:4091/contacts/21/notification_rules
         "extimes": []
       }
     ],
+    "unknown_media": [],
     "warning_media": [
       "email"
     ],
@@ -1101,6 +1102,7 @@ curl http://localhost:4091/contacts/21/notification_rules
       "sms",
       "email"
     ],
+    "unknown_blackhole": false,
     "warning_blackhole": false,
     "critical_blackhole": false
   },
@@ -1115,6 +1117,7 @@ curl http://localhost:4091/contacts/21/notification_rules
       "foo-app-02.example.com"
     ],
     "time_restrictions": [],
+    "unknown_media": [],
     "warning_media": [
       "email"
     ],
@@ -1122,6 +1125,7 @@ curl http://localhost:4091/contacts/21/notification_rules
       "sms",
       "email"
     ],
+    "unknown_blackhole": false,
     "warning_blackhole": false,
     "critical_blackhole": false
   }
@@ -1168,6 +1172,7 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/notification_rules/08f
       "extimes": []
     }
   ],
+  "unknown_media": [],
   "warning_media": [
     "email"
   ],
@@ -1175,6 +1180,7 @@ curl -w 'response: %{http_code} \n' http://localhost:4091/notification_rules/08f
     "sms",
     "email"
   ],
+  "unknown_blackhole": false,
   "warning_blackhole": false,
   "critical_blackhole": false
 }
@@ -1216,6 +1222,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
         "extimes": []
       }
     ],
+    "unknown_media": [],
     "warning_media": [
       "email"
     ],
@@ -1223,6 +1230,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
       "sms",
       "email"
     ],
+    "unknown_blackhole": false,
     "warning_blackhole": false,
     "critical_blackhole": false
   }' \
@@ -1274,6 +1282,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
         "extimes": []
       }
     ],
+    "unknown_media": [],
     "warning_media": [
       "email"
     ],
@@ -1281,6 +1290,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
       "sms",
       "email"
     ],
+    "unknown_blackhole": false,
     "warning_blackhole": false,
     "critical_blackhole": false
   }' \
