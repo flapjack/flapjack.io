@@ -3,11 +3,12 @@
 Sections:
 
 - [Using Flapjack](wiki/USING)
-- [Developing Flapjack](wiki/DEVELOPING)
-- [Redis Data Structure](wiki/DATA_STRUCTURES)
 - [API](wiki/API)
+- [Notification Routing](wiki/Notification-Routing)
 - [Importing](wiki/IMPORTING)
 - [Debugging Flapjack](wiki/DEBUGGING)
+- [Developing Flapjack](wiki/DEVELOPING)
+- [Redis Data Structure](wiki/DATA_STRUCTURES)
 - [Flapjack Glossary](wiki/GLOSSARY)
 - [Releasing Flapjack](wiki/Releasing)
 - Methods for [promoting Flapjack](wiki/Promoting)
@@ -23,3 +24,7 @@ Formats:
 
 * [PNG](https://raw.github.com/wiki/flpjck/flapjack/flapjack-highres.png)
 * [SVG](https://raw.github.com/wiki/flpjck/flapjack/flapjack-logo.svg)
+
+### Sources
+
+* [Architecture diagrams](https://raw.github.com/wiki/flpjck/flapjack/Flapjack%20Architecture.key)
