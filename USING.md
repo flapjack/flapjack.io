@@ -49,7 +49,7 @@ We want to lower the number of gems that Flapjack relies on -- any pull requests
 <a id="architecture">&nbsp;</a>
 ## Architecture
 
-![Flapjack architecture diagram as of 2013-09-23](http://i.imgur.com/li0U0od.png)
+![Flapjack architecture diagram as of 2013-09-27](https://raw.github.com/wiki/flpjck/flapjack/flapjack-highres.png)
 
 ```
 Check Receivers ---> Executive ---> Gateways
