@@ -1,6 +1,6 @@
 This is how events are turned into alerts, and how alerts are routed to contacts:
 
-![notification routing](https://raw.github.com/wiki/flpjck/flapjack/notification-routing.png)
+![notification routing](https://raw.github.com/wiki/flpjck/flapjack/notification-routing.gif)
 
 #### Creating the above animation
 
