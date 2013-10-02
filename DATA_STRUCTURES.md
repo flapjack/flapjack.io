@@ -92,7 +92,7 @@ STATE (string) - eg 'acknowledgement'
 
 ### Failed checks
 
-*Failed services for all clients*
+*All failing checks*
 
     failed_checks (sorted set) -> ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
 
@@ -370,6 +370,14 @@ EXRULE, RTIME, EXTIME - See the ice_cube documentation and the iCal specificatio
 ```
 Notes
 * TIME_RESTRICTION is a hash representation of an RFC 2445 iCalendar schedule. It is the same format accepted by the flapjack API. When acting on the time restrictions within a notification rule, flapjack modifies the format of the hash to be compatible with [ice_cube](https://github.com/seejohnrun/ice_cube)'s hash format before instantiating an IceCube::Schedule object to operate on.
+
+### Alerting Checks per Contact Media
+
+We keep track of which failing checks are alerting for each contact's media, for rollup initially but should provide a useful and fast view for users into which failing checks they are being alerted for.
+
+```text
+contact_alerting_checks:CONTACT_ID:media:MEDIA (sorted set) -> ( TIMESTAMP, ENTITY:CHECK ; ... )
+```
 
 ### Event processor statistics
 
