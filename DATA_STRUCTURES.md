@@ -205,6 +205,7 @@ drop_alerts_for_contact:CONTACT_ID                          (string with expiry)
 drop_alerts_for_contact:CONTACT_ID:MEDIA                    (string with expiry) -> DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK       (string with expiry) -> DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE (string with expiry) -> DURATION
+drop_rollup_alerts_for_contact:CONTACT_ID:MEDIA             (string with expiry) -> DURATION
 
 # Vapourware warning: the alerts and alerts_by_* data structures are in the design phase and as yet
 unimplemented. Work being tracked in gh-182 ... This data structure will change as it is not time
@@ -233,16 +234,19 @@ alert:ALERT_ID  (hash) -> { timestamp => TIMESTAMP,
                             address   => ADDRESS,
                             check     => ENTITY:CHECK,
                             type      => NOTIFICATION_TYPE,
+                            rollup    => ROLLUP_TYPE,
                             state     => STATE,
                             subject   => SUBJECT,
                             body      => BODY, }
 
-ALERT_ID - unique identifier for the alert (UUID?)
-DATE     - date string of the form YYYYMMDD
-HOUR     - 2 character string representing the hour, eg '00', '01', ... '23'
-*        - this key type is probably overkill
-SUBJECT  - for email alerts, the subject
-BODY     - for email alerts, the body of the email message. for sms, pagerduty, jabber, the whole message content.
+ALERT_ID    - unique identifier for the alert (UUID?)
+DATE        - date string of the form YYYYMMDD
+HOUR        - 2 character string representing the hour, eg '00', '01', ... '23'
+*           - this key type is probably overkill
+SUBJECT     - for email alerts, the subject
+BODY        - for email alerts, the body of the email message. for sms, pagerduty, jabber, the whole message content.
+ROLLUP_TYPE - one of nil, 'problem' or 'recovery'. A recovery rollup alert is where the rollup is ending due to
+              the number of alerting events falling below the rollup threshold
 
 ```
 
