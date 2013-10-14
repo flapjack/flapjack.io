@@ -39,6 +39,19 @@ NB, if the cucumber tests fail with a [spurious lexing error](https://github.com
 cucumber -f fuubar features
 ```
 
+Code Coverage Reporting
+-----------------------
+
+To engage [SimpleCov](https://github.com/colszowka/simplecov) for a code coverage report, set the COVERAGE environment variable before running one (or both) of the test suites:
+
+```bash
+COVERAGE=x rake spec
+COVERAGE=x rake features
+open coverage/index.html
+```
+
+Note that SimpleCov will merge the results of the two test suite's measured code coverage if you run them both within a 10 minute timeout.
+
 Startup and Shutdown
 --------------------
 Ensure your local redis server is running, and then to start:
