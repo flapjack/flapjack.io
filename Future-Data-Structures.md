@@ -57,9 +57,9 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
     check:ID:contact_ids                           -> SET
     check:ID:state_ids                             -> ZSET, timestamp key
     check:ID:scheduled_maintenances_by_start_ids   -> ZSET, start_time key
-    check:ID:scheduled_maintenances_by_end_ids     -> ZSET, start_time key
+    check:ID:scheduled_maintenances_by_end_ids     -> ZSET, end_time key
     check:ID:unscheduled_maintenances_by_start_ids -> ZSET, start_time key
-    check:ID:unscheduled_maintenances_by_end_ids   -> ZSET, start_time key
+    check:ID:unscheduled_maintenances_by_end_ids   -> ZSET, end_time key
 
 
 ### Check state changes & notifications
