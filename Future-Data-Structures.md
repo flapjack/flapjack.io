@@ -1,4 +1,4 @@
-## Revised data structures
+
 NB: This is using a Redis ORM layer provisionally named RedisRecord, which provides an ActiveModel implementation over a Redis data store. Everything below is subject to confirmation, pending review.
 
 The following documentation just lists the data fields at the moment; more commentary regarding valid values etc. will be added soon.
