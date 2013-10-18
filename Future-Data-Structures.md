@@ -1,4 +1,3 @@
-
 NB: This is using a Redis ORM layer provisionally named RedisRecord, which provides an ActiveModel implementation over a Redis data store. Everything below is subject to confirmation, pending review.
 
 The following documentation just lists the data fields at the moment; more commentary regarding valid values etc. will be added soon.
@@ -11,7 +10,7 @@ TODO: where index key must be unique, could use a global index hash for that key
 
 TODO: notification rule media/blackhole should be moved to 3 child objects, based on state
 
-TODO: Notification/Message should be persisted to Redis, the ID posted to the queue and deleted on pickup by the gateway. We may preserve the original JSON data format as a parallel means of passing data to the notifier/gateways.
+TODO: Notification/Message should be persisted to Redis, the ID posted to the queue and deleted on pickup by the notifier/gateway. We may preserve the original JSON data format as a parallel means of passing messages to the gateways by external processes ("to notifier" is more of an internal concern).
 
 ### Data type definitions
 
