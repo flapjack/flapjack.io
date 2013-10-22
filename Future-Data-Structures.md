@@ -1,12 +1,6 @@
-NB: This is using a Redis ORM layer provisionally named RedisRecord, which provides an ActiveModel implementation over a Redis data store. Everything below is subject to confirmation, pending review.
+NB: This is implemented using [Sandstorm](https://github.com/ali-graham/sandstorm). Everything below is subject to confirmation, pending review.
 
 The following documentation just lists the data fields at the moment; more commentary regarding valid values etc. will be added soon.
-
-TODO: catch up the code with the key naming below
-
-TODO: the indexing columns, `by_*` below should maybe be renamed `ids_by_*`.
-
-TODO: where index key must be unique, could use a global index hash for that key instead of multiple lists.
 
 TODO: notification rule media/blackhole should be moved to 3 child objects, based on state
 
@@ -25,7 +19,7 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
 
     # global
     entity:ids                -> SET of IDs
-    entity:by_name:NAME       -> multiple SETs of IDs (unique key)
+    entity:by_name            -> HASH of STRING -> ID
     entity:by_enabled:ENABLED -> two SETs of IDs, as enabled is a BOOLEAN
 
     # single record
@@ -68,7 +62,7 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
     check_state:ids            -> SET of IDs
     check_state:by_state       -> four SETs of IDs
     check_state:by_notified    -> two SETs of IDS, as notified is a BOOLEAN
-    check_state:by_count       -> multiple SETs of IDs (unique key)
+    check_state:by_count       -> HASH of INTEGER -> ID
 
     # single record
     check_state:ID:attrs              -> HASH
@@ -186,12 +180,3 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
        entity_check_id                        -> ID
        state}                                 -> STRING
     notification_block:ID:belongs_to        -> HASH {'contact_id' => ID}
-
-### Message
-
-    # global
-    message:ids
-    
-    # single record
-    message:ID:attrs
-      TODO
