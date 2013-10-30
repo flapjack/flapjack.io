@@ -1,4 +1,4 @@
-Flapjack follows the version numbering conventions as set out in the [Semantic Versioning 2.0](http://semver.org/) specification. Specifically: 
+Flapjack follows the version numbering conventions as set out in the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) specification. Specifically: 
 
 > Given a version number MAJOR.MINOR.PATCH, increment the:
 > 
@@ -10,10 +10,16 @@ Flapjack follows the version numbering conventions as set out in the [Semantic V
 
 ### How features + bug fixes get into releases
 
-* New issues are created, and discussion ensues in the issue comments
+* New issues are created, and discussion ensues in the issue's comments
 * We don't initially allocate a milestone to an issue
 * Issues without milestones are triaged in release planning meetings
-* Release planning meetings are held publicly on Google Hangouts, and will be announced in advance
+* Release planning meetings are held publicly on Google Hangouts, and will be announced in advance.
+
+The outcomes for release planning meetings are:
+
+* Issues without milestones are allocate a milestone
+* Issues are allocated to the next MINOR release 
+* A release plan is published to the [Flapjack wiki](https://github.com/flpjck/flapjack/wiki/pages) in the format "Release plan for <VERSION>"
 
 ### Bug policy
 
