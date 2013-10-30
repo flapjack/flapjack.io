@@ -1,3 +1,5 @@
+**These are notes from a brainstorming session done in July 2013 on how to improve the build engineering + release management of Flapjack.**
+
 ## How is Flapjack currently distributed?
 
 * As a [gem on rubygems.org](https://rubygems.org/gems/flapjack)
