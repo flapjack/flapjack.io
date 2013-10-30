@@ -22,7 +22,7 @@
 - **ACTION:** Change omnibus-flapjack to use shipped init script
 
 [`omnibus-flapjack` issues](https://github.com/flpjck/omnibus-flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
-
+[`vagrant-flapjack` issues](https://github.com/flpjck/vagrant-flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
 
 ### Documentation + branding
 
