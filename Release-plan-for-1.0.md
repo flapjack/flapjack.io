@@ -3,7 +3,7 @@
 - Do as little development for 1.0 as possible
 - [Sandstorm](https://github.com/ali-graham/sandstorm) will make development easier post-1.0
 - ~~**ACTION:** List what we are going to do and not do for 1.0~~
-- **ACTION:** Get everything we're going to do for 1.0 tagged in gh issues
+- ~~**ACTION:** Get everything we're going to do for 1.0 tagged in gh issues~~
 
 [`flapjack` issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
 
