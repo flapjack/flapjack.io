@@ -389,7 +389,6 @@ The following counters are incremented during event processing so we can see how
 
 ```text
 event_counters (hash) -> { all => COUNTER, ok => COUNTER, failure => COUNTER, action => COUNTER }
-boot_time    (string) -> TIMESTAMP
 
 COUNTER - incrementing integer counter, reset to zero when the event processor boots
 ```
@@ -399,8 +398,8 @@ COUNTER - incrementing integer counter, reset to zero when the event processor b
 To support multiple concurrent executive instances:
 
 ```text
-executive_instances    (ordered set) -> (BOOTTIME, HOSTIDENT:PID; BOOTTIME, HOSTIDENT:PID; ...)
-event_counters:HOSTIDENT:PID  (hash) -> { all => COUNTER, ok => COUNTER, failure => COUNTER,
-                                          action => COUNTER }
+executive_instance:HOSTIDENT:PID (hash) -> { boot_time => BOOTTIME }
+event_counters:HOSTIDENT:PID     (hash) -> { all => COUNTER, ok => COUNTER, failure => COUNTER,
+                                                    action => COUNTER }
 ```
 
