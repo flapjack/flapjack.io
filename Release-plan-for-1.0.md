@@ -21,7 +21,8 @@
 - **ACTION:** [Update Flapjack init script in Flapjack repo](https://github.com/flpjck/flapjack/issues/350)
 - **ACTION:** [Change omnibus-flapjack to use shipped init script](https://github.com/flpjck/omnibus-flapjack/issues/9)
 
-[`omnibus-flapjack` issues](https://github.com/flpjck/omnibus-flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
+[`flapjack` issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.    
+[`omnibus-flapjack` issues](https://github.com/flpjck/omnibus-flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.    
 There are no `vagrant-flapjack` issues for the 1.0 milestone.
 
 ### Documentation + branding
@@ -32,10 +33,10 @@ There are no `vagrant-flapjack` issues for the 1.0 milestone.
   - "HOWTO configure the [PagerDuty](http://www.pagerduty.com/) gateway"
   - "HOWTO add, update, and delete contacts"
   - "HOWTO add, update, and delete notification rules"
-- **ACTION:** Determine a list of HOWTO topics to deliver for 1.0 release
-- **ACTION:** Expand README. provide basics for installing + configuring + running, with pointers to wiki
-- **ACTION:** Add some alphanumerical contact id examples in API documentation
-- **ACTION:** Select new logo
-- **ACTION:** Update visual theme on website to dark-on-light
+- **ACTION:** [Determine a list of HOWTO topics to deliver for 1.0 release](https://github.com/flpjck/flapjack/issues/351)
+- **ACTION:** [Expand README. provide basics for installing + configuring + running, with pointers to wiki](https://github.com/flpjck/flapjack/issues/352)
+- **ACTION:** [Add some alphanumerical contact id examples in API documentation](https://github.com/flpjck/flapjack/issues/353)
+- **ACTION:** [Select new logo](http://99designs.com.au/logo-design/contests/logo-wanted-flapjack-260396/entries?filter=allactive&sorting=rating)
+- **ACTION:** [Update visual theme on website to dark-on-light](https://github.com/flpjck/flapjack/issues/354)
 
 [`flapjack` issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
