@@ -26,5 +26,5 @@ The outcomes for release planning meetings are:
 Bugs are swept under the carpet in many open source projects. Flapjack has a clear policy for how we deal with bugs: 
 
 * For bugs triaged as **easy**, we try to fix + release in a PATCH release
-* For bugs triaged as **medium**, we try fix slot them into the next MINOR release
-* For bugs triaged as **hard**, we try and slot them into the next MAJOR release
+* For bugs triaged as **medium**, we try to fix + release in the next MINOR release
+* For bugs triaged as **hard**, we try to fix + release in the next MAJOR release
