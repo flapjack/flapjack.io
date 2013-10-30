@@ -1,11 +1,11 @@
-Flapjack issues for the [1.0 milestone](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open).
-
 ### Core features
 
 - Do as little development for 1.0 as possible
 - [Sandstorm](https://github.com/ali-graham/sandstorm) will make development easier post-1.0
 - **ACTION:** List what we are going to do and not do for 1.0
 - **ACTION:** Get everything we're going to do for 1.0 tagged in gh issues
+
+[flapjack issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
 
 ### Building + packaging
 
@@ -21,16 +21,21 @@ Flapjack issues for the [1.0 milestone](https://github.com/flpjck/flapjack/issue
 - **ACTION:** Update Flapjack init script in Flapjack repo
 - **ACTION:** Change omnibus-flapjack to use shipped init script
 
+[omnibus-flapjack issues](https://github.com/flpjck/omnibus-flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
+
+
 ### Documentation + branding
 
 - Install documentation is good
-- Running documentation is non-existant
+- Running documentation is non-existent
 - HOWTO style documentation may work, for example:
   - "HOWTO configure the [PagerDuty](http://www.pagerduty.com/) gateway"
   - "HOWTO add, update, and delete contacts"
   - "HOWTO add, update, and delete notification rules"
-- **ACTION:** Determine a list of howto topics to deliver for 1.0 release
+- **ACTION:** Determine a list of HOWTO topics to deliver for 1.0 release
 - **ACTION:** Expand README. provide basics for installing + configuring + running, with pointers to wiki
 - **ACTION:** Add some alphanumerical contact id examples in API documentation
 - **ACTION:** Select new logo
 - **ACTION:** Update visual theme on website to dark-on-light
+
+[flapjack issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
