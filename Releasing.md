@@ -17,7 +17,7 @@ Flapjack follows the version numbering conventions as set out in the [Semantic V
 
 The outcomes for release planning meetings are:
 
-* Issues without milestones are allocate a milestone
+* Issues without milestones are allocated a milestone
 * Issues are allocated to the next MINOR release 
 * A release plan is published to the [Flapjack wiki](https://github.com/flpjck/flapjack/wiki/pages) in the format "Release plan for \<MAJOR.MINOR\>"
 
