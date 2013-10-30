@@ -5,7 +5,7 @@
 - **ACTION:** List what we are going to do and not do for 1.0
 - **ACTION:** Get everything we're going to do for 1.0 tagged in gh issues
 
-[flapjack issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
+[`flapjack` issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
 
 ### Building + packaging
 
@@ -21,7 +21,7 @@
 - **ACTION:** Update Flapjack init script in Flapjack repo
 - **ACTION:** Change omnibus-flapjack to use shipped init script
 
-[omnibus-flapjack issues](https://github.com/flpjck/omnibus-flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
+[`omnibus-flapjack` issues](https://github.com/flpjck/omnibus-flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
 
 
 ### Documentation + branding
@@ -38,4 +38,4 @@
 - **ACTION:** Select new logo
 - **ACTION:** Update visual theme on website to dark-on-light
 
-[flapjack issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
+[`flapjack` issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.
