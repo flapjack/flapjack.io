@@ -23,6 +23,7 @@
 
 [`flapjack` issues](https://github.com/flpjck/flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.    
 [`omnibus-flapjack` issues](https://github.com/flpjck/omnibus-flapjack/issues?direction=asc&milestone=1&page=1&sort=created&state=open) for the 1.0 milestone.    
+[`packages.flapjack.io` issues](https://github.com/flpjck/packages.flapjack.io/issues?milestone=2&page=1&state=open) for the 1.0 milestone.   
 There are no `vagrant-flapjack` issues for the 1.0 milestone.
 
 ### Documentation + branding
