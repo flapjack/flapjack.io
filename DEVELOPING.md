@@ -25,6 +25,12 @@ To run the unit tests, check out the code and run:
 rake spec
 ```
 
+The following environment variables will change the behaviour of the rspec tests:
+
+- `SHOW_LOGGER_ALL` - if set, will print out all logger messages
+- `SHOW_LOGGER_ERRORS` - if set, will print out all logger messages at ERROR or FATAL level
+- `COVERAGE` - enables SimpleCov for code coverage reporting, see below
+
 Integration testing is done with Cucumber, and integration tests live in `features/`.
 
 To run the integration tests, check out the code and run:
@@ -38,6 +44,14 @@ NB, if the cucumber tests fail with a [spurious lexing error](https://github.com
 ```bash
 cucumber -f fuubar features
 ```
+
+If you have a failing scenario and would like to see the log leading up to the error, you can put in a line like the following above the failing line in the scenario:
+
+```gherkin
+  And show me the lovely log
+```
+
+You can use whatever adjective you like in there, so tune it to suit the mood of the moment.
 
 Code Coverage Reporting
 -----------------------
