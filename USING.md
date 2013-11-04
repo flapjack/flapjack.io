@@ -6,6 +6,8 @@
 - [Components](#components)
 - [Configuring Components](#configuring_components)
 - [Running](#running)
+- [Resque](#resque)
+- [Redis Database Instances](#redis_database_instances)
 
 <a id="installing">&nbsp;</a>
 ## Installing
@@ -61,6 +63,16 @@ The Flapjack **Executive** reads events from the events queue and determines whi
 
 Flapjack **Gateways** serve as the public interface to Flapjack. There are *unidirectional* notifiers (e.g. `email` and `sms`, which read notifications from a queue and send them out to registered contacts, there are *bidirectional* notifiers (e.g. `jabber`, `pagerduty`) which do the above and also offer a back-channel for acknowledgements etc., and there are also `web` and `api` gateways for retrieving reporting data, creating maintenance periods, acknowledging checks, etc.
 
+### Processor and Notifier
+
+In the beginning, there was Executive. This has been split into two separte components, *processor* and *notifier*.
+
+Flapjack processor processes events from the *events* list in redis. It does a blocking read on redis so new events are picked off the events list and processed as soon as they created.
+
+When executive decides somebody ought to be notified (for a problem, recovery, or acknowledgement or what-have-you) it generates a job on the *notifications* queue.
+
+Notifier picks up jobs from the *notificaitons* queue, looks up contact information, applies notification rules and per-media intervals and rollup logic, and then creates notification jobs for the appropriate notification gateways.
+
 <a id="components">&nbsp;</a>
 ## Components
 
@@ -70,27 +82,31 @@ Executables:
   * `flapjack-nagios-receiver` => reads nagios check output on standard input and places them on the events queue in redis as JSON blobs. Currently unable to be run in-process with `flapjack`
   * `flapper` => runs a daemon that intermittently listens on port 12345 (one minute on, one minute off, ...)
     to be used for generating heartbeat events for end to end monitoring of flapjack
+  * `flapjack-populator` => creates contacts and entities in redis, reading from JSON formatted data files
+  * `receive-events` => reads archived events from a separate flapjack environment and adds them to the local events queue for processing
+  * `simulate-failed-check` => simulates a failed check by creating a stream of events for flapjack to process
 
-There are more executables in the bin directory (FIXME describe them here).
+Usage information for each executable is provided below.
 
 Pikelets:
 
-*   `executive` => processes events off a queue (a redis list) and decides what actions to take (alert, record state changes, etc)
+*   `processor` => processes monitoring events off the *events* queue (a redis list) and decides what actions to take (generate notification event, record state changes, etc)
+*   `notifier` => processes notification events off the *notifications* queue (a redis list) and works out who to notify, and on which media, and with what kind of notification message. It then creates jobs for the various notification gateways (below)
 
-*   gateways
+*   notifictaion gateways
     * `email` => generates email notifications (resque, mail)
     * `sms` => generates sms notifications (resque)
     * `jabber` => connects to an XMPP (jabber) server, sends notifications (to rooms and individuals), handles acknowledgements from jabber users and other commands (blather)
     * `pagerduty` => sends notifications to and accepts acknowledgements from [PagerDuty](http://www.pagerduty.com/) (NB: you will need to have a registered PagerDuty account to use this)
+
+*   other gateways
     * `web` => browsable web interface (sinatra, thin)
     * `api` => HTTP API server (sinatra, thin)
     * `oobetet` => "out-of-band" end-to-end testing, used for monitoring other instances of flapjack to ensure that they are running correctly
 
 Pikelets are flapjack components which can be run within the same ruby process, or as separate processes.
 
-The simplest configuration will have one `flapjack` process running executive, web, and some notification gateways, and one `flapjack-nagios-receiver` process receiving events from Nagios and placing them on the events queue for processing by executive.
-
-
+The simplest configuration will have one `flapjack` process running processor, notifier, web, and some notification gateways, and one `flapjack-nagios-receiver` process receiving events from Nagios and placing them on the events queue for processing.
 
 
 <a id="configuring_components">&nbsp;</a>
@@ -256,24 +272,111 @@ Create the named pipe if it doesn't already exist:
 <a id="running">&nbsp;</a>
 ## Running
 
-    flapjack COMMAND [OPTIONS]
+There's a collection of executables included. Here's their usage information.
 
-    Commands
-         start                           start flapjack
-         stop                            stop flapjack
-         restart                         (re)start flapjack
-         reload                          reload flapjack configuration
-         status                          see if flapjack is running
+### flapjack*
+```
+Usage: flapjack COMMAND [OPTIONS]
 
-    Options
-        -c, --config [PATH]              PATH to the config file to use
-        -d, --[no-]daemonize             Daemonize?
-        -p, --pidfile [PATH]             PATH to the pidfile to write to
-        -l, --logfile [PATH]             PATH to the logfile to write to
+Commands
+     start                           start flapjack
+     stop                            stop flapjack
+     restart                         (re)start flapjack
+     reload                          reload flapjack configuration
+     status                          see if flapjack is running
+     version                         display flapjack version and exit
+     help                            display this usage info
 
-The command line options override whatever is set in the config file for these configuration items.
+Options
+    -c, --config [PATH]              PATH to the config file to use
+    -d, --[no-]daemonize             Daemonize?
+    -p, --pidfile [PATH]             PATH to the pidfile to write to
+    -l, --logfile [PATH]             PATH to the logfile to write to
+    -v, --version                    display flapjack version
+```
 
--h or --help can be given to show the above usage information.
+### flapjack-nagios-receiver
+```
+Usage: flapjack-nagios-receiver COMMAND [OPTIONS]
+
+Commands
+     start                           start flapjack-nagios-receiver
+     stop                            stop flapjack-nagios-receiver
+     restart                         (re)start flapjack-nagios-receiver
+     status                          see if flapjack-nagios-receiver is running
+
+Options
+    -c, --config [PATH]              PATH to the config file to use
+    -f, --fifo FIFO                  Path to the nagios perfdata named pipe
+    -d, --[no-]daemonize             Daemonize?
+    -p, --pidfile [PATH]             PATH to the pidfile to write to
+    -l, --logfile [PATH]             PATH to the logfile to write to
+```
+Examples:
+```
+flapjack-nagios-receiver-control start --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
+flapjack-nagios-receiver-control status
+flapjack-nagios-receiver-control restart --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
+flapjack-nagios-receiver-control stop
+```
+
+The redis database connection information is read out of the specified flapjack configuration file, for the current FLAPJACK_ENV environment.
+
+
+### flapper
+```
+Usage: flapper COMMAND [OPTIONS]
+
+Commands
+     start                           start flapper
+     stop                            stop flapper
+     restart                         (re)start flapper
+     status                          see if flapper is running
+
+Options
+    -d, --[no-]daemonize             Daemonize?
+    -p, --pidfile [PATH]             PATH to the pidfile to write to
+    -l, --logfile [PATH]             PATH to the logfile to write to
+    -b, --bind-ip [ADDRESS]          ADDRESS (IPv4 or IPv6) for flapper to bind to
+```
+
+### flapjack-populator
+```
+TODO
+```
+
+### receive-events
+```
+Usage: receive-events COMMAND [OPTIONS]
+
+Commands
+     help
+
+Options
+    -c, --config [PATH]              PATH to the config file to use
+    -s, --source URL                 URL of source redis database, eg redis://localhost:6379/0
+    -f, --follow                     keep reading events as they are archived on the source
+    -a, --all                        replay all archived events from the source
+    -l, --last COUNT                 replay the last COUNT events from the source
+    -t, --time TIME                  replay all events archived on the source since TIME
+```
+
+### simulate-failed-check
+```
+Usage: simulate-failed-check COMMAND [OPTIONS]
+
+Commands
+     fail-and-recover
+     fail
+
+Options
+    -c, --config [PATH]              PATH to the config file to use
+    -t, --time MINUTES               MINUTES to generate failure events for
+    -e, --entity ENTITY              ENTITY to generate failure events for ('foo-app-01')
+    -k, --check CHECK                CHECK to generate failure events for ('HTTP')
+    -s, --state STATE                optional STATE to generate failure events with ('CRITICAL')
+```
+
 
 ### flapjack-nagios-receiver
 
@@ -292,23 +395,8 @@ The command line options override whatever is set in the config file for these c
         -p, --pidfile [PATH]             PATH to the pidfile to write to
         -l, --logfile [PATH]             PATH to the logfile to write to
 
-Examples:
-```
-flapjack-nagios-receiver-control start --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
-flapjack-nagios-receiver-control status
-flapjack-nagios-receiver-control restart --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
-flapjack-nagios-receiver-control stop
-```
--h or --help can be given to show the above usage information.
-
-Currently, only the redis database connection information is read out of the specified flapjack configuration file, for the current FLAPJACK_ENV environment.
-
-### executive
-
-Flapjack executive processes events from the 'events' list in redis. It does a blocking read on redis so new events are picked off the events list and processed as soon as they created.
-
-When executive decides somebody ought to be notified (for a problem, recovery, or acknowledgement or what-have-you) it looks up contact information and then creates a notification job on one of the notification queues (eg sms_notifications) in rescue, or via the jabber_notifications or pagerduty_notifications redis lists which are processed by the jabber and pagerduty gateways respectively.
-
+<a id="resque">&nbsp;</a>
+## Resque
 
 ### Resque Workers
 
@@ -335,7 +423,8 @@ resque-web -p 4082 -r localhost:6379:13
 ```
 This will start a resque-web instance listening on port 4082, connecting to the redis server on localhost port 6379, and selecting database 13.
 
-### Redis Database Instances
+<a id="redis_database_instances">&nbsp;</a>
+## Redis Database Instances
 
 We use the following redis database numbers by convention:
 
