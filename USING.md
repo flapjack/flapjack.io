@@ -93,11 +93,11 @@ Pikelets:
 *   `processor` => processes monitoring events off the *events* queue (a redis list) and decides what actions to take (generate notification event, record state changes, etc)
 *   `notifier` => processes notification events off the *notifications* queue (a redis list) and works out who to notify, and on which media, and with what kind of notification message. It then creates jobs for the various notification gateways (below)
 
-*   notifictaion gateways
+*   notification gateways
     * `email` => generates email notifications (resque, mail)
     * `sms` => generates sms notifications (resque)
     * `jabber` => connects to an XMPP (jabber) server, sends notifications (to rooms and individuals), handles acknowledgements from jabber users and other commands (blather)
-    * `pagerduty` => sends notifications to and accepts acknowledgements from [PagerDuty](http://www.pagerduty.com/) (NB: you will need to have a registered PagerDuty account to use this)
+    * `pagerduty` => sends notifications to and accepts acknowledgements from [PagerDuty](http://www.pagerduty.com/) (NB: contacts will need to have a registered PagerDuty account to use this)
 
 *   other gateways
     * `web` => browsable web interface (sinatra, thin)
@@ -274,7 +274,7 @@ Create the named pipe if it doesn't already exist:
 
 There's a collection of executables included. Here's their usage information.
 
-### flapjack*
+### flapjack
 ```
 Usage: flapjack COMMAND [OPTIONS]
 
@@ -314,10 +314,10 @@ Options
 ```
 Examples:
 ```
-flapjack-nagios-receiver-control start --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
-flapjack-nagios-receiver-control status
-flapjack-nagios-receiver-control restart --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
-flapjack-nagios-receiver-control stop
+flapjack-nagios-receiver start --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
+flapjack-nagios-receiver status
+flapjack-nagios-receiver restart --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
+flapjack-nagios-receiver stop
 ```
 
 The redis database connection information is read out of the specified flapjack configuration file, for the current FLAPJACK_ENV environment.
