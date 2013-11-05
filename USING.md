@@ -342,7 +342,16 @@ Options
 
 ### flapjack-populator
 ```
-TODO
+Usage: flapjack-populator COMMAND [OPTIONS]
+
+Commands:
+     import-entities
+     import-contacts
+     purge-events    purge queued monitoring events
+
+Options
+    -c, --config [PATH]              PATH to the config file to use
+    -f, --from [FILE]                path to the FILE to import
 ```
 
 ### receive-events
@@ -372,6 +381,7 @@ Commands
 Options
     -c, --config [PATH]              PATH to the config file to use
     -t, --time MINUTES               MINUTES to generate failure events for
+    -i, --interval SECONDS           SECONDS between events, can be decimal eg 0.1 (10)
     -e, --entity ENTITY              ENTITY to generate failure events for ('foo-app-01')
     -k, --check CHECK                CHECK to generate failure events for ('HTTP')
     -s, --state STATE                optional STATE to generate failure events with ('CRITICAL')
