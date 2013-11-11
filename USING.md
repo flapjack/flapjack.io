@@ -279,6 +279,7 @@ The line must:
 Currently any error messages about lines that are unable to be read are written to STDOUT.
 
 **Limitations with the flapjack-nagios-receiver approach**
+
 We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.
 
 For this reason, a nagios event broker module - [flapjackfeeder](https://github.com/flpjck/flapjackfeeder) - is being developed to offer an alternative to flapjack-nagios-receiver for high check throughput environments, or potentially a full replacement.
