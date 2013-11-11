@@ -243,6 +243,7 @@ development:
 ```
 
 
+<a id="configuring_nagios">&nbsp;</a>
 ### Configuring Nagios
 
 You need a Nagios prior to version 3.3 as this breaks perfdata output for checks which don't generate performance data (stuff after a | in the check output). We are developing and running against Nagios version 3.2.3 with success.
@@ -268,6 +269,19 @@ Create the named pipe if it doesn't already exist:
 
     mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
 
+Note that the templates used in the nagios configuration for service_perfdata_file_template and host_perfdata_file_template must configured to be exactly as flapjack-nagios-receiver expects otherwise it will drop events that don't match the expected format. The current requrements for the data format that flapjack-nagios-receiver expects from the named pipe is as per the above nagios templates. The following checks are made of each line of textual data found in the pipe, and if any fail the line does not result in an event being created:
+
+The line must:
+- split into at least 9 tab-separated words
+- contain a unix timestamp in the 2nd word (seconds since epoch) - so just a whole number
+- the first word (object type) must contain either `[HOSTPERFDATA]` or `[SERVICEPERFDATA]`.
+
+Currently any error messages about lines that are unable to be read are written to STDOUT.
+
+**Limitations with the flapjack-nagios-receiver approach*
+We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.
+
+For this reason, a nagios event broker module - [flapjackfeeder](https://github.com/flpjck/flapjackfeeder) - is being developed to offer an alternative to flapjack-nagios-receiver for high check throughput environments, or potentially a full replacement.
 
 <a id="running">&nbsp;</a>
 ## Running
@@ -322,6 +336,7 @@ flapjack-nagios-receiver stop
 
 The redis database connection information is read out of the specified flapjack configuration file, for the current FLAPJACK_ENV environment.
 
+See the [Configuring Nagios](#configuring_nagios) section above for more information.
 
 ### flapper
 ```
