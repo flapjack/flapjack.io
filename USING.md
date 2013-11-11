@@ -290,7 +290,7 @@ For this reason, a nagios event broker module - [flapjackfeeder](https://github.
 There's a collection of executables included. Here's their usage information.
 
 ### flapjack
-```
+``` text
 Usage: flapjack COMMAND [OPTIONS]
 
 Commands
@@ -311,7 +311,7 @@ Options
 ```
 
 ### flapjack-nagios-receiver
-```
+``` text
 Usage: flapjack-nagios-receiver COMMAND [OPTIONS]
 
 Commands
@@ -326,9 +326,33 @@ Options
     -d, --[no-]daemonize             Daemonize?
     -p, --pidfile [PATH]             PATH to the pidfile to write to
     -l, --logfile [PATH]             PATH to the logfile to write to
+    -h, --help                       Show this usage message
+
+Required Nagios Configuration Changes
+-------------------------------------
+
+flapjack-nagios-receiver reads events from a named pipe written to by Nagios..                                                              The named pipe needs creating, and Nagios needs to be told to write performance.
+data output to it.
+
+To create the named pipe:
+
+  mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
+
+nagios.cfg changes:
+
+  # modified lines:
+  enable_notifications=0
+  host_perfdata_file=/var/cache/nagios3/event_stream.fifo
+  service_perfdata_file=/var/cache/nagios3/event_stream.fifo
+  host_perfdata_file_template=[HOSTPERFDATA]\t$TIMET$\t$HOSTNAME$\tHOST\t$HOSTSTATE$\t$HOSTEXECUTIONTIME$\t$HOSTLATENCY$\t$HOSTOUTPUT$\t$HOSTPERFDATA$
+  service_perfdata_file_template=[SERVICEPERFDATA]\t$TIMET$\t$HOSTNAME$\t$SERVICEDESC$\t$SERVICESTATE$\t$SERVICEEXECUTIONTIME$\t$SERVICELATENCY$\t$SERVICEOUTPUT$\t$SERVICEPERFDATA$
+  host_perfdata_file_mode=p
+  service_perfdata_file_mode=p
+
+Details on the wiki: https://github.com/flpjck/flapjack/wiki/USING#configuring-nagios
 ```
 Examples:
-```
+``` bash
 flapjack-nagios-receiver start --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
 flapjack-nagios-receiver status
 flapjack-nagios-receiver restart --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
@@ -340,7 +364,7 @@ The redis database connection information is read out of the specified flapjack 
 See the [Configuring Nagios](#configuring_nagios) section above for more information.
 
 ### flapper
-```
+``` text
 Usage: flapper COMMAND [OPTIONS]
 
 Commands
@@ -357,7 +381,7 @@ Options
 ```
 
 ### flapjack-populator
-```
+``` text
 Usage: flapjack-populator COMMAND [OPTIONS]
 
 Commands:
@@ -371,7 +395,7 @@ Options
 ```
 
 ### receive-events
-```
+``` text
 Usage: receive-events COMMAND [OPTIONS]
 
 Commands
@@ -387,7 +411,7 @@ Options
 ```
 
 ### simulate-failed-check
-```
+``` text
 Usage: simulate-failed-check COMMAND [OPTIONS]
 
 Commands
@@ -402,24 +426,6 @@ Options
     -k, --check CHECK                CHECK to generate failure events for ('HTTP')
     -s, --state STATE                optional STATE to generate failure events with ('CRITICAL')
 ```
-
-
-### flapjack-nagios-receiver
-
-    flapjack-nagios-receiver COMMAND [OPTIONS]
-
-    Commands
-         start                           start flapjack-nagios-receiver
-         stop                            stop flapjack-nagios-receiver
-         restart                         (re)start flapjack-nagios-receiver
-         status                          see if flapjack-nagios-receiver is running
-
-    Options
-        -c, --config [PATH]              PATH to the config file to use
-        -f, --fifo FIFO                  Path to the nagios perfdata named pipe
-        -d, --[no-]daemonize             Daemonize?
-        -p, --pidfile [PATH]             PATH to the pidfile to write to
-        -l, --logfile [PATH]             PATH to the logfile to write to
 
 <a id="resque">&nbsp;</a>
 ## Resque
