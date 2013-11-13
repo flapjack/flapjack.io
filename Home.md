@@ -15,15 +15,13 @@ Sections:
 
 ### Logo
 
-Logo derived from [Pancake](http://www.flickr.com/photos/ewedistrict/23110406/)
-by Brandon Martin-Anderson, and is
-[CC Attribution-Share Alike 2.0 Generic](http://creativecommons.org/licenses/by-sa/2.0/deed.en)
- licenced.
-
 Formats:
 
-* [PNG](https://raw.github.com/wiki/flpjck/flapjack/flapjack-highres.png)
-* [SVG](https://raw.github.com/wiki/flpjck/flapjack/flapjack-logo.svg)
+* [PNG](https://raw.github.com/wiki/flpjck/flapjack/flapjack.png)
+* [JPEG](https://raw.github.com/wiki/flpjck/flapjack/flapjack.jpg)
+* [EPS](https://raw.github.com/wiki/flpjck/flapjack/flapjack.eps)
+
+Or download the [logo bundle zip](https://raw.github.com/wiki/flpjck/flapjack/flapjack.zip).
 
 ### Sources
 
