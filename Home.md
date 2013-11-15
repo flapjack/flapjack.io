@@ -29,6 +29,8 @@ The Flapjack logo is shared under the
 [Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US)
 license.
 
+Font used in logo is [Exo](http://www.google.com/fonts/specimen/Exo). 
+
 ### Sources
 
 * [Architecture diagrams](https://raw.github.com/wiki/flpjck/flapjack/Flapjack%20Architecture.key)
