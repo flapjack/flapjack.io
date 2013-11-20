@@ -129,7 +129,7 @@ BOOLEAN:   one of 'true' or 'false'
 
 **Example**
 ```bash
-curl http://localhost:4091/entities
+curl http://localhost:3081/entities
 ```
 **Response** Status: 200 OK
 ```json
@@ -199,7 +199,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
       }
     ]
   }' \
- http://localhost:4091/entities
+ http://localhost:3081/entities
 ```
 **Response** Status: 204 No Content
 
@@ -215,7 +215,7 @@ CHECKS   (array) = [ CHECK_NAME, CHECK_NAME, ... ]
 
 **Example**
 ```bash
-curl http://localhost:4091/checks/client1-localhost-test-2
+curl http://localhost:3081/checks/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
 ```json
@@ -251,7 +251,7 @@ NB: a bulk query wraps each returned array item with entity & check details (see
 
 **Example 1**
 ```bash
-curl http://localhost:4091/status/client1-localhost-test-2
+curl http://localhost:3081/status/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
 ```json
@@ -285,7 +285,7 @@ curl http://localhost:4091/status/client1-localhost-test-2
 
 **Example 2**
 ```bash
-curl http://localhost:4091/status/client1-localhost-test-2/HTTP+Port+443
+curl http://localhost:3081/status/client1-localhost-test-2/HTTP+Port+443
 ```
 **Response** Status: 200 OK
 ```json
@@ -305,7 +305,7 @@ curl http://localhost:4091/status/client1-localhost-test-2/HTTP+Port+443
 
 **Example 3**
 ```bash
-curl http://localhost:4091/status?check[client1-localhost-test-2]=HOST&check[client1-localhost-test-2]=HTTP+Port+443
+curl http://localhost:3081/status?check[client1-localhost-test-2]=HOST&check[client1-localhost-test-2]=HTTP+Port+443
 ```
 **Response** Status: 200 OK
 ```json
@@ -376,7 +376,7 @@ Get the list of outages for a check, or for all checks of an entity, or for chec
 
 **Example 1**
 ```bash
-curl http://localhost:4091/outages/client1-localhost-test-2
+curl http://localhost:3081/outages/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
 ```json
@@ -417,7 +417,7 @@ curl http://localhost:4091/outages/client1-localhost-test-2
 
 **Example 2**
 ```bash
-curl http://localhost:4091/outages/client1-localhost-test-2/HOST?start_time=2012-12-24T00:00:00Z
+curl http://localhost:3081/outages/client1-localhost-test-2/HOST?start_time=2012-12-24T00:00:00Z
 ```
 **Response** Status: 200 OK
 ```json
@@ -434,7 +434,7 @@ curl http://localhost:4091/outages/client1-localhost-test-2/HOST?start_time=2012
 
 **Example 3**
 ```bash
-curl http://localhost:4091/outages?entity=client1-localhost-test-1&check[client1-localhost-test-2]=HTTP+Port+443
+curl http://localhost:3081/outages?entity=client1-localhost-test-1&check[client1-localhost-test-2]=HTTP+Port+443
 ```
 **Response** Status: 200 OK
 ```json
@@ -501,7 +501,7 @@ Get the list of unscheduled maintenance periods for a check, or for all checks o
 
 **Example 1**
 ```bash
-curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-1
+curl http://localhost:3081/unscheduled_maintenances/client1-localhost-test-1
 ```
 **Response** Status: 200 OK
 ```json
@@ -526,7 +526,7 @@ curl http://localhost:4091/unscheduled_maintenances/client1-localhost-test-1
 
 **Example 2**
 ```bash
-curl http://localhost:4091/unscheduled_maintenances?entity[]=client1-localhost-test-1&entity[]=client1-localhost-test-2
+curl http://localhost:3081/unscheduled_maintenances?entity[]=client1-localhost-test-1&entity[]=client1-localhost-test-2
 ```
 **Response** Status: 200 OK
 ```json
@@ -591,7 +591,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "duration": 3600,
     "summary": "AL - working on it"
   }' \
- http://localhost:4091/acknowledgements/client1-localhost-test-2/HOST
+ http://localhost:3081/acknowledgements/client1-localhost-test-2/HOST
 ```
 **Response** Status: 204 (No Content)
 
@@ -605,7 +605,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "duration": 3600,
     "summary": "AL - working on it"
   }' \
- http://localhost:4091/acknowledgements
+ http://localhost:3081/acknowledgements
 ```
 **Response** Status: 204 (No Content)
 
@@ -635,7 +635,7 @@ CHECKS      (string) = CHECK or
 **Example 1**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" \
- http://localhost:4091/unscheduled_maintenances/client1-localhost-test-2/HOST
+ http://localhost:3081/unscheduled_maintenances/client1-localhost-test-2/HOST
 ```
 **Response** Status: 204 (No Content)
 
@@ -648,7 +648,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
     },
     "end_time" : "2012-12-21T15:47:36+10:30",
   }' \
- http://localhost:4091/unscheduled_maintenances
+ http://localhost:3081/unscheduled_maintenances
 ```
 **Response** Status: 204 (No Content)
 
@@ -679,7 +679,7 @@ Get the list of scheduled maintenance periods for a check (or for all checks of 
 
 **Example 1**
 ```bash
-curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
+curl http://localhost:3081/scheduled_maintenances/client1-localhost-test-2
 ```
 **Response** Status: 200 OK
 ```json
@@ -697,7 +697,7 @@ curl http://localhost:4091/scheduled_maintenances/client1-localhost-test-2
 
 **Example 2**
 ```bash
-curl http://localhost:4091/scheduled_maintenances?check[client1-localhost-test-2]=HOST
+curl http://localhost:3081/scheduled_maintenances?check[client1-localhost-test-2]=HOST
 ```
 **Response** Status: 200 OK
 ```json
@@ -742,7 +742,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "duration": 3600,
     "summary": "SHUT IT ALL DOWN!"
   }' \
- http://localhost:4091/scheduled_maintenances/client1-localhost-test-2/HOST
+ http://localhost:3081/scheduled_maintenances/client1-localhost-test-2/HOST
 ```
 **Response** Status: 204 (No Content)
 
@@ -758,7 +758,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "duration": 3600,
     "summary": "SHUT IT ALL DOWN!"
   }' \
- http://localhost:4091/scheduled_maintenances
+ http://localhost:3081/scheduled_maintenances
 ```
 **Response** Status: 204 (No Content)
 
@@ -788,7 +788,7 @@ CHECKS      (string) = CHECK or
 **Example 1**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" \
- http://localhost:4091/scheduled_maintenances/client1-localhost-test-2/HOST
+ http://localhost:3081/scheduled_maintenances/client1-localhost-test-2/HOST
 ```
 **Response** Status: 204 (No Content)
 
@@ -801,7 +801,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
     },
     "end_time" : "2012-12-21T15:47:36+10:30",
   }' \
- http://localhost:4091/scheduled_maintenances
+ http://localhost:3081/scheduled_maintenances
 ```
 **Response** Status: 204 (No Content)
 
@@ -853,7 +853,7 @@ NB: a bulk query adds entity names to the CHECK hash (see example 2).
 
 **Example 1**
 ```bash
-curl "http://localhost:4091/downtime/client1-localhost-test-2/HOST?start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
+curl "http://localhost:3081/downtime/client1-localhost-test-2/HOST?start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
 ```
 **Response** Status: 200 OK
 ```json
@@ -887,7 +887,7 @@ curl "http://localhost:4091/downtime/client1-localhost-test-2/HOST?start_time=20
 
 **Example 2**
 ```bash
-curl "http://localhost:4091/downtime?check[client1-localhost-test-2]=HOST&start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
+curl "http://localhost:3081/downtime?check[client1-localhost-test-2]=HOST&start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
 ```
 **Response** Status: 200 OK
 (See the Response section for the previous example.)
@@ -914,7 +914,7 @@ CHECKS      (string) = CHECK or
 
 **Example 1**
 ```bash
-curl -X POST "http://localhost:4091/test_notifications/client1-localhost-test-1/HOST"
+curl -X POST "http://localhost:3081/test_notifications/client1-localhost-test-1/HOST"
 ```
 
 **Example 2**
@@ -923,7 +923,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
  '{
     "entity": "client1-localhost-test-2"
   }' \
- http://localhost:4091/test_notifications
+ http://localhost:3081/test_notifications
 ```
 
 **Response** Status: 204 No Content
@@ -935,7 +935,7 @@ Returns all the contacts
 
 **Example**
 ```bash
-curl http://localhost:4091/contacts
+curl http://localhost:3081/contacts
 ```
 
 ```json
@@ -1025,7 +1025,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
       }
     ]
   }' \
- http://localhost:4091/contacts
+ http://localhost:3081/contacts
 ```
 **Response** Status: 204 No Content
 
@@ -1037,7 +1037,7 @@ Returns the core information of a specified contact.
 
 **Example**
 ```bash
-curl http://localhost:4091/contacts/21
+curl http://localhost:3081/contacts/21
 ```
 
 ```json
@@ -1060,7 +1060,7 @@ Lists a contact's notification rules.
 
 **Example**
 ```bash
-curl http://localhost:4091/contacts/21/notification_rules
+curl http://localhost:3081/contacts/21/notification_rules
 ```
 **Response** Status: 200 OK
 ```json
@@ -1139,7 +1139,7 @@ Returns a specified notification rule.
 
 **Example**
 ```bash
-curl -w 'response: %{http_code} \n' http://localhost:4091/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
+curl -w 'response: %{http_code} \n' http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
 ```
 **Response** Status: 200 OK
 ```json
@@ -1234,7 +1234,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "warning_blackhole": false,
     "critical_blackhole": false
   }' \
- http://localhost:4091/notification_rules
+ http://localhost:3081/notification_rules
 ```
 **Response** Status: 200 OK
 
@@ -1294,7 +1294,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
     "warning_blackhole": false,
     "critical_blackhole": false
   }' \
- http://localhost:4091/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
+ http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
 ```
 **Response** Status: 200 OK
 
@@ -1303,7 +1303,7 @@ Returns the notification rule object as per GET.
 **Example 2 - DELETE**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- http://localhost:4091/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
+ http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
 ```
 **Response** Status: 204 OK
 
@@ -1317,7 +1317,7 @@ Includes media type, address, interval, and rollup threshold.
 **Example**
 ```bash
 curl -w 'response: %{http_code} \n' \
- http://localhost:4091/contacts/21/media
+ http://localhost:3081/contacts/21/media
 ```
 
 <a id="get_contacts_id_media_media">&nbsp;</a>
@@ -1339,7 +1339,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
     "interval": 900,
     "rollup_threshold": 3
   }' \
- http://localhost:4091/contacts/21/media/email
+ http://localhost:3081/contacts/21/media/email
 ```
 **Response** Status: 200 OK
 ```json
@@ -1353,7 +1353,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 **Example 2 - DELETE**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- http://localhost:4091/contacts/21/media/pagerduty
+ http://localhost:3081/contacts/21/media/pagerduty
 ```
 **Response** Status: 204 OK
 
@@ -1369,7 +1369,7 @@ Returns the timezone of a contact.
 
 **Example**
 ```bash
-curl -w 'response: %{http_code} \n' http://localhost:4091/contacts/21/timezone
+curl -w 'response: %{http_code} \n' http://localhost:3081/contacts/21/timezone
 ```
 
 **Response** Status: 200 OK
@@ -1391,7 +1391,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
  '{
     "timezone": "Australia/Broken_Hill"
   }' \
- http://localhost:4091/contacts/21/timezone
+ http://localhost:3081/contacts/21/timezone
 ```
 
 **Response** Status: 200 OK
@@ -1413,7 +1413,7 @@ Gets the tags for a contact.
 
 **Example**
 ```bash
-curl http://localhost:4091/contacts/21/tags
+curl http://localhost:3081/contacts/21/tags
 ```
 **Response** Status: 200 OK
 ```json
@@ -1431,12 +1431,12 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
  '{
     "tag": ["admin", "user"]
   }' \
- http://localhost:4091/contacts/21/tags
+ http://localhost:3081/contacts/21/tags
  ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:4091/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
+ "http://localhost:3081/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
 ```
 **Response** Status: 200 OK
 ```json
@@ -1454,12 +1454,12 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
  '{
     "tag": ["admin", "user"]
   }' \
- http://localhost:4091/contacts/21/tags
+ http://localhost:3081/contacts/21/tags
  ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:4091/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
+ "http://localhost:3081/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
 ```
 **Response** Status: 204 No Content
 
@@ -1470,7 +1470,7 @@ Gets the tags for all entities linked to a contact.
 
 **Example**
 ```bash
-curl http://localhost:4091/contacts/21/entity_tags
+curl http://localhost:3081/contacts/21/entity_tags
 ```
 **Response** Status: 200 OK
 ```json
@@ -1490,12 +1490,12 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "entity": {"client1-localhost-test-1" : ["decommission", "unneeded"],
                "client1-localhost-test-2" : ["upgrade"]}
   }' \
- http://localhost:4091/contacts/21/entity_tags
+ http://localhost:3081/contacts/21/entity_tags
 ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:4091/contacts/21/entity_tags?entity\[client1-localhost-test-1\]=decommission&entity\[client1-localhost-test-1\]=unneeded&entity\[client1-localhost-test-2\]=upgrade"
+ "http://localhost:3081/contacts/21/entity_tags?entity\[client1-localhost-test-1\]=decommission&entity\[client1-localhost-test-1\]=unneeded&entity\[client1-localhost-test-2\]=upgrade"
 ```
 **Response** Status: 200 OK
 ```json
@@ -1515,12 +1515,12 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
     "entity": {"client1-localhost-test-1" : ["unneeded"],
                "client1-localhost-test-2" : ["upgrade"]}
   }' \
- http://localhost:4091/contacts/21/entity_tags
+ http://localhost:3081/contacts/21/entity_tags
 ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:4091/contacts/21/entity_tags?entity\[client1-localhost-test-1\]=unneeded&entity\[client1-localhost-test-2\]=upgrade"
+ "http://localhost:3081/contacts/21/entity_tags?entity\[client1-localhost-test-1\]=unneeded&entity\[client1-localhost-test-2\]=upgrade"
 ```
 **Response** Status: 204 No Content
 
@@ -1531,7 +1531,7 @@ Gets the tags for a entity.
 
 **Example**
 ```bash
-curl http://localhost:4091/entities/client1-localhost-test-1/tags
+curl http://localhost:3081/entities/client1-localhost-test-1/tags
 ```
 **Response** Status: 200 OK
 ```json
@@ -1549,12 +1549,12 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
  '{
     "tag": ["web", "app"]
   }' \
- http://localhost:4091/entities/client1-localhost-test-1/tags
+ http://localhost:3081/entities/client1-localhost-test-1/tags
  ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:4091/entities/client1-localhost-test-1/tags?tag\[\]=web&tag\[\]=app"
+ "http://localhost:3081/entities/client1-localhost-test-1/tags?tag\[\]=web&tag\[\]=app"
 ```
 **Response** Status: 200 OK
 ```json
@@ -1574,12 +1574,12 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
  '{
     "tag": ["web", "app"]
   }' \
- http://localhost:4091/entities/client1-localhost-test-1/tags
+ http://localhost:3081/entities/client1-localhost-test-1/tags
  ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:4091/entities/client1-localhost-test-1/tags?tag\[\]=web&tag\[\]=app"
+ "http://localhost:3081/entities/client1-localhost-test-1/tags?tag\[\]=web&tag\[\]=app"
 ```
 
 **Response** Status: 204 No Content
