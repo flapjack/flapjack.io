@@ -17,9 +17,9 @@ Sections:
 
 Formats:
 
-* [JPEG](https://raw.github.com/wiki/flpjck/flapjack/flapjack.jpg)
-* [PNG](https://raw.github.com/wiki/flpjck/flapjack/flapjack.png)
-* [EPS](https://raw.github.com/wiki/flpjck/flapjack/flapjack.eps)
+* [JPEG](https://raw.github.com/wiki/flpjck/flapjack/artwork/flapjack.jpg)
+* [PNG](https://raw.github.com/wiki/flpjck/flapjack/artwork/flapjack.png)
+* [EPS](https://raw.github.com/wiki/flpjck/flapjack/artwork/flapjack.eps)
 
 Or download the
 [logo bundle zip](https://raw.github.com/wiki/flpjck/flapjack/flapjack.zip)
