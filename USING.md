@@ -13,7 +13,9 @@
 
 ## Installing
 
-The recommended platform to run Flapjack on (other than development) is Ubuntu Precise 64 (Ubuntu 12.04, amd64). We provide a package for this platform on our [package repository](http://packages.flapjack.io). The package includes ruby and redis so shouldn't need to install anything else to get flapjack up and running with a vanilla configuration.
+The recommended platform to run Flapjack on (other than development) is Ubuntu Precise 64 (Ubuntu 12.04, amd64).
+We provide a package for this platform on our [package repository](http://packages.flapjack.io).
+The package includes all runtime dependencies, so you shouldn't need to install anything else to get flapjack up and running with a vanilla configuration.
 
 Note also, that if you just want to have a quick play with Flapjack, then why not use [vagrant-flapjack](https://github.com/flpjck/vagrant-flapjack) as this will also take care of creating and setting up an Ubuntu virtual machine and installing flapjack for you.
 
@@ -36,6 +38,8 @@ Then run:
 ```
 sudo apt-get update && sudo apt-get install flapjack
 ```
+
+You should now find that flapjack and redis have started up. Try visiting the [flapjack web interface](http://localhost:3080).
 
 ## Installing as a gem
 
