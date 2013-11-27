@@ -90,7 +90,7 @@ if [ ! -e etc/flapjack_config.yaml ] ; then
   cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml
 else
   echo "you've already got a config file at etc/flapjack_config.yaml, exiting"
-end
+fi
 ```
 
 Ensure your local redis server is running, and then to start:
