@@ -113,8 +113,8 @@ bundle exec bin/flapjack start --no-daemonize --config etc/flapjack_config.yaml
 
 See [Using](USING) for more information.
 
-Releasing a new gem
--------------------
+Releasing
+---------
 
 Gem releases are handled with [Bundler](http://gembundler.com/rubygems.html).
 
