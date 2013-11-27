@@ -10,7 +10,7 @@ Welcome to the Flapjack Wiki.
 - [Developing Flapjack](wiki/DEVELOPING)
 - [Redis Data Structure](wiki/DATA_STRUCTURES)
 - [Flapjack Glossary](wiki/GLOSSARY)
-- [Releasing Flapjack](wiki/Releasing)
+- [Release Planning](wiki/Release-Planning)
 - Methods for [promoting Flapjack](wiki/Promoting)
 
 ### Logo
