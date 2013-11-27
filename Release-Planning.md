@@ -31,5 +31,5 @@ Bugs are swept under the carpet in many open source projects. Flapjack has a cle
 
 ### Building Releases
 
-See [Releasing](wiki/DEVELOPING#releasing) under DEVELOPING.
+See [Releasing](DEVELOPING#releasing) under DEVELOPING.
 
