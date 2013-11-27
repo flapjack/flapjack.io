@@ -14,6 +14,22 @@ gem install bundler
 bundle install
 ```
 
+You'll also need Redis installed:
+
+```bash
+# Mac OS X with Homebrew:
+
+brew update
+brew install redis
+
+# ... and follow the instructions on adding redis as a launch agent (launchctl load etc)
+
+# Debian based Linux:
+
+apt-get update
+apt-get install redis
+```
+
 Flapjack is, and will continue to be, well tested. Monitoring is like continuous
 integration for production apps, so why shouldn't your monitoring system have tests?
 
@@ -68,35 +84,72 @@ Note that SimpleCov will merge the results of the two test suite's measured code
 
 Startup and Shutdown
 --------------------
+Copy the example configuration file into place:
+```bash
+if [ ! -e etc/flapjack_config.yaml ] ; then
+  cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml
+else
+  echo "you've already got a config file at etc/flapjack_config.yaml, exiting"
+end
+```
+
 Ensure your local redis server is running, and then to start:
 ```bash
-bin/flapjack start
+bundle exec bin/flapjack start --config etc/flapjack_config.yaml
 ```
 stop:
 ```bash
-bin/flapjack stop
+bundle exec bin/flapjack stop --config etc/flapjack_config.yaml
 ```
 status:
 ```bash
-bin/flapjack status
+bundle exec bin/flapjack status --config etc/flapjack_config.yaml
 ```
+
+Flapjack can also be started in the foreground (non-daemonized) by adding `--no-daemonize` to the start command, eg:
+```bash
+bundle exec bin/flapjack start --no-daemonize --config etc/flapjack_config.yaml
+```
+
 See [Using](USING) for more information.
 
-Releasing
----------
+Releasing a new gem
+-------------------
 
 Gem releases are handled with [Bundler](http://gembundler.com/rubygems.html).
+
+Before building the gem for release, you need to do a bit of housekeeping:
+
+- Update the flapjack version string
+  `vi lib/flapjack/version.rb`
+- Update the changelog - add the new version and list each issue it addresses. The [Releases](https://github.com/flpjck/flapjack/releases) github page will help you discover which commits have been pushed to master since the last release.
+  `vi CHANGELOG.md`
+- Update the bundle
+  `bundle`
+- Run the tests (to be sure, to be sure)
+  `bundle exec rake spec && bundle exec rake features`
+- Fix the tests, or abort the release mission, if any tests are failing.
+- Commit (use the actual new version string in the commit message below)
+  `git commit -a -m 'prepare v0.0.0 release'`
 
 To build the gem, run:
 
 ```bash
-rake build
+bundle exec rake build
 ```
 
 To push the gem to rubygems.org run:
 
 ```bash
-rake release
+bundle exec rake release
+```
+
+Once the gem has been released, you'll most likely be wanting to [build the omnibus package](https://github.com/flpjck/omnibus-flapjack/) and push it up to [packages.flapjack.io](http://packages.flapjack.io).
+
+You can then test the latest package with [vagrant-flapjack](https://github.com/flpjck/vagrant-flapjack):
+```bash
+git clone https://github.com/flpjck/vagrant-flapjack.git && cd vagrant-flapjack
+vagrant up
 ```
 
 Data Structures
