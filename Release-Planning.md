@@ -28,3 +28,8 @@ Bugs are swept under the carpet in many open source projects. Flapjack has a cle
 * For bugs triaged as **easy**, we try to fix + release in a PATCH release
 * For bugs triaged as **medium**, we try to fix + release in the next MINOR release
 * For bugs triaged as **hard**, we try to fix + release in the next MAJOR release
+
+### Building Releases
+
+See [Releasing](wiki/DEVELOPING#releasing) under DEVELOPING.
+
