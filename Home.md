@@ -1,6 +1,6 @@
-### Welcome to the Flapjack Wiki.
+Welcome to the Flapjack Wiki.
 
-Sections:
+### Documentation
 
 - [Using Flapjack](wiki/USING)
 - [API](wiki/API)
@@ -35,4 +35,4 @@ There is an [Apple colour palette](https://raw.github.com/wiki/flpjck/flapjack/a
 
 ### Sources
 
-* [Architecture diagrams](https://raw.github.com/wiki/flpjck/flapjack/Flapjack%20Architecture.key)
+* [Architecture diagrams](https://raw.github.com/wiki/flpjck/flapjack/artwork/Flapjack%20Architecture.key)
