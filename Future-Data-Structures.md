@@ -1,10 +1,14 @@
 NB: This is implemented using [Sandstorm](https://github.com/ali-graham/sandstorm). Everything below is subject to confirmation, pending review.
 
-The following documentation just lists the data fields at the moment; more commentary regarding valid values etc. will be added soon.
+The following documentation just lists the data fields at the moment.
 
-TODO: notification rule media/blackhole should be moved to 3 child objects, based on state
+NB: The internal flapjack message bus (queues between processor <-> notifier <-> message gateways) now operate by posting and retrieving ids of separately saved records. Instead of allowing for direct insertion onto those queues by internal agents, we could (if required) establish a translation pikelet which will create the relevant object. This decouples the internal representation from the external interface being offered.
 
-TODO: Notification/Message should be persisted to Redis, the ID posted to the queue and deleted on pickup by the notifier/gateway. We may preserve the original JSON data format as a parallel means of passing messages to the gateways by external processes ("to notifier" is more of an internal concern).
+
+### TODO
+
+* notification rule media/blackhole could be moved to 3 child objects, based on state
+
 
 ### Data type definitions
 
@@ -14,6 +18,7 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
     ID -- string representing a RedisRecord id
     STRING
     INTEGER
+
 
 ### Entities
 
@@ -27,8 +32,9 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
       {name,                         -> STRING
        enabled}                      -> BOOLEAN
     entity:ID:attrs:tags           -> SET of STRINGs
-    entity:ID:attrs:contact_ids    -> SET of IDs of Contact records
-    entity:ID:attrs:check_ids      -> SET of IDs of Check records
+    entity:ID:attrs:contacts_ids   -> SET of IDs of Contact records
+    entity:ID:attrs:checks_ids     -> SET of IDs of Check records
+
 
 ### Checks
 
@@ -47,13 +53,21 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
        summary,                                      -> STRING
        details,                                      -> STRING
        last_update,                                  -> TIMESTAMP
+       last_problem_alert,                           -> TIMESTAMP
        enabled}                                      -> BOOLEAN
-    check:ID:contact_ids                           -> SET
-    check:ID:state_ids                             -> ZSET of CheckState ids, timestamp key
+    check:ID:contacts_ids                          -> SET
+    check:ID:states_ids                            -> ZSET of CheckState ids, timestamp key
     check:ID:scheduled_maintenances_by_start_ids   -> ZSET of ScheduledMaintenance ids, start_time key
     check:ID:scheduled_maintenances_by_end_ids     -> ZSET of ScheduledMaintenance ids, end_time key
     check:ID:unscheduled_maintenances_by_start_ids -> ZSET of UnscheduledMaintenance ids, start_time key
     check:ID:unscheduled_maintenances_by_end_ids   -> ZSET of UnscheduledMaintenance ids, end_time key
+
+    # these five are for internal usage only
+    check:ID:notification_blocks_ids               -> SET of NotificationBlock ids
+    check:ID:alerting_media_ids                    -> SET of Medium ids
+    check:ID:notifications_ids                     -> SET of Notification ids
+    check:ID:alerts_ids                            -> SET of Alert ids
+    check:ID:rollup_alerts_ids                     -> SET of RollupAlert ids
 
 
 ### Check state changes & notifications
@@ -66,12 +80,19 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
 
     # single record
     check_state:ID:attrs              -> HASH
-      {summary,                         -> STRING
+      {state,                           -> STRING
+       summary,                         -> STRING
        details,                         -> STRING
        count,                           -> INTEGER
        timestamp,                       -> TIMESTAMP
        notified,                        -> BOOLEAN
        last_notification_count}         -> INTEGER
+    check_state:ID:belongs_to         -> HASH {'check_id' => ID}
+
+    # these two are for internal usage only
+    check_state:ID:current_notifications_ids         -> SET of Notification ids
+    check_state:ID:previous_notifications_ids        -> SET of Notification ids
+
 
 ### Unscheduled maintenance periods & notifications
 
@@ -85,7 +106,9 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
        summary,                             -> STRING
        notified,                            -> BOOLEAN
        last_notification_count}             -> INTEGER
-    unscheduled_maintenance:ID:belongs_to   -> HASH {'check_id' => ID}
+    unscheduled_maintenance:ID:belongs_to   -> HASH {'check_by_start_id' => ID,
+                                                     'check_by_end_id' => ID}
+
 
 ### Scheduled maintenance periods
 
@@ -97,24 +120,9 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
       {start_time,                            -> TIMESTAMP
        end_time,                              -> TIMESTAMP
        summary}                               -> STRING
-    scheduled_maintenance:ID:belongs_to     -> HASH {'check_id' => ID}
+    scheduled_maintenance:ID:belongs_to     -> HASH {'check_by_start_id' => ID,
+                                                     'check_by_end_id' => ID}
 
-### Notification
-
-    # global
-    notification::ids           -> SET of IDs
-
-    # single record
-    notification:ID:attrs       -> HASH
-      {entity_check_id,           -> ID
-       state_id,                  -> ID
-       state_duration,            -> INTEGER
-       previous_state_id,         -> ID
-       severity,                  -> STRING
-       type,                      -> STRING
-       time,                      -> TIMESTAMP
-       duration}                  -> INTEGER
-    notification:ID:attrs:tags  -> SET of STRINGs
 
 ### Contacts
 
@@ -129,23 +137,29 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
        timezone}                             -> STRING
     contact:ID:attrs:pagerduty_credentials -> HASH
     contact:ID:attrs:tags                  -> SET of STRINGs
-    contact:ID:entity_ids                  -> SET of IDs of Entity records
-    contact:ID:medium_ids                  -> SET of IDs of Medium records
-    contact:ID:notification_rule_ids       -> SET of IDs of NotificationRule records
-    contact:ID:notification_block_ids      -> ZSET of IDs of NotificationBlock records, expire_at key
+    contact:ID:entities_ids                -> SET of IDs of Entity records
+    contact:ID:media_ids                   -> SET of IDs of Medium records
+    contact:ID:notification_rules_ids      -> SET of IDs of NotificationRule records
+
 
 ### Message media
 
     # global
-    medium::ids          -> SET of IDs
-    medium::by_type      -> four SETs of IDs
+    medium::ids            -> SET of IDs
+    medium::by_type        -> four SETs of IDs
 
     # single record
-    medium:ID:attrs     -> HASH
-      {type               -> STRING
-       address            -> STRING
-       interval,          -> INTEGER
-       rollup_threshold}  -> INTEGER
+    medium:ID:attrs        -> HASH
+      {type                  -> STRING
+       address               -> STRING
+       interval,             -> INTEGER
+       rollup_threshold}     -> INTEGER
+    medium:ID:belongs_to   -> HASH {'contact_id' => ID}
+
+    # these three are for internal usage only
+    medium:ID:alerting_checks_ids       -> SET of IDs of Check records
+    medium:ID:alerts_ids                -> SET of IDs of Alert records
+    medium:ID:notification_blocks_ids   -> ZSET of IDs of NotificationBlock records, expire_at key
 
 
 ### Notification rules
@@ -155,16 +169,36 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
 
     # single record
     notification_rule:ID:attrs                  -> HASH
-      {time_restrictions,                         -> STRING (json)
+      {time_restrictions_json,                    -> STRING
        unknown_blackhole,                         -> BOOLEAN
        warning_blackhole,                         -> BOOLEAN
        critical_blackhole}                        -> BOOLEAN
     notification_rule:ID:attrs:entities         -> SET of STRINGs (entity names)
-    notification_rule:ID:attrs:tags             -> SET of STRINGs
+    notification_rule:ID:attrs:tags             -> SET of STRINGs (tags)
     notification_rule:ID:attrs:unknown_media    -> SET of STRINGs (media types)
     notification_rule:ID:attrs:warning_media    -> SET of STRINGs (media types)
     notification_rule:ID:attrs:critical_media   -> SET of STRINGs (media types)
     notification_rule:ID:belongs_to             -> HASH {'contact_id' => ID}
+
+### NB: Notifications, notification blocks, alerts and rollup alerts are internal Flapjack data structures
+
+### Notifications
+
+    # global
+    notification::ids           -> SET of IDs
+
+    # single record
+    notification:ID:attrs       -> HASH
+      {state_duration,            -> INTEGER
+       severity,                  -> STRING
+       type,                      -> STRING
+       time,                      -> TIMESTAMP
+       duration}                  -> INTEGER
+    notification:ID:attrs:tags  -> SET of STRINGs
+    notification:ID:belongs_to  -> HASH {'check_id' => ID,
+                                         'state_id' => ID,
+                                         'previous_state_id' => ID}
+
 
 ### Notification blocks
 
@@ -182,3 +216,35 @@ TODO: Notification/Message should be persisted to Redis, the ID posted to the qu
 
 * Rollup notification blocks are per-media, and won't have a related entity check or state.
 
+
+### Alerts & rollup alerts
+
+    # global
+    alert::ids                    -> SET of IDs
+    
+    # single record    
+    alert:ID:attrs                -> HASH
+      {state,                       -> STRING
+       summary,                     -> STRING
+       details,                     -> STRING
+       last_state,                  -> STRING
+       last_summary,                -> STRING
+       event_count,                 -> INTEGER
+       time,                        -> TIMESTAMP
+       notification_type,           -> STRING    # may not be needed
+       acknowledgement_duration,    -> INTEGER
+       state_duration,              -> INTEGER
+       rollup}                      -> STRING
+    alert:ID:belongs_to           -> HASH {'medium_id' => ID, 'check_id' => ID}
+    alert:ID:rollup_alerts_ids    -> SET of IDs RollupAlert records
+    
+    # global
+    rollup_alert::ids             -> SET of IDs
+    medium::by_type               -> three SETs of IDs
+    
+    # single record
+    rollup_alert:ID:attrs         -> HASH
+      {state,                       -> STRING
+       duration}                    -> INTEGER
+    rollup_alert:ID:belongs_to    -> HASH {'check_id' => ID, 'alert_id' => ID}
+       
