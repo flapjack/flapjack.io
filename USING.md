@@ -10,17 +10,49 @@
 - [Redis Database Instances](#redis_database_instances)
 
 <a id="installing">&nbsp;</a>
+
 ## Installing
 
-Install the Flapjack gem:
+The recommended platform to run Flapjack on (other than development) is Ubuntu Precise 64 (Ubuntu 12.04, amd64).
+We provide a package for this platform on our [package repository](http://packages.flapjack.io).
+The package includes all runtime dependencies, so you shouldn't need to install anything else to get flapjack up and running with a vanilla configuration.
+
+Note also, that if you just want to have a quick play with Flapjack, then why not use [vagrant-flapjack](https://github.com/flpjck/vagrant-flapjack) as this will also take care of creating and setting up an Ubuntu virtual machine and installing flapjack for you.
+
+To install the package on Ubuntu Precise 64, add the deb repo to your apt sources:
+
+```
+deb http://packages.flapjack.io/deb precise main
+```
+
+eg:
+
+```bash
+cat << EOF > /etc/apt/sources.list.d/flapjack.list
+deb http://packages.flapjack.io/deb precise main
+EOF
+```
+
+Then run:
+
+```
+sudo apt-get update && sudo apt-get install flapjack
+```
+
+You should now find that flapjack and redis have started up. Try visiting the [flapjack web interface](http://localhost:3080).
+
+## Installing as a gem
+
+If you're determined to run Flapjack on an unsupported platform, you can install the Flapjack ruby gem as follows:
 
 ``` bash
 gem install flapjack
 ```
 
-
 <a id="dependencies">&nbsp;</a>
-## Dependencies
+### Dependencies
+
+The Flapjack ruby gem has the following dependencies:
 
 - Ruby >= 1.9
 - Redis >= 2.4.15
@@ -37,7 +69,6 @@ and the following gems:
 * `em-resque`
 * `sinatra`
 * `rack-fiber_pool`
-* `haml`
 * `thin`
 * `mail`
 * `blather`
