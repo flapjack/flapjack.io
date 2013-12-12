@@ -3,10 +3,66 @@ API URLs
 
 Flapjack's HTTP API currently provides the following queries, data import functions and actions:
 
+### Contacts
+
+<ul>
+  <li><a href="#get_contacts">GET /contacts</a></li>
+  <li><a href="#post_contacts">POST /contacts</a></li>
+  <li><a href="#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
+  <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
+</ul>
+
+### Contacts - Notification Rules
+
+<ul>
+  <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
+  <li><a href="#post_notification_rules">POST /notification_rules</a></li>
+  <li><a href="#put_notification_rules_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
+  <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>
+</ul>
+
+### Contacts - Media
+
+<ul>
+  <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
+  <li><a href="#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
+  <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
+</ul>
+
+### Contacts - Misc
+
+<ul>
+  <li><a href="#post_contacts_atomic">POST /contacts_atomic</a></li>
+  <li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
+  <li><a href="#put_contacts_id_timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</a></li>
+  <li><a href="#get_contacts_id_tags">GET /contacts/CONTACT_ID/tags</a></li>
+  <li><a href="#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
+  <li><a href="#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
+  <li><a href="#get_contacts_id_entitytags">GET /contacts/CONTACT_ID/entity_tags</a></li>
+  <li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
+  <li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
+</ul>
+
+### Entities
+
 <ul>
   <li><a href="#get_entities">GET /entities</a></li>
   <li><a href="#post_entities">POST /entities</a></li>
+  <li><a href="#get_entities_id_tags">GET /entities/ENTITY/tags</a></li>
+  <li><a href="#post_entities_id_tags">POST /entities/ENTITY/tags</a></li>
+  <li><a href="#delete_entities_id_tags">DELETE /entities/ENTITY/tags</a></li>
+</ul>
+</ul>
+
+## Checks
+
+<ul>
   <li><a href="#get_checks">GET /checks/ENTITY</a></li>
+</ul>
+
+## Status, Maintenances, Acknowledgements, Outages
+
+<ul>
   <li><a href="#get_status">GET /status[/ENTITY[/CHECK]]</a></li>
   <li><a href="#get_outages">GET /outages[/ENTITY[/CHECK]]</a></li>
   <li><a href="#get_unscheduled_maintenances">GET /unscheduled_maintenances[/ENTITY[/CHECK]]</a></li>
@@ -16,28 +72,12 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#post_scheduled_maintenances">POST /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
   <li><a href="#delete_scheduled_maintenances">DELETE /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
   <li><a href="#get_downtime">GET /downtime[/ENTITY[/CHECK]]</a></li>
+</ul>
+
+## Test Notifications
+
+<ul>
   <li><a href="#post_test_notifications">POST /test_notifications[/ENTITY[/CHECK]]</a></li>
-  <li><a href="#get_contacts">GET /contacts</a></li>
-  <li><a href="#post_contacts">POST /contacts</a></li>
-  <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
-  <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
-  <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>
-  <li><a href="#post_notification_rules">POST /notification_rules</a></li>
-  <li><a href="#put_notification_rules_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
-  <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
-  <li><a href="#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
-  <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
-  <li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
-  <li><a href="#put_contacts_id_timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</a></li>
-  <li><a href="#get_contacts_id_tags">GET /contacts/CONTACT_ID/tags</a></li>
-  <li><a href="#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
-  <li><a href="#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
-  <li><a href="#get_contacts_id_entitytags">GET /contacts/CONTACT_ID/entity_tags</a></li>
-  <li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
-  <li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
-  <li><a href="#get_entities_id_tags">GET /entities/ENTITY/tags</a></li>
-  <li><a href="#post_entities_id_tags">POST /entities/ENTITY/tags</a></li>
-  <li><a href="#delete_entities_id_tags">DELETE /entities/ENTITY/tags</a></li>
 </ul>
 
 See also the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) gem which provides a ruby consumer of this API.
@@ -137,7 +177,7 @@ curl http://localhost:3081/entities
    {
       "checks" : [
          {
-            "entity" : "client1-localhost-test-2",
+            "entity" : "foo-app-02.example.com",
             "check" : "HOST",
             "status" : {
               "name" : "HOST",
@@ -154,7 +194,7 @@ curl http://localhost:3081/entities
            }
          }
       ],
-      "name" : "client1-localhost-test-2",
+      "name" : "foo-app-02.example.com",
       "id" : "10002"
    }
 ]
@@ -215,7 +255,7 @@ CHECKS   (array) = [ CHECK_NAME, CHECK_NAME, ... ]
 
 **Example**
 ```bash
-curl http://localhost:3081/checks/client1-localhost-test-2
+curl http://localhost:3081/checks/foo-app-02.example.com
 ```
 **Response** Status: 200 OK
 ```json
@@ -251,7 +291,7 @@ NB: a bulk query wraps each returned array item with entity & check details (see
 
 **Example 1**
 ```bash
-curl http://localhost:3081/status/client1-localhost-test-2
+curl http://localhost:3081/status/foo-app-02.example.com
 ```
 **Response** Status: 200 OK
 ```json
@@ -285,7 +325,7 @@ curl http://localhost:3081/status/client1-localhost-test-2
 
 **Example 2**
 ```bash
-curl http://localhost:3081/status/client1-localhost-test-2/HTTP+Port+443
+curl http://localhost:3081/status/foo-app-02.example.com/HTTP+Port+443
 ```
 **Response** Status: 200 OK
 ```json
@@ -305,13 +345,13 @@ curl http://localhost:3081/status/client1-localhost-test-2/HTTP+Port+443
 
 **Example 3**
 ```bash
-curl http://localhost:3081/status?check[client1-localhost-test-2]=HOST&check[client1-localhost-test-2]=HTTP+Port+443
+curl http://localhost:3081/status?check[foo-app-02.example.com]=HOST&check[foo-app-02.example.com]=HTTP+Port+443
 ```
 **Response** Status: 200 OK
 ```json
 [
   {
-    "entity" : "client1-localhost-test-2",
+    "entity" : "foo-app-02.example.com",
     "check" : "HOST",
     "status" :
     {
@@ -329,7 +369,7 @@ curl http://localhost:3081/status?check[client1-localhost-test-2]=HOST&check[cli
     }
   },
   {
-    "entity" : "client1-localhost-test-2",
+    "entity" : "foo-app-02.example.com",
     "check" : "HTTP Port 443",
     "status" :
     {
@@ -376,7 +416,7 @@ Get the list of outages for a check, or for all checks of an entity, or for chec
 
 **Example 1**
 ```bash
-curl http://localhost:3081/outages/client1-localhost-test-2
+curl http://localhost:3081/outages/foo-app-02.example.com
 ```
 **Response** Status: 200 OK
 ```json
@@ -417,7 +457,7 @@ curl http://localhost:3081/outages/client1-localhost-test-2
 
 **Example 2**
 ```bash
-curl http://localhost:3081/outages/client1-localhost-test-2/HOST?start_time=2012-12-24T00:00:00Z
+curl http://localhost:3081/outages/foo-app-02.example.com/HOST?start_time=2012-12-24T00:00:00Z
 ```
 **Response** Status: 200 OK
 ```json
@@ -434,13 +474,13 @@ curl http://localhost:3081/outages/client1-localhost-test-2/HOST?start_time=2012
 
 **Example 3**
 ```bash
-curl http://localhost:3081/outages?entity=client1-localhost-test-1&check[client1-localhost-test-2]=HTTP+Port+443
+curl http://localhost:3081/outages?entity=foo-app-01.example.com&check[foo-app-02.example.com]=HTTP+Port+443
 ```
 **Response** Status: 200 OK
 ```json
 [
    {
-      "entity" : "client1-localhost-test-1",
+      "entity" : "foo-app-01.example.com",
       "check" : "HOST",
       "outages" : [
          {
@@ -460,7 +500,7 @@ curl http://localhost:3081/outages?entity=client1-localhost-test-1&check[client1
       ]
    },
    {
-      "entity" : "client1-localhost-test-2",
+      "entity" : "foo-app-02.example.com",
       "check" : "HTTP Port 443",
       "outages" : [
          {
@@ -501,7 +541,7 @@ Get the list of unscheduled maintenance periods for a check, or for all checks o
 
 **Example 1**
 ```bash
-curl http://localhost:3081/unscheduled_maintenances/client1-localhost-test-1
+curl http://localhost:3081/unscheduled_maintenances/foo-app-01.example.com
 ```
 **Response** Status: 200 OK
 ```json
@@ -526,18 +566,18 @@ curl http://localhost:3081/unscheduled_maintenances/client1-localhost-test-1
 
 **Example 2**
 ```bash
-curl http://localhost:3081/unscheduled_maintenances?entity[]=client1-localhost-test-1&entity[]=client1-localhost-test-2
+curl http://localhost:3081/unscheduled_maintenances?entity[]=foo-app-01.example.com&entity[]=foo-app-02.example.com
 ```
 **Response** Status: 200 OK
 ```json
 [
    {
-      "entity" : "client1-localhost-test-1",
+      "entity" : "foo-app-01.example.com",
       "check" : "HOST",
       "unscheduled_maintenance" : []
    },
    {
-      "entity" : "client1-localhost-test-1",
+      "entity" : "foo-app-01.example.com",
       "check" : "HTTP Port 443",
       "unscheduled_maintenance" : [
          {
@@ -549,12 +589,12 @@ curl http://localhost:3081/unscheduled_maintenances?entity[]=client1-localhost-t
       ]
    },
    {
-      "entity" : "client1-localhost-test-2",
+      "entity" : "foo-app-02.example.com",
       "check" : "HOST",
       "unscheduled_maintenance" : []
    },
    {
-      "entity" : "client1-localhost-test-2",
+      "entity" : "foo-app-02.example.com",
       "check" : "HTTP Port 443",
       "unscheduled_maintenance" : []
    }
@@ -591,7 +631,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "duration": 3600,
     "summary": "AL - working on it"
   }' \
- http://localhost:3081/acknowledgements/client1-localhost-test-2/HOST
+ http://localhost:3081/acknowledgements/foo-app-02.example.com/HOST
 ```
 **Response** Status: 204 (No Content)
 
@@ -600,7 +640,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
     "check" : {
-      "client1-localhost-test-2" : ["ping", "ssh"]
+      "foo-app-02.example.com" : ["ping", "ssh"]
     },
     "duration": 3600,
     "summary": "AL - working on it"
@@ -635,7 +675,7 @@ CHECKS      (string) = CHECK or
 **Example 1**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" \
- http://localhost:3081/unscheduled_maintenances/client1-localhost-test-2/HOST
+ http://localhost:3081/unscheduled_maintenances/foo-app-02.example.com/HOST
 ```
 **Response** Status: 204 (No Content)
 
@@ -644,7 +684,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
  '{
     "check" : {
-      "client1-localhost-test-2" : ["ping", "ssh"]
+      "foo-app-02.example.com" : ["ping", "ssh"]
     },
     "end_time" : "2012-12-21T15:47:36+10:30",
   }' \
@@ -679,7 +719,7 @@ Get the list of scheduled maintenance periods for a check (or for all checks of 
 
 **Example 1**
 ```bash
-curl http://localhost:3081/scheduled_maintenances/client1-localhost-test-2
+curl http://localhost:3081/scheduled_maintenances/foo-app-02.example.com
 ```
 **Response** Status: 200 OK
 ```json
@@ -697,13 +737,13 @@ curl http://localhost:3081/scheduled_maintenances/client1-localhost-test-2
 
 **Example 2**
 ```bash
-curl http://localhost:3081/scheduled_maintenances?check[client1-localhost-test-2]=HOST
+curl http://localhost:3081/scheduled_maintenances?check[foo-app-02.example.com]=HOST
 ```
 **Response** Status: 200 OK
 ```json
 [
    {
-      "entity" : "client1-localhost-test-2",
+      "entity" : "foo-app-02.example.com",
       "check" : "HOST",
       "scheduled_maintenance" : []
    }
@@ -742,7 +782,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "duration": 3600,
     "summary": "SHUT IT ALL DOWN!"
   }' \
- http://localhost:3081/scheduled_maintenances/client1-localhost-test-2/HOST
+ http://localhost:3081/scheduled_maintenances/foo-app-02.example.com/HOST
 ```
 **Response** Status: 204 (No Content)
 
@@ -750,9 +790,9 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
-    "entity" : "client1-localhost-test-1",
+    "entity" : "foo-app-01.example.com",
     "check" : {
-      "client1-localhost-test-2" : "HOST"
+      "foo-app-02.example.com" : "HOST"
     },
     "start_time": "2012-12-21T15:47:36+10:30",
     "duration": 3600,
@@ -788,7 +828,7 @@ CHECKS      (string) = CHECK or
 **Example 1**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" \
- http://localhost:3081/scheduled_maintenances/client1-localhost-test-2/HOST
+ http://localhost:3081/scheduled_maintenances/foo-app-02.example.com/HOST
 ```
 **Response** Status: 204 (No Content)
 
@@ -797,7 +837,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
  '{
     "check" : {
-      "client1-localhost-test-2" : ["ping", "ssh"]
+      "foo-app-02.example.com" : ["ping", "ssh"]
     },
     "end_time" : "2012-12-21T15:47:36+10:30",
   }' \
@@ -853,7 +893,7 @@ NB: a bulk query adds entity names to the CHECK hash (see example 2).
 
 **Example 1**
 ```bash
-curl "http://localhost:3081/downtime/client1-localhost-test-2/HOST?start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
+curl "http://localhost:3081/downtime/foo-app-02.example.com/HOST?start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
 ```
 **Response** Status: 200 OK
 ```json
@@ -887,7 +927,7 @@ curl "http://localhost:3081/downtime/client1-localhost-test-2/HOST?start_time=20
 
 **Example 2**
 ```bash
-curl "http://localhost:3081/downtime?check[client1-localhost-test-2]=HOST&start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
+curl "http://localhost:3081/downtime?check[foo-app-02.example.com]=HOST&start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
 ```
 **Response** Status: 200 OK
 (See the Response section for the previous example.)
@@ -914,14 +954,14 @@ CHECKS      (string) = CHECK or
 
 **Example 1**
 ```bash
-curl -X POST "http://localhost:3081/test_notifications/client1-localhost-test-1/HOST"
+curl -X POST "http://localhost:3081/test_notifications/foo-app-01.example.com/HOST"
 ```
 
 **Example 2**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
-    "entity": "client1-localhost-test-2"
+    "entity": "foo-app-02.example.com"
   }' \
  http://localhost:3081/test_notifications
 ```
@@ -962,9 +1002,11 @@ curl http://localhost:3081/contacts
 ]
 ```
 
-<a id="post_contacts">&nbsp;</a>
-### POST /contacts
+<a id="post_contacts_atomic">&nbsp;</a>
+### POST /contacts_atomic
 Overwrite all contacts in flapjack. Any existing contacts not found in the supplied JSON payload will be deleted, then newly supplied contacts created, and existing contacts updated.
+
+("atomic" - as in "nuclear").
 
 **Input JSON Format**
 ```text
@@ -1474,8 +1516,8 @@ curl http://localhost:3081/contacts/21/entity_tags
 ```
 **Response** Status: 200 OK
 ```json
-{"client1-localhost-test-1" : ["example", "app"],
- "client1-localhost-test-2" : ["example", "database"]}
+{"foo-app-01.example.com" : ["example", "app"],
+ "foo-app-02.example.com" : ["example", "database"]}
 ```
 
 <a name="post_contacts_id_entitytags">&nbsp;</a>
@@ -1487,20 +1529,20 @@ Add tags to entities linked to a contact.
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
-    "entity": {"client1-localhost-test-1" : ["decommission", "unneeded"],
-               "client1-localhost-test-2" : ["upgrade"]}
+    "entity": {"foo-app-01.example.com" : ["decommission", "unneeded"],
+               "foo-app-02.example.com" : ["upgrade"]}
   }' \
  http://localhost:3081/contacts/21/entity_tags
 ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:3081/contacts/21/entity_tags?entity\[client1-localhost-test-1\]=decommission&entity\[client1-localhost-test-1\]=unneeded&entity\[client1-localhost-test-2\]=upgrade"
+ "http://localhost:3081/contacts/21/entity_tags?entity\[foo-app-01.example.com\]=decommission&entity\[foo-app-01.example.com\]=unneeded&entity\[foo-app-02.example.com\]=upgrade"
 ```
 **Response** Status: 200 OK
 ```json
-{"client1-localhost-test-1" : ["example", "app", "decommission", "unneeded"],
- "client1-localhost-test-2" : ["example", "database", "upgrade"]}
+{"foo-app-01.example.com" : ["example", "app", "decommission", "unneeded"],
+ "foo-app-02.example.com" : ["example", "database", "upgrade"]}
 ```
 
 <a name="delete_contacts_id_entitytags">&nbsp;</a>
@@ -1512,26 +1554,26 @@ Delete tags from entities linked to a contact.
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
  '{
-    "entity": {"client1-localhost-test-1" : ["unneeded"],
-               "client1-localhost-test-2" : ["upgrade"]}
+    "entity": {"foo-app-01.example.com" : ["unneeded"],
+               "foo-app-02.example.com" : ["upgrade"]}
   }' \
  http://localhost:3081/contacts/21/entity_tags
 ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:3081/contacts/21/entity_tags?entity\[client1-localhost-test-1\]=unneeded&entity\[client1-localhost-test-2\]=upgrade"
+ "http://localhost:3081/contacts/21/entity_tags?entity\[foo-app-01.example.com\]=unneeded&entity\[foo-app-02.example.com\]=upgrade"
 ```
 **Response** Status: 204 No Content
 
 <a name="get_entities_id_tags">&nbsp;</a>
 ### GET /entities/ENTITY/tags
 
-Gets the tags for a entity.
+Gets the tags for an entity.
 
 **Example**
 ```bash
-curl http://localhost:3081/entities/client1-localhost-test-1/tags
+curl http://localhost:3081/entities/foo-app-01.example.com/tags
 ```
 **Response** Status: 200 OK
 ```json
@@ -1549,12 +1591,12 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
  '{
     "tag": ["web", "app"]
   }' \
- http://localhost:3081/entities/client1-localhost-test-1/tags
+ http://localhost:3081/entities/foo-app-01.example.com/tags
  ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:3081/entities/client1-localhost-test-1/tags?tag\[\]=web&tag\[\]=app"
+ "http://localhost:3081/entities/foo-app-01.example.com/tags?tag\[\]=web&tag\[\]=app"
 ```
 **Response** Status: 200 OK
 ```json
@@ -1574,12 +1616,12 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
  '{
     "tag": ["web", "app"]
   }' \
- http://localhost:3081/entities/client1-localhost-test-1/tags
+ http://localhost:3081/entities/foo-app-01.example.com/tags
  ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:3081/entities/client1-localhost-test-1/tags?tag\[\]=web&tag\[\]=app"
+ "http://localhost:3081/entities/foo-app-01.example.com/tags?tag\[\]=web&tag\[\]=app"
 ```
 
 **Response** Status: 204 No Content
