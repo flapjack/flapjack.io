@@ -1348,7 +1348,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 
 <a id="delete_unscheduled_maintenances">&nbsp;</a>
-#### DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]'
+#### DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]
 Deletes an unscheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied -- the deletion will take effect immediately if it is not.
 
 **Input JSON Format**
