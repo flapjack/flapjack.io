@@ -144,6 +144,28 @@ data is expressed as encoded form parameters, or serialized as JSON, etc.
 
 ---
 
+## Contacts and Notifications
+
+### Contacts
+
+### Media
+
+### Notification Rules
+
+### Misc
+
+## Entities and Checks
+
+### Entities
+
+### Checks
+
+### Status, Maintenances, Acknowledgements, Outages
+
+### Test Notifications
+
+---
+
 <a id="get_entities">&nbsp;</a>
 ### GET /entities
 Retrieve an array of all entities including core attributes and state of any checks on the entity.
