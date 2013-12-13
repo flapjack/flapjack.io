@@ -12,6 +12,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
   <li><a href="#post_contacts">POST /contacts</a></li>
   <li><a href="#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
+  <li><a href="#delete_contacts">DELETE /contacts?id=CONTACT_ID[&id=CONTACT_ID[...]]</a></li>
 </ul>
 
 ### Media
@@ -212,10 +213,22 @@ curl http://localhost:3081/contacts/21
 
 TODO
 
+Creates one or more contacts.
+
+
 <a id="put_contacts_id">&nbsp;</a>
 #### PUT, DELETE /contacts/CONTACT_ID
 
 TODO
+
+Updates, or deletes, a contact.
+
+<a id="delete_contacts">&nbsp;</a>
+#### DELETE /contacts?id=CONTACT_ID[&id=CONTACT_ID[...]]
+
+TODO
+
+Deletes multiple contacts.
 
 
 <a id="get_contacts_id_media">&nbsp;</a>
