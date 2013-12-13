@@ -3,7 +3,9 @@ API URLs
 
 Flapjack's HTTP API currently provides the following queries, data import functions and actions:
 
-## Contacts
+## Contacts and Notifications
+
+### Contacts
 
 <ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
@@ -12,7 +14,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
 </ul>
 
-### Contacts - Notification Rules
+### Notification Rules
 
 <ul>
   <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
@@ -21,7 +23,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#put_notification_rules_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
 </ul>
 
-### Contacts - Media
+### Media
 
 <ul>
   <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
@@ -29,7 +31,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
 </ul>
 
-### Contacts - Misc
+### Misc
 
 <ul>
   <li><a href="#post_contacts_atomic">POST /contacts_atomic</a></li>
