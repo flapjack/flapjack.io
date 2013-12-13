@@ -41,8 +41,8 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
   <li><a href="#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
   <li><a href="#get_contacts_id_entitytags">GET /contacts/CONTACT_ID/entity_tags</a></li>
-  <li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
   <li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
+  <li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
 </ul>
 
 ## Entities and Checks
@@ -148,26 +148,628 @@ data is expressed as encoded form parameters, or serialized as JSON, etc.
 
 ### Contacts
 
+<a id="get_contacts">&nbsp;</a>
+#### GET /contacts
+
+Returns all the contacts
+
+**Example**
+```bash
+curl http://localhost:3081/contacts
+```
+
+```json
+[
+  {
+    "id": "21",
+    "first_name": "Ada",
+    "last_name": "Lovelace",
+    "email": "ada@example.com",
+    "tags": [
+      "legend",
+      "first computer programmer"
+    ]
+  },
+  {
+    "id": "22",
+    "first_name": "Charles",
+    "last_name": "Babbage",
+    "email": "babbage@example.com",
+    "tags": [
+      "grump"
+    ]
+  }
+]
+```
+
+
+<a id="get_contacts_id">&nbsp;</a>
+#### GET /contacts/CONTACT_ID
+
+Returns the core information of a specified contact.
+
+**Example**
+```bash
+curl http://localhost:3081/contacts/21
+```
+
+```json
+{
+  "id": "21",
+  "first_name": "Ada",
+  "last_name": "Lovelace",
+  "email": "ada@example.com",
+  "tags": [
+    "legend",
+    "first computer programmer"
+  ]
+}
+```
+
+
+<a id="post_contacts">&nbsp;</a>
+#### POST /contacts
+
+TODO
+
+<a id="put_contacts_id">&nbsp;</a>
+#### PUT, DELETE /contacts/CONTACT_ID
+
+TODO
+
 ### Media
+
+<a id="get_contacts_id_media">&nbsp;</a>
+#### GET /contacts/CONTACT_ID/media
+
+Returns the media of a contact.
+
+Includes media type, address, interval, and rollup threshold.
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' \
+ http://localhost:3081/contacts/21/media
+```
+
+<a id="get_contacts_id_media_media">&nbsp;</a>
+#### GET /contacts/CONTACT_ID/media/MEDIA
+
+Returns the specified media of a contact.
+
+
+<a id="put_contacts_id_media_media">&nbsp;</a>
+#### PUT, DELETE /contacts/CONTACT_ID/media/MEDIA
+
+Creates or updates (PUT) or deletes (DELETE) a media of a contact
+
+**Example 1 - PUT**
+```bash
+curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
+ '{
+    "address": "dmitri@example.com",
+    "interval": 900,
+    "rollup_threshold": 3
+  }' \
+ http://localhost:3081/contacts/21/media/email
+```
+**Response** Status: 200 OK
+```json
+{
+  "address": "dmitri@example.com",
+  "interval": 900,
+  "rollup_threshold": 3
+}
+```
+
+**Example 2 - DELETE**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+ http://localhost:3081/contacts/21/media/pagerduty
+```
+**Response** Status: 204 OK
+
+
+**Notes:**
+* any missing attributes in an update will remove those attributes (eg interval)
+* address can't be removed and will cause a validation error
 
 ### Notification Rules
 
+<a id="get_contacts_id_notification_rules">&nbsp;</a>
+#### GET /contacts/CONTACT_ID/notification_rules
+
+Lists a contact's notification rules.
+
+**Example**
+```bash
+curl http://localhost:3081/contacts/21/notification_rules
+```
+**Response** Status: 200 OK
+```json
+[
+  {
+    "id": "08f607c7-618d-460a-b3fe-868464eb6045",
+    "contact_id": "21",
+    "tags": [
+      "database",
+      "physical"
+    ],
+    "entities": [
+      "foo-app-01.example.com"
+    ],
+    "time_restrictions": [
+      {
+        "start_time": "2013-01-28 08:00:00",
+        "end_time": "2013-01-28 18:00:00",
+        "rrules": [
+          {
+            "validations": {
+              "day": [1,2,3,4,5]
+            },
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
+          }
+        ],
+        "exrules": [],
+        "rtimes": [],
+        "extimes": []
+      }
+    ],
+    "unknown_media": [],
+    "warning_media": [
+      "email"
+    ],
+    "critical_media": [
+      "sms",
+      "email"
+    ],
+    "unknown_blackhole": false,
+    "warning_blackhole": false,
+    "critical_blackhole": false
+  },
+  {
+    "id": "2be654d8-9ad4-42b7-963d-f6727dc302a2",
+    "contact_id": "21",
+    "tags": [
+      "database",
+      "physical"
+    ],
+    "entities": [
+      "foo-app-02.example.com"
+    ],
+    "time_restrictions": [],
+    "unknown_media": [],
+    "warning_media": [
+      "email"
+    ],
+    "critical_media": [
+      "sms",
+      "email"
+    ],
+    "unknown_blackhole": false,
+    "warning_blackhole": false,
+    "critical_blackhole": false
+  }
+]
+```
+
+<a id="get_notification_rules_id">&nbsp;</a>
+#### GET /notification_rules/RULE_ID
+
+Returns a specified notification rule.
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
+```
+**Response** Status: 200 OK
+```json
+{
+  "id": "08f607c7-618d-460a-b3fe-868464eb6045",
+  "contact_id": "21",
+  "tags": [
+    "database",
+    "physical"
+  ],
+  "entities": [
+    "foo-app-01.example.com"
+  ],
+  "time_restrictions": [
+    {
+      "start_time": "2013-01-28 08:00:00",
+      "end_time": "2013-01-28 18:00:00",
+      "rrules": [
+        {
+          "validations": {
+            "day": [1,2,3,4,5]
+          },
+          "rule_type": "Weekly",
+          "interval": 1,
+          "week_start": 0
+        }
+      ],
+      "exrules": [],
+      "rtimes": [],
+      "extimes": []
+    }
+  ],
+  "unknown_media": [],
+  "warning_media": [
+    "email"
+  ],
+  "critical_media": [
+    "sms",
+    "email"
+  ],
+  "unknown_blackhole": false,
+  "warning_blackhole": false,
+  "critical_blackhole": false
+}
+```
+
+<a id="post_notification_rules">&nbsp;</a>
+#### POST /notification_rules
+
+Creates a new notification rule.
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "contact_id": "21",
+    "tags": [
+      "database",
+      "physical"
+    ],
+    "entities": [
+      "foo-app-01.example.com"
+    ],
+    "time_restrictions": [
+      {
+        "start_time": "2013-01-28 08:00:00",
+        "end_time": "2013-01-28 18:00:00",
+        "rrules": [
+          {
+            "validations": {
+              "day": [1,2,3,4,5]
+            },
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
+          }
+        ],
+        "exrules": [],
+        "rtimes": [],
+        "extimes": []
+      }
+    ],
+    "unknown_media": [],
+    "warning_media": [
+      "email"
+    ],
+    "critical_media": [
+      "sms",
+      "email"
+    ],
+    "unknown_blackhole": false,
+    "warning_blackhole": false,
+    "critical_blackhole": false
+  }' \
+ http://localhost:3081/notification_rules
+```
+**Response** Status: 200 OK
+
+Returns the notification rule object as per GET.
+
+**Notes:**
+* the rule_id will be generated by flapjack as a UUID and supplied in the response body along with the rest of the contact's information
+* time_restrictions are implemented within flapjack by the ice_cube gem, which is an implementation of the iCalendar RFC for Ruby. The interface we're exposing is close to ice_cube's hash representation of a schedule.
+* in time_restrictions, the start_time and end_time should contain no timezone information, or UTC offset. They will be interpreted by flapjack as being in the user's local timezone, or the timezone configured in executive/default_contact_timezone in the flapjack configuration.
+* in time_restrictions, the day validations are numbers corresponding to days of the week, as per the UNIX crontab file. Week days start on Sunday - 0, and progress through to Saturday - 6. So a day validation of "[1,2,3,4,5]" means Monday through Friday.
+* time_restrictions rule_type specifies on what basis the time restriction schedule is to be repeated. It can be one of "Secondly", "Minutely", "Hourly", "Daily", "Weekly", "Monthly", or "Yearly".
+
+<a id="put_notification_rules_id">&nbsp;</a>
+#### PUT, DELETE /notification_rules/RULE_ID
+
+Updates or deletes a notification rule
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
+ '{
+    "tags": [
+      "database",
+      "physical"
+    ],
+    "entities": [
+      "foo-app-01.example.com"
+    ],
+    "time_restrictions": [
+      {
+        "start_time": "2013-01-28 08:00:00",
+        "end_time": "2013-01-28 18:00:00",
+        "rrules": [
+          {
+            "validations": {
+              "day": [1,2,3,4,5]
+            },
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
+          }
+        ],
+        "exrules": [],
+        "rtimes": [],
+        "extimes": []
+      }
+    ],
+    "unknown_media": [],
+    "warning_media": [
+      "email"
+    ],
+    "critical_media": [
+      "sms",
+      "email"
+    ],
+    "unknown_blackhole": false,
+    "warning_blackhole": false,
+    "critical_blackhole": false
+  }' \
+ http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
+```
+**Response** Status: 200 OK
+
+Returns the notification rule object as per GET.
+
+**Example 2 - DELETE**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+ http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
+```
+**Response** Status: 204 OK
+
 ### Misc
+
+<a id="post_contacts_atomic">&nbsp;</a>
+#### POST /contacts_atomic
+Overwrite all contacts in flapjack. Any existing contacts not found in the supplied JSON payload will be deleted, then newly supplied contacts created, and existing contacts updated.
+
+("atomic" - as in "nuclear").
+
+**Input JSON Format**
+```text
+CONTACTS  (array) = [ CONTACT, CONTACT, ...]
+CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
+                      "email": EMAIL, "media": MEDIAS }
+MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, "pagerduty": PAGERDUTY... }
+MEDIA     (hash)  = { "address": MEDIA_ADDRESS,
+                      "interval": INTERVAL,
+                      "rollup_threshold": FAILURE_COUNT }
+PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
+                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
+TAGS      (array) = [ "TAG", "TAG", ...]
+
+CONTACT_ID            (string) - a unique, immutable identifier for this contact
+MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
+MEDIA_ADDRESS         (string) - address to send to for the paired MEDIA_TYPE, eg an email address, mobile phone number, or jabber id
+PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
+PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
+PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
+PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
+TAG                   (string) - a tag, you know?
+INTERVAL              (string) - number of seconds to repeat the same alert on this media type
+FAILURE_COUNT         (string) - the number of failing checks this contact has before rollup kicks in, 0 and null mean never
+```
+
+**Notes:**
+* The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
+* The value for ID must be unique and must never change as it is used for synchronisation during updates.
+* The "pagerduty" hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "contacts": [
+      {
+        "id": "21",
+        "first_name": "Ada",
+        "last_name": "Lovelace",
+        "email": "ada@example.com",
+        "media": {
+          "sms": {
+            "address": "+61412345678",
+            "interval": "3600",
+            "rollup_threshold": "5"
+          },
+          "email": {
+            "address": "ada@example.com",
+            "interval": "7200",
+            "rollup_threshold": null
+          }
+        },
+        "tags": [
+          "legend",
+          "first computer programmer"
+        ]
+      }
+    ]
+  }' \
+ http://localhost:3081/contacts
+```
+**Response** Status: 204 No Content
+
+
+<a id="get_contacts_id_timezone">&nbsp;</a>
+#### GET /contacts/CONTACT_ID/timezone
+
+Returns the timezone of a contact.
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' http://localhost:3081/contacts/21/timezone
+```
+
+**Response** Status: 200 OK
+```json
+{
+  "timezone": "Australia/Broken_Hill"
+}
+```
+FIXME: too much repetition to have the response include the key name "timezone"? Perhaps just return a string?
+
+<a id="put_contacts_id_timezone">&nbsp;</a>
+#### PUT, DELETE /contacts/CONTACT_ID/timezone
+
+Sets (PUT) or deletes (DELETE) the timezone of a contact.
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
+ '{
+    "timezone": "Australia/Broken_Hill"
+  }' \
+ http://localhost:3081/contacts/21/timezone
+```
+
+**Response** Status: 200 OK
+```json
+{
+  "timezone": "Australia/Broken_Hill"
+}
+```
+
+**Notes:**
+* the timezone string must be one defined in the tzinfo database, see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/
+
+
+
+<a name="get_contacts_id_tags">&nbsp;</a>
+#### GET /contacts/CONTACT_ID/tags
+
+Gets the tags for a contact.
+
+**Example**
+```bash
+curl http://localhost:3081/contacts/21/tags
+```
+**Response** Status: 200 OK
+```json
+["user", "admin"]
+```
+
+<a name="post_contacts_id_tags">&nbsp;</a>
+#### POST /contacts/CONTACT_ID/tags
+
+Add tags to a contact.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "tag": ["admin", "user"]
+  }' \
+ http://localhost:3081/contacts/21/tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST \
+ "http://localhost:3081/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
+```
+**Response** Status: 200 OK
+```json
+["user", "admin"]
+```
+
+<a name="delete_contacts_id_tags">&nbsp;</a>
+### DELETE /contacts/CONTACT_ID/tags
+
+Delete tags from a contact.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
+ '{
+    "tag": ["admin", "user"]
+  }' \
+ http://localhost:3081/contacts/21/tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+ "http://localhost:3081/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
+```
+**Response** Status: 204 No Content
+
+<a name="get_contacts_id_entitytags">&nbsp;</a>
+#### GET /contacts/CONTACT_ID/entity_tags
+
+Gets the tags for all entities linked to a contact.
+
+**Example**
+```bash
+curl http://localhost:3081/contacts/21/entity_tags
+```
+**Response** Status: 200 OK
+```json
+{"foo-app-01.example.com" : ["example", "app"],
+ "foo-app-02.example.com" : ["example", "database"]}
+```
+
+<a name="post_contacts_id_entitytags">&nbsp;</a>
+#### POST /contacts/CONTACT_ID/entity_tags
+
+Add tags to entities linked to a contact.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "entity": {"foo-app-01.example.com" : ["decommission", "unneeded"],
+               "foo-app-02.example.com" : ["upgrade"]}
+  }' \
+ http://localhost:3081/contacts/21/entity_tags
+```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST \
+ "http://localhost:3081/contacts/21/entity_tags?entity\[foo-app-01.example.com\]=decommission&entity\[foo-app-01.example.com\]=unneeded&entity\[foo-app-02.example.com\]=upgrade"
+```
+**Response** Status: 200 OK
+```json
+{"foo-app-01.example.com" : ["example", "app", "decommission", "unneeded"],
+ "foo-app-02.example.com" : ["example", "database", "upgrade"]}
+```
+
+<a name="delete_contacts_id_entitytags">&nbsp;</a>
+### DELETE /contacts/CONTACT_ID/entity_tags
+
+Delete tags from entities linked to a contact.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
+ '{
+    "entity": {"foo-app-01.example.com" : ["unneeded"],
+               "foo-app-02.example.com" : ["upgrade"]}
+  }' \
+ http://localhost:3081/contacts/21/entity_tags
+```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+ "http://localhost:3081/contacts/21/entity_tags?entity\[foo-app-01.example.com\]=unneeded&entity\[foo-app-02.example.com\]=upgrade"
+```
+**Response** Status: 204 No Content
 
 ## Entities and Checks
 
 ### Entities
 
-### Checks
-
-### Status, Maintenances, Acknowledgements, Outages
-
-### Test Notifications
-
----
-
 <a id="get_entities">&nbsp;</a>
-### GET /entities
+#### GET /entities
 Retrieve an array of all entities including core attributes and state of any checks on the entity.
 
 **Output JSON Format**
@@ -228,7 +830,7 @@ curl http://localhost:3081/entities
 ```
 
 <a id="post_entities">&nbsp;</a>
-### POST /entities
+#### POST /entities
 
 Creates or updates entities from the supplied entities, using id as key.
 
@@ -272,8 +874,71 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 **Response** Status: 204 No Content
 
 
+<a name="get_entities_id_tags">&nbsp;</a>
+#### GET /entities/ENTITY/tags
+
+Gets the tags for an entity.
+
+**Example**
+```bash
+curl http://localhost:3081/entities/foo-app-01.example.com/tags
+```
+**Response** Status: 200 OK
+```json
+["web", "app"]
+```
+
+<a name="post_entities_id_tags">&nbsp;</a>
+#### POST /entities/ENTITY/tags
+
+Add tags to an entity.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "tag": ["web", "app"]
+  }' \
+ http://localhost:3081/entities/foo-app-01.example.com/tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X POST \
+ "http://localhost:3081/entities/foo-app-01.example.com/tags?tag\[\]=web&tag\[\]=app"
+```
+**Response** Status: 200 OK
+```json
+["web", "app"]
+```
+
+Add tags to an entity.
+
+<a name="delete_entities_id_tags">&nbsp;</a>
+#### DELETE /entities/ENTITY/tags
+
+Delete tags from an entity.
+
+**Example 1 - JSON params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
+ '{
+    "tag": ["web", "app"]
+  }' \
+ http://localhost:3081/entities/foo-app-01.example.com/tags
+ ```
+**Example 2 - URL params**
+```bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+ "http://localhost:3081/entities/foo-app-01.example.com/tags?tag\[\]=web&tag\[\]=app"
+```
+
+**Response** Status: 204 No Content
+
+### Checks
+
 <a id="get_checks">&nbsp;</a>
-### GET /checks/ENTITY
+
+#### GET /checks/ENTITY
 Retrieve the names of the checks for the specified entity.
 
 **Output JSON Format**
@@ -293,8 +958,10 @@ curl http://localhost:3081/checks/foo-app-02.example.com
 ]
 ```
 
+### Status, Maintenances, Acknowledgements, Outages
+
 <a id="get_status">&nbsp;</a>
-### GET /status[/ENTITY[/CHECK]]
+#### GET /status[/ENTITY[/CHECK]]
 Get the status of a specified check, or for all checks of a specified entity, or for checks on multiple entities.
 
 **Output JSON Format**
@@ -418,7 +1085,7 @@ curl http://localhost:3081/status?check[foo-app-02.example.com]=HOST&check[foo-a
 ```
 
 <a id="get_outages">&nbsp;</a>
-### GET /outages[/ENTITY[/CHECK]]
+#### GET /outages[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -544,7 +1211,7 @@ curl http://localhost:3081/outages?entity=foo-app-01.example.com&check[foo-app-0
 ```
 
 <a id="get_unscheduled_maintenances">&nbsp;</a>
-### GET /unscheduled_maintenances[/ENTITY[/CHECK]]
+#### GET /unscheduled_maintenances[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -630,7 +1297,7 @@ curl http://localhost:3081/unscheduled_maintenances?entity[]=foo-app-01.example.
 ```
 
 <a id="post_acknowledgements">&nbsp;</a>
-### POST /acknowledgements[/ENTITY[/CHECK]]'
+#### POST /acknowledgements[/ENTITY[/CHECK]]'
 Acknowledges a problem on a check (or for all checks of an entity, or for checks on multiple entities) and creates unscheduled maintenance. 4 hrs is the default period but can be specified in the body. An optional message may also be supplied.
 
 **Input JSON Format**
@@ -722,7 +1389,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 
 
 <a id="get_scheduled_maintenances">&nbsp;</a>
-### GET /scheduled_maintenances[/ENTITY[/CHECK]]
+#### GET /scheduled_maintenances[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -779,7 +1446,7 @@ curl http://localhost:3081/scheduled_maintenances?check[foo-app-02.example.com]=
 ```
 
 <a id="post_scheduled_maintenances">&nbsp;</a>
-### POST /scheduled_maintenances[/ENTITY/CHECK]'
+#### POST /scheduled_maintenances[/ENTITY/CHECK]'
 Creates scheduled maintenance for the specified check.
 
 **Input JSON Format**
@@ -875,7 +1542,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 
 
 <a id="get_downtime">&nbsp;</a>
-### GET /downtime[/ENTITY[/CHECK]]
+#### GET /downtime[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -960,9 +1627,14 @@ curl "http://localhost:3081/downtime?check[foo-app-02.example.com]=HOST&start_ti
 **Response** Status: 200 OK
 (See the Response section for the previous example.)
 
+### Test Notifications
+
+---
+
+
 
 <a id="post_test_notifications">&nbsp;</a>
-### POST /test_notifications[/ENTITY/CHECK]
+#### POST /test_notifications[/ENTITY/CHECK]
 Generates test notifications for the specified check. Body can be left empty.
 
 **Input JSON Format**
@@ -996,660 +1668,4 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 **Response** Status: 204 No Content
 
-<a id="get_contacts">&nbsp;</a>
-### GET /contacts
 
-Returns all the contacts
-
-**Example**
-```bash
-curl http://localhost:3081/contacts
-```
-
-```json
-[
-  {
-    "id": "21",
-    "first_name": "Ada",
-    "last_name": "Lovelace",
-    "email": "ada@example.com",
-    "tags": [
-      "legend",
-      "first computer programmer"
-    ]
-  },
-  {
-    "id": "22",
-    "first_name": "Charles",
-    "last_name": "Babbage",
-    "email": "babbage@example.com",
-    "tags": [
-      "grump"
-    ]
-  }
-]
-```
-
-<a id="post_contacts_atomic">&nbsp;</a>
-### POST /contacts_atomic
-Overwrite all contacts in flapjack. Any existing contacts not found in the supplied JSON payload will be deleted, then newly supplied contacts created, and existing contacts updated.
-
-("atomic" - as in "nuclear").
-
-**Input JSON Format**
-```text
-CONTACTS  (array) = [ CONTACT, CONTACT, ...]
-CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
-                      "email": EMAIL, "media": MEDIAS }
-MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, "pagerduty": PAGERDUTY... }
-MEDIA     (hash)  = { "address": MEDIA_ADDRESS,
-                      "interval": INTERVAL,
-                      "rollup_threshold": FAILURE_COUNT }
-PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
-                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
-TAGS      (array) = [ "TAG", "TAG", ...]
-
-CONTACT_ID            (string) - a unique, immutable identifier for this contact
-MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
-MEDIA_ADDRESS         (string) - address to send to for the paired MEDIA_TYPE, eg an email address, mobile phone number, or jabber id
-PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
-PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
-PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
-PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
-TAG                   (string) - a tag, you know?
-INTERVAL              (string) - number of seconds to repeat the same alert on this media type
-FAILURE_COUNT         (string) - the number of failing checks this contact has before rollup kicks in, 0 and null mean never
-```
-
-**Notes:**
-* The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
-* The value for ID must be unique and must never change as it is used for synchronisation during updates.
-* The "pagerduty" hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "contacts": [
-      {
-        "id": "21",
-        "first_name": "Ada",
-        "last_name": "Lovelace",
-        "email": "ada@example.com",
-        "media": {
-          "sms": {
-            "address": "+61412345678",
-            "interval": "3600",
-            "rollup_threshold": "5"
-          },
-          "email": {
-            "address": "ada@example.com",
-            "interval": "7200",
-            "rollup_threshold": null
-          }
-        },
-        "tags": [
-          "legend",
-          "first computer programmer"
-        ]
-      }
-    ]
-  }' \
- http://localhost:3081/contacts
-```
-**Response** Status: 204 No Content
-
-
-<a id="get_contacts_id">&nbsp;</a>
-### GET /contacts/CONTACT_ID
-
-Returns the core information of a specified contact.
-
-**Example**
-```bash
-curl http://localhost:3081/contacts/21
-```
-
-```json
-{
-  "id": "21",
-  "first_name": "Ada",
-  "last_name": "Lovelace",
-  "email": "ada@example.com",
-  "tags": [
-    "legend",
-    "first computer programmer"
-  ]
-}
-```
-
-<a id="get_contacts_id_notification_rules">&nbsp;</a>
-### GET /contacts/CONTACT_ID/notification_rules
-
-Lists a contact's notification rules.
-
-**Example**
-```bash
-curl http://localhost:3081/contacts/21/notification_rules
-```
-**Response** Status: 200 OK
-```json
-[
-  {
-    "id": "08f607c7-618d-460a-b3fe-868464eb6045",
-    "contact_id": "21",
-    "tags": [
-      "database",
-      "physical"
-    ],
-    "entities": [
-      "foo-app-01.example.com"
-    ],
-    "time_restrictions": [
-      {
-        "start_time": "2013-01-28 08:00:00",
-        "end_time": "2013-01-28 18:00:00",
-        "rrules": [
-          {
-            "validations": {
-              "day": [1,2,3,4,5]
-            },
-            "rule_type": "Weekly",
-            "interval": 1,
-            "week_start": 0
-          }
-        ],
-        "exrules": [],
-        "rtimes": [],
-        "extimes": []
-      }
-    ],
-    "unknown_media": [],
-    "warning_media": [
-      "email"
-    ],
-    "critical_media": [
-      "sms",
-      "email"
-    ],
-    "unknown_blackhole": false,
-    "warning_blackhole": false,
-    "critical_blackhole": false
-  },
-  {
-    "id": "2be654d8-9ad4-42b7-963d-f6727dc302a2",
-    "contact_id": "21",
-    "tags": [
-      "database",
-      "physical"
-    ],
-    "entities": [
-      "foo-app-02.example.com"
-    ],
-    "time_restrictions": [],
-    "unknown_media": [],
-    "warning_media": [
-      "email"
-    ],
-    "critical_media": [
-      "sms",
-      "email"
-    ],
-    "unknown_blackhole": false,
-    "warning_blackhole": false,
-    "critical_blackhole": false
-  }
-]
-```
-
-<a id="get_notification_rules_id">&nbsp;</a>
-### GET /notification_rules/RULE_ID
-
-Returns a specified notification rule.
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
-```
-**Response** Status: 200 OK
-```json
-{
-  "id": "08f607c7-618d-460a-b3fe-868464eb6045",
-  "contact_id": "21",
-  "tags": [
-    "database",
-    "physical"
-  ],
-  "entities": [
-    "foo-app-01.example.com"
-  ],
-  "time_restrictions": [
-    {
-      "start_time": "2013-01-28 08:00:00",
-      "end_time": "2013-01-28 18:00:00",
-      "rrules": [
-        {
-          "validations": {
-            "day": [1,2,3,4,5]
-          },
-          "rule_type": "Weekly",
-          "interval": 1,
-          "week_start": 0
-        }
-      ],
-      "exrules": [],
-      "rtimes": [],
-      "extimes": []
-    }
-  ],
-  "unknown_media": [],
-  "warning_media": [
-    "email"
-  ],
-  "critical_media": [
-    "sms",
-    "email"
-  ],
-  "unknown_blackhole": false,
-  "warning_blackhole": false,
-  "critical_blackhole": false
-}
-```
-
-<a id="post_notification_rules">&nbsp;</a>
-### POST /notification_rules
-
-Creates a new notification rule.
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "contact_id": "21",
-    "tags": [
-      "database",
-      "physical"
-    ],
-    "entities": [
-      "foo-app-01.example.com"
-    ],
-    "time_restrictions": [
-      {
-        "start_time": "2013-01-28 08:00:00",
-        "end_time": "2013-01-28 18:00:00",
-        "rrules": [
-          {
-            "validations": {
-              "day": [1,2,3,4,5]
-            },
-            "rule_type": "Weekly",
-            "interval": 1,
-            "week_start": 0
-          }
-        ],
-        "exrules": [],
-        "rtimes": [],
-        "extimes": []
-      }
-    ],
-    "unknown_media": [],
-    "warning_media": [
-      "email"
-    ],
-    "critical_media": [
-      "sms",
-      "email"
-    ],
-    "unknown_blackhole": false,
-    "warning_blackhole": false,
-    "critical_blackhole": false
-  }' \
- http://localhost:3081/notification_rules
-```
-**Response** Status: 200 OK
-
-Returns the notification rule object as per GET.
-
-**Notes:**
-* the rule_id will be generated by flapjack as a UUID and supplied in the response body along with the rest of the contact's information
-* time_restrictions are implemented within flapjack by the ice_cube gem, which is an implementation of the iCalendar RFC for Ruby. The interface we're exposing is close to ice_cube's hash representation of a schedule.
-* in time_restrictions, the start_time and end_time should contain no timezone information, or UTC offset. They will be interpreted by flapjack as being in the user's local timezone, or the timezone configured in executive/default_contact_timezone in the flapjack configuration.
-* in time_restrictions, the day validations are numbers corresponding to days of the week, as per the UNIX crontab file. Week days start on Sunday - 0, and progress through to Saturday - 6. So a day validation of "[1,2,3,4,5]" means Monday through Friday.
-* time_restrictions rule_type specifies on what basis the time restriction schedule is to be repeated. It can be one of "Secondly", "Minutely", "Hourly", "Daily", "Weekly", "Monthly", or "Yearly".
-
-<a id="put_notification_rules_id">&nbsp;</a>
-### PUT, DELETE /notification_rules/RULE_ID
-
-Updates or deletes a notification rule
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
- '{
-    "tags": [
-      "database",
-      "physical"
-    ],
-    "entities": [
-      "foo-app-01.example.com"
-    ],
-    "time_restrictions": [
-      {
-        "start_time": "2013-01-28 08:00:00",
-        "end_time": "2013-01-28 18:00:00",
-        "rrules": [
-          {
-            "validations": {
-              "day": [1,2,3,4,5]
-            },
-            "rule_type": "Weekly",
-            "interval": 1,
-            "week_start": 0
-          }
-        ],
-        "exrules": [],
-        "rtimes": [],
-        "extimes": []
-      }
-    ],
-    "unknown_media": [],
-    "warning_media": [
-      "email"
-    ],
-    "critical_media": [
-      "sms",
-      "email"
-    ],
-    "unknown_blackhole": false,
-    "warning_blackhole": false,
-    "critical_blackhole": false
-  }' \
- http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
-```
-**Response** Status: 200 OK
-
-Returns the notification rule object as per GET.
-
-**Example 2 - DELETE**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE \
- http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
-```
-**Response** Status: 204 OK
-
-<a id="get_contacts_id_media">&nbsp;</a>
-### GET /contacts/CONTACT_ID/media
-
-Returns the media of a contact.
-
-Includes media type, address, interval, and rollup threshold.
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' \
- http://localhost:3081/contacts/21/media
-```
-
-<a id="get_contacts_id_media_media">&nbsp;</a>
-### GET /contacts/CONTACT_ID/media/MEDIA
-
-Returns the specified media of a contact.
-
-
-<a id="put_contacts_id_media_media">&nbsp;</a>
-### PUT, DELETE /contacts/CONTACT_ID/media/MEDIA
-
-Creates or updates (PUT) or deletes (DELETE) a media of a contact
-
-**Example 1 - PUT**
-```bash
-curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
- '{
-    "address": "dmitri@example.com",
-    "interval": 900,
-    "rollup_threshold": 3
-  }' \
- http://localhost:3081/contacts/21/media/email
-```
-**Response** Status: 200 OK
-```json
-{
-  "address": "dmitri@example.com",
-  "interval": 900,
-  "rollup_threshold": 3
-}
-```
-
-**Example 2 - DELETE**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE \
- http://localhost:3081/contacts/21/media/pagerduty
-```
-**Response** Status: 204 OK
-
-
-**Notes:**
-* any missing attributes in an update will remove those attributes (eg interval)
-* address can't be removed and will cause a validation error
-
-<a id="get_contacts_id_timezone">&nbsp;</a>
-### GET /contacts/CONTACT_ID/timezone
-
-Returns the timezone of a contact.
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' http://localhost:3081/contacts/21/timezone
-```
-
-**Response** Status: 200 OK
-```json
-{
-  "timezone": "Australia/Broken_Hill"
-}
-```
-FIXME: too much repetition to have the response include the key name "timezone"? Perhaps just return a string?
-
-<a id="put_contacts_id_timezone">&nbsp;</a>
-### PUT, DELETE /contacts/CONTACT_ID/timezone
-
-Sets (PUT) or deletes (DELETE) the timezone of a contact.
-
-**Example**
-```bash
-curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
- '{
-    "timezone": "Australia/Broken_Hill"
-  }' \
- http://localhost:3081/contacts/21/timezone
-```
-
-**Response** Status: 200 OK
-```json
-{
-  "timezone": "Australia/Broken_Hill"
-}
-```
-
-**Notes:**
-* the timezone string must be one defined in the tzinfo database, see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/
-
-
-
-<a name="get_contacts_id_tags">&nbsp;</a>
-### GET /contacts/CONTACT_ID/tags
-
-Gets the tags for a contact.
-
-**Example**
-```bash
-curl http://localhost:3081/contacts/21/tags
-```
-**Response** Status: 200 OK
-```json
-["user", "admin"]
-```
-
-<a name="post_contacts_id_tags">&nbsp;</a>
-### POST /contacts/CONTACT_ID/tags
-
-Add tags to a contact.
-
-**Example 1 - JSON params**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "tag": ["admin", "user"]
-  }' \
- http://localhost:3081/contacts/21/tags
- ```
-**Example 2 - URL params**
-```bash
-curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:3081/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
-```
-**Response** Status: 200 OK
-```json
-["user", "admin"]
-```
-
-<a name="delete_contacts_id_tags">&nbsp;</a>
-### DELETE /contacts/CONTACT_ID/tags
-
-Delete tags from a contact.
-
-**Example 1 - JSON params**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
- '{
-    "tag": ["admin", "user"]
-  }' \
- http://localhost:3081/contacts/21/tags
- ```
-**Example 2 - URL params**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:3081/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
-```
-**Response** Status: 204 No Content
-
-<a name="get_contacts_id_entitytags">&nbsp;</a>
-### GET /contacts/CONTACT_ID/entity_tags
-
-Gets the tags for all entities linked to a contact.
-
-**Example**
-```bash
-curl http://localhost:3081/contacts/21/entity_tags
-```
-**Response** Status: 200 OK
-```json
-{"foo-app-01.example.com" : ["example", "app"],
- "foo-app-02.example.com" : ["example", "database"]}
-```
-
-<a name="post_contacts_id_entitytags">&nbsp;</a>
-### POST /contacts/CONTACT_ID/entity_tags
-
-Add tags to entities linked to a contact.
-
-**Example 1 - JSON params**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "entity": {"foo-app-01.example.com" : ["decommission", "unneeded"],
-               "foo-app-02.example.com" : ["upgrade"]}
-  }' \
- http://localhost:3081/contacts/21/entity_tags
-```
-**Example 2 - URL params**
-```bash
-curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:3081/contacts/21/entity_tags?entity\[foo-app-01.example.com\]=decommission&entity\[foo-app-01.example.com\]=unneeded&entity\[foo-app-02.example.com\]=upgrade"
-```
-**Response** Status: 200 OK
-```json
-{"foo-app-01.example.com" : ["example", "app", "decommission", "unneeded"],
- "foo-app-02.example.com" : ["example", "database", "upgrade"]}
-```
-
-<a name="delete_contacts_id_entitytags">&nbsp;</a>
-### DELETE /contacts/CONTACT_ID/entity_tags
-
-Delete tags from entities linked to a contact.
-
-**Example 1 - JSON params**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
- '{
-    "entity": {"foo-app-01.example.com" : ["unneeded"],
-               "foo-app-02.example.com" : ["upgrade"]}
-  }' \
- http://localhost:3081/contacts/21/entity_tags
-```
-**Example 2 - URL params**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:3081/contacts/21/entity_tags?entity\[foo-app-01.example.com\]=unneeded&entity\[foo-app-02.example.com\]=upgrade"
-```
-**Response** Status: 204 No Content
-
-<a name="get_entities_id_tags">&nbsp;</a>
-### GET /entities/ENTITY/tags
-
-Gets the tags for an entity.
-
-**Example**
-```bash
-curl http://localhost:3081/entities/foo-app-01.example.com/tags
-```
-**Response** Status: 200 OK
-```json
-["web", "app"]
-```
-
-<a name="post_entities_id_tags">&nbsp;</a>
-### POST /entities/ENTITY/tags
-
-Add tags to an entity.
-
-**Example 1 - JSON params**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "tag": ["web", "app"]
-  }' \
- http://localhost:3081/entities/foo-app-01.example.com/tags
- ```
-**Example 2 - URL params**
-```bash
-curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:3081/entities/foo-app-01.example.com/tags?tag\[\]=web&tag\[\]=app"
-```
-**Response** Status: 200 OK
-```json
-["web", "app"]
-```
-
-Add tags to an entity.
-
-<a name="delete_entities_id_tags">&nbsp;</a>
-### DELETE /entities/ENTITY/tags
-
-Delete tags from an entity.
-
-**Example 1 - JSON params**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
- '{
-    "tag": ["web", "app"]
-  }' \
- http://localhost:3081/entities/foo-app-01.example.com/tags
- ```
-**Example 2 - URL params**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:3081/entities/foo-app-01.example.com/tags?tag\[\]=web&tag\[\]=app"
-```
-
-**Response** Status: 204 No Content
