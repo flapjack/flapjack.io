@@ -218,9 +218,9 @@ TODO
 TODO
 
 
+<a id="get_contacts_id_media">&nbsp;</a>
 ### Media
 
-<a id="get_contacts_id_media">&nbsp;</a>
 #### GET /contacts/CONTACT_ID/media
 
 Returns the media of a contact.
