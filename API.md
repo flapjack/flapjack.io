@@ -3,22 +3,22 @@ API URLs
 
 Flapjack's HTTP API currently provides the following queries, data import functions and actions:
 
-### Contacts
+## Contacts
 
 <ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
+  <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
   <li><a href="#post_contacts">POST /contacts</a></li>
   <li><a href="#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
-  <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
 </ul>
 
 ### Contacts - Notification Rules
 
 <ul>
   <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
+  <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>
   <li><a href="#post_notification_rules">POST /notification_rules</a></li>
   <li><a href="#put_notification_rules_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
-  <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>
 </ul>
 
 ### Contacts - Media
@@ -43,6 +43,8 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
 </ul>
 
+## Entities and Checks
+
 ### Entities
 
 <ul>
@@ -54,13 +56,13 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 </ul>
 </ul>
 
-## Checks
+### Checks
 
 <ul>
   <li><a href="#get_checks">GET /checks/ENTITY</a></li>
 </ul>
 
-## Status, Maintenances, Acknowledgements, Outages
+### Status, Maintenances, Acknowledgements, Outages
 
 <ul>
   <li><a href="#get_status">GET /status[/ENTITY[/CHECK]]</a></li>
@@ -74,7 +76,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#get_downtime">GET /downtime[/ENTITY[/CHECK]]</a></li>
 </ul>
 
-## Test Notifications
+### Test Notifications
 
 <ul>
   <li><a href="#post_test_notifications">POST /test_notifications[/ENTITY[/CHECK]]</a></li>
@@ -82,7 +84,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 
 See also the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) gem which provides a ruby consumer of this API.
 
-### Query Paramaters
+## Query Paramaters
 
 Some of the GET queries can take some optional query string parameters as follows:
 
@@ -202,6 +204,7 @@ curl http://localhost:3081/entities
 
 <a id="post_entities">&nbsp;</a>
 ### POST /entities
+
 Creates or updates entities from the supplied entities, using id as key.
 
 **Input JSON Format**
