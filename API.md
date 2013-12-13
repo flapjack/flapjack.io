@@ -146,9 +146,9 @@ data is expressed as encoded form parameters, or serialized as JSON, etc.
 
 ## Contacts and Notifications
 
+<a id="get_contacts">&nbsp;</a>
 ### Contacts
 
-<a id="get_contacts">&nbsp;</a>
 #### GET /contacts
 
 Returns all the contacts
@@ -275,9 +275,9 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 * any missing attributes in an update will remove those attributes (eg interval)
 * address can't be removed and will cause a validation error
 
+<a id="get_contacts_id_notification_rules">&nbsp;</a>
 ### Notification Rules
 
-<a id="get_contacts_id_notification_rules">&nbsp;</a>
 #### GET /contacts/CONTACT_ID/notification_rules
 
 Lists a contact's notification rules.
@@ -531,9 +531,9 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 ```
 **Response** Status: 204 OK
 
+<a id="post_contacts_atomic">&nbsp;</a>
 ### Misc
 
-<a id="post_contacts_atomic">&nbsp;</a>
 #### POST /contacts_atomic
 Overwrite all contacts in flapjack. Any existing contacts not found in the supplied JSON payload will be deleted, then newly supplied contacts created, and existing contacts updated.
 
@@ -765,11 +765,12 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 ```
 **Response** Status: 204 No Content
 
+
 ## Entities and Checks
 
+<a id="get_entities">&nbsp;</a>
 ### Entities
 
-<a id="get_entities">&nbsp;</a>
 #### GET /entities
 Retrieve an array of all entities including core attributes and state of any checks on the entity.
 
@@ -935,9 +936,9 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 
 **Response** Status: 204 No Content
 
-### Checks
 
 <a id="get_checks">&nbsp;</a>
+### Checks
 
 #### GET /checks/ENTITY
 Retrieve the names of the checks for the specified entity.
@@ -959,9 +960,9 @@ curl http://localhost:3081/checks/foo-app-02.example.com
 ]
 ```
 
+<a id="get_status">&nbsp;</a>
 ### Status, Maintenances, Acknowledgements, Outages
 
-<a id="get_status">&nbsp;</a>
 #### GET /status[/ENTITY[/CHECK]]
 Get the status of a specified check, or for all checks of a specified entity, or for checks on multiple entities.
 
@@ -1628,13 +1629,10 @@ curl "http://localhost:3081/downtime?check[foo-app-02.example.com]=HOST&start_ti
 **Response** Status: 200 OK
 (See the Response section for the previous example.)
 
-### Test Notifications
-
----
-
-
 
 <a id="post_test_notifications">&nbsp;</a>
+### Test Notifications
+
 #### POST /test_notifications[/ENTITY/CHECK]
 Generates test notifications for the specified check. Body can be left empty.
 
