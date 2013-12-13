@@ -14,6 +14,14 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
 </ul>
 
+### Media
+
+<ul>
+  <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
+  <li><a href="#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
+  <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
+</ul>
+
 ### Notification Rules
 
 <ul>
@@ -21,14 +29,6 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>
   <li><a href="#post_notification_rules">POST /notification_rules</a></li>
   <li><a href="#put_notification_rules_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
-</ul>
-
-### Media
-
-<ul>
-  <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
-  <li><a href="#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
-  <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
 </ul>
 
 ### Misc
@@ -83,6 +83,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 <ul>
   <li><a href="#post_test_notifications">POST /test_notifications[/ENTITY[/CHECK]]</a></li>
 </ul>
+
 
 See also the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) gem which provides a ruby consumer of this API.
 
