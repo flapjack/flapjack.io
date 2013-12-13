@@ -685,7 +685,7 @@ curl -w 'response: %{http_code} \n' -X POST \
 ```
 
 <a name="delete_contacts_id_tags">&nbsp;</a>
-### DELETE /contacts/CONTACT_ID/tags
+#### DELETE /contacts/CONTACT_ID/tags
 
 Delete tags from a contact.
 
@@ -745,7 +745,7 @@ curl -w 'response: %{http_code} \n' -X POST \
 ```
 
 <a name="delete_contacts_id_entitytags">&nbsp;</a>
-### DELETE /contacts/CONTACT_ID/entity_tags
+#### DELETE /contacts/CONTACT_ID/entity_tags
 
 Delete tags from entities linked to a contact.
 
@@ -1348,7 +1348,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 
 <a id="delete_unscheduled_maintenances">&nbsp;</a>
-### DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]'
+#### DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]'
 Deletes an unscheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied -- the deletion will take effect immediately if it is not.
 
 **Input JSON Format**
@@ -1501,7 +1501,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 
 <a id="delete_scheduled_maintenances">&nbsp;</a>
-### DELETE /scheduled_maintenances[/ENTITY[/CHECK]]'
+#### DELETE /scheduled_maintenances[/ENTITY[/CHECK]]'
 Deletes an scheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied -- the deletion will take effect immediately if it is not.
 
 **Input JSON Format**
