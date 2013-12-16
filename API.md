@@ -213,8 +213,9 @@ curl http://localhost:3081/contacts/21
 
 Creates one or more contacts, returns an array containing the IDs of the created contacts. The ordering is preserved, so if you POST an array of three contacts, the resulting array of IDs will be in the same order as the posted data, so the first item of the POSTed array will correspond to the first ID in the resulting array, etc.
 
-The ID may optionally be supplied. If it is ommitted, then a UUID will be created. If it is supplied, and clashes with an existing contact, the new contact will be rejected. Other supplied contacts, which don't have a conflict, will be created, and the resulting array of created IDs will have a null in the place corresponding to the conflicted contact.
+The ID may optionally be supplied. If it is ommitted, then a UUID will be created.
 
+If ID is supplied in any of the included contacts, and any of them clash with an existing contact, the whole request will be rejected and no changes will be written.
 
 **Input JSON Format**
 ```text
@@ -628,39 +629,14 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 ### Misc
 
 #### POST /contacts_atomic
+
+**Deprecated** - use <a href="#post_contacts">POST /contacts</a> instead.
+
 Overwrite all contacts in flapjack. Any existing contacts not found in the supplied JSON payload will be deleted, then newly supplied contacts created, and existing contacts updated.
 
 ("atomic" - as in "nuclear").
 
-**Input JSON Format**
-```text
-CONTACTS  (array) = [ CONTACT, CONTACT, ...]
-CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
-                      "email": EMAIL, "media": MEDIAS }
-MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, "pagerduty": PAGERDUTY... }
-MEDIA     (hash)  = { "address": MEDIA_ADDRESS,
-                      "interval": INTERVAL,
-                      "rollup_threshold": FAILURE_COUNT }
-PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
-                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
-TAGS      (array) = [ "TAG", "TAG", ...]
-
-CONTACT_ID            (string) - a unique, immutable identifier for this contact
-MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
-MEDIA_ADDRESS         (string) - address to send to for the paired MEDIA_TYPE, eg an email address, mobile phone number, or jabber id
-PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
-PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
-PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
-PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
-TAG                   (string) - a tag, you know?
-INTERVAL              (string) - number of seconds to repeat the same alert on this media type
-FAILURE_COUNT         (string) - the number of failing checks this contact has before rollup kicks in, 0 and null mean never
-```
-
-**Notes:**
-* The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
-* The value for ID must be unique and must never change as it is used for synchronisation during updates.
-* The "pagerduty" hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.
+Uses the same JSON format as <a href="#post_contacts">POST /contacts</a>, however ID is always required.
 
 **Example**
 ```bash
