@@ -12,7 +12,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
   <li><a href="#post_contacts">POST /contacts</a></li>
   <li><a href="#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
-  <li><a href="#delete_contacts">DELETE /contacts?id=CONTACT_ID[&id=CONTACT_ID[...]]</a></li>
+  <li><a href="#delete_contacts">DELETE /contacts</a></li>
 </ul>
 
 ### Media
@@ -224,7 +224,7 @@ TODO
 Updates, or deletes, a contact.
 
 <a id="delete_contacts">&nbsp;</a>
-#### DELETE /contacts?id=CONTACT_ID[&id=CONTACT_ID[...]]
+#### DELETE /contacts?id[]=CONTACT_ID[&id[]=CONTACT_ID[...]]
 
 TODO
 
@@ -749,7 +749,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:3081/contacts/21/entity_tags?entity\[foo-app-01.example.com\]=decommission&entity\[foo-app-01.example.com\]=unneeded&entity\[foo-app-02.example.com\]=upgrade"
+ 'http://localhost:3081/contacts/21/entity_tags?entity[foo-app-01.example.com]=decommission&entity[foo-app-01.example.com]=unneeded&entity[foo-app-02.example.com]=upgrade'
 ```
 **Response** Status: 200 OK
 ```json
@@ -774,7 +774,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:3081/contacts/21/entity_tags?entity\[foo-app-01.example.com\]=unneeded&entity\[foo-app-02.example.com\]=upgrade"
+ 'http://localhost:3081/contacts/21/entity_tags?entity[foo-app-01.example.com]=unneeded&entity[foo-app-02.example.com]=upgrade'
 ```
 **Response** Status: 204 No Content
 
@@ -919,7 +919,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:3081/entities/foo-app-01.example.com/tags?tag\[\]=web&tag\[\]=app"
+ 'http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&tag[]=app'
 ```
 **Response** Status: 200 OK
 ```json
@@ -944,7 +944,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:3081/entities/foo-app-01.example.com/tags?tag\[\]=web&tag\[\]=app"
+ 'http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&tag[]=app'
 ```
 
 **Response** Status: 204 No Content
