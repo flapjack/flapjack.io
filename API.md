@@ -211,25 +211,100 @@ curl http://localhost:3081/contacts/21
 <a id="post_contacts">&nbsp;</a>
 #### POST /contacts
 
-TODO
+Creates one or more contacts, returns an array containing the IDs of the created contacts. The ordering is preserved, so if you POST an array of three contacts, the resulting array of IDs will be in the same order as the posted data, so the first item of the POSTed array will correspond to the first UUID in the resulting array, etc.
 
-Creates one or more contacts.
+The ID may optionally supplied. If it is ommitted, then a UUID will be created. If it is supplied, and clashes with an existing contact, the new contact will be rejected. Other supplied contacts, which don't have a conflict, will be created, and the resulting array of created IDs will have a null in place corresponding to the conflicted contact.
+
+
+**Input JSON Format**
+```text
+CONTACTS  (array) = [ CONTACT, CONTACT, ...]
+CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
+                      "email": EMAIL, "media": MEDIAS }
+MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, "pagerduty": PAGERDUTY... }
+MEDIA     (hash)  = { "address": MEDIA_ADDRESS,
+                      "interval": INTERVAL,
+                      "rollup_threshold": FAILURE_COUNT }
+PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
+                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
+TAGS      (array) = [ "TAG", "TAG", ...]
+
+CONTACT_ID            (string) - a unique, immutable identifier for this contact (optional). If ommitted, a UUID will be created
+MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
+MEDIA_ADDRESS         (string) - address to send to for the paired MEDIA_TYPE, eg an email address, mobile phone number, or jabber id
+PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
+PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
+PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
+PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
+TAG                   (string) - a tag, you know?
+INTERVAL              (string) - number of seconds to repeat the same alert on this media type
+FAILURE_COUNT         (string) - the number of failing checks this contact has before rollup kicks in, 0 and null mean never
+```
+
+**Notes:**
+* The "email" key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact's identity only. Only the "email" key in the MEDIA hash, if present, is to be used for notifications.
+* The value for ID must be unique and must never change as it is used for synchronisation during updates.
+* The "pagerduty" hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.
+
+**Example**
+```bash
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "contacts": [
+      {
+        "first_name": "Ada",
+        "last_name": "Lovelace",
+        "email": "ada@example.com",
+        "media": {
+          "sms": {
+            "address": "+61412345678",
+            "interval": "3600",
+            "rollup_threshold": "5"
+          },
+          "email": {
+            "address": "ada@example.com",
+            "interval": "7200",
+            "rollup_threshold": null
+          }
+        },
+        "tags": [
+          "legend",
+          "first computer programmer"
+        ]
+      }
+    ]
+  }' \
+ http://localhost:3081/contacts
+```
+**Response** Status: 204 No Content
 
 
 <a id="put_contacts_id">&nbsp;</a>
 #### PUT, DELETE /contacts/CONTACT_ID
 
-TODO
-
 Updates, or deletes, a contact.
+
+**Example 1 - PUT**
+``` bash
+curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
+```
+
+**Example 2 - DELETE**
+
+``` bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+  'http://localhost:3081/contacts/21'
+```
 
 <a id="delete_contacts">&nbsp;</a>
 #### DELETE /contacts?id[]=CONTACT_ID[&id[]=CONTACT_ID[...]]
 
-TODO
-
 Deletes multiple contacts.
 
+``` bash
+curl -w 'response: %{http_code} \n' -X DELETE \
+  'http://localhost:3081/contacts?id[]=21&id[]=22'
+```
 
 <a id="get_contacts_id_media">&nbsp;</a>
 ### Media
@@ -690,7 +765,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
- "http://localhost:3081/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
+ 'http://localhost:3081/contacts/21/tags?tag[]=admin&tag[]=user'
 ```
 **Response** Status: 200 OK
 ```json
@@ -713,7 +788,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- "http://localhost:3081/contacts/21/tags?tag\[\]=admin&tag\[\]=user"
+ 'http://localhost:3081/contacts/21/tags?tag[]=admin&tag[]=user"
 ```
 **Response** Status: 204 No Content
 
