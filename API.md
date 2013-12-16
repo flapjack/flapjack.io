@@ -211,9 +211,9 @@ curl http://localhost:3081/contacts/21
 <a id="post_contacts">&nbsp;</a>
 #### POST /contacts
 
-Creates one or more contacts, returns an array containing the IDs of the created contacts. The ordering is preserved, so if you POST an array of three contacts, the resulting array of IDs will be in the same order as the posted data, so the first item of the POSTed array will correspond to the first UUID in the resulting array, etc.
+Creates one or more contacts, returns an array containing the IDs of the created contacts. The ordering is preserved, so if you POST an array of three contacts, the resulting array of IDs will be in the same order as the posted data, so the first item of the POSTed array will correspond to the first ID in the resulting array, etc.
 
-The ID may optionally supplied. If it is ommitted, then a UUID will be created. If it is supplied, and clashes with an existing contact, the new contact will be rejected. Other supplied contacts, which don't have a conflict, will be created, and the resulting array of created IDs will have a null in place corresponding to the conflicted contact.
+The ID may optionally be supplied. If it is ommitted, then a UUID will be created. If it is supplied, and clashes with an existing contact, the new contact will be rejected. Other supplied contacts, which don't have a conflict, will be created, and the resulting array of created IDs will have a null in the place corresponding to the conflicted contact.
 
 
 **Input JSON Format**
@@ -276,7 +276,12 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
   }' \
  http://localhost:3081/contacts
 ```
-**Response** Status: 204 No Content
+**Response** Status: 200 OK
+```json
+[
+  '4b5897cf-9ba4-4da5-b317-64497e5a49de'
+]
+```
 
 
 <a id="put_contacts_id">&nbsp;</a>
