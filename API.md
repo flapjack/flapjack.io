@@ -204,6 +204,17 @@ curl http://localhost:3081/contacts/21
       "first_name": "Ada",
       "last_name": "Lovelace",
       "email": "ada@example.com",
+      "media": {
+        "sms": "+61412345678",
+        "email": "ada@example.com"
+      },
+      "media_intervals": {
+        "sms": "3600",
+        "email": "7200"
+      },
+      "media_rollup_thresholds": {
+        "sms": "5"
+      }
       "tags": [
         "legend",
         "first computer programmer"
@@ -761,7 +772,9 @@ curl http://localhost:3081/contacts/21/tags
 ```
 **Response** Status: 200 OK
 ```json
-["user", "admin"]
+{
+  "tags": ["user", "admin"]
+}
 ```
 
 <a name="post_contacts_id_tags">&nbsp;</a>
@@ -773,18 +786,20 @@ Add tags to a contact.
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
-    "tag": ["admin", "user"]
+    "tags": ["admin", "user"]
   }' \
  http://localhost:3081/contacts/21/tags
  ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
- 'http://localhost:3081/contacts/21/tags?tag[]=admin&tag[]=user'
+ 'http://localhost:3081/contacts/21/tags?tags[]=admin&tags[]=user'
 ```
 **Response** Status: 200 OK
 ```json
-["user", "admin"]
+{
+  "tags": ["user", "admin"]
+}
 ```
 
 <a name="delete_contacts_id_tags">&nbsp;</a>
@@ -796,14 +811,14 @@ Delete tags from a contact.
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
  '{
-    "tag": ["admin", "user"]
+    "tags": ["admin", "user"]
   }' \
  http://localhost:3081/contacts/21/tags
  ```
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- 'http://localhost:3081/contacts/21/tags?tag[]=admin&tag[]=user"
+ 'http://localhost:3081/contacts/21/tags?tags[]=admin&tags[]=user"
 ```
 **Response** Status: 204 No Content
 
