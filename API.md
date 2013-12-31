@@ -160,27 +160,29 @@ curl http://localhost:3081/contacts
 ```
 
 ```json
-[
-  {
-    "id": "21",
-    "first_name": "Ada",
-    "last_name": "Lovelace",
-    "email": "ada@example.com",
-    "tags": [
-      "legend",
-      "first computer programmer"
-    ]
-  },
-  {
-    "id": "22",
-    "first_name": "Charles",
-    "last_name": "Babbage",
-    "email": "babbage@example.com",
-    "tags": [
-      "grump"
-    ]
-  }
-]
+{
+  "contacts": [
+    {
+      "id": "21",
+      "first_name": "Ada",
+      "last_name": "Lovelace",
+      "email": "ada@example.com",
+      "tags": [
+        "legend",
+        "first computer programmer"
+      ]
+    },
+    {
+      "id": "22",
+      "first_name": "Charles",
+      "last_name": "Babbage",
+      "email": "babbage@example.com",
+      "tags": [
+        "grump"
+      ]
+    }
+  ]
+}
 ```
 
 
@@ -196,13 +198,17 @@ curl http://localhost:3081/contacts/21
 
 ```json
 {
-  "id": "21",
-  "first_name": "Ada",
-  "last_name": "Lovelace",
-  "email": "ada@example.com",
-  "tags": [
-    "legend",
-    "first computer programmer"
+  "contacts": [
+    {
+      "id": "21",
+      "first_name": "Ada",
+      "last_name": "Lovelace",
+      "email": "ada@example.com",
+      "tags": [
+        "legend",
+        "first computer programmer"
+      ]
+    }
   ]
 }
 ```
@@ -295,27 +301,31 @@ The data format (for PUT) is the same as the CONTACT hash detailed in <a href="#
 **Example 1 - PUT**
 ``` bash
 curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
- '{
-    "first_name": "Ada",
-    "last_name": "Lovelace",
-    "email": "ada@example.com",
-    "media": {
-      "sms": {
-        "address": "+61412345678",
-        "interval": "3600",
-        "rollup_threshold": "5"
+'{
+  "contacts": [
+    {
+      "first_name": "Ada",
+      "last_name": "Lovelace",
+      "email": "ada@example.com",
+      "media": {
+        "sms": {
+          "address": "+61412345678",
+          "interval": "3600",
+          "rollup_threshold": "5"
+        },
+        "email": {
+          "address": "ada@example.com",
+          "interval": "7200",
+          "rollup_threshold": null
+        }
       },
-      "email": {
-        "address": "ada@example.com",
-        "interval": "7200",
-        "rollup_threshold": null
-      }
-    },
-    "tags": [
-      "legend",
-      "first computer programmer"
-    ]
-  }' \
+      "tags": [
+        "legend",
+        "first computer programmer"
+      ]
+    }
+  ]
+}' \
  'http://localhost:3081/contacts/21'
 ```
 
