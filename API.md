@@ -789,12 +789,14 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
     "tags": ["admin", "user"]
   }' \
  http://localhost:3081/contacts/21/tags
- ```
+```
+
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
  'http://localhost:3081/contacts/21/tags?tags[]=admin&tags[]=user'
 ```
+
 **Response** Status: 200 OK
 ```json
 {
