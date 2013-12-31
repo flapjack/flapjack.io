@@ -818,7 +818,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 **Example 2 - URL params**
 ```bash
 curl -w 'response: %{http_code} \n' -X DELETE \
- 'http://localhost:3081/contacts/21/tags?tags[]=admin&tags[]=user"
+ 'http://localhost:3081/contacts/21/tags?tags[]=admin&tags[]=user'
 ```
 **Response** Status: 204 No Content
 
