@@ -307,7 +307,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 Updates, or deletes, a contact.
 
-The data format (for PUT) is the same as the CONTACT hash detailed in <a href="#post_contacts">POST /contacts</a> however ID must not be supplied (as it is present in the URL).
+The data format (for PUT) is the same as the CONTACT hash detailed in <a href="#post_contacts">POST /contacts</a>. ID may be supplied, but must not conflict with the ID passed in the URL.
 
 **Example 1 - PUT**
 ``` bash
