@@ -167,6 +167,7 @@ curl http://localhost:3081/contacts
       "first_name": "Ada",
       "last_name": "Lovelace",
       "email": "ada@example.com",
+      "timezone": "UTC",
       "tags": [
         "legend",
         "first computer programmer"
@@ -177,6 +178,7 @@ curl http://localhost:3081/contacts
       "first_name": "Charles",
       "last_name": "Babbage",
       "email": "babbage@example.com",
+      "timezone": "Australia/Broken_Hill",
       "tags": [
         "grump"
       ]
@@ -214,7 +216,8 @@ curl http://localhost:3081/contacts/21
       },
       "media_rollup_thresholds": {
         "sms": "5"
-      }
+      },
+      "timezone": "UTC",
       "tags": [
         "legend",
         "first computer programmer"
@@ -238,7 +241,7 @@ If ID is supplied in any of the included contacts, and any of them clash with an
 ```text
 CONTACTS  (array) = [ CONTACT, CONTACT, ...]
 CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
-                      "email": EMAIL, "media": MEDIAS }
+                      "email": EMAIL, "media": MEDIAS, "timezone": TIMEZONE, "tags": TAGS }
 MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, "pagerduty": PAGERDUTY... }
 MEDIA     (hash)  = { "address": MEDIA_ADDRESS,
                       "interval": INTERVAL,
@@ -254,6 +257,7 @@ PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, co
 PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
 PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
 PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
+TIMEZONE              (string) - A timezone string eg 'UTC', 'Australia/Broken_Hill', etc
 TAG                   (string) - a tag, you know?
 INTERVAL              (string) - number of seconds to repeat the same alert on this media type
 FAILURE_COUNT         (string) - the number of failing checks this contact has before rollup kicks in, 0 and null mean never
@@ -285,6 +289,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
             "rollup_threshold": null
           }
         },
+        "timezone": "Europe/London",
         "tags": [
           "legend",
           "first computer programmer"
@@ -330,6 +335,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
           "rollup_threshold": null
         }
       },
+      "timezone": "Europe/London",
       "tags": [
         "legend",
         "first computer programmer"
@@ -507,45 +513,49 @@ curl -w 'response: %{http_code} \n' http://localhost:3081/notification_rules/08f
 **Response** Status: 200 OK
 ```json
 {
-  "id": "08f607c7-618d-460a-b3fe-868464eb6045",
-  "contact_id": "21",
-  "tags": [
-    "database",
-    "physical"
-  ],
-  "entities": [
-    "foo-app-01.example.com"
-  ],
-  "time_restrictions": [
+  "notification_rules": [
     {
-      "start_time": "2013-01-28 08:00:00",
-      "end_time": "2013-01-28 18:00:00",
-      "rrules": [
+      "id": "08f607c7-618d-460a-b3fe-868464eb6045",
+      "contact_id": "21",
+      "tags": [
+        "database",
+        "physical"
+      ],
+      "entities": [
+        "foo-app-01.example.com"
+      ],
+      "time_restrictions": [
         {
-          "validations": {
-            "day": [1,2,3,4,5]
-          },
-          "rule_type": "Weekly",
-          "interval": 1,
-          "week_start": 0
+          "start_time": "2013-01-28 08:00:00",
+          "end_time": "2013-01-28 18:00:00",
+          "rrules": [
+            {
+              "validations": {
+                "day": [1,2,3,4,5]
+              },
+              "rule_type": "Weekly",
+              "interval": 1,
+              "week_start": 0
+            }
+          ],
+          "exrules": [],
+          "rtimes": [],
+          "extimes": []
         }
       ],
-      "exrules": [],
-      "rtimes": [],
-      "extimes": []
+      "unknown_media": [],
+      "warning_media": [
+        "email"
+      ],
+      "critical_media": [
+        "sms",
+        "email"
+      ],
+      "unknown_blackhole": false,
+      "warning_blackhole": false,
+      "critical_blackhole": false
     }
-  ],
-  "unknown_media": [],
-  "warning_media": [
-    "email"
-  ],
-  "critical_media": [
-    "sms",
-    "email"
-  ],
-  "unknown_blackhole": false,
-  "warning_blackhole": false,
-  "critical_blackhole": false
+  ]
 }
 ```
 
@@ -558,46 +568,50 @@ Creates a new notification rule.
 ```bash
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
  '{
-    "contact_id": "21",
-    "tags": [
-      "database",
-      "physical"
-    ],
-    "entities": [
-      "foo-app-01.example.com"
-    ],
-    "time_restrictions": [
+    "notification_rules": [
       {
-        "start_time": "2013-01-28 08:00:00",
-        "end_time": "2013-01-28 18:00:00",
-        "rrules": [
+        "contact_id": "21",
+        "tags": [
+          "database",
+          "physical"
+        ],
+        "entities": [
+          "foo-app-01.example.com"
+        ],
+        "time_restrictions": [
           {
-            "validations": {
-              "day": [1,2,3,4,5]
-            },
-            "rule_type": "Weekly",
-            "interval": 1,
-            "week_start": 0
+            "start_time": "2013-01-28 08:00:00",
+            "end_time": "2013-01-28 18:00:00",
+            "rrules": [
+              {
+                "validations": {
+                  "day": [1,2,3,4,5]
+                },
+                "rule_type": "Weekly",
+                "interval": 1,
+                "week_start": 0
+              }
+            ],
+            "exrules": [],
+            "rtimes": [],
+            "extimes": []
           }
         ],
-        "exrules": [],
-        "rtimes": [],
-        "extimes": []
+        "unknown_media": [],
+        "warning_media": [
+          "email"
+        ],
+        "critical_media": [
+          "sms",
+          "email"
+        ],
+        "unknown_blackhole": false,
+        "warning_blackhole": false,
+        "critical_blackhole": false
       }
-    ],
-    "unknown_media": [],
-    "warning_media": [
-      "email"
-    ],
-    "critical_media": [
-      "sms",
-      "email"
-    ],
-    "unknown_blackhole": false,
-    "warning_blackhole": false,
-    "critical_blackhole": false
+    ]
   }' \
- http://localhost:3081/notification_rules
+http://localhost:3081/notification_rules
 ```
 **Response** Status: 200 OK
 
@@ -606,7 +620,7 @@ Returns the notification rule object as per GET.
 **Notes:**
 * the rule_id will be generated by flapjack as a UUID and supplied in the response body along with the rest of the contact's information
 * time_restrictions are implemented within flapjack by the ice_cube gem, which is an implementation of the iCalendar RFC for Ruby. The interface we're exposing is close to ice_cube's hash representation of a schedule.
-* in time_restrictions, the start_time and end_time should contain no timezone information, or UTC offset. They will be interpreted by flapjack as being in the user's local timezone, or the timezone configured in executive/default_contact_timezone in the flapjack configuration.
+* in time_restrictions, the start_time and end_time should contain no timezone information, or UTC offset. They will be interpreted by flapjack as being in the user's local timezone, or the timezone configured in processor/default_contact_timezone in the flapjack configuration.
 * in time_restrictions, the day validations are numbers corresponding to days of the week, as per the UNIX crontab file. Week days start on Sunday - 0, and progress through to Saturday - 6. So a day validation of "[1,2,3,4,5]" means Monday through Friday.
 * time_restrictions rule_type specifies on what basis the time restriction schedule is to be repeated. It can be one of "Secondly", "Minutely", "Hourly", "Daily", "Weekly", "Monthly", or "Yearly".
 
@@ -619,45 +633,49 @@ Updates or deletes a notification rule
 ```bash
 curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -d \
  '{
-    "tags": [
-      "database",
-      "physical"
-    ],
-    "entities": [
-      "foo-app-01.example.com"
-    ],
-    "time_restrictions": [
+    "notification_rules": [
       {
-        "start_time": "2013-01-28 08:00:00",
-        "end_time": "2013-01-28 18:00:00",
-        "rrules": [
+        "tags": [
+          "database",
+          "physical"
+        ],
+        "entities": [
+          "foo-app-01.example.com"
+        ],
+        "time_restrictions": [
           {
-            "validations": {
-              "day": [1,2,3,4,5]
-            },
-            "rule_type": "Weekly",
-            "interval": 1,
-            "week_start": 0
+            "start_time": "2013-01-28 08:00:00",
+            "end_time": "2013-01-28 18:00:00",
+            "rrules": [
+              {
+                "validations": {
+                  "day": [1,2,3,4,5]
+                },
+                "rule_type": "Weekly",
+                "interval": 1,
+                "week_start": 0
+              }
+            ],
+            "exrules": [],
+            "rtimes": [],
+            "extimes": []
           }
         ],
-        "exrules": [],
-        "rtimes": [],
-        "extimes": []
+        "unknown_media": [],
+        "warning_media": [
+          "email"
+        ],
+        "critical_media": [
+          "sms",
+          "email"
+        ],
+        "unknown_blackhole": false,
+        "warning_blackhole": false,
+        "critical_blackhole": false
       }
-    ],
-    "unknown_media": [],
-    "warning_media": [
-      "email"
-    ],
-    "critical_media": [
-      "sms",
-      "email"
-    ],
-    "unknown_blackhole": false,
-    "warning_blackhole": false,
-    "critical_blackhole": false
+    ]
   }' \
- http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
+http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
 ```
 **Response** Status: 200 OK
 
