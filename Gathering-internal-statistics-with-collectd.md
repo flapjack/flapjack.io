@@ -46,4 +46,4 @@ LoadPlugin "curl_json"
 
 An example graph:
 
-![graph of failures detected by Flapjack](http://i.imgur.com/zY01y0P.jpg)
+![graph of failures detected by Flapjack](http://i.imgur.com/FZOdh8G.png)
