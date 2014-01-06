@@ -167,7 +167,7 @@ curl http://localhost:3081/contacts
       "first_name": "Ada",
       "last_name": "Lovelace",
       "email": "ada@example.com",
-      "timezone": "UTC",
+      "timezone": "Europe/London",
       "tags": [
         "legend",
         "first computer programmer"
@@ -178,7 +178,7 @@ curl http://localhost:3081/contacts
       "first_name": "Charles",
       "last_name": "Babbage",
       "email": "babbage@example.com",
-      "timezone": "Australia/Broken_Hill",
+      "timezone": "UTC",
       "tags": [
         "grump"
       ]
@@ -217,7 +217,7 @@ curl http://localhost:3081/contacts/21
       "media_rollup_thresholds": {
         "sms": "5"
       },
-      "timezone": "UTC",
+      "timezone": "Europe/London",
       "tags": [
         "legend",
         "first computer programmer"
