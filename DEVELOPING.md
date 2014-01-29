@@ -93,22 +93,27 @@ else
 fi
 ```
 
-Ensure your local redis server is running, and then to start:
+Ensure your local Redis server is running, and then to start:
+
 ```bash
-bundle exec bin/flapjack start --config etc/flapjack_config.yaml
+FLAPJACK_ENV=development bundle exec bin/flapjack start --config etc/flapjack_config.yaml
 ```
-stop:
+Stop:
+
 ```bash
-bundle exec bin/flapjack stop --config etc/flapjack_config.yaml
+FLAPJACK_ENV=development bundle exec bin/flapjack stop --config etc/flapjack_config.yaml
 ```
-status:
+
+Get the status:
+
 ```bash
-bundle exec bin/flapjack status --config etc/flapjack_config.yaml
+FLAPJACK_ENV=development  bundle exec bin/flapjack status --config etc/flapjack_config.yaml
 ```
 
 Flapjack can also be started in the foreground (non-daemonized) by adding `--no-daemonize` to the start command, eg:
+
 ```bash
-bundle exec bin/flapjack start --no-daemonize --config etc/flapjack_config.yaml
+FLAPJACK_ENV=development bundle exec bin/flapjack start --no-daemonize --config etc/flapjack_config.yaml
 ```
 
 See [Using](USING) for more information.
