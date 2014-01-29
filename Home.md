@@ -3,7 +3,8 @@ Welcome to the Flapjack Wiki.
 ### Documentation
 
 - [Using Flapjack](wiki/USING)
-- [API](wiki/API)
+- [JSONAPI](wiki/JSONAPI)
+- [API](wiki/API) (deprecated)
 - [Notification Routing](wiki/Notification-Routing)
 - [Importing](wiki/IMPORTING)
 - [Debugging Flapjack](wiki/DEBUGGING)

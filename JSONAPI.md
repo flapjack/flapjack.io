@@ -1,7 +1,9 @@
-API URLs
-========
+JSON API URLs
+=============
 
-Flapjack's HTTP API currently provides the following queries, data import functions and actions:
+This API is moving towards compliance with the [jsonapi specification](http://jsonapi.org/format).
+
+Flapjack's JSON HTTP API currently provides the following queries, data import functions and actions:
 
 ## Contacts and Notifications
 

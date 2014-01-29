@@ -1,6 +1,8 @@
 API URLs
 ========
 
+**Deprecation Warning:** This api is superseded by '[jsonapi](/wiki/JSONAPI)' - the [jsonapi.org](http://jsonapi.org) compliant rework of this api.
+
 Flapjack's HTTP API currently provides the following queries, data import functions and actions:
 
 ## Contacts and Notifications
