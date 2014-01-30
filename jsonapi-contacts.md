@@ -2,6 +2,18 @@
 
 ## Endpoints
 
+* [GET /contacts](#get_contacts)
+* [GET /contacts/CONTACT_ID](#get_contacts_id)
+* (#post_contacts)">POST /contacts</a>
+* (#put_contacts_id)">PUT, DELETE /contacts/CONTACT_ID</a>
+* (#delete_contacts)">DELETE /contacts</a>
+
+* <a href="#get_contacts">GET /contacts</a>
+* <a href="#get_contacts_id">GET /contacts/CONTACT_ID</a>
+* <a href="#post_contacts">POST /contacts</a>
+* <a href="#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a>
+* <a href="#delete_contacts">DELETE /contacts</a>
+
 <ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
