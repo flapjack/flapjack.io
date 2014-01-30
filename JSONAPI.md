@@ -7,15 +7,7 @@ Flapjack's JSON HTTP API currently provides the following queries, data import f
 
 ## Contacts and Notifications
 
-### Contacts
-
-<ul>
-  <li><a href="jsonapi-contacts#get_contacts">GET /contacts</a></li>
-  <li><a href="jsonapi-contacts#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
-  <li><a href="jsonapi-contacts#post_contacts">POST /contacts</a></li>
-  <li><a href="jsonapi-contacts#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
-  <li><a href="jsonapi-contacts#delete_contacts">DELETE /contacts</a></li>
-</ul>
+### [Contacts](jsonapi-contacts)
 
 ### Media
 
