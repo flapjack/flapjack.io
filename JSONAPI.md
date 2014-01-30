@@ -1,5 +1,5 @@
-JSON API URLs
-=============
+JSON API
+========
 
 This API is moving towards compliance with the [jsonapi specification](http://jsonapi.org/format).
 
