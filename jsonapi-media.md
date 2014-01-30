@@ -2,13 +2,11 @@
 
 ## Endpoints
 
-<ul>
-  <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
-  <li><a href="#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
-  <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
-</ul>
+* [GET /contacts/CONTACT_ID/media](#get_contacts_id_media)
+* [GET /contacts/CONTACT_ID/media/MEDIA](#get_contacts_id_media_media)
+* [PUT, DELETE /contacts/CONTACT_ID/media/MEDIA](#put_contacts_id_media_media)
 
-<a id="get_contacts_id_media">&nbsp;</a>
+<a name="get_contacts_id_media">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/media
 
 Returns the media of a contact.
@@ -21,13 +19,13 @@ curl -w 'response: %{http_code} \n' \
  http://localhost:3081/contacts/21/media
 ```
 
-<a id="get_contacts_id_media_media">&nbsp;</a>
+<a name="get_contacts_id_media_media">&nbsp;</a>
 ### GET /contacts/CONTACT_ID/media/MEDIA
 
 Returns the specified media of a contact.
 
 
-<a id="put_contacts_id_media_media">&nbsp;</a>
+<a name="put_contacts_id_media_media">&nbsp;</a>
 ### PUT, DELETE /contacts/CONTACT_ID/media/MEDIA
 
 Creates or updates (PUT) or deletes (DELETE) a media of a contact

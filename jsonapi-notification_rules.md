@@ -2,12 +2,10 @@
 
 ## Endpoints
 
-<ul>
-  <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
-  <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>
-  <li><a href="#post_notification_rules">POST /notification_rules</a></li>
-  <li><a href="#put_notification_rules_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
-</ul>
+* [GET /contacts/CONTACT_ID/notification_rules](#get_contacts_id_notification_rules)
+* [GET /notification_rules/RULE_ID](#get_notification_rules_id)
+* [POST /notification_rules](#post_notification_rules)
+* [PUT, DELETE /notification_rules/RULE_ID](#put_notification_rules_id)
 
 
 <a id="get_contacts_id_notification_rules">&nbsp;</a>

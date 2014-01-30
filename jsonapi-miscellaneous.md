@@ -2,17 +2,16 @@
 
 ## Endpoints
 
-<ul>
-  <li><a href="#post_contacts_atomic">POST /contacts_atomic</a></li>
-  <li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
-  <li><a href="#put_contacts_id_timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</a></li>
-  <li><a href="#get_contacts_id_tags">GET /contacts/CONTACT_ID/tags</a></li>
-  <li><a href="#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
-  <li><a href="#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
-  <li><a href="#get_contacts_id_entitytags">GET /contacts/CONTACT_ID/entity_tags</a></li>
-  <li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
-  <li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
-</ul>
+* [POST /contacts_atomic](#post_contacts_atomic)
+* [GET /contacts/CONTACT_ID/timezone](#get_contacts_id_timezone)
+* [PUT, DELETE /contacts/CONTACT_ID/timezone](#put_contacts_id_timezone)
+* [GET /contacts/CONTACT_ID/tags](#get_contacts_id_tags)
+* [POST /contacts/CONTACT_ID/tags](#post_contacts_id_tags)
+* [DELETE /contacts/CONTACT_ID/tags](#delete_contacts_id_tags)
+* [GET /contacts/CONTACT_ID/entity_tags](#get_contacts_id_entitytags)
+* [POST /contacts/CONTACT_ID/entity_tags](#post_contacts_id_entitytags)
+* [DELETE /contacts/CONTACT_ID/entity_tags](#delete_contacts_id_entitytags)
+
 
 <a id="post_contacts_atomic">&nbsp;</a>
 ### POST /contacts_atomic
