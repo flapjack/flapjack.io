@@ -7,6 +7,11 @@ Flapjack's JSON HTTP API currently provides the following queries, data import f
 
 ## Contacts and Notifications
 
+* [Contacts](jsonapi-contacts)
+* [Media](jsonapi-media)
+* [Notification Rules](jsonapi-notification_rules)
+* [Miscellaneous](jsonapi-miscellaneous)
+
 <ul>
   <li> [Contacts](jsonapi-contacts) </li>
   <li> [Media](jsonapi-media) </li>
