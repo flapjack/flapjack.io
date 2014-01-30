@@ -1,4 +1,4 @@
-## [JSON API](jsonapi) :: Notification Rules
+# [JSON API](jsonapi) :: Notification Rules
 
 <ul>
   <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>

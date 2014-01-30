@@ -1,4 +1,4 @@
-## [JSON API](jsonapi) :: Miscellaneous
+# [JSON API](jsonapi) :: Miscellaneous
 
 <ul>
   <li><a href="#post_contacts_atomic">POST /contacts_atomic</a></li>
