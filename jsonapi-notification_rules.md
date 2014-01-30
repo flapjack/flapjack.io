@@ -1,5 +1,7 @@
 # [JSON API](jsonapi) :: Notification Rules
 
+## Endpoints
+
 <ul>
   <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
   <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>

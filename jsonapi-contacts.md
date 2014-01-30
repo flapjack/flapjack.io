@@ -1,5 +1,7 @@
 # [JSON API](jsonapi) :: Contacts
 
+## Endpoints
+
 <ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>

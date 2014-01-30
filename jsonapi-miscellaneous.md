@@ -1,5 +1,7 @@
 # [JSON API](jsonapi) :: Miscellaneous
 
+## Endpoints
+
 <ul>
   <li><a href="#post_contacts_atomic">POST /contacts_atomic</a></li>
   <li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>

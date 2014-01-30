@@ -1,5 +1,7 @@
 # [JSON API](jsonapi) :: Media
 
+## Endpoints
+
 <ul>
   <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
   <li><a href="#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
