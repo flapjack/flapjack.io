@@ -10,19 +10,19 @@ Flapjack's JSON HTTP API currently provides the following queries, data import f
 ### Contacts
 
 <ul>
-  <li><a href="jsonapi_contacts#get_contacts">GET /contacts</a></li>
-  <li><a href="jsonapi_contacts#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
-  <li><a href="jsonapi_contacts#post_contacts">POST /contacts</a></li>
-  <li><a href="jsonapi_contacts#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
-  <li><a href="jsonapi_contacts#delete_contacts">DELETE /contacts</a></li>
+  <li><a href="jsonapi-contacts#get_contacts">GET /contacts</a></li>
+  <li><a href="jsonapi-contacts#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
+  <li><a href="jsonapi-contacts#post_contacts">POST /contacts</a></li>
+  <li><a href="jsonapi-contacts#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
+  <li><a href="jsonapi-contacts#delete_contacts">DELETE /contacts</a></li>
 </ul>
 
 ### Media
 
 <ul>
-  <li><a href="jsonapi_media#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
-  <li><a href="jsonapi_media#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
-  <li><a href="jsonapi_media#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
+  <li><a href="jsonapi-media#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
+  <li><a href="jsonapi-media#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
+  <li><a href="jsonapi-media#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
 </ul>
 
 ### Notification Rules
