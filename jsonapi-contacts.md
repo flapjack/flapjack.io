@@ -1,5 +1,3 @@
-### Contacts
-
 <ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
@@ -9,8 +7,6 @@
 </ul>
 
 <a id="get_contacts">&nbsp;</a>
-### Contacts
-
 #### GET /contacts
 
 Returns all the contacts
