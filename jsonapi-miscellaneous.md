@@ -1,4 +1,4 @@
-## Miscellaneous
+## [JSON API](jsonapi) :: Miscellaneous
 
 <ul>
   <li><a href="#post_contacts_atomic">POST /contacts_atomic</a></li>
@@ -15,13 +15,13 @@
 <a id="post_contacts_atomic">&nbsp;</a>
 ### POST /contacts_atomic
 
-**Deprecated** - use <a href="#post_contacts">POST /contacts</a> instead.
+**Deprecated** - use <a href="jsonapi-contacts#post_contacts">POST /contacts</a> instead.
 
 Overwrite all contacts in flapjack. Any existing contacts not found in the supplied JSON payload will be deleted, then newly supplied contacts created, and existing contacts updated.
 
 ("atomic" - as in "nuclear").
 
-Uses the same JSON format as <a href="#post_contacts">POST /contacts</a>, however ID is always required.
+Uses the same JSON format as <a href="jsonapi-contacts#post_contacts">POST /contacts</a>, however ID is always required.
 
 **Example**
 ```bash

@@ -1,4 +1,4 @@
-## Media
+## [JSON API](jsonapi) :: Media
 
 <ul>
   <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>

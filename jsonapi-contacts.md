@@ -1,4 +1,4 @@
-## Contacts
+## [JSON API](jsonapi) :: Contacts
 
 <ul>
   <li><a href="#get_contacts">GET /contacts</a></li>
