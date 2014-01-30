@@ -7,18 +7,14 @@ Flapjack's JSON HTTP API currently provides the following queries, data import f
 
 ## Contacts and Notifications
 
-### [Contacts](jsonapi-contacts)
-
-### [Media](jsonapi-media)
-
-### [Notification Rules](jsonapi-notification_rules)
-
-### [Miscellaneous](jsonapi-miscellaneous)
-
-## Entities and Checks
-
+<ul>
+  <li> [Contacts](jsonapi-contacts) </li>
+  <li> [Media](jsonapi-media) </li>
+  <li> [Notification Rules](jsonapi-notification_rules) </li>
+  <li> [Miscellaneous](jsonapi-miscellaneous) </li>
+</ul>
+ 
 ### Entities
-
 <ul>
   <li><a href="#get_entities">GET /entities</a></li>
   <li><a href="#post_entities">POST /entities</a></li>
