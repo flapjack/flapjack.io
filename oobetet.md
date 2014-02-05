@@ -1,14 +1,14 @@
-The "Out Of Band, End To End Test" (oobetet) is a self-check mechanism that verifies the stream of events from the upstream event producers is current, and that flapjack is able to emit alerts in a timely fasion to a jabber multi user chat room.
+"Out Of Band, End To End Test" (oobetet) is a self-check mechanism that verifies the stream of events from the upstream event producers is current, and that flapjack is able to emit alerts in a timely fasion to a Jabber multi user chat room.
 
-The oobetet verifies this currency of the event stream by sitting in a jabber multi use chat room and watching for problem and recovery notifications for a specific check.
+Oobetet verifies this currency of the event stream by sitting in a Jabber multi user chat room and watching for problem and recovery notifications for a specific check.
 
-If the oobetet does not observe state changes within a certain timeframe, it fires an alert, via jabber and pagerduty.
+If oobetet does not observe state changes within a certain timeframe, it fires an alert, via Jabber and Pagerduty.
 
 This helps you identify when your upstream event producers have gotten stuck, e.g. Nagios has hung, the node has gone away, etc.
 
 ## How it works
 
-The oobetet works like this:
+Oobetet works like this:
 
 ![oobetet high level](artwork/oobetet-high-level.png)
 
@@ -18,7 +18,7 @@ Your check execution engine (eg Icinga, Sensu, Nagios, ...) is configured to mon
 
 Flapjack is configured with a contact that is interested in the Flapper check, and who has one of the Jabber chat rooms as it's Jabber contact address. Flapjack will therefore generate alerts in this Jabber chat room about Flapper going up, down, up, down, continuously.
 
-The oobetet pikelet connects to the jabber server and joins the room to which Flapjack is sending alerts for Flapper. It then watches for alerts in the chat room for Flapper. If it detects that Flapper doesn't change state within a period of time (we recommend 5 minutes), it will fire an alert, both by Jabber back into this chat room, and to Pagerduty.
+Oobetet pikelet connects to the Jabber server and joins the room to which Flapjack is sending alerts for Flapper. It then watches for alerts in the chat room for Flapper. If it detects that Flapper doesn't change state within a period of time (we recommend 5 minutes), it will fire an alert, both by Jabber back into this chat room, and to Pagerduty.
 
 Here is an example oobetet config from the Flapjack configuration file:
 
@@ -98,6 +98,6 @@ With the above configuration:
  - Nagios reports the events to Flapjack via the `flapjack-nagios-receiver`
  - Flapjack generates alerts for Flapper in a Jabber chat room
  - Oobetet watches for these alerts in the Jabber chat room
- - The oobetet checks the notifications are coming through at least every 5 minutes
+ - Oobetet checks the notifications are coming through at least every 5 minutes
  - If the oobetet detects the state changes aren't happening, it sends notifications to PagerDuty and Jabber
 
