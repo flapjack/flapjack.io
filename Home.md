@@ -12,6 +12,7 @@ Welcome to the Flapjack Wiki.
 - [Redis Data Structure](wiki/DATA_STRUCTURES)
 - [Flapjack Glossary](wiki/GLOSSARY)
 - [Release Planning](wiki/Release-Planning)
+- [Out Of Band, End To End Test (oobetet)](wiki/oobetet)
 - Methods for [promoting Flapjack](wiki/Promoting)
 
 ### Logo
