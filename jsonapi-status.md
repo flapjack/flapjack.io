@@ -2,9 +2,9 @@
 
 ## Endpoints
 
-* [GET /status[/ENTITY[/CHECK]](#get_status)
-* [GET /outages[/ENTITY[/CHECK]](#get_outages)
-* [GET /unscheduled_maintenances[/ENTITY[/CHECK]](#get_unscheduled_maintenances)
+* [GET /status[/ENTITY[/CHECK]]](#get_status)
+* [GET /outages[/ENTITY[/CHECK]]](#get_outages)
+* [GET /unscheduled_maintenances[/ENTITY[/CHECK]]](#get_unscheduled_maintenances)
 * [POST /acknowledgements/ENTITY/CHECK](#post_acknowledgements)
 * [DELETE /unscheduled_maintenances](#delete_unscheduled_maintenances)
 * [GET /scheduled_maintenances](#get_scheduled_maintenances)
@@ -499,7 +499,7 @@ curl http://localhost:3081/scheduled_maintenances?check[foo-app-02.example.com]=
 ```
 
 <a id="post_scheduled_maintenances">&nbsp;</a>
-### POST /scheduled_maintenances[/ENTITY/CHECK]'
+### POST /scheduled_maintenances[/ENTITY/CHECK]
 Creates scheduled maintenance for the specified check.
 
 **Input JSON Format**
@@ -552,7 +552,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 
 <a id="delete_scheduled_maintenances">&nbsp;</a>
-### DELETE /scheduled_maintenances[/ENTITY[/CHECK]]'
+### DELETE /scheduled_maintenances[/ENTITY[/CHECK]]
 Deletes an scheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied -- the deletion will take effect immediately if it is not.
 
 **Input JSON Format**
