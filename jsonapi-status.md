@@ -1,14 +1,20 @@
+# [JSON API](jsonapi) :: Status, Maintenances, Acks, Outages
 
+## Endpoints
 
-
-
-
+* [GET /status[/ENTITY[/CHECK]](#get_status)
+* [GET /outages[/ENTITY[/CHECK]](#get_outages)
+* [GET /unscheduled_maintenances[/ENTITY[/CHECK]](#get_unscheduled_maintenances)
+* [POST /acknowledgements/ENTITY/CHECK](#post_acknowledgements)
+* [DELETE /unscheduled_maintenances](#delete_unscheduled_maintenances)
+* [GET /scheduled_maintenances](#get_scheduled_maintenances)
+* [POST /scheduled_maintenances[/ENTITY[/CHECK]]](#post_scheduled_maintenances)
+* [DELETE /scheduled_maintenances[/ENTITY[/CHECK]]](#delete_scheduled_maintenances)
+* [GET /downtime[/ENTITY[/CHECK]]](#get_downtime)
 
 
 <a id="get_status">&nbsp;</a>
-### Status, Maintenances, Acknowledgements, Outages
-
-#### GET /status[/ENTITY[/CHECK]]
+### GET /status[/ENTITY[/CHECK]]
 Get the status of a specified check, or for all checks of a specified entity, or for checks on multiple entities.
 
 **Output JSON Format**
@@ -132,7 +138,7 @@ curl http://localhost:3081/status?check[foo-app-02.example.com]=HOST&check[foo-a
 ```
 
 <a id="get_outages">&nbsp;</a>
-#### GET /outages[/ENTITY[/CHECK]]
+### GET /outages[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -258,7 +264,7 @@ curl http://localhost:3081/outages?entity=foo-app-01.example.com&check[foo-app-0
 ```
 
 <a id="get_unscheduled_maintenances">&nbsp;</a>
-#### GET /unscheduled_maintenances[/ENTITY[/CHECK]]
+### GET /unscheduled_maintenances[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -344,7 +350,7 @@ curl http://localhost:3081/unscheduled_maintenances?entity[]=foo-app-01.example.
 ```
 
 <a id="post_acknowledgements">&nbsp;</a>
-#### POST /acknowledgements[/ENTITY[/CHECK]]'
+### POST /acknowledgements[/ENTITY[/CHECK]]'
 Acknowledges a problem on a check (or for all checks of an entity, or for checks on multiple entities) and creates unscheduled maintenance. 4 hrs is the default period but can be specified in the body. An optional message may also be supplied.
 
 **Input JSON Format**
@@ -393,7 +399,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 
 <a id="delete_unscheduled_maintenances">&nbsp;</a>
-#### DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]
+### DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]
 Deletes an unscheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied -- the deletion will take effect immediately if it is not.
 
 **Input JSON Format**
@@ -436,7 +442,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 
 
 <a id="get_scheduled_maintenances">&nbsp;</a>
-#### GET /scheduled_maintenances[/ENTITY[/CHECK]]
+### GET /scheduled_maintenances[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -493,7 +499,7 @@ curl http://localhost:3081/scheduled_maintenances?check[foo-app-02.example.com]=
 ```
 
 <a id="post_scheduled_maintenances">&nbsp;</a>
-#### POST /scheduled_maintenances[/ENTITY/CHECK]'
+### POST /scheduled_maintenances[/ENTITY/CHECK]'
 Creates scheduled maintenance for the specified check.
 
 **Input JSON Format**
@@ -546,7 +552,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 
 <a id="delete_scheduled_maintenances">&nbsp;</a>
-#### DELETE /scheduled_maintenances[/ENTITY[/CHECK]]'
+### DELETE /scheduled_maintenances[/ENTITY[/CHECK]]'
 Deletes an scheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied -- the deletion will take effect immediately if it is not.
 
 **Input JSON Format**
@@ -589,7 +595,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 
 
 <a id="get_downtime">&nbsp;</a>
-#### GET /downtime[/ENTITY[/CHECK]]
+### GET /downtime[/ENTITY[/CHECK]]
 
 **Optional parameters:** _start_time, end_time_
 
@@ -675,40 +681,4 @@ curl "http://localhost:3081/downtime?check[foo-app-02.example.com]=HOST&start_ti
 (See the Response section for the previous example.)
 
 
-<a id="post_test_notifications">&nbsp;</a>
-### Test Notifications
-
-#### POST /test_notifications[/ENTITY/CHECK]
-Generates test notifications for the specified check. Body can be left empty.
-
-**Input JSON Format**
-```text
-(BULK is only used if the entity and check are not provided in the request URL.)
-
-BULK          (hash) = { "entity" : ENTITIES,
-                         "check" : ENTITY_CHECKS }
-ENTITY      (string) = entity name
-ENTITIES    (string) = ENTITY or
-            (array)    [ENTITY, ...]
-ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
-CHECK       (string) = check name
-CHECKS      (string) = CHECK or
-             (array)   [CHECK, ...]
-```
-
-**Example 1**
-```bash
-curl -X POST "http://localhost:3081/test_notifications/foo-app-01.example.com/HOST"
-```
-
-**Example 2**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "entity": "foo-app-02.example.com"
-  }' \
- http://localhost:3081/test_notifications
-```
-
-**Response** Status: 204 No Content
-
+  

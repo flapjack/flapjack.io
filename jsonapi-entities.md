@@ -1,17 +1,13 @@
 # [JSON API](jsonapi) :: Entities
 
-<ul>
-  <li><a href="#get_entities">GET /entities</a></li>
-  <li><a href="#post_entities">POST /entities</a></li>
-  <li><a href="#get_entities_id_tags">GET /entities/ENTITY/tags</a></li>
-  <li><a href="#post_entities_id_tags">POST /entities/ENTITY/tags</a></li>
-  <li><a href="#delete_entities_id_tags">DELETE /entities/ENTITY/tags</a></li>
-</ul>
+* [GET /entities](#get_entities)
+* [POST /entities](#post_entities)
+* [GET /entities/ENTITY/tags](#get_entities_id_tags)
+* [POST /entities/ENTITY/tags](#post_entities_id_tags)
+* [DELETE /entities/ENTITY/tags](#delete_entities_id_tags)
 
 <a id="get_entities">&nbsp;</a>
-### Entities
-
-#### GET /entities
+### GET /entities
 Retrieve an array of all entities including core attributes and state of any checks on the entity.
 
 **Output JSON Format**
@@ -72,7 +68,7 @@ curl http://localhost:3081/entities
 ```
 
 <a id="post_entities">&nbsp;</a>
-#### POST /entities
+### POST /entities
 
 Creates or updates entities from the supplied entities, using id as key.
 
@@ -117,7 +113,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 
 <a name="get_entities_id_tags">&nbsp;</a>
-#### GET /entities/ENTITY/tags
+### GET /entities/ENTITY/tags
 
 Gets the tags for an entity.
 
@@ -131,7 +127,7 @@ curl http://localhost:3081/entities/foo-app-01.example.com/tags
 ```
 
 <a name="post_entities_id_tags">&nbsp;</a>
-#### POST /entities/ENTITY/tags
+### POST /entities/ENTITY/tags
 
 Add tags to an entity.
 
@@ -156,7 +152,7 @@ curl -w 'response: %{http_code} \n' -X POST \
 Add tags to an entity.
 
 <a name="delete_entities_id_tags">&nbsp;</a>
-#### DELETE /entities/ENTITY/tags
+### DELETE /entities/ENTITY/tags
 
 Delete tags from an entity.
 

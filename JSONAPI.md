@@ -8,41 +8,15 @@ Work is being tracked in [#396](https://github.com/flpjck/flapjack/issues/396) a
 
 Flapjack's JSON HTTP API currently provides the following queries, data import functions and actions:
 
-### Contacts and Notifications
 
 * [Contacts](jsonapi-contacts)
 * [Media](jsonapi-media)
 * [Notification Rules](jsonapi-notification_rules)
 * [Miscellaneous](jsonapi-miscellaneous)
-
-### Entities and Checks
-
-jsonapi-entities
-jsonapi-checks
-jsonapi-status
-jsonapi-test
-
-
-
-### Status, Maintenances, Acknowledgements, Outages
-
-<ul>
-  <li><a href="#get_status">GET /status[/ENTITY[/CHECK]]</a></li>
-  <li><a href="#get_outages">GET /outages[/ENTITY[/CHECK]]</a></li>
-  <li><a href="#get_unscheduled_maintenances">GET /unscheduled_maintenances[/ENTITY[/CHECK]]</a></li>
-  <li><a href="#post_acknowledgements">POST /acknowledgements/ENTITY/CHECK</a></li>
-  <li><a href="#delete_unscheduled_maintenances">DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]</a></li>
-  <li><a href="#get_scheduled_maintenances">GET /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
-  <li><a href="#post_scheduled_maintenances">POST /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
-  <li><a href="#delete_scheduled_maintenances">DELETE /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
-  <li><a href="#get_downtime">GET /downtime[/ENTITY[/CHECK]]</a></li>
-</ul>
-
-### Test Notifications
-
-<ul>
-  <li><a href="#post_test_notifications">POST /test_notifications[/ENTITY[/CHECK]]</a></li>
-</ul>
+* [Entities](jsonapi-entities)
+* [Checks](jsonapi-checks)
+* [Status](jsonapi-status) (plus Maintenances, Acknowledgements, Outages)
+* [Test Notifications](jsonapi-test)
 
 
 See also the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) gem which provides a ruby consumer of this API.
