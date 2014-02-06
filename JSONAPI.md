@@ -1,32 +1,25 @@
-JSON API
-========
+# JSON API
 
 This API is moving towards compliance with the [jsonapi specification](http://jsonapi.org/format).
 
+Work is being tracked in [#396](https://github.com/flpjck/flapjack/issues/396) and linked issues.
+
+**WARNING: The JSON API is currently still a work in progress so it is changing a lot at the moment.**
+
 Flapjack's JSON HTTP API currently provides the following queries, data import functions and actions:
 
-## Contacts and Notifications
+### Contacts and Notifications
 
 * [Contacts](jsonapi-contacts)
 * [Media](jsonapi-media)
 * [Notification Rules](jsonapi-notification_rules)
 * [Miscellaneous](jsonapi-miscellaneous)
- 
-### Entities
-<ul>
-  <li><a href="#get_entities">GET /entities</a></li>
-  <li><a href="#post_entities">POST /entities</a></li>
-  <li><a href="#get_entities_id_tags">GET /entities/ENTITY/tags</a></li>
-  <li><a href="#post_entities_id_tags">POST /entities/ENTITY/tags</a></li>
-  <li><a href="#delete_entities_id_tags">DELETE /entities/ENTITY/tags</a></li>
-</ul>
-</ul>
 
-### Checks
+### Entities and Checks
 
-<ul>
-  <li><a href="#get_checks">GET /checks/ENTITY</a></li>
-</ul>
+
+
+
 
 ### Status, Maintenances, Acknowledgements, Outages
 

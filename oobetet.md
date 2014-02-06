@@ -16,7 +16,7 @@ Flapper is a process that oscillates between up (listening on a tcp port) and do
 
 Your check execution engine (eg Icinga, Sensu, Nagios, ...) is configured to monitor the Flapper with a high frequency, eg every 10 seconds, and pases on the results of all checks to Flapjack's event processor (via flapjack-nagios-receiver or flapjackfeeder).
 
-Flapjack is configured with a contact that is interested in the Flapper check, and who has one of the Jabber chat rooms as it's Jabber contact address. Flapjack will therefore generate alerts in this Jabber chat room about Flapper going up, down, up, down, continuously.
+Flapjack is configured with a contact that is interested in the Flapper check, and who has one of the Jabber chat rooms as its Jabber contact address. Flapjack will therefore generate alerts in this Jabber chat room about Flapper going up, down, up, down, continuously.
 
 Oobetet pikelet connects to the Jabber server and joins the room to which Flapjack is sending alerts for Flapper. It then watches for alerts in the chat room for Flapper. If it detects that Flapper doesn't change state within a period of time (we recommend 5 minutes), it will fire an alert, both by Jabber back into this chat room, and to Pagerduty.
 
