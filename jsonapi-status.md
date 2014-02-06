@@ -6,7 +6,7 @@
 * [GET /outages[/ENTITY[/CHECK]]](#get_outages)
 * [GET /unscheduled_maintenances[/ENTITY[/CHECK]]](#get_unscheduled_maintenances)
 * [POST /acknowledgements/ENTITY/CHECK](#post_acknowledgements)
-* [DELETE /unscheduled_maintenances](#delete_unscheduled_maintenances)
+* [DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]](#delete_unscheduled_maintenances)
 * [GET /scheduled_maintenances](#get_scheduled_maintenances)
 * [POST /scheduled_maintenances[/ENTITY[/CHECK]]](#post_scheduled_maintenances)
 * [DELETE /scheduled_maintenances[/ENTITY[/CHECK]]](#delete_scheduled_maintenances)
