@@ -3,10 +3,11 @@
 ## Endpoints
 
 * [GET /contacts](#get_contacts)
-* [GET /contacts/CONTACT_ID](#get_contacts_id)
 * [POST /contacts](#post_contacts)
-* [PUT, DELETE /contacts/CONTACT_ID](#put_contacts_id)
-* [DELETE /contacts](#delete_contacts)
+* [GET /contacts/:ids](#get_contacts_id)
+* [PUT /contacts/:id](#put_contacts_id)
+* [DELETE /contacts/:ids](#put_contacts_id)
+
 
 <a name="get_contacts">&nbsp;</a>
 ### GET /contacts
@@ -48,9 +49,9 @@ curl http://localhost:3081/contacts
 
 
 <a name="get_contacts_id">&nbsp;</a>
-### GET /contacts/CONTACT_ID
+### GET /contacts/:ids
 
-Returns the core information of a specified contact.
+Returns the core information of a set of contacts. If requesting more than one contact, separate ids with commas.
 
 **Example**
 ```bash
@@ -167,9 +168,9 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 
 <a name="put_contacts_id">&nbsp;</a>
-### PUT, DELETE /contacts/CONTACT_ID
+### PUT, DELETE /contacts/:ids
 
-Updates, or deletes, a contact.
+Updates, or deletes, a contact (or contacts - comma separated ids).
 
 The data format (for PUT) is the same as the CONTACT hash detailed in <a href="#post_contacts">POST /contacts</a>. ID may be supplied, but must not conflict with the ID passed in the URL.
 
@@ -211,15 +212,4 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 curl -w 'response: %{http_code} \n' -X DELETE \
   'http://localhost:3081/contacts/21'
 ```
-
-<a name="delete_contacts">&nbsp;</a>
-### DELETE /contacts?id[]=CONTACT_ID[&id[]=CONTACT_ID[...]]
-
-Deletes multiple contacts.
-
-``` bash
-curl -w 'response: %{http_code} \n' -X DELETE \
-  'http://localhost:3081/contacts?id[]=21&id[]=22'
-```
-
 

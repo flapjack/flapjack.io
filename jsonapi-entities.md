@@ -2,9 +2,6 @@
 
 * [GET /entities](#get_entities)
 * [POST /entities](#post_entities)
-* [GET /entities/ENTITY/tags](#get_entities_id_tags)
-* [POST /entities/ENTITY/tags](#post_entities_id_tags)
-* [DELETE /entities/ENTITY/tags](#delete_entities_id_tags)
 
 <a id="get_entities">&nbsp;</a>
 ### GET /entities
@@ -109,65 +106,4 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
   }' \
  http://localhost:3081/entities
 ```
-**Response** Status: 204 No Content
-
-
-<a name="get_entities_id_tags">&nbsp;</a>
-### GET /entities/ENTITY/tags
-
-Gets the tags for an entity.
-
-**Example**
-```bash
-curl http://localhost:3081/entities/foo-app-01.example.com/tags
-```
-**Response** Status: 200 OK
-```json
-["web", "app"]
-```
-
-<a name="post_entities_id_tags">&nbsp;</a>
-### POST /entities/ENTITY/tags
-
-Add tags to an entity.
-
-**Example 1 - JSON params**
-```bash
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "tag": ["web", "app"]
-  }' \
- http://localhost:3081/entities/foo-app-01.example.com/tags
- ```
-**Example 2 - URL params**
-```bash
-curl -w 'response: %{http_code} \n' -X POST \
- 'http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&tag[]=app'
-```
-**Response** Status: 200 OK
-```json
-["web", "app"]
-```
-
-Add tags to an entity.
-
-<a name="delete_entities_id_tags">&nbsp;</a>
-### DELETE /entities/ENTITY/tags
-
-Delete tags from an entity.
-
-**Example 1 - JSON params**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json" -d \
- '{
-    "tag": ["web", "app"]
-  }' \
- http://localhost:3081/entities/foo-app-01.example.com/tags
- ```
-**Example 2 - URL params**
-```bash
-curl -w 'response: %{http_code} \n' -X DELETE \
- 'http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&tag[]=app'
-```
-
 **Response** Status: 204 No Content

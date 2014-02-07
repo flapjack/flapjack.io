@@ -14,7 +14,6 @@ Flapjack's JSON HTTP API currently provides the following queries, data import f
 * [Notification Rules](jsonapi-notification_rules)
 * [Miscellaneous](jsonapi-miscellaneous)
 * [Entities](jsonapi-entities)
-* [Checks](jsonapi-checks)
 * [Status](jsonapi-status) (plus Maintenances, Acknowledgements, Outages)
 * [Test Notifications](jsonapi-test)
 

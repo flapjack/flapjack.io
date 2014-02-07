@@ -2,93 +2,13 @@
 
 ## Endpoints
 
-* [GET /contacts/CONTACT_ID/notification_rules](#get_contacts_id_notification_rules)
-* [GET /notification_rules/RULE_ID](#get_notification_rules_id)
 * [POST /notification_rules](#post_notification_rules)
-* [PUT, DELETE /notification_rules/RULE_ID](#put_notification_rules_id)
+* [GET /notification_rules/:id](#get_notification_rules_id)
+* [PUT, DELETE /notification_rules/:id](#put_notification_rules_id)
 
-
-<a id="get_contacts_id_notification_rules">&nbsp;</a>
-### GET /contacts/CONTACT_ID/notification_rules
-
-Lists a contact's notification rules.
-
-**Example**
-```bash
-curl http://localhost:3081/contacts/21/notification_rules
-```
-**Response** Status: 200 OK
-```json
-[
-  {
-    "id": "08f607c7-618d-460a-b3fe-868464eb6045",
-    "contact_id": "21",
-    "tags": [
-      "database",
-      "physical"
-    ],
-    "entities": [
-      "foo-app-01.example.com"
-    ],
-    "time_restrictions": [
-      {
-        "start_time": "2013-01-28 08:00:00",
-        "end_time": "2013-01-28 18:00:00",
-        "rrules": [
-          {
-            "validations": {
-              "day": [1,2,3,4,5]
-            },
-            "rule_type": "Weekly",
-            "interval": 1,
-            "week_start": 0
-          }
-        ],
-        "exrules": [],
-        "rtimes": [],
-        "extimes": []
-      }
-    ],
-    "unknown_media": [],
-    "warning_media": [
-      "email"
-    ],
-    "critical_media": [
-      "sms",
-      "email"
-    ],
-    "unknown_blackhole": false,
-    "warning_blackhole": false,
-    "critical_blackhole": false
-  },
-  {
-    "id": "2be654d8-9ad4-42b7-963d-f6727dc302a2",
-    "contact_id": "21",
-    "tags": [
-      "database",
-      "physical"
-    ],
-    "entities": [
-      "foo-app-02.example.com"
-    ],
-    "time_restrictions": [],
-    "unknown_media": [],
-    "warning_media": [
-      "email"
-    ],
-    "critical_media": [
-      "sms",
-      "email"
-    ],
-    "unknown_blackhole": false,
-    "warning_blackhole": false,
-    "critical_blackhole": false
-  }
-]
-```
 
 <a id="get_notification_rules_id">&nbsp;</a>
-### GET /notification_rules/RULE_ID
+### GET /notification_rules/:id
 
 Returns a specified notification rule.
 
@@ -211,7 +131,7 @@ Returns the notification rule object as per GET.
 * time_restrictions rule_type specifies on what basis the time restriction schedule is to be repeated. It can be one of "Secondly", "Minutely", "Hourly", "Daily", "Weekly", "Monthly", or "Yearly".
 
 <a id="put_notification_rules_id">&nbsp;</a>
-### PUT, DELETE /notification_rules/RULE_ID
+### PUT, DELETE /notification_rules/:id
 
 Updates or deletes a notification rule
 
