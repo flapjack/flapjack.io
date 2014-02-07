@@ -4,6 +4,8 @@ This API is moving towards compliance with the [jsonapi specification](http://js
 
 Work is being tracked in [#396](https://github.com/flpjck/flapjack/issues/396) and linked issues.
 
+A planning spreadsheet detailing where each endpoint is here in ![PDF](tabular/flapjack jsonapi rework.pdf) and ![Numbers](tabular/flapjack jsonapi rework.numbers)
+
 **WARNING: The JSON API is currently still a work in progress so it is changing a lot at the moment.**
 
 Flapjack's JSON HTTP API currently provides the following queries, data import functions and actions:
