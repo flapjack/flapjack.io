@@ -116,6 +116,8 @@ Flapjack can also be started in the foreground (non-daemonized) by adding `--no-
 FLAPJACK_ENV=development bundle exec bin/flapjack start --no-daemonize --config etc/flapjack_config.yaml
 ```
 
+When running, check you can access the web interface at [localhost:4081](http://localhost:4081/). The port for development can be modified in etc/flapjack_config.yaml under the `development` - `gateways` - `web` - `port`.
+
 See [Using](USING) for more information.
 
 Releasing
