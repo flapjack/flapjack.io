@@ -6,6 +6,7 @@
 * [POST /contacts](#post_contacts)
 * [GET /contacts/:ids](#get_contacts_id)
 * [PUT /contacts/:id](#put_contacts_id)
+* [PATCH /contacts/:id](#patch_contacts_id)
 * [DELETE /contacts/:ids](#put_contacts_id)
 
 
@@ -168,9 +169,9 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 
 <a name="put_contacts_id">&nbsp;</a>
-### PUT, DELETE /contacts/:ids
+### PUT /contacts/:ids
 
-Updates, or deletes, a contact (or contacts - comma separated ids).
+Updates a contact
 
 The data format (for PUT) is the same as the CONTACT hash detailed in <a href="#post_contacts">POST /contacts</a>. ID may be supplied, but must not conflict with the ID passed in the URL.
 
@@ -212,4 +213,17 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 curl -w 'response: %{http_code} \n' -X DELETE \
   'http://localhost:3081/contacts/21'
 ```
+
+<a name="patch_contacts_id">&nbsp;</a>
+### PATCH /contacts/:ids
+
+Modifies a contact
+
+
+
+<a name="delete_contacts_id">&nbsp;</a>
+### DELETE /contacts/:ids
+
+Deletes a contact (or contacts - comma separated ids)
+
 
