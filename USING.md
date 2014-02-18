@@ -202,6 +202,14 @@ development:
         #  type: :plain
         #  username: vera
         #  password: xxxxxxxx
+      # location of custom alert templates
+      #templates:
+      #  rollup_subject.text: '/etc/flapjack/templates/email/rollup_subject.text.erb'
+      #  alert_subject.text: '/etc/flapjack/templates/email/alert_subject.text.erb'
+      #  rollup.text: '/etc/flapjack/templates/email/rollup.text.erb'
+      #  alert.text: '/etc/flapjack/templates/email/alert.text.erb'
+      #  rollup.html: '/etc/flapjack/templates/email/rollup.html.erb'
+      #  alert.html: '/etc/flapjack/templates/email/alert.html.erb'
     sms:
       # whether or not this pikelet should be started
       enabled: yes
@@ -211,6 +219,10 @@ development:
       password: "xxxx"
       logger:
         level: INFO
+      # location of custom alert templates
+      #templates:
+      #  rollup.text: '/etc/flapjack/templates/sms/rollup.text.erb'
+      #  alert.text: '/etc/flapjack/templates/sms/alert.text.erb'
     jabber:
       # whether or not this pikelet should be started
       enabled: yes
@@ -232,6 +244,10 @@ development:
         - "log@conference.jabber.domain.tld"
       logger:
         level: INFO
+      # location of custom alert templates
+      #templates:
+      #  rollup.text: '/etc/flapjack/templates/jabber/rollup.text.erb'
+      #  alert.text: '/etc/flapjack/templates/jabber/alert.text.erb'
     oobetet:
       # whether or not this pikelet should be started
       enabled: yes
@@ -257,6 +273,9 @@ development:
       queue: pagerduty_notifications
       logger:
         level: INFO
+      # location of custom alert templates
+      #templates:
+      #  alert.text: '/etc/flapjack/templates/pagerduty/alert.text.erb'
     web:
       # whether or not this pikelet should be started
       enabled: yes
@@ -495,4 +514,3 @@ We use the following redis database numbers by convention:
 * 6 => quickstart
 * 13 => development
 * 14 => testing
-
