@@ -5,31 +5,7 @@
 
 <a id="get_entities">&nbsp;</a>
 ### GET /entities
-Retrieve an array of all entities including core attributes and state of any checks on the entity.
-
-**Output JSON Format**
-```text
-ENTITIES (array) = [ENTITY, ENTITY, ...]
-ENTITY    (hash) = { "id": "ENTITY_ID", "name": "NAME", "checks": CHECKS }
-CHECKS   (array) = [ CHECK, CHECK, ... ]
-CHECK     (hash) = { "check": "CHECK_NAME",
-                     "entity": "ENTITY_NAME",
-                     "status": STATUS }
-STATUS    (hash) = { "name": "CHECK_NAME",
-                     "state": "CHECK_STATE",
-                     "enabled": BOOLEAN,
-                     "summary": STRING,
-                     "details": STRING or NULL,
-                     "in_unscheduled_maintenance": BOOLEAN,
-                     "in_scheduled_maintenance": BOOLEAN,
-                     "last_update": TIMESTAMP,
-                     "last_problem_notification": TIMESTAMP,
-                     "last_recovery_notification": TIMESTAMP,
-                     "last_acknowledgement_notification": TIMESTAMP }
-
-TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
-BOOLEAN:   one of 'true' or 'false'
-```
+Retrieve all entities and any linked contacts.
 
 **Example**
 ```bash
@@ -37,31 +13,18 @@ curl http://localhost:3081/entities
 ```
 **Response** Status: 200 OK
 ```json
-[
-   {
-      "checks" : [
-         {
-            "entity" : "foo-app-02.example.com",
-            "check" : "HOST",
-            "status" : {
-              "name" : "HOST",
-              "state" : "ok",
-              "enabled" : true,
-              "summary" : "OK",
-              "details" : null,
-              "in_scheduled_maintenance" : false,
-              "in_unscheduled_maintenance" : false,
-              "last_update" : 1356853261,
-              "last_problem_notification" : null,
-              "last_recovery_notification" : null,
-              "last_acknowledgement_notification" : null,
-           }
-         }
-      ],
-      "name" : "foo-app-02.example.com",
-      "id" : "10002"
-   }
-]
+{
+  "entities": [
+    {
+      "id": "1234",
+      "name": "foo-app-02.example.com",
+    },
+    {
+      "id": "1235",
+      "name": "foo-app-02.example.com",
+    }
+  ]
+}
 ```
 
 <a id="post_entities">&nbsp;</a>
