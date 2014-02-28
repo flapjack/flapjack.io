@@ -2,152 +2,178 @@
 
 ## Endpoints
 
-* [GET /status[/ENTITY[/CHECK]]](#get_status)
-* [GET /outages[/ENTITY[/CHECK]]](#get_outages)
-* [GET /unscheduled_maintenances[/ENTITY[/CHECK]]](#get_unscheduled_maintenances)
+* [GET /reports/status](#get_status)
+* [GET /reports/outages](#get_outages)
+* [GET /reports/unscheduled_maintenances](#get_unscheduled_maintenances)
 * [POST /acknowledgements/ENTITY/CHECK](#post_acknowledgements)
-* [DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]](#delete_unscheduled_maintenances)
-* [GET /scheduled_maintenances[/ENTITY[/CHECK]]](#get_scheduled_maintenances)
+* [DELETE /unscheduled_maintenances](#delete_unscheduled_maintenances)
+* [GET /reports/scheduled_maintenance](#get_scheduled_maintenances)
 * [POST /scheduled_maintenances[/ENTITY[/CHECK]]](#post_scheduled_maintenances)
 * [DELETE /scheduled_maintenances[/ENTITY[/CHECK]]](#delete_scheduled_maintenances)
-* [GET /downtime[/ENTITY[/CHECK]]](#get_downtime)
+* [GET /reports/downtime](#get_downtime)
 
 
 <a id="get_status">&nbsp;</a>
-### GET /status[/ENTITY[/CHECK]]
+### GET /reports/status
 Get the status of a specified check, or for all checks of a specified entity, or for checks on multiple entities.
 
 **Output JSON Format**
 ```text
-CHECKS   (array) = [ CHECK, CHECK, ... ]
-CHECK     (hash) = { "name": "CHECK_NAME",
-                     "state": "CHECK_STATE",
-                     "summary": "SUMMARY",
-                     "details": "DETAILS",
-                     "in_unscheduled_maintenance": BOOLEAN,
-                     "in_scheduled_maintenance": BOOLEAN,
-                     "last_update": TIMESTAMP,
-                     "last_problem_notification": TIMESTAMP,
-                     "last_recovery_notification": TIMESTAMP,
-                     "last_acknowledgement_notification": TIMESTAMP }
+{
+  "entities" : [ ENTITY, ENTITY, ... ],
+  "linked" : {
+    "checks" : [ CHECK, CHECK, ... ]
+  }
+}
+
+ENTITY (hash) = {"id"    : "ENTITY_ID",
+                 "name"  : "ENTITY_NAME",
+                 "links" : ENTITY_LINKS }
+
+ENTITY_LINKS (hash) = {"checks" : CHECK_IDS}
+
+CHECK_IDS (array) = ["CHECK_ID", "CHECK_ID", ...]
+
+CHECK  (hash) = {"id"     : "CHECK_ID",
+                 "name"   : "CHECK_NAME",
+                 "status" : STATUS}
+
+STATUS (hash) = { "state": "CHECK_STATE",
+                  "summary": "SUMMARY",
+                  "details": "DETAILS",
+                  "in_unscheduled_maintenance": BOOLEAN,
+                  "in_scheduled_maintenance": BOOLEAN,
+                  "last_update": TIMESTAMP,
+                  "last_problem_notification": TIMESTAMP,
+                  "last_recovery_notification": TIMESTAMP,
+                  "last_acknowledgement_notification": TIMESTAMP }
 
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 BOOLEAN:   one of 'true' or 'false'
 
-NB: a bulk query wraps each returned array item with entity & check details (see example 3).
 ```
 
 **Example 1**
 ```bash
-curl http://localhost:3081/status/foo-app-02.example.com
+curl http://localhost:3081/reports/status?entity=foo-app-02.example.com
 ```
 **Response** Status: 200 OK
 ```json
-[
-   {
-      "last_recovery_notification" : null,
-      "last_acknowledgement_notification" : null,
-      "last_update" : 1356853261,
-      "name" : "HOST",
-      "summary": "available",
-      "details": null,
-      "last_problem_notification" : null,
-      "in_scheduled_maintenance" : false,
-      "in_unscheduled_maintenance" : false,
-      "state" : "ok"
-   },
-   {
-      "last_recovery_notification" : null,
-      "last_acknowledgement_notification" : null,
-      "last_update" : 1356853261,
-      "name" : "HTTP Port 443",
-      "summary": "unavailable",
-      "details": null,
-      "last_problem_notification" : 1356853151,
-      "in_scheduled_maintenance" : false,
-      "in_unscheduled_maintenance" : false,
-      "state" : "critical"
-   }
-]
+{
+  "entities" : [{
+    "id"   : "123",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HOST",
+                  "foo-app-02.example.com:HTTP Port 443"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-02.example.com:HOST",
+       "name"   : "HOST",
+       "status" : {
+         "last_recovery_notification" : null,
+         "last_acknowledgement_notification" : null,
+         "last_update" : 1356853261,
+         "summary": "available",
+         "details": null,
+         "last_problem_notification" : null,
+         "in_scheduled_maintenance" : false,
+         "in_unscheduled_maintenance" : false,
+         "state" : "ok"
+       }
+      },
+      {"id"     : "foo-app-02.example.com:HTTP Port 443",
+       "name"   : "HTTP Port 443",
+       "status" : {
+         "last_recovery_notification" : null,
+         "last_acknowledgement_notification" : null,
+         "last_update" : 1356853261,
+         "summary": "unavailable",
+         "details": null,
+         "last_problem_notification" : 1356853151,
+         "in_scheduled_maintenance" : false,
+         "in_unscheduled_maintenance" : false,
+         "state" : "critical"
+        }
+      }
+    ]
+  }
+}
 ```
 
 **Example 2**
 ```bash
-curl http://localhost:3081/status/foo-app-02.example.com/HTTP+Port+443
+curl http://localhost:3081/reports/status?check=foo-app-02.example.com:HTTP+Port+443
 ```
 **Response** Status: 200 OK
 ```json
- {
-    "last_recovery_notification" : null,
-    "last_acknowledgement_notification" : null,
-    "last_update" : 1356853261,
-    "name" : "HTTP Port 443",
-    "summary": "timed out",
-    "details": null,
-    "last_problem_notification" : 1356853151,
-    "in_scheduled_maintenance" : false,
-    "in_unscheduled_maintenance" : false,
-    "state" : "critical"
- }
+{
+  "entities" : [{
+    "id"   : "123",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HTTP Port 443"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-02.example.com:HTTP Port 443",
+       "name"   : "HTTP Port 443",
+       "status" : {
+         "last_recovery_notification" : null,
+         "last_acknowledgement_notification" : null,
+         "last_update" : 1356853261,
+         "summary": "timed out",
+         "details": null,
+         "last_problem_notification" : 1356853151,
+         "in_scheduled_maintenance" : false,
+         "in_unscheduled_maintenance" : false,
+         "state" : "critical"
+        }
+      }
+    ]
+  }
+}
 ```
 
 **Example 3**
 ```bash
-curl http://localhost:3081/status?check[foo-app-02.example.com]=HOST&check[foo-app-02.example.com]=HTTP+Port+443
+curl http://localhost:3081/reports/status?check[]=foo-app-02.example.com:HOST&check[]=foo-app-02.example.com:HTTP+Port+443
 ```
 **Response** Status: 200 OK
-```json
-[
-  {
-    "entity" : "foo-app-02.example.com",
-    "check" : "HOST",
-    "status" :
-    {
-      "last_recovery_notification" : null,
-      "last_acknowledgement_notification" : null,
-      "last_update" : 1356853261,
-      "name" : "HOST",
-      "last_problem_notification" : null,
-      "in_scheduled_maintenance" : false,
-      "in_unscheduled_maintenance" : false,
-      "state" : "ok",
-      "summary" : "host is up",
-      "details" : null,
-      "enabled" : true
-    }
-  },
-  {
-    "entity" : "foo-app-02.example.com",
-    "check" : "HTTP Port 443",
-    "status" :
-    {
-      "last_recovery_notification" : null,
-      "last_acknowledgement_notification" : null,
-      "last_update" : 1356853261,
-      "name" : "HTTP Port 443",
-      "last_problem_notification" : 1356853151,
-      "in_scheduled_maintenance" : false,
-      "in_unscheduled_maintenance" : false,
-      "state" : "critical",
-      "summary" : "Connection Refused",
-      "details" : null,
-      "enabled" : true
-    }
-  }
-]
-```
+(See the Response section for Example #1.)
+
 
 <a id="get_outages">&nbsp;</a>
-### GET /outages[/ENTITY[/CHECK]]
+### GET /reports/outages
 
 **Optional parameters:** _start_time, end_time_
 
 **Output JSON Format**
 ```text
-CHECKS   (array) = [ CHECK, CHECK, ... ]
-CHECK     (hash) = { "check": "CHECK_NAME",
-                     "outages": OUTAGES }
+{
+  "entities" : [ ENTITY, ENTITY, ... ],
+  "linked" : {
+    "checks" : [ CHECK, CHECK, ... ]
+  }
+}
+
+ENTITY (hash) = {"id"    : "ENTITY_ID",
+                 "name"  : "ENTITY_NAME",
+                 "links" : ENTITY_LINKS }
+
+ENTITY_LINKS (hash) = {"checks" : CHECK_IDS}
+
+CHECK_IDS (array) = ["CHECK_ID", "CHECK_ID", ...]
+
+CHECK  (hash) = {"id"      : "CHECK_ID",
+                 "name"    : "CHECK_NAME",
+                 "outages" : OUTAGES}
+
 OUTAGES  (array) = [ OUTAGE, OUTAGE, ... ]
+
 OUTAGE    (hash) = { "start_time": TIMESTAMP,
                      "end_time": TIMESTAMP,
                      "duration": DURATION,
@@ -156,22 +182,30 @@ OUTAGE    (hash) = { "start_time": TIMESTAMP,
 
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
-
-NB: a bulk query adds entity names to the CHECK hash (see example 3).
 ```
 
 Get the list of outages for a check, or for all checks of an entity, or for checks on multiple entities.
 
 **Example 1**
 ```bash
-curl http://localhost:3081/outages/foo-app-02.example.com
+curl http://localhost:3081/reports/outages?entity=foo-app-02.example.com
 ```
 **Response** Status: 200 OK
 ```json
-[
-   {
-      "check" : "HOST",
-      "outages" : [
+{
+  "entities" : [{
+    "id"   : "123",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HOST",
+                  "foo-app-02.example.com:HTTP Port 443"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-02.example.com:HOST",
+       "name"   : "HOST",
+       "outages" : [
          {
             "end_time" : 1355958411,
             "summary" : "(Host Check Timed Out)",
@@ -186,11 +220,11 @@ curl http://localhost:3081/outages/foo-app-02.example.com
             "duration" : 10,
             "state" : "critical"
          }
-      ]
-   },
-   {
-      "check" : "HTTP Port 443",
-      "outages" : [
+       ]
+      },
+      {"id"     : "foo-app-02.example.com:HTTP Port 443",
+       "name"   : "HTTP Port 443",
+       "outages" : [
          {
             "end_time" : null,
             "summary" : "Connection refused",
@@ -198,39 +232,73 @@ curl http://localhost:3081/outages/foo-app-02.example.com
             "duration" : null,
             "state" : "critical"
          }
-      ]
-   }
-]
+       ]
+      }
+    ]
+  }
+}
 ```
 
 **Example 2**
 ```bash
-curl http://localhost:3081/outages/foo-app-02.example.com/HOST?start_time=2012-12-24T00:00:00Z
+curl http://localhost:3081/reports/outages?check=foo-app-02.example.com:HOST&start_time=2012-12-24T00:00:00Z
 ```
 **Response** Status: 200 OK
 ```json
-[
-   {
-      "end_time" : 1356562502,
-      "summary" : "(Host Check Timed Out)",
-      "start_time" : 1356562492,
-      "duration" : 10,
-      "state" : "critical"
-   }
-]
+{
+  "entities" : [{
+    "id"   : "123",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HOST"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-02.example.com:HOST",
+       "name"   : "HOST",
+       "outages" : [
+         {
+            "end_time" : 1356562502,
+            "summary" : "(Host Check Timed Out)",
+            "start_time" : 1356562492,
+            "duration" : 10,
+            "state" : "critical"
+         }
+       ]
+      }
+    ]
+  }
+}
+
 ```
 
 **Example 3**
 ```bash
-curl http://localhost:3081/outages?entity=foo-app-01.example.com&check[foo-app-02.example.com]=HTTP+Port+443
+curl http://localhost:3081/reports/outages?entity=foo-app-01.example.com&check=foo-app-02.example.com:HTTP+Port+443
 ```
 **Response** Status: 200 OK
 ```json
-[
-   {
-      "entity" : "foo-app-01.example.com",
-      "check" : "HOST",
-      "outages" : [
+{
+  "entities" : [{
+    "id"   : "123",
+    "name" : "foo-app-01.example.com",
+    "links" : {
+      "checks" : ["foo-app-01.example.com:HOST"]
+    }
+  },
+  {
+    "id"   : "124",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HTTP Port 443"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-01.example.com:HOST",
+       "name"   : "HOST",
+       "outages" : [
          {
             "end_time" : 1355958411,
             "summary" : "(Host Check Timed Out)",
@@ -245,12 +313,11 @@ curl http://localhost:3081/outages?entity=foo-app-01.example.com&check[foo-app-0
             "duration" : 10,
             "state" : "critical"
          }
-      ]
-   },
-   {
-      "entity" : "foo-app-02.example.com",
-      "check" : "HTTP Port 443",
-      "outages" : [
+       ]
+      },
+      {"id"     : "foo-app-02.example.com:HTTP Port 443",
+       "name"   : "HTTP Port 443",
+       "outages" : [
          {
             "end_time" : null,
             "summary" : "Connection refused",
@@ -258,22 +325,41 @@ curl http://localhost:3081/outages?entity=foo-app-01.example.com&check[foo-app-0
             "duration" : null,
             "state" : "critical"
          }
-      ]
-   }
-]
+       ]
+      }
+    ]
+  }
+}
 ```
 
 <a id="get_unscheduled_maintenances">&nbsp;</a>
-### GET /unscheduled_maintenances[/ENTITY[/CHECK]]
+### GET /reports/unscheduled_maintenances
 
 **Optional parameters:** _start_time, end_time_
 
 **Output JSON Format**
 ```text
-CHECKS   (array) = [ CHECK, CHECK, ... ]
-CHECK     (hash) = { "check": "CHECK_NAME",
-                     "unscheduled_maintenance": MAINTS }
+{
+  "entities" : [ ENTITY, ENTITY, ... ],
+  "linked" : {
+    "checks" : [ CHECK, CHECK, ... ]
+  }
+}
+
+ENTITY (hash) = {"id"    : "ENTITY_ID",
+                 "name"  : "ENTITY_NAME",
+                 "links" : ENTITY_LINKS }
+
+ENTITY_LINKS (hash) = {"checks" : CHECK_IDS}
+
+CHECK_IDS (array) = ["CHECK_ID", "CHECK_ID", ...]
+
+CHECK  (hash) = {"id"     : "CHECK_ID",
+                 "name"   : "CHECK_NAME",
+                 "unscheduled_maintenances" : MAINTS}
+
 MAINTS   (array) = [ MAINT, MAINT, ... ]
+
 MAINT     (hash) = { "start_time": TIMESTAMP,
                      "end_time": TIMESTAMP,
                      "duration": DURATION,
@@ -281,76 +367,101 @@ MAINT     (hash) = { "start_time": TIMESTAMP,
 
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
-
-NB: a bulk query adds entity names to the CHECK hash (see example 2).
 ```
 
 Get the list of unscheduled maintenance periods for a check, or for all checks of an entity, or for checks on multiple entities.
 
 **Example 1**
 ```bash
-curl http://localhost:3081/unscheduled_maintenances/foo-app-01.example.com
+curl http://localhost:3081/reports/unscheduled_maintenances?entity=foo-app-01.example.com
 ```
 **Response** Status: 200 OK
 ```json
-[
-   {
-      "check" : "HOST",
-      "unscheduled_maintenance" : []
-   },
-   {
-      "check" : "HTTP Port 443",
-      "unscheduled_maintenance" : [
+{
+  "entities" : [{
+    "id"   : "124",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HOST",
+                  "foo-app-02.example.com:HTTP Port 443"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-02.example.com:HOST",
+       "name"   : "HOST",
+       "unscheduled_maintenances" : []
+      },
+      {"id"     : "foo-app-02.example.com:HTTP Port 443",
+       "name"   : "HTTP Port 443",
+       "unscheduled_maintenances" : [
          {
             "end_time" : 1356067056,
             "summary" : "- JR looking",
             "start_time" : 1356044450,
             "duration" : 22606
          }
-      ]
-   }
-]
+       ]
+      }
+    ]
+  }
+}
 ```
 
 **Example 2**
 ```bash
-curl http://localhost:3081/unscheduled_maintenances?entity[]=foo-app-01.example.com&entity[]=foo-app-02.example.com
+curl http://localhost:3081/reports/unscheduled_maintenances?entity[]=foo-app-01.example.com&entity[]=foo-app-02.example.com
 ```
 **Response** Status: 200 OK
 ```json
-[
-   {
-      "entity" : "foo-app-01.example.com",
-      "check" : "HOST",
-      "unscheduled_maintenance" : []
-   },
-   {
-      "entity" : "foo-app-01.example.com",
-      "check" : "HTTP Port 443",
-      "unscheduled_maintenance" : [
+{
+  "entities" : [{
+    "id"   : "123",
+    "name" : "foo-app-01.example.com",
+    "links" : {
+      "checks" : ["foo-app-01.example.com:HOST",
+                  "foo-app-01.example.com:HTTP Port 443"]
+    }
+  }, {
+    "id"   : "124",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HOST",
+                  "foo-app-02.example.com:HTTP Port 443"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-01.example.com:HOST",
+       "name"   : "HOST",
+       "unscheduled_maintenances" : []
+      },
+      {"id"     : "foo-app-01.example.com:HTTP Port 443",
+       "name"   : "HTTP Port 443",
+       "unscheduled_maintenances" : [
          {
             "end_time" : 1356067056,
             "summary" : "- JR looking",
             "start_time" : 1356044450,
             "duration" : 22606
          }
-      ]
-   },
-   {
-      "entity" : "foo-app-02.example.com",
-      "check" : "HOST",
-      "unscheduled_maintenance" : []
-   },
-   {
-      "entity" : "foo-app-02.example.com",
-      "check" : "HTTP Port 443",
-      "unscheduled_maintenance" : []
-   }
-]
+       ]
+      },
+      {"id"     : "foo-app-02.example.com:HOST",
+       "name"   : "HOST",
+       "unscheduled_maintenances" : []
+      },
+      {"id"     : "foo-app-02.example.com:HTTP Port 443",
+       "name"   : "HTTP Port 443",
+       "unscheduled_maintenances" : []
+      }
+    ]
+  }
+}
 ```
 
 <a id="post_acknowledgements">&nbsp;</a>
-### POST /acknowledgements[/ENTITY[/CHECK]]'
+### POST /acknowledgements[/ENTITY[/CHECK]]
 Acknowledges a problem on a check (or for all checks of an entity, or for checks on multiple entities) and creates unscheduled maintenance. 4 hrs is the default period but can be specified in the body. An optional message may also be supplied.
 
 **Input JSON Format**
@@ -442,16 +553,33 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 
 
 <a id="get_scheduled_maintenances">&nbsp;</a>
-### GET /scheduled_maintenances[/ENTITY[/CHECK]]
+### GET /reports/scheduled_maintenances
 
 **Optional parameters:** _start_time, end_time_
 
 **Output JSON Format**
 ```text
-CHECKS   (array) = [ CHECK, CHECK, ... ]
-CHECK     (hash) = { "check": "CHECK_NAME",
-                     "scheduled_maintenance": MAINTS }
+{
+  "entities" : [ ENTITY, ENTITY, ... ],
+  "linked" : {
+    "checks" : [ CHECK, CHECK, ... ]
+  }
+}
+
+ENTITY (hash) = {"id"    : "ENTITY_ID",
+                 "name"  : "ENTITY_NAME",
+                 "links" : ENTITY_LINKS }
+
+ENTITY_LINKS (hash) = {"checks" : CHECK_IDS}
+
+CHECK_IDS (array) = ["CHECK_ID", "CHECK_ID", ...]
+
+CHECK  (hash) = {"id"     : "CHECK_ID",
+                 "name"   : "CHECK_NAME",
+                 "scheduled_maintenances" : MAINTS}
+
 MAINTS   (array) = [ MAINT, MAINT, ... ]
+
 MAINT     (hash) = { "start_time": TIMESTAMP,
                      "end_time": TIMESTAMP,
                      "duration": DURATION,
@@ -459,43 +587,70 @@ MAINT     (hash) = { "start_time": TIMESTAMP,
 
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
-
-NB: a bulk query adds entity names to the CHECK hash (see example 2).
 ```
 
 Get the list of scheduled maintenance periods for a check (or for all checks of an entity, or for checks on multiple entities).
 
 **Example 1**
 ```bash
-curl http://localhost:3081/scheduled_maintenances/foo-app-02.example.com
+curl http://localhost:3081/reports/scheduled_maintenances?entity=foo-app-02.example.com
 ```
 **Response** Status: 200 OK
 ```json
-[
-   {
-      "check" : "HOST",
-      "scheduled_maintenance" : []
-   },
-   {
-      "check" : "HTTP Port 443",
-      "scheduled_maintenance" : []
-   }
-]
+{
+  "entities" : [{
+    "id"   : "124",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HOST",
+                  "foo-app-02.example.com:HTTP Port 443"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-02.example.com:HOST",
+       "name"   : "HOST",
+       "scheduled_maintenances" : []
+      },
+      {"id"     : "foo-app-02.example.com:HTTP Port 443",
+       "name"   : "HTTP Port 443",
+       "scheduled_maintenances" : [
+         {
+            "end_time" : 1356067056,
+            "summary" : "- JR looking",
+            "start_time" : 1356044450,
+            "duration" : 22606
+         }
+       ]
+      }
+    ]
+  }
+}
 ```
 
 **Example 2**
 ```bash
-curl http://localhost:3081/scheduled_maintenances?check[foo-app-02.example.com]=HOST
+curl http://localhost:3081/reports/scheduled_maintenances?check=foo-app-02.example.com:HOST
 ```
 **Response** Status: 200 OK
 ```json
-[
-   {
-      "entity" : "foo-app-02.example.com",
-      "check" : "HOST",
-      "scheduled_maintenance" : []
-   }
-]
+{
+  "entities" : [{
+    "id"   : "124",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HOST"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-02.example.com:HOST",
+       "name"   : "HOST",
+       "scheduled_maintenances" : []
+      }
+    ]
+  }
+}
 ```
 
 <a id="post_scheduled_maintenances">&nbsp;</a>
@@ -595,7 +750,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 
 
 <a id="get_downtime">&nbsp;</a>
-### GET /downtime[/ENTITY[/CHECK]]
+### GET /reports/downtime
 
 **Optional parameters:** _start_time, end_time_
 
@@ -605,9 +760,25 @@ Note that a start_time and end_time must be specified in order for the percentag
 
 **Output JSON Format**
 ```text
-CHECKS     (array)  = [ CHECK, CHECK, ... ]
-CHECK       (hash)  = { "check": "CHECK_NAME",
-                        "downtime": DOWNTIME }
+{
+  "entities" : [ ENTITY, ENTITY, ... ],
+  "linked" : {
+    "checks" : [ CHECK, CHECK, ... ]
+  }
+}
+
+ENTITY (hash) = {"id"    : "ENTITY_ID",
+                 "name"  : "ENTITY_NAME",
+                 "links" : ENTITY_LINKS }
+
+ENTITY_LINKS (hash) = {"checks" : CHECK_IDS}
+
+CHECK_IDS (array) = ["CHECK_ID", "CHECK_ID", ...]
+
+CHECK  (hash) = {"id"     : "CHECK_ID",
+                 "name"   : "CHECK_NAME",
+                 "downtime" : DOWNTIME}
+
 DOWNTIME    (hash)  = { "downtime": PERIODS,
                         "percentages": PERCENTAGES,
                         "total_seconds": TOTAL_SECONDS }
@@ -630,8 +801,6 @@ PERCENTAGE: floating point number between 0 and 100 representing a percentage
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
 STATE: one of 'ok', 'warning', 'critical', or 'unknown'
-
-NB: a bulk query adds entity names to the CHECK hash (see example 2).
 ```
 
 **Notes:**
@@ -641,44 +810,50 @@ NB: a bulk query adds entity names to the CHECK hash (see example 2).
 
 **Example 1**
 ```bash
-curl "http://localhost:3081/downtime/foo-app-02.example.com/HOST?start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
+curl "http://localhost:3081/downtime?check=foo-app-02.example.com:HOST&start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
 ```
 **Response** Status: 200 OK
 ```json
 {
-   "downtime" : [
-      {
-         "end_time" : 1355958411,
-         "summary" : "(Host Check Timed Out)",
-         "start_time" : 1355958401,
-         "duration" : 10,
-         "state" : "critical"
-      },
-      {
-         "end_time" : 1356562502,
-         "summary" : "(Host Check Timed Out)",
-         "start_time" : 1356562492,
-         "duration" : 10,
-         "state" : "critical"
+  "entities" : [{
+    "id"   : "124",
+    "name" : "foo-app-02.example.com",
+    "links" : {
+      "checks" : ["foo-app-02.example.com:HOST"]
+    }
+  }],
+  "linked" : {
+    "checks" : [
+      {"id"     : "foo-app-02.example.com:HOST",
+       "name"   : "HOST",
+       "downtime" : {
+         "downtime" : [
+           {
+             "end_time" : 1355958411,
+             "summary" : "(Host Check Timed Out)",
+             "start_time" : 1355958401,
+             "duration" : 10,
+             "state" : "critical"
+           },
+           {
+             "end_time" : 1356562502,
+             "summary" : "(Host Check Timed Out)",
+             "start_time" : 1356562492,
+             "duration" : 10,
+             "state" : "critical"
+           }
+         ],
+         "percentages" : {
+           "ok" : 99.9992532855436,
+           "critical" : 0.000746714456391876
+         },
+         "total_seconds" : {
+          "ok" : 2678380,
+          "critical" : 20
+         }
+       }
       }
-   ],
-   "percentages" : {
-      "ok" : 99.9992532855436,
-      "critical" : 0.000746714456391876
-   },
-   "total_seconds" : {
-      "ok" : 2678380,
-      "critical" : 20
-   }
+    ]
+  }
 }
 ```
-
-**Example 2**
-```bash
-curl "http://localhost:3081/downtime?check[foo-app-02.example.com]=HOST&start_time=2012-12-01T00:00:00Z&end_time=2013-01-01T00:00:00Z"
-```
-**Response** Status: 200 OK
-(See the Response section for the previous example.)
-
-
-  
