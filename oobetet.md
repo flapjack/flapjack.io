@@ -1,4 +1,4 @@
-"Out Of Band, End To End Test" (oobetet) is a self-check mechanism that verifies the stream of events from the upstream event producers is current, and that flapjack is able to emit alerts in a timely fashion to a Jabber multi user chat room.
+"Out Of Band, End To End Test" (oobetet) is a self-check mechanism that verifies the stream of events from the upstream event producers is current, and that Flapjack is able to emit alerts in a timely fashion to a Jabber multi user chat room.
 
 The oobetet verifies this currency of the event stream by sitting in a Jabber multi user chat room and watching for problem and recovery notifications for a specific check.
 
