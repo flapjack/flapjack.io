@@ -166,22 +166,36 @@ development:
     port: 6379
     # the redis database number to use
     db: 13
-  executive:
-    # whether or not this pikelet should be started
+  processor:
     enabled: yes
+    queue: events
+    notifier_queue: notifications
+    archive_events: true
+    events_archive_maxage: 10800
+    new_check_scheduled_maintenance_duration: 100 years
+    logger:
+      level: INFO
+      syslog_errors: yes
+  notifier:
+    enabled: yes
+    queue: notifications
     email_queue: email_notifications
     sms_queue: sms_notifications
     jabber_queue: jabber_notifications
     pagerduty_queue: pagerduty_notifications
-    notification_log_file: log/flapjack-notification.log
-    # contacts with no timezone string specified will be considered to be in this timezone:
-    default_contact_timezone: Australia/Broken_Hill
-    # whether to archive events as they are processed
-    archive_events: true
-    # how long to retain the hourly buckets of archived keys (via redis expiry)
-    events_archive_maxage: 3600
+    notification_log_file: /var/log/flapjack/notification.log
+    default_contact_timezone: UTC
     logger:
       level: INFO
+      syslog_errors: yes
+  nagios-receiver:
+    fifo: "/var/cache/nagios3/event_stream.fifo"
+    pid_file: "/var/run/flapjack/flapjack-nagios-receiver.pid"
+    log_file: "/var/log/flapjack/flapjack-nagios-receiver.log"
+  nsca-receiver:
+    fifo: "/var/lib/nagios3/rw/nagios.cmd"
+    pid_file: "/var/run/flapjack/flapjack-nsca-receiver.pid"
+    log_file: "/var/log/flapjack/flapjack-nsca-receiver.log"
   gateways:
     email:
       # whether or not this pikelet should be started
