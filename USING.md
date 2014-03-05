@@ -111,6 +111,7 @@ Executables:
 
   * `flapjack` => starts multiple components ('pikelets') within the one ruby process as specified in the configuration file.
   * `flapjack-nagios-receiver` => reads nagios check output on standard input and places them on the events queue in redis as JSON blobs. Currently unable to be run in-process with `flapjack`
+  * `flapjack-nsca-receiver` => reads the nagios' commandfile output and places them on the events queue in redis as JSON blobs. Currently unable to be run in-process with `flapjack`
   * `flapper` => runs a daemon that intermittently listens on port 12345 (one minute on, one minute off, ...)
     to be used for generating heartbeat events for end to end monitoring of flapjack
   * `flapjack-populator` => creates contacts and entities in redis, reading from JSON formatted data files
