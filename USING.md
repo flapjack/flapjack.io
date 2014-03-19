@@ -328,7 +328,9 @@ The value for this setting is parsed by [Chronic Duration](https://github.com/hp
 - `47 yrs 6 mos and 4d` 
 - `two hours and twenty minutes`
 
-The default is `100 years`. 
+You can disable this setting by specifying `0 seconds`. 
+
+The default value for this setting is `100 years`. 
 
 <a id="configuring_nagios">&nbsp;</a>
 ### Configuring Nagios
