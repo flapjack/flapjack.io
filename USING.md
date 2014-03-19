@@ -311,7 +311,13 @@ development:
 <a id="configuring_nagios">&nbsp;</a>
 ### Configuring Nagios
 
-You need a Nagios prior to version 3.3 as this breaks perfdata output for checks which don't generate performance data (stuff after a | in the check output). We are developing and running against Nagios version 3.2.3 with success.
+You need a Nagios prior to version 3.3 as, this breaks perfdata output for checks which don't generate performance data (stuff after a | in the check output).
+
+Because this output is omitted, `flapjack-nagios-receiver` is unable to parse event information from Nagios and send it to Flapjack.
+
+There are unconfirmed reports Nagios releases in the 3.4.x series have a fix for the perfdata, however we have not confirmed this. Nagios 4.x *may* also work, however this is also unconfirmed.
+
+We are developing and running against Nagios version 3.2.3 with success.
 
 `nagios.cfg` config file changes:
 
