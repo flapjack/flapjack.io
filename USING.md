@@ -311,7 +311,7 @@ development:
 <a id="configuring_nagios">&nbsp;</a>
 ### Configuring Nagios
 
-You need a Nagios prior to version 3.3 as, this breaks perfdata output for checks which don't generate performance data (stuff after a | in the check output).
+You need a Nagios prior to version 3.3 as it introduced [a bug that breaks perfdata output](http://tracker.nagios.org/view.php?id=247) for checks which don't generate performance data (stuff after a | in the check output).
 
 Because this output is omitted, `flapjack-nagios-receiver` is unable to parse event information from Nagios and send it to Flapjack.
 
