@@ -308,6 +308,28 @@ development:
 ```
 
 
+#### Details
+
+##### processor: `new_check_scheduled_maintenance_duration`
+
+This setting controls how long we set scheduled maintenance for new check results. 
+
+Flapjack sets scheduled maintenance on new check results so contacts aren't notified as soon as Flapjack becomes aware of an entity to notify on. This is useful is cases where your monitoring starts checking something before it is completely provisioned, 
+
+For example: 
+
+> CloudFormation starts a cluster of EC2 instances that take 10 minutes to provision, but your monitoring starts checking those EC2 instances 5 minutes into their provisioning. This would result in false-positives from Flapjack, as Flapjack would notify contacts before the instances are fully provisioned. 
+
+The value for this setting is parsed by [Chronic Duration](https://github.com/hpoydar/chronic_duration), so you can specify interesting things like: 
+
+- `12.4 secs`
+- `1:20` => 1 minute 20 seconds
+- `6 mos 1 day` => 6 months 1 day
+- `47 yrs 6 mos and 4d` 
+- `two hours and twenty minutes`
+
+The default is `100 years`. 
+
 <a id="configuring_nagios">&nbsp;</a>
 ### Configuring Nagios
 
@@ -349,7 +371,7 @@ The line must:
 
 Currently any error messages about lines that are unable to be read are written to STDOUT.
 
-**Limitations with the flapjack-nagios-receiver approach**
+#### Limitations with the flapjack-nagios-receiver approach
 
 We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.
 
