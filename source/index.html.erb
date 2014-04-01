@@ -1,0 +1,12 @@
+---
+title: Flapjack API Reference
+
+language_tabs:
+  - shell
+  - ruby
+
+---
+
+<% Dir[File.dirname(__FILE__) + '/sections/*'].map {|f| File.basename(f, '.md') }.sort.each do |filename| %>
+  <%= render_partial "sections/#{filename}" %>
+<% end %>
