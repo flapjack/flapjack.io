@@ -16,12 +16,28 @@ TODO 'pagerduty' media type
 ## Create media for a contact
 
 ```shell
+curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.api+json" -d \
+ '{
+    "media": [
+      {
+        "type" : "email",
+        "address" : "johns@example.com",
+        "interval" : 120,
+        "rollup_threshold" : 5
+      }
+    ]
+  }' \
+ http://localhost:3081/contacts/5/media
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
+Flapjack::Diner.create_media!('5', {'type' => 'email',
+                              'address' : 'johns@example.com',
+                              'interval' : 120,
+                              'rollup_threshold' : 5})
 ```
 
 ### HTTP Request
@@ -57,6 +73,8 @@ of the medium in question. This is for backwards compatibility, and is due to
 some historical design decisions, but is likely to change when the data
 handling code is reworked.
 
+TODO add link ids, URLs for contact
+
 ```shell
 curl http://localhost:3081/media
 # or
@@ -90,23 +108,40 @@ Flapjack::Diner.media('21_jabber', '22_jabber')
 
 None.
 
+### HTTP Return Codes
+
+Return code | Description
+--------- | -----------
+200 | OK
+
 
 ## Update media
 
-Update one or more media resources.
+Update one or more attributes for one or more media resources.
 
 ```shell
+curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.api+json" -d \
+'[
+  {"op"    : "replace",
+   "path"  : "/media/0/address",
+   "value" : "0123456789"},
+  {"op"    : "replace",
+   "path"  : "/media/0/interval",
+   "value" : 10}
+]' \
+ 'http://localhost:3081/media/21_sms'
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
+Flapjack::Diner.update_media!('21_sms', :address => '0123456789', :interval => 10)
 ```
 
 ### HTTP Request
 
-    PATCH http://localhost:3081/contacts/ID[,ID,ID...]<br>
+    PATCH http://localhost:3081/media/ID[,ID,ID...]<br>
     Content-Type: application/vnd.api+json<br>
     Accept: application/vnd.api+json
 
@@ -119,6 +154,14 @@ Parameter | Type | Description
 op | String | may only be *replace*
 path | String | "/media/0/ATTRIBUTE" (e.g. 'address')
 value | -> | a value of the correct data type for the attribute in the path
+
+### HTTP Return Codes
+
+Return code | Description
+--------- | -----------
+204 | The submitted medium updates were made successfully. No content is returned.
+404 | Media resources could not be found for one or more of the provided ids. No media resources were altered by this request.
+405 | **Error** The submitted media data was not sent with the JSONAPI MIME type `application/vnd.api+json`.
 
 
 ## Delete media
@@ -147,6 +190,10 @@ Flapjack::Diner.delete_media!('31_jabber', '32_jabber')
     DELETE http://localhost:3081/media/ID[,ID,ID...]<br>
 
 ### Query Parameters
+
+None.
+
+### HTTP Return Codes
 
 Return code | Description
 --------- | -----------

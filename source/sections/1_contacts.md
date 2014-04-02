@@ -23,7 +23,7 @@ Contact ids may optionally be supplied. If it is omitted, then a UUID will be cr
 If an id is supplied in any of the included contacts, and any of them clash with an existing contact, the whole request will be rejected and no changes will be written.
 
 ```shell
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
+curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.api+json" -d \
  '{
     "contacts": [
       {
@@ -94,6 +94,8 @@ Return code | Description
 
 If no contact ids are provided then all contacts will be returned; if contact ids
 are provided then only the contacts matching those ids will be returned.
+
+TODO add link ids, URLs for media, notification rules
 
 ```shell
 curl http://localhost:3081/contacts
@@ -167,13 +169,26 @@ Return code | Description
 
 ## Update contacts
 
+Update one or more attributes for one or more media resources.
+
 ```shell
+curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.api+json" -d \
+'[
+  {"op"    : "replace",
+   "path"  : "/contacts/0/first_name",
+   "value" : "John"},
+  {"op"    : "replace",
+   "path"  : "/contacts/0/last_name",
+   "value" : 'Smith'}
+]' \
+ 'http://localhost:3081/contacts/23'
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
+Flapjack::Diner.update_contacts!(23, :first_name => 'John', :last_name => 'Smith')
 ```
 
 ### HTTP Request
@@ -191,6 +206,8 @@ Parameter | Type | Description
 op | String | one of *replace* (for attributes), *add* or *remove* (for linked objects)
 path | String | "/contacts/0/ATTRIBUTE" (e.g. 'first_name') or "/contacts/0/links/LINKED_OBJ" (e.g. 'media')
 value | -> | for attributes, a value of the correct data type for that attribute; for linked objects, the String id of that object
+
+### HTTP Return Codes
 
 
 ## Delete contacts
