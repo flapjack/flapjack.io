@@ -9,9 +9,10 @@ id | String |
 first_name | String |
 last_name | String |
 email | String |
-media | Hash[Media] |
+media | Hash[Medium] |
+notification_rules | Array[NotificationRule]
 timezone | String |
-tags | Array[String]
+tags | Array[String] |
 
 ## Create contacts
 
@@ -73,13 +74,11 @@ Flapjack::Diner.create_contacts!({"first_name" => "Ada",
     Content-Type: application/vnd.api+json<br>
     Accept: application/vnd.api+json
 
-
 ### Query Parameters
 
 Parameter | Type | Description
 --------- | ---- | -----------
 contacts | Array[Contact] | An array of Contact resources to create.
-
 
 ### HTTP Return Codes
 
@@ -96,23 +95,23 @@ Return code | Description
 If no contact ids are provided then all contacts will be returned; if contact ids
 are provided then only the contacts matching those ids will be returned.
 
-```ruby
-require 'flapjack-diner'
-Flapjack::Diner.base_uri('localhost:3081')
-
-Flapjack::Diner.contacts
-# or
-Flapjack::Diner.contacts(21)
-# or
-Flapjack::Diner.contacts(21, 22)
-```
-
 ```shell
 curl http://localhost:3081/contacts
 # or
 curl http://localhost:3081/contacts/1
 # or
 curl http://localhost:3081/contacts/21,22
+```
+
+```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.contacts
+# or
+Flapjack::Diner.contacts('21')
+# or
+Flapjack::Diner.contacts('21', '22')
 ```
 
 > The above commands returns JSON structured like this:
@@ -168,6 +167,15 @@ Return code | Description
 
 ## Update contacts
 
+```shell
+```
+
+```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+```
+
 ### HTTP Request
 
     PATCH http://localhost:3081/contacts/ID[,ID,ID...]<br>
@@ -187,7 +195,36 @@ value | -> | for attributes, a value of the correct data type for that attribute
 
 ## Delete contacts
 
+Delete one or more contacts.
+
+```shell
+curl -w 'response: %{http_code} \n' -X DELETE \
+  'http://localhost:3081/contacts/21'
+# or
+curl -w 'response: %{http_code} \n' -X DELETE \
+  'http://localhost:3081/contacts/21,22'
+```
+
+```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.delete_contacts!('21')
+# or
+Flapjack::Diner.delete_contacts!('21', '22')
+```
+
 ### HTTP Request
+
+    DELETE http://localhost:3081/contacts/ID[,ID,ID...]
 
 ### Query Parameters
 
+None.
+
+### HTTP Return Codes
+
+Return code | Description
+--------- | -----------
+204 | Contact(s) were deleted
+404 | Contacts could not be found for one or more of the provided ids. No contacts were deleted by this request.

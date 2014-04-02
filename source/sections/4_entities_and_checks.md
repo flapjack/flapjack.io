@@ -8,13 +8,6 @@ name | String |
 id | String |
 
 
-The Check resource has the following attributes:
-
-Attribute | Type | Description
---- | --- | ---
-name | String |
-
-
 ## Create entities
 
 ### HTTP Request
