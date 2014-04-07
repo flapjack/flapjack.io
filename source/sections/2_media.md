@@ -64,8 +64,8 @@ Return code | Description
 
 ## Get media
 
-If no media ids are provided then all contacts will be returned; if media ids
-are provided then only the media resource matching those ids will be returned.
+If no media ids are provided then all media resources will be returned; if media ids
+are provided then only the media resources matching those ids will be returned.
 
 NB: Ids for media resources are currently represented by a String
 containing the id of the associated contact, an underscore and then the type

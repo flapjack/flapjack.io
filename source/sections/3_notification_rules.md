@@ -110,7 +110,7 @@ Flapjack::Diner.create_notification_rules!('5',
 
 Parameter | Type | Description
 --------- | ---- | -----------
-media | Array[NotificationRule] | An array of NotificationRule resources to create.
+notification_rules | Array[NotificationRule] | An array of NotificationRule resources to create.
 
 ### HTTP Return Codes
 

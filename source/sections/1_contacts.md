@@ -169,7 +169,7 @@ Return code | Description
 
 ## Update contacts
 
-Update one or more attributes for one or more media resources.
+Update one or more attributes for one or more contact resources.
 
 ```shell
 curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.api+json" -d \
@@ -208,6 +208,8 @@ path | String | "/contacts/0/ATTRIBUTE" (e.g. 'first_name') or "/contacts/0/link
 value | -> | for attributes, a value of the correct data type for that attribute; for linked objects, the String id of that object
 
 ### HTTP Return Codes
+
+TODO
 
 
 ## Delete contacts
