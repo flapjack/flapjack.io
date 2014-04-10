@@ -42,9 +42,7 @@ Flapjack::Diner.create_media('5', {'type' => 'email',
 
 ### HTTP Request
 
-    POST http://localhost:3081/contacts/CONTACT_ID/media<br>
-    Content-Type: application/vnd.api+json<br>
-    Accept: application/vnd.api+json
+`POST /contacts/CONTACT_ID/media`
 
 ### Query Parameters
 
@@ -96,13 +94,11 @@ Flapjack::Diner.media('21_jabber', '22_jabber')
 
 ### HTTP Request
 
-    GET http://localhost:3081/media<br>
-    Accept: application/vnd.api+json
+`GET /media`
 
 **or**
 
-    GET http://localhost:3081/media/ID[,ID,ID...]<br>
-    Accept: application/vnd.api+json
+`GET /media/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -120,7 +116,7 @@ Return code | Description
 Update one or more attributes for one or more media resources.
 
 ```shell
-curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.api+json" -d \
+curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
 '[
   {"op"    : "replace",
    "path"  : "/media/0/address",
@@ -141,9 +137,7 @@ Flapjack::Diner.update_media('21_sms', :address => '0123456789', :interval => 10
 
 ### HTTP Request
 
-    PATCH http://localhost:3081/media/ID[,ID,ID...]<br>
-    Content-Type: application/vnd.api+json<br>
-    Accept: application/vnd.api+json
+`PATCH /media/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -187,7 +181,7 @@ Flapjack::Diner.delete_media('31_jabber', '32_jabber')
 
 ### HTTP Request
 
-    DELETE http://localhost:3081/media/ID[,ID,ID...]<br>
+`DELETE /media/ID[,ID,ID...]`
 
 ### Query Parameters
 

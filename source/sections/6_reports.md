@@ -37,23 +37,19 @@ Flapjack::Diner.checks_status_report('www.example.com:PING', 'www.example2.com:S
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/status_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/status_report`
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/status_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/ID[,ID,ID...]/status_report`
 
 or
 
-    GET http://localhost:3081/checks/status_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/status_report`
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/status_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/ID[,ID,ID...]/status_report`
 
 ### Query Parameters
 
@@ -101,23 +97,19 @@ Flapjack::Diner.checks_unscheduled_maintenance_report('www.example.com:PING', 'w
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/unscheduled_maintenance_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/unscheduled_maintenance_report`
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/unscheduled_maintenance_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/ID[,ID,ID...]/unscheduled_maintenance_report`
 
 or
 
-    GET http://localhost:3081/checks/unscheduled_maintenance_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/unscheduled_maintenance_report`
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/unscheduled_maintenance_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/ID[,ID,ID...]/unscheduled_maintenance_report`
 
 ### Query Parameters
 
@@ -168,23 +160,19 @@ Flapjack::Diner.checks_scheduled_maintenance_report('www.example.com:PING', 'www
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/scheduled_maintenance_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/scheduled_maintenance_report`
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/scheduled_maintenance_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/ID[,ID,ID...]/scheduled_maintenance_report`
 
 or
 
-    GET http://localhost:3081/checks/scheduled_maintenance_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/scheduled_maintenance_report`
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/scheduled_maintenance_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/ID[,ID,ID...]/scheduled_maintenance_report`
 
 ### Query Parameters
 
@@ -235,23 +223,19 @@ Flapjack::Diner.checks_outage_report('www.example.com:PING', 'www.example2.com:S
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/outage_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/outage_report`
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/outage_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/ID[,ID,ID...]/outage_report`
 
 or
 
-    GET http://localhost:3081/checks/outage_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/outage_report`
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/outage_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/ID[,ID,ID...]/outage_report`
 
 ### Query Parameters
 
@@ -302,23 +286,19 @@ Flapjack::Diner.checks_downtime_report('www.example.com:PING', 'www.example2.com
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/downtime_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/downtime_report`
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/downtime_report<br>
-    Accept: application/vnd.api+json
+`GET /entities/ID[,ID,ID...]/downtime_report`
 
 or
 
-    GET http://localhost:3081/checks/downtime_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/downtime_report`
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/downtime_report<br>
-    Accept: application/vnd.api+json
+`GET /checks/ID[,ID,ID...]/downtime_report`
 
 ### Query Parameters
 

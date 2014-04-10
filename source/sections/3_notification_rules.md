@@ -102,9 +102,7 @@ Flapjack::Diner.create_notification_rules('5',
 
 ### HTTP Request
 
-    POST http://localhost:3081/contacts/CONTACT_ID/notification_rules<br>
-    Content-Type: application/vnd.api+json<br>
-    Accept: application/vnd.api+json
+`POST /contacts/CONTACT_ID/notification_rules`
 
 ### Query Parameters
 
@@ -148,13 +146,11 @@ Flapjack::Diner.notification_rules('30fd36ae-3922-4957-ae3e-c8f6dd27e543',
 
 ### HTTP Request
 
-    GET http://localhost:3081/notification_rules<br>
-    Accept: application/vnd.api+json
+`GET /notification_rules`
 
 **or**
 
-    GET http://localhost:3081/media/ID[,ID,ID...]<br>
-    Accept: application/vnd.api+json
+`GET /media/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -191,9 +187,8 @@ Flapjack::Diner.update_notification_rules('a82fe0ec-1972-4c12-9732-6ebec9dcf479'
 
 ### HTTP Request
 
-    PATCH http://localhost:3081/notification_rules/ID[,ID,ID...]<br>
-    Content-Type: application/vnd.api+json<br>
-    Accept: application/vnd.api+json
+`PATCH /notification_rules/ID[,ID,ID...]`
+
 
 ### Query Parameters
 
@@ -238,7 +233,7 @@ Flapjack::Diner.delete_notification_rules('2caf75f4-0043-4884-b2e9-dfb418e275ba'
 
 ### HTTP Request
 
-    DELETE http://localhost:3081/notification_rules/ID[,ID,ID...]<br>
+`DELETE /notification_rules/ID[,ID,ID...]`
 
 ### Query Parameters
 

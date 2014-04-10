@@ -37,9 +37,7 @@ Flapjack::Diner.create_entities([{'id' => '825', 'name' => 'foo.example.com', 't
 
 ### HTTP Request
 
-    POST http://localhost:3081/entities<br>
-    Content-Type: application/vnd.api+json<br>
-    Accept: application/vnd.api+json
+`POST /entities`
 
 ### Query Parameters
 
@@ -83,13 +81,11 @@ Flapjack::Diner.entities('17', '25')
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities<br>
-    Accept: application/vnd.api+json
+`GET /entities`
 
 **or**
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]<br>
-    Accept: application/vnd.api+json
+`GET /entities/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -129,9 +125,7 @@ Flapjack::Diner.update_entities(['157'], :name => 'www.example_com',
 
 ### HTTP Request
 
-    PATCH http://localhost:3081/entities/ID[,ID,ID...]<br>
-    Content-Type: application/vnd.api+json<br>
-    Accept: application/vnd.api+json
+`PATCH /entities/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -175,8 +169,7 @@ Flapjack::Diner.create_entity_scheduled_maintenances(['825'], :start_time => '20
 
 ### HTTP Request
 
-    POST http://localhost:3081/entities/ID[,ID,ID...]/scheduled_maintenances<br>
-    Content-Type: application/json
+`POST /entities/ID[,ID,ID...]/scheduled_maintenances`
 
 ### Query Parameters
 
@@ -212,8 +205,7 @@ Flapjack::Diner.delete_entity_scheduled_maintenances([34], :end_time => '2014-05
 
 ### HTTP Request
 
-    DELETE http://localhost:3081/entities/ID[,ID,ID...]/scheduled_maintenances<br>
-    Content-Type: application/json
+`DELETE /entities/ID[,ID,ID...]/scheduled_maintenances`
 
 ### Query Parameters
 
@@ -251,8 +243,7 @@ Flapjack::Diner.create_entity_unscheduled_maintenances(['825'],
 
 ### HTTP Request
 
-    POST http://localhost:3081/entities/ID[,ID,ID...]/unscheduled_maintenances<br>
-    Content-Type: application/json
+`POST /entities/ID[,ID,ID...]/unscheduled_maintenances`
 
 ### Query Parameters
 
@@ -286,8 +277,7 @@ Flapjack::Diner.delete_entity_unscheduled_maintenances([34], :end_time => '2014-
 
 ### HTTP Request
 
-    DELETE http://localhost:3081/entities/ID[,ID,ID...]/unscheduled_maintenances<br>
-    Content-Type: application/json
+`DELETE /entities/ID[,ID,ID...]/unscheduled_maintenances`
 
 ### Query Parameters
 
@@ -323,8 +313,7 @@ Flapjack::Diner.create_entity_test_notifications(['825'],
 
 ### HTTP Request
 
-    POST http://localhost:3081/entities/ID[,ID,ID...]/test_notifications<br>
-    Content-Type: application/json
+`POST /entities/ID[,ID,ID...]/test_notifications`
 
 ### Query Parameters
 

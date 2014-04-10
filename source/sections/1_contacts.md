@@ -70,9 +70,7 @@ Flapjack::Diner.create_contacts({"first_name" => "Ada",
 
 ### HTTP Request
 
-    POST http://localhost:3081/contacts<br>
-    Content-Type: application/vnd.api+json<br>
-    Accept: application/vnd.api+json
+`POST /contacts`
 
 ### Query Parameters
 
@@ -148,13 +146,11 @@ Flapjack::Diner.contacts('21', '22')
 
 ### HTTP Request
 
-    GET http://localhost:3081/contacts<br>
-    Accept: application/vnd.api+json
-
+`GET /contacts`
+    
 **or**
 
-    GET http://localhost:3081/contacts/ID[,ID,ID...]<br>
-    Accept: application/vnd.api+json
+`GET /contacts/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -172,7 +168,7 @@ Return code | Description
 Update one or more attributes for one or more contact resources.
 
 ```shell
-curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.api+json" -d \
+curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
 '[
   {"op"    : "replace",
    "path"  : "/contacts/0/first_name",
@@ -193,9 +189,7 @@ Flapjack::Diner.update_contacts(23, :first_name => 'John', :last_name => 'Smith'
 
 ### HTTP Request
 
-    PATCH http://localhost:3081/contacts/ID[,ID,ID...]<br>
-    Content-Type: application/vnd.api+json<br>
-    Accept: application/vnd.api+json
+`PATCH /contacts/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -235,7 +229,7 @@ Flapjack::Diner.delete_contacts('21', '22')
 
 ### HTTP Request
 
-    DELETE http://localhost:3081/contacts/ID[,ID,ID...]
+`DELETE /contacts/ID[,ID,ID...]`
 
 ### Query Parameters
 

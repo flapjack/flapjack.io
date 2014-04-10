@@ -25,8 +25,7 @@ Flapjack::Diner.create_check_scheduled_maintenances(['example.com:SSH'],
 
 ### HTTP Request
 
-    POST http://localhost:3081/checks/ID[,ID,ID...]/scheduled_maintenances<br>
-    Content-Type: application/json
+`POST /checks/ID[,ID,ID...]/scheduled_maintenances`
 
 ### Query Parameters
 
@@ -63,8 +62,7 @@ Flapjack::Diner.delete_check_scheduled_maintenances(['example.com:PING'],
 
 ### HTTP Request
 
-    DELETE http://localhost:3081/checks/ID[,ID,ID...]/scheduled_maintenances<br>
-    Content-Type: application/json
+`DELETE /checks/ID[,ID,ID...]/scheduled_maintenances`
 
 ### Query Parameters
 
@@ -102,8 +100,7 @@ Flapjack::Diner.create_check_unscheduled_maintenances(['example.com:HOST'],
 
 ### HTTP Request
 
-    POST http://localhost:3081/checks/ID[,ID,ID...]/unscheduled_maintenances<br>
-    Content-Type: application/json
+`POST /checks/ID[,ID,ID...]/unscheduled_maintenances`
 
 ### Query Parameters
 
@@ -137,8 +134,7 @@ Flapjack::Diner.delete_check_unscheduled_maintenances(['example.com:PING'], :end
 
 ### HTTP Request
 
-    DELETE http://localhost:3081/checks/ID[,ID,ID...]/unscheduled_maintenances<br>
-    Content-Type: application/json
+`DELETE /checks/ID[,ID,ID...]/unscheduled_maintenances`
 
 ### Query Parameters
 
@@ -174,8 +170,7 @@ Flapjack::Diner.create_check_test_notifications(['example.com:HOST'],
 
 ### HTTP Request
 
-    POST http://localhost:3081/checks/ID[,ID,ID...]/test_notifications<br>
-    Content-Type: application/json
+`POST /checks/ID[,ID,ID...]/test_notifications`
 
 ### Query Parameters
 
