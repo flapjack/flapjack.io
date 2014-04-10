@@ -5,54 +5,54 @@
 ## Get report on status of entities or checks
 
 ```shell
-curl http://localhost:3081/entities/status_report
+curl http://localhost:3081/status_report/entities
 # or
-curl http://localhost:3081/enities/76/status_report
+curl http://localhost:3081/status_report/entities/76
 # or
-curl http://localhost:3081/entities/76,342/status_report
+curl http://localhost:3081/status_report/entities/76,342
 # or
-curl http://localhost:3081/checks/status_report
+curl http://localhost:3081/status_report/checks
 # or
-curl http://localhost:3081/checks/www.example.com:PING/status_report
+curl http://localhost:3081/status_report/checks/www.example.com:PING
 # or
-curl http://localhost:3081/checks/www.example.com:PING,www.example2.com:SSH/status_report
+curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.entities_status_report
+Flapjack::Diner.status_report_entities
 # or
-Flapjack::Diner.entities_status_report('76')
+Flapjack::Diner.status_report_entities('76')
 # or
-Flapjack::Diner.entities_status_report('76', '342')
+Flapjack::Diner.status_report_entities('76', '342')
 # or
-Flapjack::Diner.checks_status_report
+Flapjack::Diner.status_report_checks
 # or
-Flapjack::Diner.checks_status_report('www.example.com:PING')
+Flapjack::Diner.status_report_checks('www.example.com:PING')
 # or
-Flapjack::Diner.checks_status_report('www.example.com:PING', 'www.example2.com:SSH')
+Flapjack::Diner.status_report_checks('www.example.com:PING', 'www.example2.com:SSH')
 ```
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/status_report<br>
+    GET http://localhost:3081/status_report/entities<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/status_report<br>
+    GET http://localhost:3081/status_report/entities/ID[,ID,ID...]/<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/status_report<br>
+    GET http://localhost:3081/status_report/checks<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/status_report<br>
+    GET http://localhost:3081/status_report/checks/ID[,ID,ID...]<br>
     Accept: application/vnd.api+json
 
 ### Query Parameters
@@ -69,54 +69,54 @@ Return code | Description
 ## Get report on unscheduled maintenance periods of entities or checks
 
 ```shell
-curl http://localhost:3081/entities/unscheduled_maintenance_report
+curl http://localhost:3081/unscheduled_maintenance_report/entities
 # or
-curl http://localhost:3081/enities/76/unscheduled_maintenance_report
+curl http://localhost:3081/unscheduled_maintenance_report/entities/76
 # or
-curl http://localhost:3081/entities/76,342/unscheduled_maintenance_report
+curl http://localhost:3081/unscheduled_maintenance_report/entities/76,342
 # or
-curl http://localhost:3081/checks/unscheduled_maintenance_report
+curl http://localhost:3081/unscheduled_maintenance_report/checks
 # or
-curl http://localhost:3081/checks/www.example.com:PING/unscheduled_maintenance_report
+curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com:PING
 # or
-curl http://localhost:3081/checks/www.example.com:PING,www.example2.com:SSH/unscheduled_maintenance_report
+curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.entities_unscheduled_maintenance_report
+Flapjack::Diner.unscheduled_maintenance_report_entities
 # or
-Flapjack::Diner.entities_unscheduled_maintenance_report('76')
+Flapjack::Diner.unscheduled_maintenance_report_entities('76')
 # or
-Flapjack::Diner.entities_unscheduled_maintenance_report('76', '342')
+Flapjack::Diner.unscheduled_maintenance_report_entities('76', '342')
 # or
-Flapjack::Diner.checks_unscheduled_maintenance_report
+Flapjack::Diner.unscheduled_maintenance_report_checks
 # or
-Flapjack::Diner.checks_unscheduled_maintenance_report('www.example.com:PING')
+Flapjack::Diner.unscheduled_maintenance_report_checks('www.example.com:PING')
 # or
-Flapjack::Diner.checks_unscheduled_maintenance_report('www.example.com:PING', 'www.example2.com:SSH')
+Flapjack::Diner.unscheduled_maintenance_report_checks('www.example.com:PING', 'www.example2.com:SSH')
 ```
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/unscheduled_maintenance_report<br>
+    GET http://localhost:3081/unscheduled_maintenance_report/entities<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/unscheduled_maintenance_report<br>
+    GET http://localhost:3081/unscheduled_maintenance_report/entities/ID[,ID,ID...]<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/unscheduled_maintenance_report<br>
+    GET http://localhost:3081/unscheduled_maintenance_report/checks<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/unscheduled_maintenance_report<br>
+    GET http://localhost:3081/unscheduled_maintenance_report/checks/ID[,ID,ID...]<br>
     Accept: application/vnd.api+json
 
 ### Query Parameters
@@ -136,54 +136,54 @@ Return code | Description
 ## Get report on scheduled maintenance periods of entities or checks
 
 ```shell
-curl http://localhost:3081/entities/scheduled_maintenance_report
+curl http://localhost:3081/scheduled_maintenance_report/entities/
 # or
-curl http://localhost:3081/enities/76/scheduled_maintenance_report
+curl http://localhost:3081/scheduled_maintenance_report/entities/76
 # or
-curl http://localhost:3081/entities/76,342/scheduled_maintenance_report
+curl http://localhost:3081/scheduled_maintenance_report/entities/76,342
 # or
-curl http://localhost:3081/checks/scheduled_maintenance_report
+curl http://localhost:3081/scheduled_maintenance_report/checks/
 # or
-curl http://localhost:3081/checks/www.example.com:PING/scheduled_maintenance_report
+curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:PING
 # or
-curl http://localhost:3081/checks/www.example.com:PING,www.example2.com:SSH/scheduled_maintenance_report
+curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.entities_scheduled_maintenance_report
+Flapjack::Diner.scheduled_maintenance_report_entities
 # or
-Flapjack::Diner.entities_scheduled_maintenance_report('76')
+Flapjack::Diner.scheduled_maintenance_report_entities('76')
 # or
-Flapjack::Diner.entities_scheduled_maintenance_report('76', '342')
+Flapjack::Diner.scheduled_maintenance_report_entities('76', '342')
 # or
-Flapjack::Diner.checks_scheduled_maintenance_report
+Flapjack::Diner.scheduled_maintenance_report_checks
 # or
-Flapjack::Diner.checks_scheduled_maintenance_report('www.example.com:PING')
+Flapjack::Diner.scheduled_maintenance_report_checks('www.example.com:PING')
 # or
-Flapjack::Diner.checks_scheduled_maintenance_report('www.example.com:PING', 'www.example2.com:SSH')
+Flapjack::Diner.scheduled_maintenance_report_checks('www.example.com:PING', 'www.example2.com:SSH')
 ```
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/scheduled_maintenance_report<br>
+    GET http://localhost:3081/scheduled_maintenance_report/entities<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/scheduled_maintenance_report<br>
+    GET http://localhost:3081/scheduled_maintenance_report/entities/ID[,ID,ID...]<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/scheduled_maintenance_report<br>
+    GET http://localhost:3081/scheduled_maintenance_report/checks<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/scheduled_maintenance_report<br>
+    GET http://localhost:3081/scheduled_maintenance_report/checks/ID[,ID,ID...]<br>
     Accept: application/vnd.api+json
 
 ### Query Parameters
@@ -203,54 +203,54 @@ Return code | Description
 ## Get report on outages of entities or checks
 
 ```shell
-curl http://localhost:3081/entities/outage_report
+curl http://localhost:3081/outage_report/entities
 # or
-curl http://localhost:3081/enities/76/outage_report
+curl http://localhost:3081/outage_report/entities/76
 # or
-curl http://localhost:3081/entities/76,342/outage_report
+curl http://localhost:3081/outage_report/entities/76,342
 # or
-curl http://localhost:3081/checks/outage_report
+curl http://localhost:3081/outage_report/checks
 # or
-curl http://localhost:3081/checks/www.example.com:PING/outage_report
+curl http://localhost:3081/outage_report/checks/www.example.com:PING
 # or
-curl http://localhost:3081/checks/www.example.com:PING,www.example2.com:SSH/outage_report
+curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.entities_outage_report
+Flapjack::Diner.outage_report_entities
 # or
-Flapjack::Diner.entities_outage_report('76')
+Flapjack::Diner.outage_report_entities('76')
 # or
-Flapjack::Diner.entities_outage_report('76', '342')
+Flapjack::Diner.outage_report_entities('76', '342')
 # or
-Flapjack::Diner.checks_outage_report
+Flapjack::Diner.outage_report_checks
 # or
-Flapjack::Diner.checks_outage_report('www.example.com:PING')
+Flapjack::Diner.outage_report_checks('www.example.com:PING')
 # or
-Flapjack::Diner.checks_outage_report('www.example.com:PING', 'www.example2.com:SSH')
+Flapjack::Diner.outage_report_checks('www.example.com:PING', 'www.example2.com:SSH')
 ```
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/outage_report<br>
+    GET http://localhost:3081/outage_report/entities<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/outage_report<br>
+    GET http://localhost:3081/outage_report/entities/ID[,ID,ID...]<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/outage_report<br>
+    GET http://localhost:3081/outage_report/checks<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/outage_report<br>
+    GET http://localhost:3081/outage_report/checks/ID[,ID,ID...]<br>
     Accept: application/vnd.api+json
 
 ### Query Parameters
@@ -270,54 +270,54 @@ Return code | Description
 ## Get report on downtime of entities or checks
 
 ```shell
-curl http://localhost:3081/entities/downtime_report
+curl http://localhost:3081/downtime_report/entities
 # or
-curl http://localhost:3081/enities/76/downtime_report
+curl http://localhost:3081/downtime_report/entities/76
 # or
-curl http://localhost:3081/entities/76,342/downtime_report
+curl http://localhost:3081/downtime_report/entities/76,342
 # or
-curl http://localhost:3081/checks/downtime_report
+curl http://localhost:3081/downtime_report/checks
 # or
-curl http://localhost:3081/checks/www.example.com:PING/downtime_report
+curl http://localhost:3081/downtime_report/checks/www.example.com:PING
 # or
-curl http://localhost:3081/checks/www.example.com:PING,www.example2.com:SSH/downtime_report
+curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.entities_downtime_report
+Flapjack::Diner.downtime_report_entities
 # or
-Flapjack::Diner.entities_downtime_report('76')
+Flapjack::Diner.downtime_report_entities('76')
 # or
-Flapjack::Diner.entities_downtime_report('76', '342')
+Flapjack::Diner.downtime_report_entities('76', '342')
 # or
-Flapjack::Diner.checks_downtime_report
+Flapjack::Diner.downtime_report_checks
 # or
-Flapjack::Diner.checks_downtime_report('www.example.com:PING')
+Flapjack::Diner.downtime_report_checks('www.example.com:PING')
 # or
-Flapjack::Diner.checks_downtime_report('www.example.com:PING', 'www.example2.com:SSH')
+Flapjack::Diner.downtime_report_checks('www.example.com:PING', 'www.example2.com:SSH')
 ```
 
 ### HTTP Request
 
-    GET http://localhost:3081/entities/downtime_report<br>
+    GET http://localhost:3081/downtime_report/entities<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/entities/ID[,ID,ID...]/downtime_report<br>
+    GET http://localhost:3081/downtime_report/entities/ID[,ID,ID...]<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/downtime_report<br>
+    GET http://localhost:3081/downtime_report/checks<br>
     Accept: application/vnd.api+json
 
 or
 
-    GET http://localhost:3081/checks/ID[,ID,ID...]/downtime_report<br>
+    GET http://localhost:3081/downtime_report/checks/ID[,ID,ID...]<br>
     Accept: application/vnd.api+json
 
 ### Query Parameters
