@@ -57,7 +57,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_contacts!({"first_name" => "Ada",
+Flapjack::Diner.create_contacts({"first_name" => "Ada",
                                   "last_name"  => "Lovelace",
                                   "email"      => "ada@example.com"})
 ```
@@ -188,7 +188,7 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.a
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_contacts!(23, :first_name => 'John', :last_name => 'Smith')
+Flapjack::Diner.update_contacts(23, :first_name => 'John', :last_name => 'Smith')
 ```
 
 ### HTTP Request
@@ -228,9 +228,9 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_contacts!('21')
+Flapjack::Diner.delete_contacts('21')
 # or
-Flapjack::Diner.delete_contacts!('21', '22')
+Flapjack::Diner.delete_contacts('21', '22')
 ```
 
 ### HTTP Request

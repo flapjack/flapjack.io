@@ -34,10 +34,10 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_media!('5', {'type' => 'email',
-                              'address' : 'johns@example.com',
-                              'interval' : 120,
-                              'rollup_threshold' : 5})
+Flapjack::Diner.create_media('5', {'type' => 'email',
+                             'address' : 'johns@example.com',
+                             'interval' : 120,
+                             'rollup_threshold' : 5})
 ```
 
 ### HTTP Request
@@ -136,7 +136,7 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.a
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_media!('21_sms', :address => '0123456789', :interval => 10)
+Flapjack::Diner.update_media('21_sms', :address => '0123456789', :interval => 10)
 ```
 
 ### HTTP Request
@@ -180,9 +180,9 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_media!('11_email')
+Flapjack::Diner.delete_media('11_email')
 # or
-Flapjack::Diner.delete_media!('31_jabber', '32_jabber')
+Flapjack::Diner.delete_media('31_jabber', '32_jabber')
 ```
 
 ### HTTP Request

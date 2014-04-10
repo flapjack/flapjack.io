@@ -6,18 +6,33 @@ Attribute | Type | Description
 --- | --- | ---
 name | String |
 id | String |
+tags | Array[String] |
 contacts | Array[Contact] |
 
 
 ## Create entities
 
 ```shell
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
+ '{
+    "entities": [
+      {
+        "id": "825",
+        "name": "foo.example.com",
+        "tags": [
+          "foo"
+        ]
+      }
+    ]
+  }' \
+ http://localhost:3081/entities
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
+Flapjack::Diner.create_entities([{'id' => '825', 'name' => 'foo.example.com', 'tags' => ['foo']}])
 ```
 
 ### HTTP Request
@@ -108,7 +123,7 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.a
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_entities!('157', :name => 'www.example_com',
+Flapjack::Diner.update_entities(['157'], :name => 'www.example_com',
   :add_contacts => ['352'])
 ```
 
@@ -141,9 +156,21 @@ Return code | Description
 ## Create scheduled maintenance periods on entities
 
 ```shell
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
+ '{
+    "start_time" : "2014-04-09T16:03:25+09:30",
+    "duration" : 3600,
+    "summary" : "memory replacement"
+  }' \
+ http://localhost:3081/entities/825/scheduled_maintenances
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.create_entity_scheduled_maintenances(['825'], :start_time => '2014-04-09T16:03:25+09:30',
+  :duration => 3600, :summary => 'memory replacement')
 ```
 
 ### HTTP Request
@@ -172,9 +199,15 @@ Return code | Description
 ## Delete scheduled maintenance periods on entities
 
 ```shell
+curl -w 'response: %{http_code} \n' -X DELETE \
+  'http://localhost:3081/entities/34/scheduled_maintenances?start_time=2014-05-09T16:12:16+09:30'
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.delete_entity_scheduled_maintenances([34], :end_time => '2014-05-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
@@ -200,9 +233,20 @@ Return code | Description
 ## Create unscheduled maintenance periods on entities
 
 ```shell
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
+ '{
+    "duration" : 3600,
+    "summary" : "fixing now"
+  }' \
+ http://localhost:3081/entities/825/unscheduled_maintenances
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.create_entity_unscheduled_maintenances(['825'],
+  :duration => 3600, :summary => 'fixing now')
 ```
 
 ### HTTP Request
@@ -229,9 +273,15 @@ Return code | Description
 ## Delete unscheduled maintenance periods on entities
 
 ```shell
+curl -w 'response: %{http_code} \n' -X DELETE \
+  'http://localhost:3081/entities/34/unscheduled_maintenances?end_time=2014-04-09T16:12:16+09:30'
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.delete_entity_unscheduled_maintenances([34], :end_time => '2014-04-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
@@ -256,9 +306,19 @@ Return code | Description
 ## Create test notifications on entities
 
 ```shell
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
+ '{
+    "summary" : "testing, testing, 1, 2, 3"
+  }' \
+ http://localhost:3081/entities/825/test_notifications
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.create_entity_test_notifications(['825'],
+  :summary => 'testing, testing, 1, 2, 3')
 ```
 
 ### HTTP Request

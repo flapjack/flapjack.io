@@ -76,7 +76,7 @@ http://localhost:3081/contacts/5/notification_rules
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_notification_rules!('5',
+Flapjack::Diner.create_notification_rules('5',
   {'entities'       => ['foo-app-01.example.com'],
    'regex_entities' => '*phys-d+-*',
    'tags'           => ['database', 'physical'],
@@ -185,8 +185,8 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.a
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_notification_rules!('a82fe0ec-1972-4c12-9732-6ebec9dcf479',
-                                           :tags => ['leased', 'small'])
+Flapjack::Diner.update_notification_rules('a82fe0ec-1972-4c12-9732-6ebec9dcf479',
+                                          :tags => ['leased', 'small'])
 ```
 
 ### HTTP Request
@@ -230,9 +230,9 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_notification_rules!('2caf75f4-0043-4884-b2e9-dfb418e275ba')
+Flapjack::Diner.delete_notification_rules('2caf75f4-0043-4884-b2e9-dfb418e275ba')
 # or
-Flapjack::Diner.delete_notification_rules!('2caf75f4-0043-4884-b2e9-dfb418e275ba',
+Flapjack::Diner.delete_notification_rules('2caf75f4-0043-4884-b2e9-dfb418e275ba',
                                            'bd0dd8b6-2c72-49da-9b83-e0b283ec1931')
 ```
 

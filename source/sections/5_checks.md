@@ -5,9 +5,22 @@
 ## Create scheduled maintenance periods on checks
 
 ```shell
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
+ '{
+    "start_time" : "2014-04-09T16:03:25+09:30",
+    "duration" : 3600,
+    "summary" : "memory replacement"
+  }' \
+ http://localhost:3081/checks/example.com:SSH/scheduled_maintenances
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.create_check_scheduled_maintenances(['example.com:SSH'],
+  :start_time => '2014-04-09T16:03:25+09:30', :duration => 3600,
+  :summary => 'memory replacement')
 ```
 
 ### HTTP Request
@@ -36,9 +49,16 @@ Return code | Description
 ## Delete scheduled maintenance periods on checks
 
 ```shell
+curl -w 'response: %{http_code} \n' -X DELETE \
+  'http://localhost:3081/checks/example.com:PING/scheduled_maintenances?start_time=2014-05-09T16:12:16+09:30'
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.delete_check_scheduled_maintenances(['example.com:PING'],
+  :end_time => '2014-05-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
@@ -64,9 +84,20 @@ Return code | Description
 ## Create unscheduled maintenance periods on checks
 
 ```shell
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
+ '{
+    "duration" : 3600,
+    "summary" : "fixing now"
+  }' \
+ http://localhost:3081/checks/example.com:HOST/unscheduled_maintenances
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.create_check_unscheduled_maintenances(['example.com:HOST'],
+  :duration => 3600, :summary => 'fixing now')
 ```
 
 ### HTTP Request
@@ -93,9 +124,15 @@ Return code | Description
 ## Delete unscheduled maintenance periods on checks
 
 ```shell
+curl -w 'response: %{http_code} \n' -X DELETE \
+  'http://localhost:3081/checks/example.com:PING/unscheduled_maintenances?end_time=2014-04-09T16:12:16+09:30'
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.delete_check_unscheduled_maintenances(['example.com:PING'], :end_time => '2014-04-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
@@ -120,9 +157,19 @@ Return code | Description
 ## Create test notifications on checks
 
 ```shell
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
+ '{
+    "summary" : "testing, testing, 1, 2, 3"
+  }' \
+ http://localhost:3081/checks/example.com:HOST/test_notifications
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.create_check_test_notifications(['example.com:HOST'],
+  :summary => 'testing, testing, 1, 2, 3')
 ```
 
 ### HTTP Request
