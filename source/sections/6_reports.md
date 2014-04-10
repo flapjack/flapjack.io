@@ -2,7 +2,7 @@
 # Reports
 
 
-## Get report on status of entities or checks
+## Status of entities or checks
 
 ```shell
 curl http://localhost:3081/status_report/entities
@@ -75,7 +75,7 @@ Return code | Description
 200 | OK
 
 
-## Get report on unscheduled maintenance periods of entities or checks
+## Unscheduled maintenance periods of entities or checks
 
 ```shell
 curl http://localhost:3081/unscheduled_maintenance_report/entities
@@ -151,7 +151,7 @@ Return code | Description
 200 | OK
 
 
-## Get report on scheduled maintenance periods of entities or checks
+## Scheduled maintenance periods of entities or checks
 
 ```shell
 curl http://localhost:3081/scheduled_maintenance_report/entities/
@@ -227,7 +227,9 @@ Return code | Description
 200 | OK
 
 
-## Get report on outages of entities or checks
+## Outages of entities or checks
+
+An outage on a check is a period of time for which the check was failing.
 
 ```shell
 curl http://localhost:3081/outage_report/entities
@@ -303,7 +305,9 @@ Return code | Description
 200 | OK
 
 
-## Get report on downtime of entities or checks
+## Downtime of entities or checks
+
+A downtime on a check is a period of time when the check is failing and there's no scheduled maintenance.
 
 ```shell
 curl http://localhost:3081/downtime_report/entities
