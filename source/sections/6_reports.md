@@ -6,14 +6,19 @@
 
 ```shell
 curl http://localhost:3081/status_report/entities
+
 # or
 curl http://localhost:3081/status_report/entities/76
+
 # or
 curl http://localhost:3081/status_report/entities/76,342
+
 # or
 curl http://localhost:3081/status_report/checks
+
 # or
 curl http://localhost:3081/status_report/checks/www.example.com:PING
+
 # or
 curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
@@ -23,16 +28,24 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.status_report_entities
+
 # or
 Flapjack::Diner.status_report_entities('76')
+
 # or
 Flapjack::Diner.status_report_entities('76', '342')
+
 # or
 Flapjack::Diner.status_report_checks
+
 # or
-Flapjack::Diner.status_report_checks('www.example.com:PING')
+Flapjack::Diner.status_report_checks(
+  'www.example.com:PING')
+
 # or
-Flapjack::Diner.status_report_checks('www.example.com:PING', 'www.example2.com:SSH')
+Flapjack::Diner.status_report_checks(
+  'www.example.com:PING', 
+  'www.example2.com:SSH')
 ```
 
 ### HTTP Request
@@ -66,14 +79,19 @@ Return code | Description
 
 ```shell
 curl http://localhost:3081/unscheduled_maintenance_report/entities
+
 # or
 curl http://localhost:3081/unscheduled_maintenance_report/entities/76
+
 # or
 curl http://localhost:3081/unscheduled_maintenance_report/entities/76,342
+
 # or
 curl http://localhost:3081/unscheduled_maintenance_report/checks
+
 # or
 curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com:PING
+
 # or
 curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
@@ -83,16 +101,24 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.unscheduled_maintenance_report_entities
+
 # or
 Flapjack::Diner.unscheduled_maintenance_report_entities('76')
+
 # or
 Flapjack::Diner.unscheduled_maintenance_report_entities('76', '342')
+
 # or
 Flapjack::Diner.unscheduled_maintenance_report_checks
+
 # or
-Flapjack::Diner.unscheduled_maintenance_report_checks('www.example.com:PING')
+Flapjack::Diner.unscheduled_maintenance_report_checks(
+  'www.example.com:PING')
+
 # or
-Flapjack::Diner.unscheduled_maintenance_report_checks('www.example.com:PING', 'www.example2.com:SSH')
+Flapjack::Diner.unscheduled_maintenance_report_checks(
+  'www.example.com:PING', 
+  'www.example2.com:SSH')
 ```
 
 ### HTTP Request
@@ -129,14 +155,19 @@ Return code | Description
 
 ```shell
 curl http://localhost:3081/scheduled_maintenance_report/entities/
+
 # or
 curl http://localhost:3081/scheduled_maintenance_report/entities/76
+
 # or
 curl http://localhost:3081/scheduled_maintenance_report/entities/76,342
+
 # or
 curl http://localhost:3081/scheduled_maintenance_report/checks/
+
 # or
 curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:PING
+
 # or
 curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
@@ -146,17 +177,25 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.scheduled_maintenance_report_entities
+
 # or
 Flapjack::Diner.scheduled_maintenance_report_entities('76')
+
 # or
 Flapjack::Diner.scheduled_maintenance_report_entities('76', '342')
+
 # or
 Flapjack::Diner.scheduled_maintenance_report_checks
+
 # or
-Flapjack::Diner.scheduled_maintenance_report_checks('www.example.com:PING')
+Flapjack::Diner.scheduled_maintenance_report_checks(
+  'www.example.com:PING')
+
 # or
-Flapjack::Diner.scheduled_maintenance_report_checks('www.example.com:PING', 'www.example2.com:SSH')
-```
+Flapjack::Diner.scheduled_maintenance_report_checks(
+  'www.example.com:PING', 
+  'www.example2.com:SSH')
+````
 
 ### HTTP Request
 
@@ -192,14 +231,19 @@ Return code | Description
 
 ```shell
 curl http://localhost:3081/outage_report/entities
+
 # or
 curl http://localhost:3081/outage_report/entities/76
+
 # or
 curl http://localhost:3081/outage_report/entities/76,342
+
 # or
 curl http://localhost:3081/outage_report/checks
+
 # or
 curl http://localhost:3081/outage_report/checks/www.example.com:PING
+
 # or
 curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
@@ -209,16 +253,24 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.outage_report_entities
+
 # or
 Flapjack::Diner.outage_report_entities('76')
+
 # or
 Flapjack::Diner.outage_report_entities('76', '342')
+
 # or
 Flapjack::Diner.outage_report_checks
+
 # or
-Flapjack::Diner.outage_report_checks('www.example.com:PING')
+Flapjack::Diner.outage_report_checks(
+  'www.example.com:PING')
+
 # or
-Flapjack::Diner.outage_report_checks('www.example.com:PING', 'www.example2.com:SSH')
+Flapjack::Diner.outage_report_checks(
+  'www.example.com:PING', 
+  'www.example2.com:SSH')
 ```
 
 ### HTTP Request
@@ -255,14 +307,19 @@ Return code | Description
 
 ```shell
 curl http://localhost:3081/downtime_report/entities
+
 # or
 curl http://localhost:3081/downtime_report/entities/76
+
 # or
 curl http://localhost:3081/downtime_report/entities/76,342
+
 # or
 curl http://localhost:3081/downtime_report/checks
+
 # or
 curl http://localhost:3081/downtime_report/checks/www.example.com:PING
+
 # or
 curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.example2.com:SSH
 ```
@@ -272,16 +329,24 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.downtime_report_entities
+
 # or
 Flapjack::Diner.downtime_report_entities('76')
+
 # or
 Flapjack::Diner.downtime_report_entities('76', '342')
+
 # or
 Flapjack::Diner.downtime_report_checks
+
 # or
-Flapjack::Diner.downtime_report_checks('www.example.com:PING')
+Flapjack::Diner.downtime_report_checks(
+  'www.example.com:PING')
+
 # or
-Flapjack::Diner.downtime_report_checks('www.example.com:PING', 'www.example2.com:SSH')
+Flapjack::Diner.downtime_report_checks(
+  'www.example.com:PING', 
+  'www.example2.com:SSH')
 ```
 
 ### HTTP Request

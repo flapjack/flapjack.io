@@ -18,9 +18,11 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_check_scheduled_maintenances(['example.com:SSH'],
-  :start_time => '2014-04-09T16:03:25+09:30', :duration => 3600,
-  :summary => 'memory replacement')
+Flapjack::Diner.create_check_scheduled_maintenances(
+  ['example.com:SSH'],
+  :start_time => '2014-04-09T16:03:25+09:30', 
+  :duration   => 3600,
+  :summary    => 'memory replacement')
 ```
 
 ### HTTP Request
@@ -56,7 +58,8 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_check_scheduled_maintenances(['example.com:PING'],
+Flapjack::Diner.delete_check_scheduled_maintenances(
+  ['example.com:PING'],
   :end_time => '2014-05-09T16:12:16+09:30')
 ```
 
@@ -94,8 +97,10 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_check_unscheduled_maintenances(['example.com:HOST'],
-  :duration => 3600, :summary => 'fixing now')
+Flapjack::Diner.create_check_unscheduled_maintenances(
+  ['example.com:HOST'],
+  :duration => 3600, 
+  :summary  => 'fixing now')
 ```
 
 ### HTTP Request
@@ -129,7 +134,9 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_check_unscheduled_maintenances(['example.com:PING'], :end_time => '2014-04-09T16:12:16+09:30')
+Flapjack::Diner.delete_check_unscheduled_maintenances(
+  ['example.com:PING'], 
+  :end_time => '2014-04-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
@@ -164,7 +171,8 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_check_test_notifications(['example.com:HOST'],
+Flapjack::Diner.create_check_test_notifications(
+  ['example.com:HOST'],
   :summary => 'testing, testing, 1, 2, 3')
 ```
 

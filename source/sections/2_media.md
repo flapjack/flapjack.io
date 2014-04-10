@@ -34,10 +34,11 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_media('5', {'type' => 'email',
-                             'address' : 'johns@example.com',
-                             'interval' : 120,
-                             'rollup_threshold' : 5})
+Flapjack::Diner.create_media('5', 
+  {'type'             => 'email',
+   'address'          => 'johns@example.com',
+   'interval'         => 120,
+   'rollup_threshold' => 5})
 ```
 
 ### HTTP Request
@@ -75,8 +76,10 @@ TODO add link ids, URLs for contact
 
 ```shell
 curl http://localhost:3081/media
+
 # or
 curl http://localhost:3081/media/1_email
+
 # or
 curl http://localhost:3081/media/21_jabber,22_jabber
 ```
@@ -86,8 +89,10 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.media
+
 # or
 Flapjack::Diner.media('1_email')
+
 # or
 Flapjack::Diner.media('21_jabber', '22_jabber')
 ```
@@ -132,7 +137,9 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_media('21_sms', :address => '0123456789', :interval => 10)
+Flapjack::Diner.update_media('21_sms', 
+  :address  => '0123456789', 
+  :interval => 10)
 ```
 
 ### HTTP Request
@@ -165,6 +172,7 @@ Delete one or more media resources.
 ```shell
 curl -w 'response: %{http_code} \n' -X DELETE \
   'http://localhost:3081/media/11_email'
+
 # or
 curl -w 'response: %{http_code} \n' -X DELETE \
   'http://localhost:3081/media/31_jabber,32_jabber'
@@ -175,6 +183,7 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.delete_media('11_email')
+
 # or
 Flapjack::Diner.delete_media('31_jabber', '32_jabber')
 ```

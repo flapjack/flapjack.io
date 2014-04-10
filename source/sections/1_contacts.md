@@ -57,9 +57,10 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_contacts({"first_name" => "Ada",
-                                  "last_name"  => "Lovelace",
-                                  "email"      => "ada@example.com"})
+Flapjack::Diner.create_contacts({
+  "first_name" => "Ada",
+  "last_name"  => "Lovelace",
+  "email"      => "ada@example.com"})
 ```
 
 > The above command returns JSON structured like this:
@@ -97,8 +98,10 @@ TODO add link ids, URLs for media, notification rules
 
 ```shell
 curl http://localhost:3081/contacts
+
 # or
 curl http://localhost:3081/contacts/1
+
 # or
 curl http://localhost:3081/contacts/21,22
 ```
@@ -108,8 +111,10 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.contacts
+
 # or
 Flapjack::Diner.contacts('21')
+
 # or
 Flapjack::Diner.contacts('21', '22')
 ```
@@ -184,7 +189,10 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_contacts(23, :first_name => 'John', :last_name => 'Smith')
+Flapjack::Diner.update_contacts(
+  23, 
+  :first_name => 'John', 
+  :last_name  => 'Smith')
 ```
 
 ### HTTP Request
@@ -213,6 +221,7 @@ Delete one or more contacts.
 ```shell
 curl -w 'response: %{http_code} \n' -X DELETE \
   'http://localhost:3081/contacts/21'
+
 # or
 curl -w 'response: %{http_code} \n' -X DELETE \
   'http://localhost:3081/contacts/21,22'
@@ -223,6 +232,7 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.delete_contacts('21')
+
 # or
 Flapjack::Diner.delete_contacts('21', '22')
 ```

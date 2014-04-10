@@ -32,7 +32,10 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_entities([{'id' => '825', 'name' => 'foo.example.com', 'tags' => ['foo']}])
+Flapjack::Diner.create_entities(
+  [{'id'   => '825', 
+    'name' => 'foo.example.com', 
+    'tags' => ['foo']}])
 ```
 
 ### HTTP Request
@@ -62,8 +65,10 @@ are provided then only the entities matching those ids will be returned.
 
 ```shell
 curl http://localhost:3081/entities
+
 # or
 curl http://localhost:3081/entities/17
+
 # or
 curl http://localhost:3081/entities/17,25
 ```
@@ -73,8 +78,10 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.entities
+
 # or
 Flapjack::Diner.entities('17')
+
 # or
 Flapjack::Diner.entities('17', '25')
 ```
@@ -119,7 +126,8 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.a
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_entities(['157'], :name => 'www.example_com',
+Flapjack::Diner.update_entities(['157'], 
+  :name         => 'www.example_com',
   :add_contacts => ['352'])
 ```
 
@@ -163,8 +171,10 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_entity_scheduled_maintenances(['825'], :start_time => '2014-04-09T16:03:25+09:30',
-  :duration => 3600, :summary => 'memory replacement')
+Flapjack::Diner.create_entity_scheduled_maintenances(['825'], 
+  :start_time => '2014-04-09T16:03:25+09:30',
+  :duration   => 3600, 
+  :summary    => 'memory replacement')
 ```
 
 ### HTTP Request
@@ -200,7 +210,8 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_entity_scheduled_maintenances([34], :end_time => '2014-05-09T16:12:16+09:30')
+Flapjack::Diner.delete_entity_scheduled_maintenances([34], 
+  :end_time => '2014-05-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
@@ -238,7 +249,8 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.create_entity_unscheduled_maintenances(['825'],
-  :duration => 3600, :summary => 'fixing now')
+  :duration => 3600, 
+  :summary  => 'fixing now')
 ```
 
 ### HTTP Request
@@ -272,7 +284,8 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_entity_unscheduled_maintenances([34], :end_time => '2014-04-09T16:12:16+09:30')
+Flapjack::Diner.delete_entity_unscheduled_maintenances([34], 
+  :end_time => '2014-04-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
