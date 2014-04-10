@@ -63,7 +63,7 @@ are provided then only the entities matching those ids will be returned.
 ```shell
 curl http://localhost:3081/entities
 # or
-curl http://localhost:3081/enities/17
+curl http://localhost:3081/entities/17
 # or
 curl http://localhost:3081/entities/17,25
 ```
