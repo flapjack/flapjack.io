@@ -11,23 +11,23 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
     "duration" : 3600,
     "summary" : "memory replacement"
   }' \
- http://localhost:3081/checks/example.com:SSH/scheduled_maintenances
+ http://localhost:3081/scheduled_maintenances/checks/example.com:SSH
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_check_scheduled_maintenances(
+Flapjack::Diner.create_scheduled_maintenances_checks(
   ['example.com:SSH'],
-  :start_time => '2014-04-09T16:03:25+09:30', 
+  :start_time => '2014-04-09T16:03:25+09:30',
   :duration   => 3600,
   :summary    => 'memory replacement')
 ```
 
 ### HTTP Request
 
-`POST /checks/ID[,ID,ID...]/scheduled_maintenances`
+`POST /scheduled_maintenances/checks/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -51,21 +51,21 @@ Return code | Description
 
 ```shell
 curl -w 'response: %{http_code} \n' -X DELETE \
-  'http://localhost:3081/checks/example.com:PING/scheduled_maintenances?start_time=2014-05-09T16:12:16+09:30'
+  'http://localhost:3081/scheduled_maintenances/checks/example.com:PING?start_time=2014-05-09T16:12:16+09:30'
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_check_scheduled_maintenances(
+Flapjack::Diner.delete_scheduled_maintenances_checks(
   ['example.com:PING'],
   :end_time => '2014-05-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
 
-`DELETE /checks/ID[,ID,ID...]/scheduled_maintenances`
+`DELETE /scheduled_maintenances/checks/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -90,22 +90,22 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
     "duration" : 3600,
     "summary" : "fixing now"
   }' \
- http://localhost:3081/checks/example.com:HOST/unscheduled_maintenances
+ http://localhost:3081/unscheduled_maintenances/checks/example.com:HOST
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_check_unscheduled_maintenances(
+Flapjack::Diner.create_unscheduled_maintenances_checks(
   ['example.com:HOST'],
-  :duration => 3600, 
+  :duration => 3600,
   :summary  => 'fixing now')
 ```
 
 ### HTTP Request
 
-`POST /checks/ID[,ID,ID...]/unscheduled_maintenances`
+`POST /unscheduled_maintenances/checks/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -127,21 +127,21 @@ Return code | Description
 
 ```shell
 curl -w 'response: %{http_code} \n' -X DELETE \
-  'http://localhost:3081/checks/example.com:PING/unscheduled_maintenances?end_time=2014-04-09T16:12:16+09:30'
+  'http://localhost:3081/unscheduled_maintenances/checks/example.com:PING?end_time=2014-04-09T16:12:16+09:30'
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_check_unscheduled_maintenances(
-  ['example.com:PING'], 
+Flapjack::Diner.delete_unscheduled_maintenances_checks(
+  ['example.com:PING'],
   :end_time => '2014-04-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
 
-`DELETE /checks/ID[,ID,ID...]/unscheduled_maintenances`
+`DELETE /unscheduled_maintenances/checks/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -164,21 +164,21 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
  '{
     "summary" : "testing, testing, 1, 2, 3"
   }' \
- http://localhost:3081/checks/example.com:HOST/test_notifications
+ http://localhost:3081/test_notifications/checks/example.com:HOST
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_check_test_notifications(
+Flapjack::Diner.create_test_notifications_checks(
   ['example.com:HOST'],
   :summary => 'testing, testing, 1, 2, 3')
 ```
 
 ### HTTP Request
 
-`POST /checks/ID[,ID,ID...]/test_notifications`
+`POST /test_notifications/checks/ID[,ID,ID...]`
 
 ### Query Parameters
 

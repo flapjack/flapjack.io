@@ -33,8 +33,8 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.create_entities(
-  [{'id'   => '825', 
-    'name' => 'foo.example.com', 
+  [{'id'   => '825',
+    'name' => 'foo.example.com',
     'tags' => ['foo']}])
 ```
 
@@ -126,7 +126,7 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.a
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_entities(['157'], 
+Flapjack::Diner.update_entities(['157'],
   :name         => 'www.example_com',
   :add_contacts => ['352'])
 ```
@@ -164,22 +164,22 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
     "duration" : 3600,
     "summary" : "memory replacement"
   }' \
- http://localhost:3081/entities/825/scheduled_maintenances
+ http://localhost:3081/scheduled_maintenances/entities/825
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_entity_scheduled_maintenances(['825'], 
+Flapjack::Diner.create_scheduled_maintenances_entities('825',
   :start_time => '2014-04-09T16:03:25+09:30',
-  :duration   => 3600, 
+  :duration   => 3600,
   :summary    => 'memory replacement')
 ```
 
 ### HTTP Request
 
-`POST /entities/ID[,ID,ID...]/scheduled_maintenances`
+`POST /scheduled_maintenances/entities/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -203,20 +203,20 @@ Return code | Description
 
 ```shell
 curl -w 'response: %{http_code} \n' -X DELETE \
-  'http://localhost:3081/entities/34/scheduled_maintenances?start_time=2014-05-09T16:12:16+09:30'
+  'http://localhost:3081/scheduled_maintenances/entities/34?start_time=2014-05-09T16:12:16+09:30'
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_entity_scheduled_maintenances([34], 
+Flapjack::Diner.delete_scheduled_maintenances_entities(34,
   :end_time => '2014-05-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
 
-`DELETE /entities/ID[,ID,ID...]/scheduled_maintenances`
+`DELETE /scheduled_maintenances/entities/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -241,21 +241,21 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
     "duration" : 3600,
     "summary" : "fixing now"
   }' \
- http://localhost:3081/entities/825/unscheduled_maintenances
+ http://localhost:3081/unscheduled_maintenances/entities/825
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_entity_unscheduled_maintenances(['825'],
-  :duration => 3600, 
+Flapjack::Diner.create_unscheduled_maintenances_entities('825',
+  :duration => 3600,
   :summary  => 'fixing now')
 ```
 
 ### HTTP Request
 
-`POST /entities/ID[,ID,ID...]/unscheduled_maintenances`
+`POST /unscheduled_maintenances/entities/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -277,20 +277,20 @@ Return code | Description
 
 ```shell
 curl -w 'response: %{http_code} \n' -X DELETE \
-  'http://localhost:3081/entities/34/unscheduled_maintenances?end_time=2014-04-09T16:12:16+09:30'
+  'http://localhost:3081/unscheduled_maintenances/entities/34?end_time=2014-04-09T16:12:16+09:30'
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_entity_unscheduled_maintenances([34], 
+Flapjack::Diner.delete_unscheduled_maintenances_entities('34',
   :end_time => '2014-04-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
 
-`DELETE /entities/ID[,ID,ID...]/unscheduled_maintenances`
+`DELETE /unscheduled_maintenances/entities/ID[,ID,ID...]`
 
 ### Query Parameters
 
@@ -313,20 +313,20 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
  '{
     "summary" : "testing, testing, 1, 2, 3"
   }' \
- http://localhost:3081/entities/825/test_notifications
+ http://localhost:3081/test_notifications/entities/825
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_entity_test_notifications(['825'],
+Flapjack::Diner.create_test_notifications_entities('825',
   :summary => 'testing, testing, 1, 2, 3')
 ```
 
 ### HTTP Request
 
-`POST /entities/ID[,ID,ID...]/test_notifications`
+`POST /test_notifications/entities/ID[,ID,ID...]`
 
 ### Query Parameters
 
