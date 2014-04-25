@@ -86,6 +86,36 @@ Flapjack::Diner.entities('17')
 Flapjack::Diner.entities('17', '25')
 ```
 
+> The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:
+
+```json
+{
+  "entities": [
+    {
+      "id": "301",
+      "name": "www.example.com",
+      "tags": [
+        "production",
+      ],
+      "links": {
+        "contacts": ["5", "87", "123"]
+      },
+    }
+    },
+    {
+      "id": "302",
+      "name": "www.example2.com",
+      "tags": [
+        "staging"
+      ],
+      "links": {
+        "contacts": []
+      },
+    }
+  ]
+}
+```
+
 ### HTTP Request
 
 `GET /entities`
@@ -228,7 +258,7 @@ start_time | String | A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ
 
 Return code | Description
 --------- | -----------
-204 | Matching unscheduled maintenance periods were deleted.
+204 | Matching scheduled maintenance periods were deleted.
 403 | **Error** The required 'start_time' parameter was not sent.
 404 | **Error** No matching entities were found.
 

@@ -14,7 +14,7 @@ regex_tags | Array[String] |
 time_restrictions | |
 unknown_media | Array[String] |
 warning_media | Array[String] |
-warning_media | Array[String] |
+critical_media | Array[String] |
 unknown_blackhole | Boolean |
 warning_blackhole | Boolean |
 critical_blackhole | Boolean |
