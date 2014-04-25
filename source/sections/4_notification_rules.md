@@ -37,7 +37,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
           "database",
           "physical"
         ],
-        "regex_tags" : null,
+        "regex_tags" : [],
         "time_restrictions": [
           {
             "start_time": "2013-01-28 08:00:00",
@@ -78,7 +78,7 @@ http://localhost:3081/contacts/5/notification_rules
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_notification_rules('5',
+Flapjack::Diner.create_contact_notification_rules('5',
   {'entities'           => ['foo-app-01.example.com'],
    'regex_entities'     => ['^foo-\S{3}-\d{2}.example.com$'],
    'tags'               => ['database', 'physical'],
@@ -124,8 +124,6 @@ Return code | Description
 
 ## Get notification rules
 
-TODO add link ids, URLs for contact
-
 ```shell
 curl http://localhost:3081/notification_rules
 
@@ -152,6 +150,61 @@ Flapjack::Diner.notification_rules(
   'bfd8be61-3d80-4b95-94df-6e77183ce4e3')
 ```
 
+> The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:
+
+```json
+{
+  "notification_rules": [
+    {
+      "entities": [
+        "foo-app-01.example.com"
+      ],
+      "regex_entities" : [
+        "^foo-\S{3}-\d{2}.example.com$"
+      ],
+      "tags": [
+        "database",
+        "physical"
+      ],
+      "regex_tags" : [],
+      "time_restrictions": [
+        {
+          "start_time": "2013-01-28 08:00:00",
+          "end_time": "2013-01-28 18:00:00",
+          "rrules": [
+            {
+              "validations": {
+                "day": [1,2,3,4,5]
+              },
+              "rule_type": "Weekly",
+              "interval": 1,
+              "week_start": 0
+            }
+          ],
+          "exrules": [],
+          "rtimes": [],
+          "extimes": []
+        }
+      ],
+      "unknown_media": [],
+      "warning_media": [
+        "email"
+      ],
+      "critical_media": [
+        "sms",
+        "email"
+      ],
+      "unknown_blackhole": false,
+      "warning_blackhole": false,
+      "critical_blackhole": false,
+      "links": {
+        "contacts": ["12"]
+      }
+    }
+  ]
+}
+```
+
 ### HTTP Request
 
 `GET /notification_rules`
@@ -176,7 +229,7 @@ Return code | Description
 Update one or more attributes for one or more notification rules.
 
 ```shell
-curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.api+json" -d \
+curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
 '[
   {"op"    : "replace",
    "path"  : "/notification_rules/0/tags",
@@ -215,7 +268,7 @@ Return code | Description
 --------- | -----------
 204 | The submitted notification rule updates were made successfully. No content is returned.
 404 | Notification rules could not be found for one or more of the provided ids. No notification rules were altered by this request.
-405 | **Error** The submitted notification rule data was not sent with the JSONAPI MIME type `application/vnd.api+json`.
+405 | **Error** The submitted notification rule data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
 
 
 ## Delete notification rules

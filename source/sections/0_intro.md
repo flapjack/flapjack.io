@@ -1,7 +1,7 @@
 
 # Introduction
 
-Welcome to the documention of the JSON API of [Flapjack](http://flapjack.io). 
+Welcome to the documention of the JSON API of [Flapjack](http://flapjack.io).
 
 See the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) gem which provides a ruby consumer of this API.
 
@@ -15,8 +15,9 @@ JSON API requires the `Content-Type` header to be set as follows. The `Accept` h
 
 ### POST
 
+`Content-Type: application/json` or
 `Content-Type: application/vnd.api+json`
-    
+
 `Accept: application/vnd.api+json`
 
 ### PATCH

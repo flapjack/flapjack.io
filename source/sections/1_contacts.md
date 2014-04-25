@@ -9,8 +9,6 @@ id | String |
 first_name | String |
 last_name | String |
 email | String |
-media | Hash[Medium] |
-notification_rules | Array[NotificationRule]
 timezone | String |
 tags | Array[String] |
 
@@ -30,18 +28,6 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
         "first_name": "Ada",
         "last_name": "Lovelace",
         "email": "ada@example.com",
-        "media": {
-          "sms": {
-            "address": "+61412345678",
-            "interval": "3600",
-            "rollup_threshold": "5"
-          },
-          "email": {
-            "address": "ada@example.com",
-            "interval": "7200",
-            "rollup_threshold": null
-          }
-        },
         "timezone": "Europe/London",
         "tags": [
           "legend",
@@ -58,9 +44,9 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.create_contacts({
-  "first_name" => "Ada",
-  "last_name"  => "Lovelace",
-  "email"      => "ada@example.com"})
+  :first_name => "Ada",
+  :last_name  => "Lovelace",
+  :email      => "ada@example.com"})
 ```
 
 > The above command returns JSON structured like this:
@@ -94,8 +80,6 @@ Return code | Description
 If no contact ids are provided then all contacts will be returned; if contact ids
 are provided then only the contacts matching those ids will be returned.
 
-TODO add link ids, URLs for media, notification rules
-
 ```shell
 curl http://localhost:3081/contacts
 
@@ -119,7 +103,7 @@ Flapjack::Diner.contacts('21')
 Flapjack::Diner.contacts('21', '22')
 ```
 
-> The above commands returns JSON structured like this:
+> The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:
 
 ```json
 {
@@ -133,7 +117,12 @@ Flapjack::Diner.contacts('21', '22')
       "tags": [
         "legend",
         "first computer programmer"
-      ]
+      ],
+      "links": {
+        "entities": ["7", "12", "83"],
+        "media": ["21_email", "21_sms"],
+        "notification_rules": ["30fd36ae-3922-4957-ae3e-c8f6dd27e543"]
+      }
     },
     {
       "id": "22",
@@ -143,7 +132,12 @@ Flapjack::Diner.contacts('21', '22')
       "timezone": "UTC",
       "tags": [
         "grump"
-      ]
+      ],
+      "links": {
+        "entities": [],
+        "media": ["22_email", "22_sms"],
+        "notification_rules": ["bfd8be61-3d80-4b95-94df-6e77183ce4e3"]
+      }
     }
   ]
 }
@@ -152,7 +146,7 @@ Flapjack::Diner.contacts('21', '22')
 ### HTTP Request
 
 `GET /contacts`
-    
+
 **or**
 
 `GET /contacts/ID[,ID,ID...]`
@@ -190,8 +184,8 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.update_contacts(
-  23, 
-  :first_name => 'John', 
+  23,
+  :first_name => 'John',
   :last_name  => 'Smith')
 ```
 
@@ -211,7 +205,11 @@ value | -> | for attributes, a value of the correct data type for that attribute
 
 ### HTTP Return Codes
 
-TODO
+Return code | Description
+--------- | -----------
+204 | The submitted contact updates were made successfully. No content is returned.
+404 | Contact resources could not be found for one or more of the provided ids. No contact resources were altered by this request.
+405 | **Error** The submitted contact data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
 
 
 ## Delete contacts

@@ -10,9 +10,6 @@ address | String |
 interval | Integer |
 rollup_threshold | Integer |
 
-TODO 'pagerduty' media type
-
-
 ## Create media for a contact
 
 ```shell
@@ -34,7 +31,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_media('5', 
+Flapjack::Diner.create_contact_media('5',
   {'type'             => 'email',
    'address'          => 'johns@example.com',
    'interval'         => 120,
@@ -72,8 +69,6 @@ of the medium in question. This is for backwards compatibility, and is due to
 some historical design decisions, but is likely to change when the data
 handling code is reworked.
 
-TODO add link ids, URLs for contact
-
 ```shell
 curl http://localhost:3081/media
 
@@ -95,6 +90,35 @@ Flapjack::Diner.media('1_email')
 
 # or
 Flapjack::Diner.media('21_jabber', '22_jabber')
+```
+
+> The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:
+
+```json
+{
+  "media": [
+    {
+      "id": "21_sms",
+      "type": "sms",
+      "address": "0123456789",
+      "interval": 300,
+      "rollup_threshold": 5,
+      "links": {
+        "contacts": ["21"]
+      }
+    },
+    {
+      "id": "22_email",
+      "type": "email",
+      "address": "abcde@example.com",
+      "interval": 180,
+      "rollup_threshold": 4,
+      "links": {
+        "contacts": ["22"]
+      }
+    }
+  ]
+}
 ```
 
 ### HTTP Request
@@ -137,8 +161,8 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_media('21_sms', 
-  :address  => '0123456789', 
+Flapjack::Diner.update_media('21_sms',
+  :address  => '0123456789',
   :interval => 10)
 ```
 
@@ -162,7 +186,7 @@ Return code | Description
 --------- | -----------
 204 | The submitted medium updates were made successfully. No content is returned.
 404 | Media resources could not be found for one or more of the provided ids. No media resources were altered by this request.
-405 | **Error** The submitted media data was not sent with the JSONAPI MIME type `application/vnd.api+json`.
+405 | **Error** The submitted media data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
 
 
 ## Delete media

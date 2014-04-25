@@ -19,7 +19,7 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.create_scheduled_maintenances_checks(
-  ['example.com:SSH'],
+  'example.com:SSH',
   :start_time => '2014-04-09T16:03:25+09:30',
   :duration   => 3600,
   :summary    => 'memory replacement')
@@ -59,7 +59,7 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.delete_scheduled_maintenances_checks(
-  ['example.com:PING'],
+  'example.com:PING',
   :end_time => '2014-05-09T16:12:16+09:30')
 ```
 
@@ -98,7 +98,7 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.create_unscheduled_maintenances_checks(
-  ['example.com:HOST'],
+  'example.com:HOST',
   :duration => 3600,
   :summary  => 'fixing now')
 ```
@@ -123,38 +123,48 @@ Return code | Description
 405 | **Error** The submitted parameters were not sent with the JSONAPI MIME type `application/json`.
 
 
-## Delete unscheduled maintenance periods on checks
+## Update unscheduled maintenance periods on checks
 
 ```shell
-curl -w 'response: %{http_code} \n' -X DELETE \
-  'http://localhost:3081/unscheduled_maintenances/checks/example.com:PING?end_time=2014-04-09T16:12:16+09:30'
+curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
+'[
+  {"op"    : "replace",
+   "path"  : "/unscheduled_maintenances/0/end_time",
+   "value" : "2014-04-09T16:12:16+09:30"},
+]' \
+ 'http://localhost:3081/unscheduled_maintenances/checks/example.com:PING'
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_unscheduled_maintenances_checks(
-  ['example.com:PING'],
+Flapjack::Diner.update_unscheduled_maintenances_checks(
+  'example.com:PING',
   :end_time => '2014-04-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
 
-`DELETE /unscheduled_maintenances/checks/ID[,ID,ID...]`
+`PATCH /unscheduled_maintenances/checks/ID[,ID,ID...]`
 
 ### Query Parameters
 
+Parameters sent for unscheduled maintenance period updates must form a valid [JSON Patch (RFC 6902)](http://tools.ietf.org/html/rfc6902) document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:
+
 Parameter | Type | Description
 --------- | ---- | -----------
-end_time | String | A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ), defaults to the current time if not provided
+op | String | may only be *replace*
+path | String | "/unscheduled_maintenances/0/ATTRIBUTE" (e.g. 'end_time')
+value | -> | a value of the correct data type for the attribute in the path
 
 ### HTTP Return Codes
 
 Return code | Description
 --------- | -----------
-204 | Matching unscheduled maintenance periods were deleted.
-404 | **Error** No matching checks were found.
+204 | Matching unscheduled maintenance periods were updated successfully. No content is returned.
+404 | Entity/check resources could not be found for one or more of the provided ids. No unscheduled maintenance periods were altered by this request.
+405 | **Error** The submitted data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
 
 
 ## Create test notifications on checks
@@ -172,7 +182,7 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.create_test_notifications_checks(
-  ['example.com:HOST'],
+  'example.com:HOST',
   :summary => 'testing, testing, 1, 2, 3')
 ```
 

@@ -99,8 +99,7 @@ Flapjack::Diner.entities('17', '25')
       ],
       "links": {
         "contacts": ["5", "87", "123"]
-      },
-    }
+      }
     },
     {
       "id": "302",
@@ -110,7 +109,7 @@ Flapjack::Diner.entities('17', '25')
       ],
       "links": {
         "contacts": []
-      },
+      }
     }
   ]
 }
@@ -140,7 +139,7 @@ Return code | Description
 Update one or more attributes for one or more entity resources.
 
 ```shell
-curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/vnd.api+json" -d \
+curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
 '[
   {"op"    : "replace",
    "path"  : "/entities/0/name",
@@ -181,8 +180,8 @@ Return code | Description
 --------- | -----------
 204 | The entities were updated successfully.
 404 | **Error** No matching entities were found.
-405 | **Error** The submitted changes not sent with the JSONAPI MIME type `application/vnd.api+json`.
-422 | **Error** The submitted contact data did not conform to the provided specification.
+405 | **Error** The submitted entity data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
+422 | **Error** The submitted entity data did not conform to the provided specification.
 
 
 ## Create scheduled maintenance periods on entities
@@ -303,37 +302,47 @@ Return code | Description
 405 | **Error** The submitted parameters were not sent with the JSONAPI MIME type `application/json`.
 
 
-## Delete unscheduled maintenance periods on entities
+## Update unscheduled maintenance periods on entities
 
 ```shell
-curl -w 'response: %{http_code} \n' -X DELETE \
-  'http://localhost:3081/unscheduled_maintenances/entities/34?end_time=2014-04-09T16:12:16+09:30'
+curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
+'[
+  {"op"    : "replace",
+   "path"  : "/unscheduled_maintenances/0/end_time",
+   "value" : "2014-04-09T16:12:16+09:30"},
+]' \
+ 'http://localhost:3081/unscheduled_maintenances/entities/34'
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_unscheduled_maintenances_entities('34',
+Flapjack::Diner.update_unscheduled_maintenances_entities('34',
   :end_time => '2014-04-09T16:12:16+09:30')
 ```
 
 ### HTTP Request
 
-`DELETE /unscheduled_maintenances/entities/ID[,ID,ID...]`
+`PATCH /unscheduled_maintenances/entities/ID[,ID,ID...]`
 
 ### Query Parameters
 
+Parameters sent for unscheduled maintenance period updates must form a valid [JSON Patch (RFC 6902)](http://tools.ietf.org/html/rfc6902) document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:
+
 Parameter | Type | Description
 --------- | ---- | -----------
-end_time | String | A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ), defaults to the current time if not provided
+op | String | may only be *replace*
+path | String | "/unscheduled_maintenances/0/ATTRIBUTE" (e.g. 'end_time')
+value | -> | a value of the correct data type for the attribute in the path
 
 ### HTTP Return Codes
 
 Return code | Description
 --------- | -----------
-204 | Matching unscheduled maintenance periods were deleted.
-404 | **Error** No matching entities were found.
+204 | Matching unscheduled maintenance periods were updated successfully. No content is returned.
+404 | Entity resources could not be found for one or more of the provided ids. No unscheduled maintenance periods were altered by this request.
+405 | **Error** The submitted data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
 
 
 ## Create test notifications on entities

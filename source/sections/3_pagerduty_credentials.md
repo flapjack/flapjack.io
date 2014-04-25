@@ -18,10 +18,10 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
  '{
     "pagerduty_credentials": [
       {
-        "service_key" : "",
-        "subdomain" : "",
-        "username" : "",
-        "password" : ""
+        "service_key" : "567890123456789012345678",
+        "subdomain" : "eggs",
+        "username" : "flapjack",
+        "password" : "tomato"
       }
     ]
   }' \
@@ -33,10 +33,10 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.create_contact_pagerduty_credentials('5',
-  {'service_key' => '',
-   'subdomain'   => '',
-   'username'    => '',
-   'password'    => ''})
+  {'service_key' => '567890123456789012345678',
+   'subdomain'   => 'eggs',
+   'username'    => 'flapjack',
+   'password'    => 'tomato'})
 ```
 
 ### HTTP Request
@@ -92,15 +92,22 @@ Flapjack::Diner.pagerduty_credentials('21', '22')
 {
   "pagerduty_credentials": [
     {
+      "service_key" : "567890123456789012345678",
+      "subdomain" : "eggs",
+      "username" : "flapjack",
+      "password" : "tomato",
       "links": {
         "contacts": ["21"]
-      },
-    }
+      }
     },
     {
+      "service_key" : "456789012345678901234567",
+      "subdomain" : "spam",
+      "username" : "waffle",
+      "password" : "eggplant",
       "links": {
         "contacts": ["22"]
-      },
+      }
     }
   ]
 }
@@ -134,10 +141,10 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-
 '[
   {"op"    : "replace",
    "path"  : "/pagerduty_credentials/0/username",
-   "value" : ""},
+   "value" : "genius"},
   {"op"    : "replace",
    "path"  : "/pagerduty_credentials/0/password",
-   "value" : ""}
+   "value" : "ideas"}
 ]' \
  'http://localhost:3081/pagerduty_credentials/21s'
 ```
@@ -147,8 +154,8 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.update_pagerduty_credentials('21',
-  :username => '',
-  :password => '')
+  :username => 'genius',
+  :password => 'ideas')
 ```
 
 ### HTTP Request
@@ -171,7 +178,7 @@ Return code | Description
 --------- | -----------
 204 | The submitted pagerduty credentials updates were made successfully. No content is returned.
 404 | Pagerduty credentials resources could not be found for one or more of the provided contact ids. No pagerduty credentials resources were altered by this request.
-405 | **Error** The submitted pagerduty credentials data was not sent with the JSONAPI MIME type `application/vnd.api+json`.
+405 | **Error** The submitted pagerduty credentials data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
 
 
 ## Delete pagerduty credentials
