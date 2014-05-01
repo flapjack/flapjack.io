@@ -3,7 +3,7 @@
 
 Welcome to the documention of the JSON API of [Flapjack](http://flapjack.io).
 
-See the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) gem which provides a ruby consumer of this API.
+See the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) RubyGem which provides a Ruby consumer of this API.
 
 ## Required HTTP Headers
 
