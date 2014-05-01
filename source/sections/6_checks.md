@@ -22,7 +22,8 @@ Flapjack::Diner.create_scheduled_maintenances_checks(
   'example.com:SSH',
   :start_time => '2014-04-09T16:03:25+09:30',
   :duration   => 3600,
-  :summary    => 'memory replacement')
+  :summary    => 'memory replacement'
+)
 ```
 
 ### HTTP Request
@@ -60,7 +61,8 @@ Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.delete_scheduled_maintenances_checks(
   'example.com:PING',
-  :end_time => '2014-05-09T16:12:16+09:30')
+  :end_time => '2014-05-09T16:12:16+09:30'
+)
 ```
 
 ### HTTP Request
@@ -100,7 +102,8 @@ Flapjack::Diner.base_uri('localhost:3081')
 Flapjack::Diner.create_unscheduled_maintenances_checks(
   'example.com:HOST',
   :duration => 3600,
-  :summary  => 'fixing now')
+  :summary  => 'fixing now'
+)
 ```
 
 ### HTTP Request
@@ -141,7 +144,8 @@ Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.update_unscheduled_maintenances_checks(
   'example.com:PING',
-  :end_time => '2014-04-09T16:12:16+09:30')
+  :end_time => '2014-04-09T16:12:16+09:30'
+)
 ```
 
 ### HTTP Request
@@ -183,7 +187,8 @@ Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.create_test_notifications_checks(
   'example.com:HOST',
-  :summary => 'testing, testing, 1, 2, 3')
+  :summary => 'testing, testing, 1, 2, 3'
+)
 ```
 
 ### HTTP Request

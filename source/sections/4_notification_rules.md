@@ -78,28 +78,40 @@ http://localhost:3081/contacts/5/notification_rules
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_contact_notification_rules('5',
-  {'entities'           => ['foo-app-01.example.com'],
-   'regex_entities'     => ['^foo-\S{3}-\d{2}.example.com$'],
-   'tags'               => ['database', 'physical'],
-   'regex_tags'         => nil,
-   'time_restrictions'  =>
-     [{'start_time' => '2013-01-28 08:00:00',
-       'end_time'   => '2013-01-28 18:00:00',
-       'rrules'     =>
-        [{'validations' => {'day' => [1, 2, 3, 4, 5]},
-          'rule_type'   => 'Weekly',
-          'interval'    => 1,
-          'week_start'  => 0}],
+Flapjack::Diner.create_contact_notification_rules(
+  '5',
+  {
+    'entities'           => [ 'foo-app-01.example.com' ],
+    'regex_entities'     => [ '^foo-\S{3}-\d{2}.example.com$' ],
+    'tags'               => [ 'database', 'physical' ],
+    'regex_tags'         => nil,
+    'time_restrictions'  => [
+      {
+        'start_time' => '2013-01-28 08:00:00',
+        'end_time'   => '2013-01-28 18:00:00',
+        'rrules'     => [
+          {
+            'validations' => {
+              'day' => [ 1, 2, 3, 4, 5 ]
+              },
+            'rule_type'   => 'Weekly',
+            'interval'    => 1,
+            'week_start'  => 0
+          }
+        ],
       'exrules'       => [],
       'rtimes'        => [],
-      'extimes'       => []}],
-   'unknown_media'      => [],
-   'warning_media'      => ['email'],
-   'critical_media'     => ['sms', 'email'],
-   'unknown_blackhole'  => false,
-   'warning_blackhole'  => false,
-   'critical_blackhole' => false})
+      'extimes'       => []
+      }
+    ],
+    'unknown_media'      => [],
+    'warning_media'      => [ 'email' ],
+    'critical_media'     => [ 'sms', 'email' ],
+    'unknown_blackhole'  => false,
+    'warning_blackhole'  => false,
+    'critical_blackhole' => false
+  }
+)
 ```
 
 ### HTTP Request
@@ -142,12 +154,14 @@ Flapjack::Diner.notification_rules
 
 # or
 Flapjack::Diner.notification_rules(
-  '30fd36ae-3922-4957-ae3e-c8f6dd27e543')
+  '30fd36ae-3922-4957-ae3e-c8f6dd27e543'
+)
 
 # or
 Flapjack::Diner.notification_rules(
   '30fd36ae-3922-4957-ae3e-c8f6dd27e543',
-  'bfd8be61-3d80-4b95-94df-6e77183ce4e3')
+  'bfd8be61-3d80-4b95-94df-6e77183ce4e3'
+)
 ```
 
 > The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:
@@ -244,7 +258,8 @@ Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.update_notification_rules(
   'a82fe0ec-1972-4c12-9732-6ebec9dcf479',
-  :tags => ['leased', 'small'])
+  :tags => [ 'leased', 'small' ]
+)
 ```
 
 ### HTTP Request
@@ -289,12 +304,14 @@ require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.delete_notification_rules(
-  '2caf75f4-0043-4884-b2e9-dfb418e275ba')
+  '2caf75f4-0043-4884-b2e9-dfb418e275ba'
+)
 
 # or
 Flapjack::Diner.delete_notification_rules(
   '2caf75f4-0043-4884-b2e9-dfb418e275ba',
-  'bd0dd8b6-2c72-49da-9b83-e0b283ec1931')
+  'bd0dd8b6-2c72-49da-9b83-e0b283ec1931'
+)
 ```
 
 ### HTTP Request

@@ -32,10 +32,13 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_entities(
-  [{'id'   => '825',
+Flapjack::Diner.create_entities([
+  {
+    'id'   => '825',
     'name' => 'foo.example.com',
-    'tags' => ['foo']}])
+    'tags' => [ 'foo' ]
+  }
+])
 ```
 
 ### HTTP Request
@@ -155,9 +158,11 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_entities(['157'],
+Flapjack::Diner.update_entities(
+  [ '157' ],
   :name         => 'www.example_com',
-  :add_contacts => ['352'])
+  :add_contacts => [ '352' ]
+)
 ```
 
 ### HTTP Request
@@ -200,10 +205,12 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_scheduled_maintenances_entities('825',
+Flapjack::Diner.create_scheduled_maintenances_entities(
+  '825',
   :start_time => '2014-04-09T16:03:25+09:30',
   :duration   => 3600,
-  :summary    => 'memory replacement')
+  :summary    => 'memory replacement'
+)
 ```
 
 ### HTTP Request
@@ -239,8 +246,10 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.delete_scheduled_maintenances_entities(34,
-  :end_time => '2014-05-09T16:12:16+09:30')
+Flapjack::Diner.delete_scheduled_maintenances_entities(
+  34,
+  :end_time => '2014-05-09T16:12:16+09:30'
+)
 ```
 
 ### HTTP Request
@@ -277,9 +286,11 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_unscheduled_maintenances_entities('825',
+Flapjack::Diner.create_unscheduled_maintenances_entities(
+  '825',
   :duration => 3600,
-  :summary  => 'fixing now')
+  :summary  => 'fixing now'
+)
 ```
 
 ### HTTP Request
@@ -318,8 +329,10 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_unscheduled_maintenances_entities('34',
-  :end_time => '2014-04-09T16:12:16+09:30')
+Flapjack::Diner.update_unscheduled_maintenances_entities(
+  '34',
+  :end_time => '2014-04-09T16:12:16+09:30'
+)
 ```
 
 ### HTTP Request
@@ -359,8 +372,10 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_test_notifications_entities('825',
-  :summary => 'testing, testing, 1, 2, 3')
+Flapjack::Diner.create_test_notifications_entities(
+  '825',
+  :summary => 'testing, testing, 1, 2, 3'
+)
 ```
 
 ### HTTP Request

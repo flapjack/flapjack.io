@@ -40,12 +40,14 @@ Flapjack::Diner.status_report_checks
 
 # or
 Flapjack::Diner.status_report_checks(
-  'www.example.com:PING')
+  'www.example.com:PING'
+)
 
 # or
 Flapjack::Diner.status_report_checks(
-  'www.example.com:PING', 
-  'www.example2.com:SSH')
+  'www.example.com:PING',
+  'www.example2.com:SSH'
+)
 ```
 
 ### HTTP Request
@@ -113,12 +115,14 @@ Flapjack::Diner.unscheduled_maintenance_report_checks
 
 # or
 Flapjack::Diner.unscheduled_maintenance_report_checks(
-  'www.example.com:PING')
+  'www.example.com:PING'
+)
 
 # or
 Flapjack::Diner.unscheduled_maintenance_report_checks(
-  'www.example.com:PING', 
-  'www.example2.com:SSH')
+  'www.example.com:PING',
+  'www.example2.com:SSH'
+)
 ```
 
 ### HTTP Request
@@ -189,12 +193,14 @@ Flapjack::Diner.scheduled_maintenance_report_checks
 
 # or
 Flapjack::Diner.scheduled_maintenance_report_checks(
-  'www.example.com:PING')
+  'www.example.com:PING'
+)
 
 # or
 Flapjack::Diner.scheduled_maintenance_report_checks(
-  'www.example.com:PING', 
-  'www.example2.com:SSH')
+  'www.example.com:PING',
+  'www.example2.com:SSH'
+)
 ````
 
 ### HTTP Request
@@ -267,12 +273,14 @@ Flapjack::Diner.outage_report_checks
 
 # or
 Flapjack::Diner.outage_report_checks(
-  'www.example.com:PING')
+  'www.example.com:PING'
+)
 
 # or
 Flapjack::Diner.outage_report_checks(
-  'www.example.com:PING', 
-  'www.example2.com:SSH')
+  'www.example.com:PING',
+  'www.example2.com:SSH'
+)
 ```
 
 ### HTTP Request
@@ -345,12 +353,14 @@ Flapjack::Diner.downtime_report_checks
 
 # or
 Flapjack::Diner.downtime_report_checks(
-  'www.example.com:PING')
+  'www.example.com:PING'
+)
 
 # or
 Flapjack::Diner.downtime_report_checks(
-  'www.example.com:PING', 
-  'www.example2.com:SSH')
+  'www.example.com:PING',
+  'www.example2.com:SSH'
+)
 ```
 
 ### HTTP Request

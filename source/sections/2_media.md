@@ -31,11 +31,15 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_contact_media('5',
-  {'type'             => 'email',
-   'address'          => 'johns@example.com',
-   'interval'         => 120,
-   'rollup_threshold' => 5})
+Flapjack::Diner.create_contact_media(
+  '5',
+  {
+    'type'             => 'email',
+    'address'          => 'johns@example.com',
+    'interval'         => 120,
+    'rollup_threshold' => 5
+  }
+)
 ```
 
 ### HTTP Request
@@ -161,9 +165,11 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_media('21_sms',
+Flapjack::Diner.update_media(
+  '21_sms',
   :address  => '0123456789',
-  :interval => 10)
+  :interval => 10
+)
 ```
 
 ### HTTP Request

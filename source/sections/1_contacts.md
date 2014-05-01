@@ -46,7 +46,8 @@ Flapjack::Diner.base_uri('localhost:3081')
 Flapjack::Diner.create_contacts({
   :first_name => "Ada",
   :last_name  => "Lovelace",
-  :email      => "ada@example.com"})
+  :email      => "ada@example.com"
+})
 ```
 
 > The above command returns JSON structured like this:
@@ -186,7 +187,8 @@ Flapjack::Diner.base_uri('localhost:3081')
 Flapjack::Diner.update_contacts(
   23,
   :first_name => 'John',
-  :last_name  => 'Smith')
+  :last_name  => 'Smith'
+)
 ```
 
 ### HTTP Request

@@ -11,7 +11,7 @@ username | String |
 password | String |
 
 
-## Create pagerduty credentials for a contact
+## Create PagerDuty credentials for a contact
 
 ```shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.api+json" -d \
@@ -32,11 +32,15 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.create_contact_pagerduty_credentials('5',
-  {'service_key' => '567890123456789012345678',
-   'subdomain'   => 'eggs',
-   'username'    => 'flapjack',
-   'password'    => 'tomato'})
+Flapjack::Diner.create_contact_pagerduty_credentials(
+  '5',
+  {
+    'service_key' => '567890123456789012345678',
+    'subdomain'   => 'eggs',
+    'username'    => 'flapjack',
+    'password'    => 'tomato'
+  }
+)
 ```
 
 ### HTTP Request
@@ -53,15 +57,15 @@ pagerduty_credentials | Array[PagerDuty] | An array of PagerDuty resources to cr
 
 Return code | Description
 --------- | -----------
-201 | The submitted pagerduty credentials resources were created successfully.
-405 | **Error** The submitted pagerduty credentials data was not sent with the JSONAPI MIME type `application/vnd.api+json`.
-422 | **Error** The submitted pagerduty credentials data did not conform to the provided specification.
+201 | The submitted PagerDuty credentials resources were created successfully.
+405 | **Error** The submitted PagerDuty credentials data was not sent with the JSONAPI MIME type `application/vnd.api+json`.
+422 | **Error** The submitted PagerDuty credentials data did not conform to the provided specification.
 
 
-## Get pagerduty credentials
+## Get PagerDuty credentials
 
-If no contact ids are provided then all pagerduty credentials resources will be returned; if contact ids
-are provided then only the pagerduty credentials resources matching those ids will be returned.
+If no contact ids are provided then all PagerDuty credentials resources will be returned; if contact ids
+are provided then only the PagerDuty credentials resources matching those ids will be returned.
 
 ```shell
 curl http://localhost:3081/pagerduty_credentials
@@ -132,9 +136,9 @@ Return code | Description
 200 | OK
 
 
-## Update pagerduty credentials
+## Update PagerDuty credentials
 
-Update one or more attributes for one or more pagerduty credentials resources.
+Update one or more attributes for one or more PagerDuty credentials resources.
 
 ```shell
 curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
@@ -153,9 +157,11 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.update_pagerduty_credentials('21',
+Flapjack::Diner.update_pagerduty_credentials(
+  '21',
   :username => 'genius',
-  :password => 'ideas')
+  :password => 'ideas'
+)
 ```
 
 ### HTTP Request
@@ -164,7 +170,7 @@ Flapjack::Diner.update_pagerduty_credentials('21',
 
 ### Query Parameters
 
-Parameters sent for pagerduty credentials updates must form a valid [JSON Patch (RFC 6902)](http://tools.ietf.org/html/rfc6902) document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:
+Parameters sent for PagerDuty credentials updates must form a valid [JSON Patch (RFC 6902)](http://tools.ietf.org/html/rfc6902) document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:
 
 Parameter | Type | Description
 --------- | ---- | -----------
@@ -176,14 +182,14 @@ value | -> | a value of the correct data type for the attribute in the path
 
 Return code | Description
 --------- | -----------
-204 | The submitted pagerduty credentials updates were made successfully. No content is returned.
-404 | Pagerduty credentials resources could not be found for one or more of the provided contact ids. No pagerduty credentials resources were altered by this request.
-405 | **Error** The submitted pagerduty credentials data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
+204 | The submitted PagerDuty credentials updates were made successfully. No content is returned.
+404 | PagerDuty credentials resources could not be found for one or more of the provided contact ids. No PagerDuty credentials resources were altered by this request.
+405 | **Error** The submitted PagerDuty credentials data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
 
 
-## Delete pagerduty credentials
+## Delete PagerDuty credentials
 
-Delete one or more pagerduty credentials resources.
+Delete one or more PagerDuty credentials resources.
 
 ```shell
 curl -w 'response: %{http_code} \n' -X DELETE \
@@ -216,5 +222,5 @@ None.
 
 Return code | Description
 --------- | -----------
-204 | The pagerduty credentials resources were deleted
-404 | Pagerduty credentials could not be found for one or more of the provided contact ids. No pagerduty credentials were deleted by this request.
+204 | The PagerDuty credentials resources were deleted
+404 | PagerDuty credentials could not be found for one or more of the provided contact ids. No PagerDuty credentials were deleted by this request.
