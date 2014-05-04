@@ -4,22 +4,34 @@ Flapjack is using redis as its data store. Here are the data structures in use.
 
 ### Event queue
 
-```text
+
+``` text
 events (list) -> [ EVENT, EVENT, ... ]
 
-EVENT      (string) - a ruby hash serialised in JSON: { 'entity'  => ENTITY,
-                                                        'check'   => CHECK,
-                                                        'type'    => EVENT_TYPE,
-                                                        'state'   => STATE,
-                                                        'time'    => TIMESTAMP,
-                                                        'summary' => SUMMARY }
-ENTITY     (string) - name of the relevant entity (eg fqdn)
-CHECK      (string) - the check name ('service description' in nagios terminology)
-EVENT_TYPE (string) - one of 'service' or 'action'
-STATE      (string) - one of 'ok', 'warning', 'critical', 'unknown', 'acknowledgement'
-TIMESTAMP  (string) - timestamp of the event's creation (unix time)
-SUMMARY    (string) - the check output in the case of a service event, otherwise a
-                      message created for an acknowledgement or similar
+EVENT      (string) - A Ruby hash serialised in JSON: 
+
+                     { 
+                       'entity'   => ENTITY,
+                       'check'    => CHECK,
+                       'type'     => EVENT_TYPE,
+                       'state'    => STATE,
+                       'time'     => TIMESTAMP,
+                       'summary'  => SUMMARY,
+                       'details'  => DETAILS,
+                       'tags'     => TAGS,
+                       'perfdata' => PERFDATA
+                     }
+                     
+ENTITY     (string)   - Name of the relevant entity (e.g. FQDN)
+CHECK      (string)   - The check name ('service description' in Nagios terminology)
+EVENT_TYPE (string)   - One of 'service' or 'action'
+STATE      (string)   - One of 'ok', 'warning', 'critical', 'unknown', 'acknowledgement'
+TIMESTAMP  (string)   - UNIX timestamp of the event's creation
+SUMMARY    (string)   - The check output in the case of a service event, otherwise a
+                        message created for an acknowledgement or similar
+DETAILS    (string)   - Long check output for a Nagios service event
+PERFDATA   (string)   - Performance data for a Nagios service event
+TAGS       (string[]) - Array of tags pertaining to the event
 ```
 
 ### Event Archive (sliding window)
