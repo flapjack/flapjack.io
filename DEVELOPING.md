@@ -4,7 +4,7 @@ Developing Flapjack
 Clone the repository:
 
 ```bash
-git clone https://github.com/flpjck/flapjack.git
+git clone https://github.com/flapjack/flapjack.git
 ```
 
 Install development dependencies:
@@ -129,7 +129,7 @@ Before building the gem for release, you need to do a bit of housekeeping:
 
 - Update the flapjack version string
   `vi lib/flapjack/version.rb`
-- Update the changelog - add the new version and list each issue it addresses. The [Releases](https://github.com/flpjck/flapjack/releases) github page will help you discover which commits have been pushed to master since the last release.
+- Update the changelog - add the new version and list each issue it addresses. The [Releases](https://github.com/flapjack/flapjack/releases) github page will help you discover which commits have been pushed to master since the last release.
   `vi CHANGELOG.md`
 - Update the bundle
   `bundle`
@@ -151,18 +151,18 @@ To push the gem to rubygems.org run:
 bundle exec rake release
 ```
 
-Once the gem has been released, you'll most likely be wanting to build the [omnibus package](https://github.com/flpjck/omnibus-flapjack/):
+Once the gem has been released, you'll most likely be wanting to build the [omnibus package](https://github.com/flapjack/omnibus-flapjack/):
 
 ```
-git clone https://github.com/flpjck/omnibus-flapjack.git && cd omnibus-flapjack
+git clone https://github.com/flapjack/omnibus-flapjack.git && cd omnibus-flapjack
 vagrant up ubuntu-precise64
 ```
 
-... and [push it up](https://github.com/flpjck/omnibus-flapjack/#updating-the-debian-package-repo-ubuntu-precise-only-at-present) to [packages.flapjack.io](http://packages.flapjack.io).
+... and [push it up](https://github.com/flapjack/omnibus-flapjack/#updating-the-debian-package-repo-ubuntu-precise-only-at-present) to [packages.flapjack.io](http://packages.flapjack.io).
 
-You can then test the latest package with [vagrant-flapjack](https://github.com/flpjck/vagrant-flapjack):
+You can then test the latest package with [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack):
 ```bash
-git clone https://github.com/flpjck/vagrant-flapjack.git && cd vagrant-flapjack
+git clone https://github.com/flapjack/vagrant-flapjack.git && cd vagrant-flapjack
 vagrant up
 ```
 
