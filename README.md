@@ -12,7 +12,7 @@ The Flapjack JSONAPI lets you work with Flapjack data, including:
 - Reports
 
 
-The [flapjack-diner](http://github.com/flpjck/flapjack-diner) RubyGem provides a Ruby client library for Flapjack's JSONAPI. 
+The [flapjack-diner](http://github.com/flapjack/flapjack-diner) RubyGem provides a Ruby client library for Flapjack's JSONAPI. 
 
 The Flapjack JSONAPI documentation is built using [Slate](https://github.com/tripit/slate).
 
@@ -22,7 +22,7 @@ The Flapjack JSONAPI documentation is built using [Slate](https://github.com/tri
 To edit the JSONAPI documentation:
 
 ``` bash
-git clone git@github.com:flpjck/slate.git
+git clone git@github.com:flapjack/slate.git
 cd slate
 bundle 
 bundle exec middleman server
@@ -40,7 +40,7 @@ rake build
 
 The resulting documentation lives in the `build/` directory. 
 
-From the [gh-pages branch](https://github.com/flpjck/flapjack/tree/gh-pages) of your clone of [flpjck/flapjack](https://github.com/flpjck/flapjack), run: 
+From the [gh-pages branch](https://github.com/flapjack/flapjack/tree/gh-pages) of your clone of [flapjack/flapjack](https://github.com/flapjack/flapjack), run: 
 
 ``` bash
 rake slate
