@@ -4,7 +4,7 @@
 - [Dependencies](#dependencies)
 - [Architecture](#architecture)
 - [Components](#components)
-- [Configuring Components](#configuring_components)
+- [Configuring Components](#configuring-components)
 - [Running](#running)
 - [Resque](#resque)
 - [Redis Database Instances](#redis_database_instances)
