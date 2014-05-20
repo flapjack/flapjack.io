@@ -7,9 +7,13 @@
 ```shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
  '{
-    "start_time" : "2014-04-09T16:03:25+09:30",
-    "duration" : 3600,
-    "summary" : "memory replacement"
+    "scheduled_maintenances": [
+      {
+        "start_time" : "2014-04-09T16:03:25+09:30",
+        "duration" : 3600,
+        "summary" : "memory replacement"
+      }
+    ]
   }' \
  http://localhost:3081/scheduled_maintenances/checks/example.com:SSH
 ```
@@ -89,8 +93,12 @@ Return code | Description
 ```shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
  '{
-    "duration" : 3600,
-    "summary" : "fixing now"
+    "unscheduled_maintenances": [
+      {
+        "duration" : 3600,
+        "summary" : "fixing now"
+      }
+    ]
   }' \
  http://localhost:3081/unscheduled_maintenances/checks/example.com:HOST
 ```
@@ -176,7 +184,11 @@ Return code | Description
 ```shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
  '{
-    "summary" : "testing, testing, 1, 2, 3"
+    "test_notifications": [
+      {
+        "summary" : "testing, testing, 1, 2, 3"
+      }
+    ]
   }' \
  http://localhost:3081/test_notifications/checks/example.com:HOST
 ```

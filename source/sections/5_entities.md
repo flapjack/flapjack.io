@@ -141,12 +141,11 @@ Return code | Description
 
 Update one or more attributes for one or more entity resources.
 
+NB: The entity name cannot be changed in Flapjack v1.x due to limitations in the underlying data storage model. This will be addressed in future Flapjack releases.
+
 ```shell
 curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
 '[
-  {"op"    : "replace",
-   "path"  : "/entities/0/name",
-   "value" : "www.example.com"},
   {"op"    : "add",
    "path"  : "/entities/0/linked/contacts",
    "value" : '352'}
@@ -194,9 +193,13 @@ Return code | Description
 ```shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
  '{
-    "start_time" : "2014-04-09T16:03:25+09:30",
-    "duration" : 3600,
-    "summary" : "memory replacement"
+    "scheduled_maintenances": [
+      {
+        "start_time" : "2014-04-09T16:03:25+09:30",
+        "duration" : 3600,
+        "summary" : "memory replacement"
+      }
+    ]
   }' \
  http://localhost:3081/scheduled_maintenances/entities/825
 ```
@@ -276,8 +279,12 @@ Return code | Description
 ```shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
  '{
-    "duration" : 3600,
-    "summary" : "fixing now"
+    "unscheduled_maintenances": [
+      {
+        "duration" : 3600,
+        "summary" : "fixing now"
+      }
+    ]
   }' \
  http://localhost:3081/unscheduled_maintenances/entities/825
 ```
@@ -362,8 +369,12 @@ Return code | Description
 
 ```shell
 curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
- '{
-    "summary" : "testing, testing, 1, 2, 3"
+  '{
+    "test_notifications": [
+      {
+        "summary" : "testing, testing, 1, 2, 3"
+      }
+    ]
   }' \
  http://localhost:3081/test_notifications/entities/825
 ```
