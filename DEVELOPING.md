@@ -10,8 +10,11 @@ git clone https://github.com/flapjack/flapjack.git
 Install development dependencies:
 
 ```bash
+# Install Ruby dependencies
 gem install bundler
 bundle install
+# Install Go dependencies and build binaries
+./build.sh
 ```
 
 You'll also need Redis installed:
