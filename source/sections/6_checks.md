@@ -1,6 +1,58 @@
 
 # Checks
 
+## Disable a check
+
+Disable a check (by setting its enabled attribute to false). This is currently
+the only supported check property for updates via the JSONAPI, due to
+limitations in the underlying data storage model. This will be addressed in
+future Flapjack releases.
+
+(Checks are re-enabled when new events are generated for them.)
+
+```shell
+curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
+'[
+  {"op"    : "replace",
+   "path"  : "/checks/0/enabled",
+   "value" : false}
+]' \
+ 'http://localhost:3081/checks/www.example.com%3APING'
+```
+
+```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.update_checks(
+  'www.example.com:PING',
+  :enabled => false
+)
+```
+
+### HTTP Request
+
+`PATCH /checks/ID[,ID,ID...]`
+
+### Query Parameters
+
+Parameters sent for check updates must form a valid [JSON Patch (RFC 6902)](http://tools.ietf.org/html/rfc6902) document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:
+
+Parameter | Type | Description
+--------- | ---- | -----------
+op | String | "replace"
+path | String | "/checks/0/enabled"
+value | Boolean | true or false
+
+### HTTP Return Codes
+
+Return code | Description
+--------- | -----------
+204 | The check(s) were updated successfully.
+404 | **Error** No matching checks were found.
+405 | **Error** The submitted check data was not sent with the JSON-Patch MIME type `application/json-patch+json`.
+422 | **Error** The submitted check data did not conform to the provided specification.
+
 
 ## Create scheduled maintenance periods on checks
 
