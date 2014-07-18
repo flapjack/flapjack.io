@@ -1,5 +1,7 @@
 task :default => :build
+# FIXME: Does this still build gh-pages?
 
+require 'middleman-gh-pages'
 require 'pathname'
 require 'colorize'
 
@@ -47,4 +49,3 @@ desc "build site"
 task :build => [:slate] do
   system('jekyll build')
 end
-
