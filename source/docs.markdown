@@ -1,8 +1,3 @@
----
-title: Documentation | Flapjack
-layout: default
----
-
 # Documentation
 
  - The [quickstart guide]({{ site.url }}/quickstart) shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.

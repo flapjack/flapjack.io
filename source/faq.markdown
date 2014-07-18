@@ -1,8 +1,3 @@
----
-title: Frequently Asked Questions | Flapjack
-layout: default
----
-
 # Frequently Asked Questions (FAQ)
 
 Below you'll find answers to some common questions that come up in #flapjack on `irc.freenode.net`, and conversations about Flapjack.
