@@ -10,7 +10,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 ### Contacts
 
 <ul>
-  <li><a href="#get_contacts">GET /contacts</a></li>
+  <li>[GET /contacts](API#get-contacts)</li>
   <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
   <li><a href="#post_contacts">POST /contacts</a></li>
   <li><a href="#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
