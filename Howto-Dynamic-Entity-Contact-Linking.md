@@ -1,4 +1,4 @@
-# Howto: Dynamic linking of Contacts using the 'ALL' entity hack
+# Howto - Dynamic linking of Contacts using the 'ALL' entity hack
 
 Flapjack 0.x and 1.x have a requirement that contacts must be explicity linked to entities in order for any notifications about checks on the entity to go to the contact. This is too restrictive for some sites and means it's much harder to use Flapjack for alerting of environments where hosts come and go without configuration management ceremony, eg in autoscaling groups.
 
