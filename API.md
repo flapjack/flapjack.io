@@ -149,7 +149,7 @@ data is expressed as encoded form parameters, or serialized as JSON, etc.
 
 ## Contacts and Notifications
 
-<a id="get_contacts">&nbsp;</a>
+<a name="get_contacts">&nbsp;</a>
 ### Contacts
 
 #### GET /contacts
