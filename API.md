@@ -10,29 +10,23 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 ### Contacts
 
 - [GET /contacts](API#get-contacts)
-<ul>
-  <li><a href="#get_contacts_id">GET /contacts/CONTACT_ID</a></li>
-  <li><a href="#post_contacts">POST /contacts</a></li>
-  <li><a href="#put_contacts_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
-  <li><a href="#delete_contacts">DELETE /contacts</a></li>
-</ul>
+- [GET /contacts/CONTACT_ID](API#get-contactscontact_id)
+- [POST /contacts](API#post-contacts)
+- [PUT, DELETE /contacts/CONTACT_ID](API#put-delete-contactscontact_id)
+- [DELETE /contacts](API#delete-contactsidcontact_ididcontact_id)
 
 ### Media
 
-<ul>
-  <li><a href="#get_contacts_id_media">GET /contacts/CONTACT_ID/media</a></li>
-  <li><a href="#get_contacts_id_media_media">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
-  <li><a href="#put_contacts_id_media_media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
-</ul>
+- [GET /contacts/CONTACT_ID/media](API#get-contactscontact_idmedia)
+- [GET /contacts/CONTACT_ID/media/MEDIA](API#get-contactscontact_idmediamedia)
+- [PUT, DELETE /contacts/CONTACT_ID/media/MEDIA](API#put-delete-contactscontact_idmediamedia)
 
 ### Notification Rules
 
-<ul>
-  <li><a href="#get_contacts_id_notification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
-  <li><a href="#get_notification_rules_id">GET /notification_rules/RULE_ID</a></li>
-  <li><a href="#post_notification_rules">POST /notification_rules</a></li>
-  <li><a href="#put_notification_rules_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
-</ul>
+- [GET /contacts/CONTACT_ID/notification_rules](API#get-contactscontact_idnotification_rules)
+- [GET /notification_rules/RULE_ID](API#get-notification_rulesrule_id)
+- [POST /notification_rules](API#post-notification_rules)
+- [PUT, DELETE /notification_rules/RULE_ID](API#put-delete-notification_rulesrule_id)
 
 ### Misc
 
