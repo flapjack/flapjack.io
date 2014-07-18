@@ -4,13 +4,24 @@ require 'pathname'
 require 'colorize'
 
 task :slate do
-  root   = Pathname.new(__FILE__).parent
-  source = root.join('..', 'slate', 'build').expand_path
-  dest   = root.join('docs', 'jsonapi')
+  root     = Pathname.new(__FILE__).parent
+  source   = root.join('..', 'slate', 'build').expand_path
+  dest     = root.join('docs', 'jsonapi')
+  previous = root.join('docs', 'jsonapi.previous')
 
+  cleanup_previous = false
   if source.exist?
+    if dest.exist?
+      puts "Moving #{dest} to #{previous}"
+      FileUtils.mv dest, previous
+      cleanup_previous = true
+    end
     puts "Copying slate documentation from #{source} to #{dest}"
     FileUtils.cp_r source, dest
+    if cleanup_previous
+      puts "Cleaning up #{previous}"
+      FileUtils.rm_rf previous
+    end
   else
     error = <<-ERROR.gsub(/^ {6}/, '')
       Error: Expected to find slate documentation at #{source}
