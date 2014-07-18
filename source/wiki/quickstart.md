@@ -1,8 +1,3 @@
----
-title: Quickstart | Flapjack
-layout: default
----
-
 # Quickstart
 
 This quickstart guide will get you [Flapjack](http://flapjack.io/) running in a VM locally using Vagrant and VirtualBox.

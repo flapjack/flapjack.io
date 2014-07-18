@@ -1,8 +1,3 @@
----
-title: Support | Flapjack
-layout: default
----
-
 # Support
 
 ## Mailing list
