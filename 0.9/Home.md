@@ -1,4 +1,4 @@
-Welcome to the Flapjack Wiki.
+Welcome to the Flapjack Wiki for version 0.9.x.
 
 ### Documentation
 
