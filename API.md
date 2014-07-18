@@ -30,17 +30,15 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 
 ### Misc
 
-<ul>
-  <li><a href="#post_contacts_atomic">POST /contacts_atomic</a></li>
-  <li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
-  <li><a href="#put_contacts_id_timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</a></li>
-  <li><a href="#get_contacts_id_tags">GET /contacts/CONTACT_ID/tags</a></li>
-  <li><a href="#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
-  <li><a href="#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
-  <li><a href="#get_contacts_id_entitytags">GET /contacts/CONTACT_ID/entity_tags</a></li>
-  <li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
-  <li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
-</ul>
+- [POST /contacts_atomic](API#post_contacts_atomic)
+- [GET /contacts/CONTACT_ID/timezone](API#get_contacts_id_timezone)
+- [PUT, DELETE /contacts/CONTACT_ID/timezone](API#put_contacts_id_timezone)
+- [GET /contacts/CONTACT_ID/tags](API#get_contacts_id_tags)
+- [POST /contacts/CONTACT_ID/tags](API#post_contacts_id_tags)
+- [DELETE /contacts/CONTACT_ID/tags](API#delete_contacts_id_tags)
+- [GET /contacts/CONTACT_ID/entity_tags](API#get_contacts_id_entitytags)
+- [POST /contacts/CONTACT_ID/entity_tags](API#post_contacts_id_entitytags)
+- [DELETE /contacts/CONTACT_ID/entity_tags](API#delete_contacts_id_entitytags)
 
 ## Entities and Checks
 
