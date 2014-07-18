@@ -30,7 +30,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 
 ### Misc
 
-- [POST /contacts_atomic](API#post_contacts_atomic)
+- [POST /contacts_atomic](API#post-contacts_atomic)
 - [GET /contacts/CONTACT_ID/timezone](API#get_contacts_id_timezone)
 - [PUT, DELETE /contacts/CONTACT_ID/timezone](API#put_contacts_id_timezone)
 - [GET /contacts/CONTACT_ID/tags](API#get_contacts_id_tags)
