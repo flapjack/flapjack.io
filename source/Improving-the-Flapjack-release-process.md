@@ -3,7 +3,7 @@
 ## How is Flapjack currently distributed?
 
 * As a [gem on rubygems.org](https://rubygems.org/gems/flapjack)
-* We have a Rake task to [build the gem](https://github.com/flpjck/flapjack/wiki/DEVELOPING#releasing)
+* We have a Rake task to [build the gem](https://github.com/flapjack/flapjack/wiki/DEVELOPING#releasing)
 * There is a single gem for [flapjack](https://rubygems.org/gems/flapjack)
 * There is a single gem for [flapjack-diner](https://rubygems.org/gems/flapjack-diner)
 
@@ -58,7 +58,7 @@
 1. We want to create a great user experience for people running Flapjack the first time
   * People should be able to run Flapjack without any config
   * This would populate some default contacts, "standard reference data"
-1. Build Flapjack [packages with Omnibus](https://github.com/flpjck/omnibus-flapjack) for Debian, RedHat, Arch 
+1. Build Flapjack [packages with Omnibus](https://github.com/flapjack/omnibus-flapjack) for Debian, RedHat, Arch 
   * Omnibus lowers the barrier of entry, because users don't need to worry about all the dependencies
 1. Publish packages in a public repository
   * Do we use a Launchpad PPA?

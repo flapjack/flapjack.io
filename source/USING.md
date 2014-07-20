@@ -17,7 +17,7 @@ The recommended platform to run Flapjack on (other than development) is Ubuntu P
 We provide a package for this platform on our [package repository](http://packages.flapjack.io).
 The package includes all runtime dependencies, so you shouldn't need to install anything else to get flapjack up and running with a vanilla configuration.
 
-Note also, that if you just want to have a quick play with Flapjack, then why not use [vagrant-flapjack](https://github.com/flpjck/vagrant-flapjack) as this will also take care of creating and setting up an Ubuntu virtual machine and installing flapjack for you.
+Note also, that if you just want to have a quick play with Flapjack, then why not use [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack) as this will also take care of creating and setting up an Ubuntu virtual machine and installing flapjack for you.
 
 To install the package on Ubuntu Precise 64, add the deb repo to your apt sources:
 
@@ -377,7 +377,7 @@ Currently any error messages about lines that are unable to be read are written 
 
 We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.
 
-For this reason, a nagios event broker module - [flapjackfeeder](https://github.com/flpjck/flapjackfeeder) - is being developed to offer an alternative to flapjack-nagios-receiver for high check throughput environments, or potentially a full replacement.
+For this reason, a nagios event broker module - [flapjackfeeder](https://github.com/flapjack/flapjackfeeder) - is being developed to offer an alternative to flapjack-nagios-receiver for high check throughput environments, or potentially a full replacement.
 
 <a id="running">&nbsp;</a>
 ## Running
@@ -444,7 +444,7 @@ nagios.cfg changes:
   host_perfdata_file_mode=p
   service_perfdata_file_mode=p
 
-Details on the wiki: https://github.com/flpjck/flapjack/wiki/USING#configuring-nagios
+Details on the wiki: https://github.com/flapjack/flapjack/wiki/USING#configuring-nagios
 ```
 Examples:
 ``` bash

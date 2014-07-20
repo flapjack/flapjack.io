@@ -80,7 +80,7 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 </ul>
 
 
-See also the [flapjack-diner](https://github.com/flpjck/flapjack-diner/) gem which provides a ruby consumer of this API.
+See also the [flapjack-diner](https://github.com/flapjack/flapjack-diner/) gem which provides a ruby consumer of this API.
 
 ## Query Paramaters
 
