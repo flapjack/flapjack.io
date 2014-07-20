@@ -1,8 +1,8 @@
-#!/usr/bin/env ruby
+# If you have OpenSSL installed, we recommend updating
+# the following line to use "https"
+source 'http://rubygems.org'
 
-source 'https://rubygems.org'
-
-gem "middleman"
+gem "middleman", "~>3.2.0"
 
 # For syntax highlighting
 gem "middleman-syntax"
@@ -11,9 +11,9 @@ gem "middleman-syntax"
 gem 'middleman-gh-pages'
 
 # Live-reloading plugin
-gem "middleman-livereload"
+gem "middleman-livereload", "~> 3.1.0"
 
-gem 'redcarpet'
+gem 'redcarpet', '~> 3.1.1'
 
 # For faster file watcher updates on Windows:
 gem "wdm", "~> 0.1.0", :platforms => [:mswin, :mingw]
@@ -27,10 +27,3 @@ gem "rake", "~> 10.1.0"
 
 gem 'execjs'
 gem 'therubyracer', :platforms => :ruby
-
-gem 'jekyll'
-gem 'albino', '~> 1.3'
-gem 'colorize'
-gem 'guard'
-gem 'guard-jekyll-plus'
-gem 'guard-livereload'
