@@ -16,7 +16,7 @@
 
 ## How does Flapjack run?
 
-* Internally, Flapjack functionality is contained in Pikelets (term coined by [@ali-graham](http://github.com/ali-graham)\)
+* Internally, Flapjack functionality is contained in Pikelets (term coined by [@ali-graham](https://github.com/ali-graham)\)
 * We can run many Pikelets in a single process
 * In the future we may fire up separate EventMachine loops
 * Right now there is a single EM loop

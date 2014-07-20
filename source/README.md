@@ -25,7 +25,7 @@ The Flapjack JSONAPI lets you work with Flapjack data, including:
 - Reports
 
 
-The [flapjack-diner](http://github.com/flapjack/flapjack-diner) RubyGem provides a Ruby client library for Flapjack's JSONAPI.
+The [flapjack-diner](https://github.com/flapjack/flapjack-diner) RubyGem provides a Ruby client library for Flapjack's JSONAPI.
 
 The Flapjack JSONAPI documentation is built using [Slate](https://github.com/tripit/slate).
 
