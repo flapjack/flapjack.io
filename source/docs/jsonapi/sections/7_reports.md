@@ -158,7 +158,7 @@ Return code | Description
 ## Scheduled maintenance periods of entities or checks
 
 ```shell
-curl http://localhost:3081/scheduled_maintenance_report/entities/
+curl http://localhost:3081/scheduled_maintenance_report/entities
 
 # or
 curl http://localhost:3081/scheduled_maintenance_report/entities/76
@@ -167,7 +167,7 @@ curl http://localhost:3081/scheduled_maintenance_report/entities/76
 curl http://localhost:3081/scheduled_maintenance_report/entities/76,342
 
 # or
-curl http://localhost:3081/scheduled_maintenance_report/checks/
+curl http://localhost:3081/scheduled_maintenance_report/checks
 
 # or
 curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:PING
