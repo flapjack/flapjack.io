@@ -24,7 +24,7 @@ def parse uri
 end
 
 def find_links uri, links
-	doc = Nokogiri::HTML(uri)
+  doc = Nokogiri::HTML(uri)
   doc.css('a').each do |link|
     if link.attributes['href']
       uri = link.attributes['href'].value
