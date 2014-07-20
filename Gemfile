@@ -27,3 +27,5 @@ gem "rake", "~> 10.1.0"
 
 gem 'execjs'
 gem 'therubyracer', :platforms => :ruby
+
+gem 'nokogiri'
