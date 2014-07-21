@@ -19,7 +19,7 @@ The outcomes for release planning meetings are:
 
 * Issues without milestones are allocated a milestone
 * Issues are allocated to the next MINOR release
-* A release plan is published to the [Flapjack wiki](Home) in the format "Release plan for \<MAJOR.MINOR\>"
+* A release plan is published to the [Flapjack wiki](../Home) in the format "Release plan for \<MAJOR.MINOR\>"
 
 ### Bug policy
 
@@ -31,5 +31,5 @@ Bugs are swept under the carpet in many open source projects. Flapjack has a cle
 
 ### Building Releases
 
-See [Releasing](DEVELOPING#releasing) under DEVELOPING.
+See [Releasing](../DEVELOPING#releasing) under DEVELOPING.
 

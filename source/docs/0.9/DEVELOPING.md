@@ -121,7 +121,7 @@ FLAPJACK_ENV=development bundle exec bin/flapjack start --no-daemonize --config 
 
 When running, check you can access the web interface at [localhost:4081](http://localhost:4081/). The port for development can be modified in etc/flapjack_config.yaml under `development` - `gateways` - `web` - `port`.
 
-See [Using](USING) for more information.
+See [Using](../USING) for more information.
 
 Releasing
 ---------
@@ -171,15 +171,15 @@ vagrant up
 
 Data Structures
 ---------------
-See [Data Structures](DATA_STRUCTURES)
+See [Data Structures](../DATA_STRUCTURES)
 
 RESTful API for input, output and actions
 -----------------------------------------
-See [API](API)
+See [API](../API)
 
 Importing via the command line
 ------------------------------
-See [Importing](IMPORTING)
+See [Importing](../IMPORTING)
 
 Architecture
 ------------

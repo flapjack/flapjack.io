@@ -10,7 +10,7 @@ This helps you identify when your upstream event producers have gotten stuck, e.
 
 Oobetet works like this:
 
-![oobetet high level](artwork/oobetet-high-level.png)
+![oobetet high level](/images/oobetet-high-level.png)
 
 Flapper is a process that oscillates between up (listening on a TCP port) and down (not listening). By default, the oscillation frequency is 2 minutes. This frequency is user-tunable. 
 

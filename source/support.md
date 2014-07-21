@@ -20,6 +20,6 @@ Ping [@auxesis](https://twitter.com/auxesis) (Lindsay Holmwood) or [@jessereynol
 
 ## Documentation
 
-We try to cover as much as possible in the [documentation](docs).
+We try to cover as much as possible in the [documentation](../docs).
 
 If you find the Flapjack documentation lacking, we consider that a bug! Please create a [GitHub issue](https://github.com/flapjack/flapjack/issues/new) and we'll get it fixed ASAP.

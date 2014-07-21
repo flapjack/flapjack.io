@@ -9,36 +9,36 @@ Flapjack's HTTP API currently provides the following queries, data import functi
 
 ### Contacts
 
-- [GET /contacts](API#get-contacts)
-- [GET /contacts/CONTACT_ID](API#get-contactscontact_id)
-- [POST /contacts](API#post-contacts)
-- [PUT, DELETE /contacts/CONTACT_ID](API#put-delete-contactscontact_id)
-- [DELETE /contacts](API#delete-contactsidcontact_ididcontact_id)
+- [GET /contacts](#get-contacts)
+- [GET /contacts/CONTACT_ID](#get-contactscontact_id)
+- [POST /contacts](#post-contacts)
+- [PUT, DELETE /contacts/CONTACT_ID](#put-delete-contactscontact_id)
+- [DELETE /contacts](#delete-contactsidcontact_ididcontact_id)
 
 ### Media
 
-- [GET /contacts/CONTACT_ID/media](API#get-contactscontact_idmedia)
-- [GET /contacts/CONTACT_ID/media/MEDIA](API#get-contactscontact_idmediamedia)
-- [PUT, DELETE /contacts/CONTACT_ID/media/MEDIA](API#put-delete-contactscontact_idmediamedia)
+- [GET /contacts/CONTACT_ID/media](#get-contactscontact_idmedia)
+- [GET /contacts/CONTACT_ID/media/MEDIA](#get-contactscontact_idmediamedia)
+- [PUT, DELETE /contacts/CONTACT_ID/media/MEDIA](#put-delete-contactscontact_idmediamedia)
 
 ### Notification Rules
 
-- [GET /contacts/CONTACT_ID/notification_rules](API#get-contactscontact_idnotification_rules)
-- [GET /notification_rules/RULE_ID](API#get-notification_rulesrule_id)
-- [POST /notification_rules](API#post-notification_rules)
-- [PUT, DELETE /notification_rules/RULE_ID](API#put-delete-notification_rulesrule_id)
+- [GET /contacts/CONTACT_ID/notification_rules](#get-contactscontact_idnotification_rules)
+- [GET /notification_rules/RULE_ID](#get-notification_rulesrule_id)
+- [POST /notification_rules](#post-notification_rules)
+- [PUT, DELETE /notification_rules/RULE_ID](#put-delete-notification_rulesrule_id)
 
 ### Misc
 
-- [POST /contacts_atomic](API#post-contacts_atomic)
-- [GET /contacts/CONTACT_ID/timezone](API#get_contacts_id_timezone)
-- [PUT, DELETE /contacts/CONTACT_ID/timezone](API#put_contacts_id_timezone)
-- [GET /contacts/CONTACT_ID/tags](API#get_contacts_id_tags)
-- [POST /contacts/CONTACT_ID/tags](API#post_contacts_id_tags)
-- [DELETE /contacts/CONTACT_ID/tags](API#delete_contacts_id_tags)
-- [GET /contacts/CONTACT_ID/entity_tags](API#get_contacts_id_entitytags)
-- [POST /contacts/CONTACT_ID/entity_tags](API#post_contacts_id_entitytags)
-- [DELETE /contacts/CONTACT_ID/entity_tags](API#delete_contacts_id_entitytags)
+- [POST /contacts_atomic](#post-contacts_atomic)
+- [GET /contacts/CONTACT_ID/timezone](#get_contacts_id_timezone)
+- [PUT, DELETE /contacts/CONTACT_ID/timezone](#put_contacts_id_timezone)
+- [GET /contacts/CONTACT_ID/tags](#get_contacts_id_tags)
+- [POST /contacts/CONTACT_ID/tags](#post_contacts_id_tags)
+- [DELETE /contacts/CONTACT_ID/tags](#delete_contacts_id_tags)
+- [GET /contacts/CONTACT_ID/entity_tags](#get_contacts_id_entitytags)
+- [POST /contacts/CONTACT_ID/entity_tags](#post_contacts_id_entitytags)
+- [DELETE /contacts/CONTACT_ID/entity_tags](#delete_contacts_id_entitytags)
 
 ## Entities and Checks
 
@@ -1635,7 +1635,7 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/json
 
 **Optional parameters:** _start_time, end_time_
 
-Get the list of downtimes for a check (or for all checks of an entity, or for checks on multiple entities). Downtime is outages minus scheduled maintenances across any given time period (See [the glossary](GLOSSARY)). The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.
+Get the list of downtimes for a check (or for all checks of an entity, or for checks on multiple entities). Downtime is outages minus scheduled maintenances across any given time period (See [the glossary](../GLOSSARY)). The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.
 
 Note that a start_time and end_time must be specified in order for the percentages to be calculated.
 
