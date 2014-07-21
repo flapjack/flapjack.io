@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Flapjack, monitoring notification routing + event processing</title>
+    <link rel='stylesheet' href='stylesheets/bootstrap.min.css'/>
+    <link rel="stylesheet" href="stylesheets/api-screen.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="stylesheets/api-syntax.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" href="images/flapjack-2013-favicon-64-32-24-16.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+          <img class="logo" src="images/flapjack-2013-notext-transparent-300-300.png"/>
+          <span class="name">Flapjack</span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="http://flapjack.io/docs/0.9/quickstart">Quickstart</a></li>
+          <li><a href="http://flapjack.io/docs/0.9">Documentation</a></li>
+          <li><a href="http://flapjack.io/support">Support</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h1 id="importing-data-into-flapjack">Importing data into Flapjack</h1>
+
+<p>Flapjack provides a RESTful HTTP API for all data import / export functions, and triggering actions. See the <a href="API">API docs</a> for full details.</p>
+
+<p>Flapjack also provides a simple command line utility, <code class="prettyprint">flapjack-populator</code>, which can also be used for importing to some of the data structures.</p>
+
+<p>See also the <a href="DATA_STRUCTURES">data structures</a> documentation.</p>
+
+<h2 id="importing-contacts-and-entities-using-flapjack-populator">Importing contacts and entities using flapjack-populator</h2>
+
+<p>The <code class="prettyprint">flapjack-populator</code> script provides a mechanism for importing contacts and entities in JSON format. Here are some command line examples for <code class="prettyprint">flapjack-populator</code>:</p>
+
+<p>bin/flapjack-populator import-contacts &ndash;from tmp/dummy_contacts.json &ndash;config /etc/flapjack/flapjack-config.yml
+    bin/flapjack-populator import-entities &ndash;from tmp/dummy_entities.json &ndash;config /etc/flapjack/flapjack-config.yml</p>
+
+<p>There are example JSON files, and example ruby scripts which generate the examples, in the tmp/ directory.</p>
+
+<h3 id="format-of-json-contact-+-entity-data">Format of JSON contact + entity data</h3>
+
+<p>The format of these files is identical to the format required by the API functions <a href="API#wiki-post_contacts">POST /contacts</a> and <a href="API#wiki-post_entities">POST /entities</a>, consult the API documentation for the data specification. There are also some examples below.</p>
+
+<p>The <code class="prettyprint">flapjack-populator</code> script populates the event processing/notification database with entities and contacts. This initialises the entities for which checks will be monitored, which contacts are interested in which entities, and the notification details for these contacts (email address, mobile number for SMS, etc.).</p>
+
+<p>The import process will delete any existing matching object (matching on ID) before importing the new details, so if an object is being updated, the whole object must be exported. In this way we can handle the removal of an email address in the media hash for example. The operation on Redis is wrapped in a transaction, so the update is atomic.</p>
+
+<h3 id="contacts-example">Contacts Example</h3>
+
+<p>Example - three contacts with varying media
+<code class="prettyprint">json
+[
+  {
+    &quot;id&quot;: &quot;362&quot;,
+    &quot;first_name&quot;: &quot;John&quot;,
+    &quot;last_name&quot;: &quot;Johnson&quot;,
+    &quot;email&quot;: &quot;johnj@example.com&quot;,
+    &quot;media&quot;: {
+      &quot;sms&quot;: &quot;+61412345678&quot;,
+      &quot;email&quot;: &quot;johnj@example.com&quot;
+    },
+    &quot;tags&quot;: [
+      &quot;source:titanium&quot;,
+      &quot;foo&quot;
+    ]
+  },
+  {
+    &quot;id&quot;: &quot;363&quot;,
+    &quot;first_name&quot;: &quot;Jane&quot;,
+    &quot;last_name&quot;: &quot;Janeley&quot;,
+    &quot;email&quot;: &quot;janej@example.com&quot;,
+    &quot;media&quot;: {
+      &quot;email&quot;: &quot;janej@example.com&quot;
+    },
+    &quot;tags&quot;: [
+      &quot;source:titanium&quot;,
+      &quot;bar&quot;
+    ]
+  },
+  {
+    &quot;id&quot;: &quot;364&quot;,
+    &quot;first_name&quot;: &quot;Roger&quot;,
+    &quot;last_name&quot;: &quot;Wilco&quot;,
+    &quot;email&quot;: &quot;rogerw@example.com&quot;,
+    &quot;media&quot;: {
+      &quot;jabber&quot;: &quot;roger@conference.example.com&quot;
+    },
+    &quot;tags&quot;: [
+      &quot;source:titanium&quot;,
+      &quot;bar&quot;,
+      &quot;foo&quot;
+    ]
+  }
+]
+</code></p>
+
+<p>Example ruby code to construct this format:</p>
+<pre class="highlight ruby"><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">contacts</span> <span class="o">=</span> <span class="o">[]</span>
+
+<span class="n">tags</span> <span class="o">=</span> <span class="o">[</span> <span class="s1">'source:titanium'</span><span class="p">,</span> <span class="s1">'foo'</span><span class="o">]</span>
+
+<span class="n">media</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:sms</span>   <span class="o">=&gt;</span> <span class="s1">'+61412345678'</span><span class="p">,</span>
+          <span class="ss">:email</span> <span class="o">=&gt;</span> <span class="s1">'johnj@example.com'</span> <span class="p">}</span>
+
+<span class="n">contact</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:id</span>         <span class="o">=&gt;</span> <span class="s1">'362'</span><span class="p">,</span>
+            <span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s1">'John'</span><span class="p">,</span>
+            <span class="ss">:last_name</span>  <span class="o">=&gt;</span> <span class="s1">'Johnson'</span><span class="p">,</span>
+            <span class="ss">:email</span>      <span class="o">=&gt;</span> <span class="s1">'johnj@example.com'</span><span class="p">,</span>
+            <span class="ss">:media</span>      <span class="o">=&gt;</span> <span class="n">media</span><span class="p">,</span>
+            <span class="ss">:tags</span>       <span class="o">=&gt;</span> <span class="n">tags</span> <span class="p">}</span>
+
+<span class="n">contacts</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">contact</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">contacts</span><span class="p">)</span>
+</pre>
+
+<h3 id="entities-example">Entities Example</h3>
+
+<p>Example - three entities with a different selection of contacts interested in each</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10001"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"clientx-app-01"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"contacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"362"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"363"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"364"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"source:titanium"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"foo"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10002"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"clientx-app-02"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"contacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"362"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"source:titanium"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"bar"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10003"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"clienty-app-01"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"contacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"363"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"364"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"source:titanium"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p>Example code to construct this format:</p>
+<pre class="highlight ruby"><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="n">entities</span> <span class="o">=</span> <span class="o">[]</span>
+
+<span class="n">contacts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'362'</span><span class="p">,</span> <span class="s1">'363'</span><span class="p">,</span> <span class="s1">'364'</span><span class="o">]</span>
+<span class="n">tags</span>     <span class="o">=</span> <span class="o">[</span><span class="s2">"source:titanium"</span><span class="p">,</span> <span class="s2">"foo"</span><span class="o">]</span>
+<span class="n">entity</span>   <span class="o">=</span> <span class="p">{</span> <span class="ss">:id</span>          <span class="o">=&gt;</span> <span class="s1">'10001'</span><span class="p">,</span>
+             <span class="ss">:name</span>        <span class="o">=&gt;</span> <span class="s1">'clientx-app-01'</span><span class="p">,</span>
+             <span class="ss">:contacts</span>    <span class="o">=&gt;</span> <span class="n">contacts</span><span class="p">,</span>
+             <span class="ss">:tags</span>        <span class="o">=&gt;</span> <span class="n">tags</span> <span class="p">}</span>
+<span class="n">entities</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+<span class="n">contacts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'362'</span><span class="o">]</span>
+<span class="n">tags</span>     <span class="o">=</span> <span class="o">[</span><span class="s2">"source:titanium"</span><span class="p">,</span> <span class="s2">"bar"</span><span class="o">]</span>
+<span class="n">entity</span>   <span class="o">=</span> <span class="p">{</span> <span class="ss">:id</span>          <span class="o">=&gt;</span> <span class="s1">'10002'</span><span class="p">,</span>
+             <span class="ss">:name</span>        <span class="o">=&gt;</span> <span class="s1">'clientx-app-02'</span><span class="p">,</span>
+             <span class="ss">:contacts</span>    <span class="o">=&gt;</span> <span class="n">contacts</span><span class="p">,</span>
+             <span class="ss">:tags</span>        <span class="o">=&gt;</span> <span class="n">tags</span> <span class="p">}</span>
+<span class="n">entities</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+<span class="n">contacts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'363'</span><span class="p">,</span> <span class="s1">'364'</span><span class="o">]</span>
+<span class="n">tags</span>     <span class="o">=</span> <span class="o">[</span><span class="s2">"source:titanium"</span><span class="o">]</span>
+<span class="n">entity</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:id</span>          <span class="o">=&gt;</span> <span class="s1">'10003'</span><span class="p">,</span>
+           <span class="ss">:name</span>        <span class="o">=&gt;</span> <span class="s1">'clienty-app-01'</span><span class="p">,</span>
+           <span class="ss">:contacts</span>    <span class="o">=&gt;</span> <span class="n">contacts</span><span class="p">,</span>
+           <span class="ss">:tags</span>        <span class="o">=&gt;</span> <span class="n">tags</span> <span class="p">}</span>
+<span class="n">entities</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+
+<span class="nb">puts</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="ss">:pretty</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</pre>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+<footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+</body>
+</html>

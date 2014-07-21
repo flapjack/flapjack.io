@@ -1,59 +1,34 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-
-    <!-- Always force latest IE rendering engine or request Chrome Frame -->
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-
-    <!-- Use title if it's in the page YAML frontmatter -->
-    <title>API Documentation</title>
-
-    <link href="../stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
-    <link href="../stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="../javascripts/all.js" type="text/javascript"></script>
-
-    <script>
-      $(function() {
-        var toc = $("#toc").tocify({
-          selectors: "h1,h2",
-          extendPage: false,
-          theme: "none",
-          smoothScroll: false,
-          showEffectSpeed: 0,
-          hideEffectSpeed: 180,
-          ignoreSelector: ".toc-ignore",
-          hashGenerator: 'pretty',
-          highlightOffset: 60,
-          scrollTo: -2,
-          scrollHistory: true,
-          hashGenerator: function(text, element) {
-            return element[0].getAttribute('id');
-          }
-        }).data("toc-tocify");
-        // Hack to make already open sections to start opened,
-        // instead of displaying an ugly animation
-        setTimeout(function() {
-          toc.setOption("showEffectSpeed", 180);
-        },50);
-        setupLanguages([
-        ]);
-      });
-    </script>
+    <title>Flapjack, monitoring notification routing + event processing</title>
+    <link rel='stylesheet' href='stylesheets/bootstrap.min.css'/>
+    <link rel="stylesheet" href="stylesheets/api-screen.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="stylesheets/api-syntax.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" href="images/flapjack-2013-favicon-64-32-24-16.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
-
-  <body class="sections sections_5_entities">
-    <div class="tocify-wrapper">
-      <a href="/">
-        <img src="../images/logo.png" />
-      </a>
-      <div id="toc">
+  <body>
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+          <img class="logo" src="images/flapjack-2013-notext-transparent-300-300.png"/>
+          <span class="name">Flapjack</span>
+        </a>
       </div>
-    </div>
-    <div class="page-wrapper">
-      <div class="content">
-        <h1 id="toc_0">Entities</h1>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="http://flapjack.io/docs/0.9/quickstart">Quickstart</a></li>
+          <li><a href="http://flapjack.io/docs/0.9">Documentation</a></li>
+          <li><a href="http://flapjack.io/support">Support</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h1 id="entities">Entities</h1>
 
 <p>The Entity resource has the following attributes:</p>
 
@@ -86,24 +61,25 @@
 </tr>
 </tbody></table>
 
-<h2 id="toc_1">Create entities</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">&quot;Content-type: application/vnd.api+json&quot;</span> -d <span class="se">\</span>
+<h2 id="create-entities">Create entities</h2>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
-    &quot;entities&quot;: [
+    "entities": [
       {
-        &quot;id&quot;: &quot;825&quot;,
-        &quot;name&quot;: &quot;foo.example.com&quot;,
-        &quot;tags&quot;: [
-          &quot;foo&quot;
+        "id": "825",
+        "name": "foo.example.com",
+        "tags": [
+          "foo"
         ]
       }
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/entities
-</pre><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.create_entities</span><span class="p">(</span><span class="o">[</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_entities</span><span class="p">(</span><span class="o">[</span>
   <span class="p">{</span>
     <span class="s1">'id'</span>   <span class="o">=&gt;</span> <span class="s1">'825'</span><span class="p">,</span>
     <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'foo.example.com'</span><span class="p">,</span>
@@ -111,11 +87,12 @@
   <span class="p">}</span>
 <span class="o">]</span><span class="p">)</span>
 </pre>
-<h3 id="toc_2">HTTP Request</h3>
+
+<h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">POST /entities</code></p>
 
-<h3 id="toc_3">Query Parameters</h3>
+<h3 id="query-parameters">Query Parameters</h3>
 
 <table><thead>
 <tr>
@@ -131,7 +108,7 @@
 </tr>
 </tbody></table>
 
-<h3 id="toc_4">HTTP Return Codes</h3>
+<h3 id="http-return-codes">HTTP Return Codes</h3>
 
 <table><thead>
 <tr>
@@ -157,7 +134,7 @@
 </tr>
 </tbody></table>
 
-<h2 id="toc_5">Get entities</h2>
+<h2 id="get-entities">Get entities</h2>
 
 <p>If no entity ids are provided then all entities will be returned; if entity ids
 are provided then only the entities matching those ids will be returned.</p>
@@ -168,46 +145,49 @@ curl http://localhost:3081/entities/17
 
 <span class="c"># or</span>
 curl http://localhost:3081/entities/17,25
-</pre><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
-
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.entities</span>
-
-<span class="c1"># or</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.entities</span><span class="p">(</span><span class="s1">'17'</span><span class="p">)</span>
-
-<span class="c1"># or</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.entities</span><span class="p">(</span><span class="s1">'17'</span><span class="p">,</span> <span class="s1">'25'</span><span class="p">)</span>
 </pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">entities</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">entities</span><span class="p">(</span><span class="s1">'17'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">entities</span><span class="p">(</span><span class="s1">'17'</span><span class="p">,</span> <span class="s1">'25'</span><span class="p">)</span>
+</pre>
+
 <blockquote>
 <p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
 </blockquote>
 <pre class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">&quot;entities&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;301&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;www.example.com&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="s2">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="s2">&quot;production&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"301"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"www.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"production"</span><span class="p">,</span><span class="w">
       </span><span class="p">],</span><span class="w">
-      </span><span class="s2">&quot;links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">&quot;contacts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;5&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;87&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;123&quot;</span><span class="p">]</span><span class="w">
+      </span><span class="s2">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"contacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"5"</span><span class="p">,</span><span class="w"> </span><span class="s2">"87"</span><span class="p">,</span><span class="w"> </span><span class="s2">"123"</span><span class="p">]</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
-      </span><span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;302&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;www.example2.com&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="s2">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="s2">&quot;staging&quot;</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"302"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"www.example2.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"staging"</span><span class="w">
       </span><span class="p">],</span><span class="w">
-      </span><span class="s2">&quot;links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">&quot;contacts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+      </span><span class="s2">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"contacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></pre>
-<h3 id="toc_6">HTTP Request</h3>
+
+<h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">GET /entities</code></p>
 
@@ -215,11 +195,11 @@ curl http://localhost:3081/entities/17,25
 
 <p><code class="prettyprint">GET /entities/ID[,ID,ID...]</code></p>
 
-<h3 id="toc_7">Query Parameters</h3>
+<h3 id="query-parameters">Query Parameters</h3>
 
 <p>None.</p>
 
-<h3 id="toc_8">HTTP Return Codes</h3>
+<h3 id="http-return-codes">HTTP Return Codes</h3>
 
 <table><thead>
 <tr>
@@ -233,32 +213,34 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h2 id="toc_9">Update entities</h2>
+<h2 id="update-entities">Update entities</h2>
 
 <p>Update one or more attributes for one or more entity resources.</p>
 
 <p>NB: The entity name cannot be changed in Flapjack v1.x due to limitations in the underlying data storage model. This will be addressed in future Flapjack releases.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">&quot;Content-Type: application/json-patch+json&quot;</span> -d <span class="se">\</span>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
-  {&quot;op&quot;    : &quot;add&quot;,
-   &quot;path&quot;  : &quot;/entities/0/linked/contacts&quot;,
-   &quot;value&quot; : '</span>352<span class="s1">'}
+  {"op"    : "add",
+   "path"  : "/entities/0/linked/contacts",
+   "value" : '</span>352<span class="s1">'}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/entities/157'</span>
-</pre><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.update_entities</span><span class="p">(</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_entities</span><span class="p">(</span>
   <span class="o">[</span> <span class="s1">'157'</span> <span class="o">]</span><span class="p">,</span>
   <span class="ss">:name</span>         <span class="o">=&gt;</span> <span class="s1">'www.example_com'</span><span class="p">,</span>
   <span class="ss">:add_contacts</span> <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'352'</span> <span class="o">]</span>
 <span class="p">)</span>
 </pre>
-<h3 id="toc_10">HTTP Request</h3>
+
+<h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">PATCH /entities/ID[,ID,ID...]</code></p>
 
-<h3 id="toc_11">Query Parameters</h3>
+<h3 id="query-parameters">Query Parameters</h3>
 
 <p>Parameters sent for entity updates must form a valid <a href="http://tools.ietf.org/html/rfc6902">JSON Patch (RFC 6902)</a> document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:</p>
 
@@ -286,7 +268,7 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h3 id="toc_12">HTTP Return Codes</h3>
+<h3 id="http-return-codes">HTTP Return Codes</h3>
 
 <table><thead>
 <tr>
@@ -312,33 +294,35 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h2 id="toc_13">Create scheduled maintenance periods on entities</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">&quot;Content-type: application/vnd.api+json&quot;</span> -d <span class="se">\</span>
+<h2 id="create-scheduled-maintenance-periods-on-entities">Create scheduled maintenance periods on entities</h2>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
-    &quot;scheduled_maintenances&quot;: [
+    "scheduled_maintenances": [
       {
-        &quot;start_time&quot; : &quot;2014-04-09T16:03:25+09:30&quot;,
-        &quot;duration&quot; : 3600,
-        &quot;summary&quot; : &quot;memory replacement&quot;
+        "start_time" : "2014-04-09T16:03:25+09:30",
+        "duration" : 3600,
+        "summary" : "memory replacement"
       }
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/scheduled_maintenances/entities/825
-</pre><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.create_scheduled_maintenances_entities</span><span class="p">(</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_scheduled_maintenances_entities</span><span class="p">(</span>
   <span class="s1">'825'</span><span class="p">,</span>
   <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-04-09T16:03:25+09:30'</span><span class="p">,</span>
   <span class="ss">:duration</span>   <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>    <span class="o">=&gt;</span> <span class="s1">'memory replacement'</span>
 <span class="p">)</span>
 </pre>
-<h3 id="toc_14">HTTP Request</h3>
+
+<h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">POST /scheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 
-<h3 id="toc_15">Query Parameters</h3>
+<h3 id="query-parameters">Query Parameters</h3>
 
 <table><thead>
 <tr>
@@ -364,7 +348,7 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h3 id="toc_16">HTTP Return Codes</h3>
+<h3 id="http-return-codes">HTTP Return Codes</h3>
 
 <table><thead>
 <tr>
@@ -390,22 +374,24 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h2 id="toc_17">Delete scheduled maintenance periods on entities</h2>
+<h2 id="delete-scheduled-maintenance-periods-on-entities">Delete scheduled maintenance periods on entities</h2>
 <pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/scheduled_maintenances/entities/34?start_time=2014-05-09T16:12:16+09:30'</span>
-</pre><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.delete_scheduled_maintenances_entities</span><span class="p">(</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_scheduled_maintenances_entities</span><span class="p">(</span>
   <span class="mi">34</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-05-09T16:12:16+09:30'</span>
 <span class="p">)</span>
 </pre>
-<h3 id="toc_18">HTTP Request</h3>
+
+<h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">DELETE /scheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 
-<h3 id="toc_19">Query Parameters</h3>
+<h3 id="query-parameters">Query Parameters</h3>
 
 <table><thead>
 <tr>
@@ -421,7 +407,7 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h3 id="toc_20">HTTP Return Codes</h3>
+<h3 id="http-return-codes">HTTP Return Codes</h3>
 
 <table><thead>
 <tr>
@@ -443,31 +429,33 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h2 id="toc_21">Create unscheduled maintenance periods on entities</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">&quot;Content-type: application/vnd.api+json&quot;</span> -d <span class="se">\</span>
+<h2 id="create-unscheduled-maintenance-periods-on-entities">Create unscheduled maintenance periods on entities</h2>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
-    &quot;unscheduled_maintenances&quot;: [
+    "unscheduled_maintenances": [
       {
-        &quot;duration&quot; : 3600,
-        &quot;summary&quot; : &quot;fixing now&quot;
+        "duration" : 3600,
+        "summary" : "fixing now"
       }
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/unscheduled_maintenances/entities/825
-</pre><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.create_unscheduled_maintenances_entities</span><span class="p">(</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_unscheduled_maintenances_entities</span><span class="p">(</span>
   <span class="s1">'825'</span><span class="p">,</span>
   <span class="ss">:duration</span> <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>  <span class="o">=&gt;</span> <span class="s1">'fixing now'</span>
 <span class="p">)</span>
 </pre>
-<h3 id="toc_22">HTTP Request</h3>
+
+<h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">POST /unscheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 
-<h3 id="toc_23">Query Parameters</h3>
+<h3 id="query-parameters">Query Parameters</h3>
 
 <table><thead>
 <tr>
@@ -488,7 +476,7 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h3 id="toc_24">HTTP Return Codes</h3>
+<h3 id="http-return-codes">HTTP Return Codes</h3>
 
 <table><thead>
 <tr>
@@ -510,27 +498,29 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h2 id="toc_25">Update unscheduled maintenance periods on entities</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">&quot;Content-Type: application/json-patch+json&quot;</span> -d <span class="se">\</span>
+<h2 id="update-unscheduled-maintenance-periods-on-entities">Update unscheduled maintenance periods on entities</h2>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
-  {&quot;op&quot;    : &quot;replace&quot;,
-   &quot;path&quot;  : &quot;/unscheduled_maintenances/0/end_time&quot;,
-   &quot;value&quot; : &quot;2014-04-09T16:12:16+09:30&quot;},
+  {"op"    : "replace",
+   "path"  : "/unscheduled_maintenances/0/end_time",
+   "value" : "2014-04-09T16:12:16+09:30"},
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/unscheduled_maintenances/entities/34'</span>
-</pre><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.update_unscheduled_maintenances_entities</span><span class="p">(</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_unscheduled_maintenances_entities</span><span class="p">(</span>
   <span class="s1">'34'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-04-09T16:12:16+09:30'</span>
 <span class="p">)</span>
 </pre>
-<h3 id="toc_26">HTTP Request</h3>
+
+<h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">PATCH /unscheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 
-<h3 id="toc_27">Query Parameters</h3>
+<h3 id="query-parameters">Query Parameters</h3>
 
 <p>Parameters sent for unscheduled maintenance period updates must form a valid <a href="http://tools.ietf.org/html/rfc6902">JSON Patch (RFC 6902)</a> document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:</p>
 
@@ -558,7 +548,7 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h3 id="toc_28">HTTP Return Codes</h3>
+<h3 id="http-return-codes">HTTP Return Codes</h3>
 
 <table><thead>
 <tr>
@@ -580,29 +570,31 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h2 id="toc_29">Create test notifications on entities</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">&quot;Content-type: application/vnd.api+json&quot;</span> -d <span class="se">\</span>
+<h2 id="create-test-notifications-on-entities">Create test notifications on entities</h2>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
   <span class="s1">'{
-    &quot;test_notifications&quot;: [
+    "test_notifications": [
       {
-        &quot;summary&quot; : &quot;testing, testing, 1, 2, 3&quot;
+        "summary" : "testing, testing, 1, 2, 3"
       }
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/test_notifications/entities/825
-</pre><pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="nf">.create_test_notifications_entities</span><span class="p">(</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_test_notifications_entities</span><span class="p">(</span>
   <span class="s1">'825'</span><span class="p">,</span>
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">'testing, testing, 1, 2, 3'</span>
 <span class="p">)</span>
 </pre>
-<h3 id="toc_30">HTTP Request</h3>
+
+<h3 id="http-request">HTTP Request</h3>
 
 <p><code class="prettyprint">POST /test_notifications/entities/ID[,ID,ID...]</code></p>
 
-<h3 id="toc_31">Query Parameters</h3>
+<h3 id="query-parameters">Query Parameters</h3>
 
 <table><thead>
 <tr>
@@ -618,7 +610,7 @@ curl http://localhost:3081/entities/17,25
 </tr>
 </tbody></table>
 
-<h3 id="toc_32">HTTP Return Codes</h3>
+<h3 id="http-return-codes">HTTP Return Codes</h3>
 
 <table><thead>
 <tr>
@@ -641,10 +633,40 @@ curl http://localhost:3081/entities/17,25
 </tbody></table>
 
       </div>
-      <div class="dark-box">
-        <div id="lang-selector">
-        </div>
-      </div>
     </div>
-  </body>
+  </div> <!-- container -->
+
+<footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+</body>
 </html>

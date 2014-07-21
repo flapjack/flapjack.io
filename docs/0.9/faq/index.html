@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Flapjack, monitoring notification routing + event processing</title>
+    <link rel='stylesheet' href='stylesheets/bootstrap.min.css'/>
+    <link rel="stylesheet" href="stylesheets/api-screen.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="stylesheets/api-syntax.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" href="images/flapjack-2013-favicon-64-32-24-16.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+          <img class="logo" src="images/flapjack-2013-notext-transparent-300-300.png"/>
+          <span class="name">Flapjack</span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="http://flapjack.io/docs/0.9/quickstart">Quickstart</a></li>
+          <li><a href="http://flapjack.io/docs/0.9">Documentation</a></li>
+          <li><a href="http://flapjack.io/support">Support</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h1 id="frequently-asked-questions-(faq)">Frequently Asked Questions (FAQ)</h1>
+
+<p>Below you&rsquo;ll find answers to some common questions that come up in #flapjack on <code class="prettyprint">irc.freenode.net</code>, and conversations about Flapjack.</p>
+
+<p>If you have questions you think need answering here, please <a href="https://github.com/flapjack/flapjack/issues/new">open a GitHub</a> issue and we&rsquo;ll get it written up!</p>
+
+<h2 id="what-is-the-oldest-version-of-redis-usable-with-flapjack?">What is the oldest version of Redis usable with Flapjack?</h2>
+
+<p>2.6.12 is the current minimum required version of Redis.</p>
+
+<p>This is because Flapjack uses <a href="http://redis.io/commands/SET">SET&rsquo;s NX option</a> for some queries.</p>
+
+<h2 id="what-is-the-difference-between-flapjack&#39;s-jsonapi-and-api?">What is the difference between Flapjack&rsquo;s <code class="prettyprint">jsonapi</code> and <code class="prettyprint">api</code>?</h2>
+
+<p>Flapjack&rsquo;s <code class="prettyprint">api</code> was grown organically over the course of Flapjack&rsquo;s first year. We added new features to the <code class="prettyprint">api</code> as we needed, and ended up with something pretty featureful.</p>
+
+<p>As we were writing documentation for a 1.0 release of Flapjack in December 2013, we realised that while there were a lot of features, there some surprising gaps in the data model <a href="http://en.wikipedia.org/wiki/CRUD">CRUD</a>, and there was also a lot of inconsistency to the <code class="prettyprint">api</code> as a result of this organic growth.</p>
+
+<p>This didn&rsquo;t make Flapjack easy for newcomers to work with, especially when coupled with our API-first approach to development which left a few functionality gaps in our web interface.</p>
+
+<p>We decided to push back the release of Flapjack 1.0 and build a <a href="http://jsonapi.org">JSONAPI</a>-compatible REST API named <code class="prettyprint">jsonapi</code> that feature matched the <code class="prettyprint">api</code> while providing a consistent, predictable user experience.</p>
+
+<p>We also invested a lot of time into building <a href="jsonapi">quality documentation</a> for <code class="prettyprint">jsonapi</code> to help first time users, and have reworked portions of Flapjack&rsquo;s web interface to dynamically work with data exposed via the <code class="prettyprint">jsonapi</code>.</p>
+
+<p>So, are we going to keep two API&rsquo;s around? Short answer is &ldquo;no&rdquo;.</p>
+
+<p>Here&rsquo;s the plan:</p>
+
+<ul>
+<li><code class="prettyprint">0.9.x</code> will ship both <code class="prettyprint">api</code> and <code class="prettyprint">jsonapi</code></li>
+<li><code class="prettyprint">1.0.x</code> will ship <code class="prettyprint">jsonapi</code> and drop <code class="prettyprint">api</code></li>
+</ul>
+
+<p>Functionality for the old <code class="prettyprint">api</code> is effectively frozen, however bugs or security issues with it will be able to be made to the <code class="prettyprint">0.9.x</code> branch and we&rsquo;ll release gems as required.</p>
+
+<p>As for naming, we&rsquo;re going to leave <code class="prettyprint">jsonapi</code> called <code class="prettyprint">jsonapi</code> so it&rsquo;s clear what&rsquo;s happening.</p>
+
+<p>The default port for <code class="prettyprint">jsonapi</code> will remain the same in the example configuration file (3081), but it can be run on whatever port you like.</p>
+
+<p>If you need to talk to Flapjack&rsquo;s API, you should be using <code class="prettyprint">jsonapi</code>.</p>
+
+<h2 id="do-i-need-to-set-up-alerting-in-nagios-or-sensu-for-flapjack-to-work?">Do I need to set up alerting in Nagios or Sensu for Flapjack to work?</h2>
+
+<p>No. Flapjack sends alerts independently of check execution engines like Nagios or Sensu.</p>
+
+<p>There is nothing stopping you from sending alerts from both your upstream check execution engines and Flapjack, but you will receive duplicate alerts.</p>
+
+<p>Flapjack sits downstream of check execution engines like Nagios and processes a stream of events emitted by them. Because Flapjack sees all events from the upstream check execution engines, it can do smart things like alert summarisation (rollup), de-duplication (in cases where you have multiple check executors monitoring the same thing), and alert routing.</p>
+
+<h2 id="why-does-flapjack-use-event-heartbeating-to-decide-whether-to-send-alerts?">Why does Flapjack use event heartbeating to decide whether to send alerts?</h2>
+
+<p>Flapjack assumes a constant stream of events from upstream event producers, and this is fundamental to Flapjack&rsquo;s design.</p>
+
+<p><img alt="a beating heart" src="http://media.giphy.com/media/yeUxljCJjH1rW/giphy.gif" /></p>
+
+<p>Flapjack asks a fundamentally different question to other notification and alerting systems: &ldquo;How long has a check been failing for?&rdquo;. Flapjack cares about the elapsed time, not the number of observed failures.</p>
+
+<p>Alerting systems that depend on counting the number of observed failures to decide whether to send an alert suffer problems when the observation interval is variable.</p>
+
+<p>Take this scenario with a LAMP stack running in a large cluster:</p>
+
+<blockquote>
+<ol>
+<li>Nagios detects a single failure in the database layer. It increments the soft state by 1.</li>
+<li>Nagios detects every service that depends on the database layer is now failing due to timeouts. It increments the soft state by 1 for each of these services.</li>
+<li>The timeouts for each of these services cause the next recheck of the original database layer check to be delayed (e.g. after an additional 3 minutes). When it is eventually checked, its soft state is incremented.</li>
+<li>The timeouts for the other services get bigger, causing the database layer check to be delayed further.</li>
+<li>Eventually the original database layer check enters a hard state and alerts.</li>
+</ol>
+</blockquote>
+
+<p>The above example is a little exaggerated, however the problem with using observed failure counts as a basis for alerting are obvious.</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Control_theory">Control theory</a> gives us a lot of practical tools for modelling scenarios like these, and the answer is never pretty - if you rely on the number of times you&rsquo;ve observed a failure to determine if you need to send an alert, you&rsquo;re alerting effectiveness is limited by any latency in your checkers.</p>
+
+<p>By looking at how long something has been failing for, Flapjack limits the effects of latency in the observation interval, and provides alerts to humans about problems faster.</p>
+
+<h2 id="why-can&#39;t-i-send-a-one-off-event-to-flapjack?">Why can&rsquo;t I send a one-off event to Flapjack?</h2>
+
+<p>Technically you can - Flapjack just won&rsquo;t notify anyone until:</p>
+
+<ul>
+<li>Two events (or more) have been received by Flapjack.</li>
+<li>30 seconds have elapsed between the first event received by Flapjack and the latest.</li>
+</ul>
+
+<p>This is due to the aforementioned heartbeating behaviour that is baked into Flapjack&rsquo;s design.</p>
+
+<p>As more people are using Flapjack we are seeing increasing demand for one-off event submission. There are two key cases:</p>
+
+<ul>
+<li>Arbitrary event submission via HTTP</li>
+<li>Routing CloudWatch alarms via Flapjack</li>
+</ul>
+
+<p>One way to solve this would be to build a bridge that accepts one-off events, and periodically dispatches a cached value for these events to Flapjack.</p>
+
+<p>Flapjack will definitely close this gap in the future.</p>
+
+<h2 id="how-do-i-scale-flapjack?">How do I scale Flapjack?</h2>
+
+<p>With ease!</p>
+
+<p>When people talk about monitoring scalability, they tend to be talking about one of two things: performance or scalability.</p>
+
+<h3 id="performance">Performance</h3>
+
+<p>The first performance bottleneck you will hit with Flapjack is the event processing speed of the processor. As you increase the number of events that you feed Flapjack, the processor eventually won&rsquo;t be able to handle the number of events.</p>
+
+<p>You can observe this very clearly by watching your event queue length increasing and not returning to previous levels quickly:</p>
+
+<p class="text-center">
+  <img class="img-responsive" src="http://i.imgur.com/mf9XYt3.gif" alt="event queue length visualisation"/>
+</p>
+
+<p>While there will almost always be performance improvements we can make within Flapjack, a big part of the performance story comes down to the lack of multicore support in C-based Ruby implementations. Flapjack is currently using Ruby 1.9.</p>
+
+<p>You can work around this by adding more Flapjack processors and/or notifiers. These can either run on a single host, or across multiple hosts.</p>
+
+<p>Here&rsquo;s an example configuration file for a standalone processor:</p>
+<pre class="highlight plaintext"># flapjack-processor-1.yaml
+production:
+  pid_file: /var/run/flapjack/flapjack-processor-1.pid
+  log_file: /var/log/flapjack/flapjack-processor-1.log
+  daemonize: yes
+  redis:
+    host: 127.0.0.1
+    port: 6380
+    db: 0
+  processor:
+    enabled: yes
+    queue: events
+    notifier_queue: notifications
+    archive_events: true
+    events_archive_maxage: 3600
+    new_check_scheduled_maintenance_duration: 100 years
+    logger:
+      level: INFO
+      syslog_errors: yes
+  notifier:
+    enabled: no
+</pre>
+
+<p>You should have a separate config file per-Flapjack processor (only so logs + pids don&rsquo;t conflict).</p>
+
+<div class="bs-callout bs-callout-info">
+  <h4>Rule of thumb</h4>
+  <p>Number of processors on a machine should equal the number of cores available, minus the number of Redis instances:
+<pre>
+number of Flapjack processors count == number of cores - number of redis instances
+</pre>
+</p>
+</div>
+
+<p>To test out the limits of Flapjack&rsquo;s event processing speed in your environment, you can use the <code class="prettyprint">simulate-failed-check</code> tool to create lots of events quickly:</p>
+<pre class="highlight plaintext">simulate-failed-check fail-and-recover -i 0.001 -e foo-app-01 -k http --time 60 -c etc/flapjack_config.yaml
+</pre>
+
+<p>Scaling the web + API gateways is just like scaling any web app - just throw up more instances and sit them behind a reverse proxy.</p>
+
+<h3 id="high-availability">High Availability</h3>
+
+<p>As mentioned in the Performance section above, you can run multiple instances of the Flapjack components (processor, notifier, gateways).</p>
+
+<p>We recommend you also do this for HA.</p>
+
+<p>The processor and notifier will easily run in separate instances across multiple machines, provided they can all talk to the same Redis instance.</p>
+
+<p>Flapjack makes this easy by allowing you to specify what components you want to run within the Flapjack config. You can run all the components on a single machine, one component per host, or a mix.</p>
+
+<h2 id="i-remember-flapjack-from-a-few-years-ago.-is-this-the-same-project?">I remember Flapjack from a few years ago. Is this the same project?</h2>
+
+<p>Not quite - it&rsquo;s the same project in spirit, but from a technical perspective it is quite different.</p>
+
+<p>When Flapjack was originally written in 2009 it was focused on being a replacement for Nagios. Once a working prototype of Flapjack was built, it quickly become obvious that the notification and alerting part of Nagios was actually a far trickier problem to solve than anticipated, and <a href="http://fractio.nl">Flapjack&rsquo;s author</a> had bitten off too much to chew.</p>
+
+<p>The Flapjack project languished, and other tools like Sensu came along and built solid, scalable check execution infrastructure far better than anything in the original Flapjack.</p>
+
+<p>Flapjack was rebooted in 2012 to focus exclusively on the alert routing and notification problem. Flapjack&rsquo;s core developers are sponsored to work on Flapjack close to full-time.</p>
+
+<p>All of the code is completely new, and the only commonality between the two code bases is the name.</p>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+<footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+</body>
+</html>
