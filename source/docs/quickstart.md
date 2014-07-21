@@ -96,7 +96,7 @@ simulate-failed-check --help
 ```
 
 <div class="alert alert-info">
-Details of these commands are available <a class="alert-link" href="https://github.com/flapjack/flapjack/wiki/USING#running">on the Flapjack wiki</a>.
+Details of these commands are available <a class="alert-link" href="docs/USING#running">on the Flapjack wiki</a>.
 </div>
 
 ![CLI](/images/quickstart/term-flapjack-help.png)
@@ -140,7 +140,7 @@ All that remains is to configure `flapjack-nagios-receiver` to read from this na
 sudo /etc/init.d/flapjack-nagios-receiver start
 ```
 
-More details on configuration are available [on the wiki](https://github.com/flapjack/flapjack/wiki/USING#configuring-components).
+More details on configuration are available [on the wiki](docs/USING#configuring-components).
 
 ### Verify
 
@@ -150,13 +150,13 @@ Reload the Flapjack web interface and you should now see the checks from Icinga 
 
 ## Create some contacts and Entities
 
-Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the [Flapjack API](https://github.com/flapjack/flapjack/wiki/API).
+Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the [Flapjack API](docs/API).
 
 The vagrant-flapjack project ships with [example json files](https://github.com/flapjack/vagrant-flapjack/tree/master/examples) that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json.
 
 ### Create Contacts Ada and Charles
 
-We'll be using the [POST /contacts](https://github.com/flapjack/flapjack/wiki/API#wiki-post_contacts) API call to create two contacts.
+We'll be using the [POST /contacts](docs/API#wiki-post_contacts) API call to create two contacts.
 
 Run the following from your workstation, cd'd into the vagrant-flapjack directory:
 
@@ -231,7 +231,7 @@ Selecting [Ada](http://localhost:3080/contacts/21) should give you something lik
 
 ### Create entities foo-app-01 and foo-db-01 (.example.com)
 
-We'll be using the [POST /entities](https://github.com/flapjack/flapjack/wiki/API#wiki-post_entities) api call to create two entities.
+We'll be using the [POST /entities](docs/API#wiki-post_entities) api call to create two entities.
 
 We're going to assign both Ada and Charles to foo-app-01, and just Ada to foo-db-01.
 
@@ -300,5 +300,5 @@ Stay tuned for more info on how to configure:
 
 In the mean time, check out:
 
- - [Documentation](https://github.com/flapjack/flapjack/wiki/IMPORTING) on **how to import contacts and entities**
+ - [Documentation](docs/IMPORTING) on **how to import contacts and entities**
  - **[JSONAPI documentation](/docs/jsonapi)** for working with individual contacts and entities
