@@ -19,12 +19,12 @@ Welcome to the Flapjack Wiki.
 
 Formats:
 
-* [JPEG](images/flapjack.jpg)
-* [PNG](images/flapjack.png)
-* [EPS](images/flapjack.eps)
+* [JPEG](/images/flapjack.jpg)
+* [PNG](/images/flapjack.png)
+* [EPS](/images/flapjack.eps)
 
 Or download the
-[logo bundle zip](images/flapjack.zip)
+[logo bundle zip](/images/flapjack.zip)
 (includes the Illustrator source).
 
 The Flapjack logo is shared under the
@@ -33,8 +33,8 @@ license.
 
 Font used in logo is [Exo](http://www.google.com/fonts/specimen/Exo).
 
-There is an [Apple colour palette](images/Flapjack.clr) available for use on OS X.
+There is an [Apple colour palette](/images/Flapjack.clr) available for use on OS X.
 
 ### Sources
 
-* [Architecture diagrams](images/FlapjackArchitecture.key)
+* [Architecture diagrams](/images/FlapjackArchitecture.key)
