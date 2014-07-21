@@ -444,7 +444,7 @@ nagios.cfg changes:
   host_perfdata_file_mode=p
   service_perfdata_file_mode=p
 
-Details on the wiki: docs/USING#configuring-nagios
+Details on the [wiki](#configuring_nagios)
 ```
 Examples:
 ``` bash

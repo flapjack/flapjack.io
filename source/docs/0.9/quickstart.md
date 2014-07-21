@@ -301,4 +301,4 @@ Stay tuned for more info on how to configure:
 In the mean time, check out:
 
  - [Documentation](../IMPORTING) on **how to import contacts and entities**
- - **[JSONAPI documentation](/docs/jsonapi)** for working with individual contacts and entities
+ - **[JSONAPI documentation](../jsonapi)** for working with individual contacts and entities
