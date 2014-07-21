@@ -20,7 +20,7 @@ This didn't make Flapjack easy for newcomers to work with, especially when coupl
 
 We decided to push back the release of Flapjack 1.0 and build a [JSONAPI](http://jsonapi.org)-compatible REST API named `jsonapi` that feature matched the `api` while providing a consistent, predictable user experience.
 
-We also invested a lot of time into building [quality documentation](docs/jsonapi/) for `jsonapi` to help first time users, and have reworked portions of Flapjack's web interface to dynamically work with data exposed via the `jsonapi`.
+We also invested a lot of time into building [quality documentation](jsonapi) for `jsonapi` to help first time users, and have reworked portions of Flapjack's web interface to dynamically work with data exposed via the `jsonapi`.
 
 So, are we going to keep two API's around? Short answer is "no".
 

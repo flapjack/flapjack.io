@@ -1,10 +1,10 @@
 This is how events are turned into notifications, and how notifications are routed to contacts:
 
-![notification routing](docs/notification-routing.gif)
+![notification routing](/images/notification-routing.gif)
 
 #### Creating the above animation
 
-1. Export [architecture diagrams](docs/Flapjack%20Architecture.key) to PNG
+1. Export [architecture diagrams](/images/FlapjackArchitecture.key) to PNG
 2. Run this shell:
 
 ``` bash

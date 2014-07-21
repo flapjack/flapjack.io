@@ -3,7 +3,7 @@
 ## How is Flapjack currently distributed?
 
 * As a [gem on rubygems.org](https://rubygems.org/gems/flapjack)
-* We have a Rake task to [build the gem](docs/DEVELOPING#releasing)
+* We have a Rake task to [build the gem](DEVELOPING#releasing)
 * There is a single gem for [flapjack](https://rubygems.org/gems/flapjack)
 * There is a single gem for [flapjack-diner](https://rubygems.org/gems/flapjack-diner)
 
