@@ -163,7 +163,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 <pre class="highlight shell">sudo /etc/init.d/flapjack-nagios-receiver start
 </pre>
 
-<p>More details on configuration are available <a href="USING#configuring-components">on the wiki</a>.</p>
+<p>More details on configuration are available <a href="../USING#configuring-components">on the wiki</a>.</p>
 
 <h3 id="verify">Verify</h3>
 
@@ -173,13 +173,13 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <h2 id="create-some-contacts-and-entities">Create some contacts and Entities</h2>
 
-<p>Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the <a href="API">Flapjack API</a>.</p>
+<p>Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the <a href="../API">Flapjack API</a>.</p>
 
 <p>The vagrant-flapjack project ships with <a href="https://github.com/flapjack/vagrant-flapjack/tree/master/examples">example json files</a> that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json.</p>
 
 <h3 id="create-contacts-ada-and-charles">Create Contacts Ada and Charles</h3>
 
-<p>We&rsquo;ll be using the <a href="API#wiki-post_contacts">POST /contacts</a> API call to create two contacts.</p>
+<p>We&rsquo;ll be using the <a href="../API#wiki-post_contacts">POST /contacts</a> API call to create two contacts.</p>
 
 <p>Run the following from your workstation, cd&rsquo;d into the vagrant-flapjack directory:</p>
 <pre class="highlight plaintext">curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
@@ -250,7 +250,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <h3 id="create-entities-foo-app-01-and-foo-db-01-(.example.com)">Create entities foo-app-01 and foo-db-01 (.example.com)</h3>
 
-<p>We&rsquo;ll be using the <a href="API#wiki-post_entities">POST /entities</a> api call to create two entities.</p>
+<p>We&rsquo;ll be using the <a href="../API#wiki-post_entities">POST /entities</a> api call to create two entities.</p>
 
 <p>We&rsquo;re going to assign both Ada and Charles to foo-app-01, and just Ada to foo-db-01.</p>
 <pre class="highlight plaintext">curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
@@ -318,7 +318,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 <p>In the mean time, check out:</p>
 
 <ul>
-<li><a href="IMPORTING">Documentation</a> on <strong>how to import contacts and entities</strong></li>
+<li><a href="../IMPORTING">Documentation</a> on <strong>how to import contacts and entities</strong></li>
 <li><strong><a href="/docs/jsonapi">JSONAPI documentation</a></strong> for working with individual contacts and entities</li>
 </ul>
 

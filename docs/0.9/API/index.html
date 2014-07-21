@@ -39,42 +39,42 @@
 <h3 id="contacts">Contacts</h3>
 
 <ul>
-<li><a href="API#get-contacts">GET /contacts</a></li>
-<li><a href="API#get-contactscontact_id">GET /contacts/CONTACT_ID</a></li>
-<li><a href="API#post-contacts">POST /contacts</a></li>
-<li><a href="API#put-delete-contactscontact_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
-<li><a href="API#delete-contactsidcontact_ididcontact_id">DELETE /contacts</a></li>
+<li><a href="#get-contacts">GET /contacts</a></li>
+<li><a href="#get-contactscontact_id">GET /contacts/CONTACT_ID</a></li>
+<li><a href="#post-contacts">POST /contacts</a></li>
+<li><a href="#put-delete-contactscontact_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
+<li><a href="#delete-contactsidcontact_ididcontact_id">DELETE /contacts</a></li>
 </ul>
 
 <h3 id="media">Media</h3>
 
 <ul>
-<li><a href="API#get-contactscontact_idmedia">GET /contacts/CONTACT_ID/media</a></li>
-<li><a href="API#get-contactscontact_idmediamedia">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
-<li><a href="API#put-delete-contactscontact_idmediamedia">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
+<li><a href="#get-contactscontact_idmedia">GET /contacts/CONTACT_ID/media</a></li>
+<li><a href="#get-contactscontact_idmediamedia">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
+<li><a href="#put-delete-contactscontact_idmediamedia">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
 </ul>
 
 <h3 id="notification-rules">Notification Rules</h3>
 
 <ul>
-<li><a href="API#get-contactscontact_idnotification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
-<li><a href="API#get-notification_rulesrule_id">GET /notification_rules/RULE_ID</a></li>
-<li><a href="API#post-notification_rules">POST /notification_rules</a></li>
-<li><a href="API#put-delete-notification_rulesrule_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
+<li><a href="#get-contactscontact_idnotification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
+<li><a href="#get-notification_rulesrule_id">GET /notification_rules/RULE_ID</a></li>
+<li><a href="#post-notification_rules">POST /notification_rules</a></li>
+<li><a href="#put-delete-notification_rulesrule_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
 </ul>
 
 <h3 id="misc">Misc</h3>
 
 <ul>
-<li><a href="API#post-contacts_atomic">POST /contacts_atomic</a></li>
-<li><a href="API#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
-<li><a href="API#put_contacts_id_timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</a></li>
-<li><a href="API#get_contacts_id_tags">GET /contacts/CONTACT_ID/tags</a></li>
-<li><a href="API#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
-<li><a href="API#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
-<li><a href="API#get_contacts_id_entitytags">GET /contacts/CONTACT_ID/entity_tags</a></li>
-<li><a href="API#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
-<li><a href="API#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
+<li><a href="#post-contacts_atomic">POST /contacts_atomic</a></li>
+<li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
+<li><a href="#put_contacts_id_timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</a></li>
+<li><a href="#get_contacts_id_tags">GET /contacts/CONTACT_ID/tags</a></li>
+<li><a href="#post_contacts_id_tags">POST /contacts/CONTACT_ID/tags</a></li>
+<li><a href="#delete_contacts_id_tags">DELETE /contacts/CONTACT_ID/tags</a></li>
+<li><a href="#get_contacts_id_entitytags">GET /contacts/CONTACT_ID/entity_tags</a></li>
+<li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
+<li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
 </ul>
 
 <h2 id="entities-and-checks">Entities and Checks</h2>
@@ -1691,7 +1691,7 @@ curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: app
 
 <p><strong>Optional parameters:</strong> <em>start_time, end</em>time_</p>
 
-<p>Get the list of downtimes for a check (or for all checks of an entity, or for checks on multiple entities). Downtime is outages minus scheduled maintenances across any given time period (See <a href="GLOSSARY">the glossary</a>). The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.</p>
+<p>Get the list of downtimes for a check (or for all checks of an entity, or for checks on multiple entities). Downtime is outages minus scheduled maintenances across any given time period (See <a href="../GLOSSARY">the glossary</a>). The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.</p>
 
 <p>Note that a start_time and end_time must be specified in order for the percentages to be calculated.</p>
 
