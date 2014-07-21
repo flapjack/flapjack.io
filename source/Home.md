@@ -19,12 +19,12 @@ Welcome to the Flapjack Wiki.
 
 Formats:
 
-* [JPEG](https://raw.github.com/wiki/flapjack/flapjack/artwork/flapjack.jpg)
-* [PNG](https://raw.github.com/wiki/flapjack/flapjack/artwork/flapjack.png)
-* [EPS](https://raw.github.com/wiki/flapjack/flapjack/artwork/flapjack.eps)
+* [JPEG](https://raw.github.com/wiki/flapjack/flapjack/images/flapjack.jpg)
+* [PNG](https://raw.github.com/wiki/flapjack/flapjack/images/flapjack.png)
+* [EPS](https://raw.github.com/wiki/flapjack/flapjack/images/flapjack.eps)
 
 Or download the
-[logo bundle zip](https://raw.github.com/wiki/flapjack/flapjack/flapjack.zip)
+[logo bundle zip](https://raw.github.com/wiki/flapjack/flapjack/images/flapjack.zip)
 (includes the Illustrator source).
 
 The Flapjack logo is shared under the
@@ -33,8 +33,8 @@ license.
 
 Font used in logo is [Exo](http://www.google.com/fonts/specimen/Exo).
 
-There is an [Apple colour palette](https://raw.github.com/wiki/flapjack/flapjack/artwork/Flapjack.clr) available for use on OS X.
+There is an [Apple colour palette](https://raw.github.com/wiki/flapjack/flapjack/images/Flapjack.clr) available for use on OS X.
 
 ### Sources
 
-* [Architecture diagrams](https://raw.github.com/wiki/flapjack/flapjack/artwork/Flapjack%20Architecture.key)
+* [Architecture diagrams](https://raw.github.com/wiki/flapjack/flapjack/images/Flapjack%20Architecture.key)
