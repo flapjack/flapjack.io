@@ -1,9 +1,9 @@
 # Documentation
 
- - The [quickstart guide](0.9/quickstart) shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.
- - The [FAQ](0.9/faq) covers common questions asked about Flapjack, and pointers to other resources.
- - The [JSONAPI documentation](0.9/jsonapi) covers the API for working with Flapjack data.
- - The [wiki](0.9/Home) has many guides and in-depth documentation, including how to [debug](DEBUGGING) and [develop](DEVELOPING) Flapjack.
+ - The [quickstart guide](quickstart) shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.
+ - The [FAQ](faq) covers common questions asked about Flapjack, and pointers to other resources.
+ - The [JSONAPI documentation](jsonapi) covers the API for working with Flapjack data.
+ - The [wiki](Home) has many guides and in-depth documentation, including how to [debug](DEBUGGING) and [develop](DEVELOPING) Flapjack.
 
 ## Presentations
 
