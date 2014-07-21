@@ -539,7 +539,7 @@ One resque worker that processes both queues (but prioritises SMS above email) c
 
 resque sets the command name so grep'ing ps output for `rake` or `ruby` will NOT find resque processes. Search instead for `resque`. (and remember the 'q').
 
-To background it you can add `BACKGROUND=yes`. Useful documentation is available in [Resque's README](https://github.com/resque/resque/blob/master/README.markdown)
+To background it you can add `BACKGROUND=yes`. Useful documentation is available in [Resque's README](https://github.com/resque/resque/blob/master/README.md)
 
 ### Resque Queue Management with resque-web
 
