@@ -1,29 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Flapjack, monitoring notification routing + event processing</title>
-    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
-    <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
-    <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
-    <nav class="navbar navbar-default navbar-inverse" role="navigation">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">
-          <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
-          <span class="name">Flapjack</span>
-        </a>
-      </div>
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/docs/0.9/quickstart">Quickstart</a></li>
-          <li><a href="/docs/0.9">Documentation</a></li>
-          <li><a href="/support">Support</a></li>
-        </ul>
-      </div>
-    </nav>
+    <%= partial(:header, :locals => { :version => 0.9 }) %>
 
     <div class="container content">
       <div class="row">
@@ -33,37 +10,6 @@
     </div>
   </div> <!-- container -->
 
-<footer>
-<div class="row">
-<div class="col-md-4 col-md-offset-2">
-  Flapjack was conceptualised by
-  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
-  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
-  <a href="https://github.com/ali-graham">Ali Graham</a>
-  are the primary developers.
-  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
-</div>
-<div class="col-md-4 sponsor">
-  <a href="http://bulletproof.net.au" target="_bulletproof">
-    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
-  </a>
-  <span class="bulletproof subtext">
-    Development sponsored by
-    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
-  </span>
-</div>
-</div>
-</footer>
-
-<script type="text/javascript">
-  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-  try {
-    var pageTracker = _gat._getTracker("UA-388962-5");
-    pageTracker._trackPageview();
-  } catch(err) {}
-</script>
+  <%= partial "footer" %>
 </body>
 </html>
