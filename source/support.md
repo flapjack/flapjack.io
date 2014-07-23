@@ -1,3 +1,6 @@
+---
+layout: 0.9
+---
 # Support
 
 ## Mailing list

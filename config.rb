@@ -21,6 +21,11 @@ activate :livereload
 
 activate :directory_indexes
 
+# Add custom themes for different pages
+# The API theme is overridden in docs/*/jsonapi
+page "/docs/0.9/*", :layout => "0.9"
+page "/docs/1.0/*", :layout => "1.0"
+
 # Build-specific configuration
 configure :build do
   # For example, change the Compass output style for deployment
