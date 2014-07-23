@@ -1,6 +1,3 @@
----
-layout: 0.9
----
 #Flapjack Documentation
 
 ## [0.9](0.9)
