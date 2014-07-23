@@ -29,6 +29,3 @@ gem 'execjs'
 gem 'therubyracer', :platforms => :ruby
 
 gem 'nokogiri'
-
-# Gem for redirects on github's side
-gem 'jekyll-redirect-from'
