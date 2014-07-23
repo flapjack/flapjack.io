@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/quickstart">Quickstart</a></li>
+        <li><a href="/docs/1.0">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h2 id="developing-flapjack">Developing Flapjack</h2>
+
+<p>Clone the repository:</p>
+<pre class="highlight shell">git clone https://github.com/flapjack/flapjack.git
+</pre>
+
+<p>Install development dependencies:</p>
+<pre class="highlight shell"><span class="c"># Install Ruby dependencies</span>
+gem install bundler
+bundle install
+<span class="c"># Install Go dependencies and build binaries</span>
+./build.sh
+</pre>
+
+<p>You&rsquo;ll also need Redis installed:</p>
+<pre class="highlight shell"><span class="c"># Mac OS X with Homebrew:</span>
+
+brew update
+brew install redis
+
+<span class="c"># ... and follow the instructions on adding redis as a launch agent (launchctl load etc)</span>
+
+<span class="c"># Debian based Linux:</span>
+
+apt-get update
+apt-get install redis
+</pre>
+
+<p>Flapjack is, and will continue to be, well tested. Monitoring is like continuous
+integration for production apps, so why shouldn&rsquo;t your monitoring system have tests?</p>
+
+<p>Unit testing is done with RSpec, and unit tests live in <code class="prettyprint">spec/</code>.</p>
+
+<p>To run the unit tests, check out the code and run:</p>
+<pre class="highlight shell">rake spec
+</pre>
+
+<p>The following environment variables will change the behaviour of the rspec tests:</p>
+
+<ul>
+<li><code class="prettyprint">SHOW_LOGGER_ALL</code> - if set, will print out all logger messages</li>
+<li><code class="prettyprint">SHOW_LOGGER_ERRORS</code> - if set, will print out all logger messages at ERROR or FATAL level</li>
+<li><code class="prettyprint">COVERAGE</code> - enables SimpleCov for code coverage reporting, see below</li>
+</ul>
+
+<p>Integration testing is done with Cucumber, and integration tests live in <code class="prettyprint">features/</code>.</p>
+
+<p>To run the integration tests, check out the code and run:</p>
+<pre class="highlight shell">rake features
+</pre>
+
+<p>NB, if the cucumber tests fail with a <a href="https://github.com/cucumber/gherkin/issues/182">spurious lexing error</a> then try this:</p>
+<pre class="highlight shell">cucumber -f fuubar features
+</pre>
+
+<p>If you have a failing scenario and would like to see the log leading up to the error, you can put in a line like the following above the failing line in the scenario:</p>
+<pre class="highlight gherkin">  <span class="nf">And</span> show me the lovely log
+</pre>
+
+<p>You can use whatever adjective you like in there, so tune it to suit the mood of the moment.</p>
+
+<h2 id="code-coverage-reporting">Code Coverage Reporting</h2>
+
+<p>To engage <a href="https://github.com/colszowka/simplecov">SimpleCov</a> for a code coverage report, set the COVERAGE environment variable before running one (or both) of the test suites:</p>
+<pre class="highlight shell"><span class="nv">COVERAGE</span><span class="o">=</span>x rake spec
+<span class="nv">COVERAGE</span><span class="o">=</span>x rake features
+open coverage/index.html
+</pre>
+
+<p>Note that SimpleCov will merge the results of the two test suite&rsquo;s measured code coverage if you run them both within a 10 minute timeout.</p>
+
+<h2 id="startup-and-shutdown">Startup and Shutdown</h2>
+
+<p>Copy the example configuration file into place:
+<code class="prettyprint">bash
+if [ ! -e etc/flapjack_config.yaml ] ; then
+  cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml
+else
+  echo &quot;you&#39;ve already got a config file at etc/flapjack_config.yaml, exiting&quot;
+fi
+</code></p>
+
+<p>Ensure your local Redis server is running, and then to start:</p>
+<pre class="highlight shell"><span class="nv">FLAPJACK_ENV</span><span class="o">=</span>development bundle <span class="nb">exec </span>bin/flapjack --config etc/flapjack_config.yaml server start
+</pre>
+
+<p>Stop:</p>
+<pre class="highlight shell"><span class="nv">FLAPJACK_ENV</span><span class="o">=</span>development bundle <span class="nb">exec </span>bin/flapjack --config etc/flapjack_config.yaml
+</pre>
+
+<p>Get the status:</p>
+<pre class="highlight shell"><span class="nv">FLAPJACK_ENV</span><span class="o">=</span>development  bundle <span class="nb">exec </span>bin/flapjack --config etc/flapjack_config.yaml server status
+</pre>
+
+<p>Flapjack can also be started in the foreground (non-daemonized) by adding <code class="prettyprint">--no-daemonize</code> to the start command, eg:</p>
+<pre class="highlight shell"><span class="nv">FLAPJACK_ENV</span><span class="o">=</span>development bundle <span class="nb">exec </span>bin/flapjack --config etc/flapjack_config.yaml server start --no-daemonize
+</pre>
+
+<p>When running, check you can access the web interface at <a href="http://localhost:3080/">localhost:3080</a>. The port for development can be modified in etc/flapjack_config.yaml under <code class="prettyprint">development</code> - <code class="prettyprint">gateways</code> - <code class="prettyprint">web</code> - <code class="prettyprint">port</code>.</p>
+
+<p>See <a href="../USING">Using</a> for more information.</p>
+
+<h2 id="releasing">Releasing</h2>
+
+<p>Gem releases are handled with <a href="http://gembundler.com/rubygems.html">Bundler</a>.</p>
+
+<p>Before building the gem for release, you need to do a bit of housekeeping:</p>
+
+<ul>
+<li>Update the flapjack version string
+<code class="prettyprint">vi lib/flapjack/version.rb</code></li>
+<li>Update the changelog - add the new version and list each issue it addresses. The <a href="https://github.com/flapjack/flapjack/releases">Releases</a> github page will help you discover which commits have been pushed to master since the last release.
+<code class="prettyprint">vi CHANGELOG.md</code></li>
+<li>Update the bundle
+<code class="prettyprint">bundle</code></li>
+<li>Run the tests (to be sure, to be sure)
+<code class="prettyprint">bundle exec rake spec &amp;&amp; bundle exec rake features</code></li>
+<li>Fix the tests, or abort the release mission, if any tests are failing.</li>
+<li>Commit (use the actual new version string in the commit message below)
+<code class="prettyprint">git commit -a -m &#39;prepare v0.0.0 release&#39;</code></li>
+</ul>
+
+<p>To build the gem, run:</p>
+<pre class="highlight shell">bundle <span class="nb">exec </span>rake build
+</pre>
+
+<p>To push the gem to rubygems.org run:</p>
+<pre class="highlight shell">bundle <span class="nb">exec </span>rake release
+</pre>
+
+<p>Once the gem has been released, you&rsquo;ll most likely be wanting to build the <a href="https://github.com/flapjack/omnibus-flapjack/">omnibus package</a>:</p>
+<pre class="highlight plaintext">git clone https://github.com/flapjack/omnibus-flapjack.git &amp;&amp; cd omnibus-flapjack
+vagrant up ubuntu-precise64
+</pre>
+
+<p>&hellip; and <a href="https://github.com/flapjack/omnibus-flapjack/#updating-the-debian-package-repo-ubuntu-precise-only-at-present">push it up</a> to <a href="http://packages.flapjack.io">packages.flapjack.io</a>.</p>
+
+<p>You can then test the latest package with <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>:
+<code class="prettyprint">bash
+git clone https://github.com/flapjack/vagrant-flapjack.git &amp;&amp; cd vagrant-flapjack
+vagrant up
+</code></p>
+
+<h2 id="data-structures">Data Structures</h2>
+
+<p>See <a href="../DATA_STRUCTURES">Data Structures</a></p>
+
+<h2 id="restful-api-for-input,-output-and-actions">RESTful API for input, output and actions</h2>
+
+<p>See <a href="../API">API</a></p>
+
+<h2 id="importing-via-the-command-line">Importing via the command line</h2>
+
+<p>See <a href="../IMPORTING">Importing</a></p>
+
+<h2 id="architecture">Architecture</h2>
+
+<p>TODO &ndash; more detailed than in USING.md</p>
+
+<p>FIXME document check data format, for writing new check receivers</p>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

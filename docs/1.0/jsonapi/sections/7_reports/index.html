@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/quickstart">Quickstart</a></li>
+        <li><a href="/docs/1.0">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h1 id="reports">Reports</h1>
+
+<h2 id="status-of-entities-or-checks">Status of entities or checks</h2>
+<pre class="highlight shell">curl http://localhost:3081/status_report/entities
+
+<span class="c"># or</span>
+curl http://localhost:3081/status_report/entities/76
+
+<span class="c"># or</span>
+curl http://localhost:3081/status_report/entities/76,342
+
+<span class="c"># or</span>
+curl http://localhost:3081/status_report/checks
+
+<span class="c"># or</span>
+curl http://localhost:3081/status_report/checks/www.example.com:PING
+
+<span class="c"># or</span>
+curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example2.com:SSH
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">status_report_entities</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">status_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">status_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">,</span> <span class="s1">'342'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">status_report_checks</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">status_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span>
+<span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">status_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
+  <span class="s1">'www.example2.com:SSH'</span>
+<span class="p">)</span>
+</pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /status_report/entities</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /status_report/entities/ID[,ID,ID...]</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /status_report/checks</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /status_report/checks/ID[,ID,ID...]</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<p>None.</p>
+
+<h3 id="http-return-codes">HTTP Return Codes</h3>
+
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+
+<h2 id="unscheduled-maintenance-periods-of-entities-or-checks">Unscheduled maintenance periods of entities or checks</h2>
+<pre class="highlight shell">curl http://localhost:3081/unscheduled_maintenance_report/entities
+
+<span class="c"># or</span>
+curl http://localhost:3081/unscheduled_maintenance_report/entities/76
+
+<span class="c"># or</span>
+curl http://localhost:3081/unscheduled_maintenance_report/entities/76,342
+
+<span class="c"># or</span>
+curl http://localhost:3081/unscheduled_maintenance_report/checks
+
+<span class="c"># or</span>
+curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com:PING
+
+<span class="c"># or</span>
+curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">unscheduled_maintenance_report_entities</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">unscheduled_maintenance_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">unscheduled_maintenance_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">,</span> <span class="s1">'342'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">unscheduled_maintenance_report_checks</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">unscheduled_maintenance_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span>
+<span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">unscheduled_maintenance_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
+  <span class="s1">'www.example2.com:SSH'</span>
+<span class="p">)</span>
+</pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /unscheduled_maintenance_report/entities</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /unscheduled_maintenance_report/entities/ID[,ID,ID...]</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /unscheduled_maintenance_report/checks</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /unscheduled_maintenance_report/checks/ID[,ID,ID...]</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>start_time</td>
+<td>String</td>
+<td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
+</tr>
+<tr>
+<td>end_time</td>
+<td>String</td>
+<td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
+</tr>
+</tbody></table>
+
+<h3 id="http-return-codes">HTTP Return Codes</h3>
+
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+
+<h2 id="scheduled-maintenance-periods-of-entities-or-checks">Scheduled maintenance periods of entities or checks</h2>
+<pre class="highlight shell">curl http://localhost:3081/scheduled_maintenance_report/entities
+
+<span class="c"># or</span>
+curl http://localhost:3081/scheduled_maintenance_report/entities/76
+
+<span class="c"># or</span>
+curl http://localhost:3081/scheduled_maintenance_report/entities/76,342
+
+<span class="c"># or</span>
+curl http://localhost:3081/scheduled_maintenance_report/checks
+
+<span class="c"># or</span>
+curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:PING
+
+<span class="c"># or</span>
+curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">scheduled_maintenance_report_entities</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">scheduled_maintenance_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">scheduled_maintenance_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">,</span> <span class="s1">'342'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">scheduled_maintenance_report_checks</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">scheduled_maintenance_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span>
+<span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">scheduled_maintenance_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
+  <span class="s1">'www.example2.com:SSH'</span>
+<span class="p">)</span>
+</pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /scheduled_maintenance_report/entities</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /scheduled_maintenance_report/entities/ID[,ID,ID...]</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /scheduled_maintenance_report/checks</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /scheduled_maintenance_report/checks/ID[,ID,ID...]</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>start_time</td>
+<td>String</td>
+<td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
+</tr>
+<tr>
+<td>end_time</td>
+<td>String</td>
+<td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
+</tr>
+</tbody></table>
+
+<h3 id="http-return-codes">HTTP Return Codes</h3>
+
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+
+<h2 id="outages-of-entities-or-checks">Outages of entities or checks</h2>
+
+<p>An outage on a check is a period of time for which the check was failing.</p>
+<pre class="highlight shell">curl http://localhost:3081/outage_report/entities
+
+<span class="c"># or</span>
+curl http://localhost:3081/outage_report/entities/76
+
+<span class="c"># or</span>
+curl http://localhost:3081/outage_report/entities/76,342
+
+<span class="c"># or</span>
+curl http://localhost:3081/outage_report/checks
+
+<span class="c"># or</span>
+curl http://localhost:3081/outage_report/checks/www.example.com:PING
+
+<span class="c"># or</span>
+curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example2.com:SSH
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">outage_report_entities</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">outage_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">outage_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">,</span> <span class="s1">'342'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">outage_report_checks</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">outage_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span>
+<span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">outage_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
+  <span class="s1">'www.example2.com:SSH'</span>
+<span class="p">)</span>
+</pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /outage_report/entities</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /outage_report/entities/ID[,ID,ID...]</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /outage_report/checks</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /outage_report/checks/ID[,ID,ID...]</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>start_time</td>
+<td>String</td>
+<td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
+</tr>
+<tr>
+<td>end_time</td>
+<td>String</td>
+<td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
+</tr>
+</tbody></table>
+
+<h3 id="http-return-codes">HTTP Return Codes</h3>
+
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+
+<h2 id="downtime-of-entities-or-checks">Downtime of entities or checks</h2>
+
+<p>A downtime on a check is a period of time when the check is failing and there&rsquo;s no scheduled maintenance.</p>
+<pre class="highlight shell">curl http://localhost:3081/downtime_report/entities
+
+<span class="c"># or</span>
+curl http://localhost:3081/downtime_report/entities/76
+
+<span class="c"># or</span>
+curl http://localhost:3081/downtime_report/entities/76,342
+
+<span class="c"># or</span>
+curl http://localhost:3081/downtime_report/checks
+
+<span class="c"># or</span>
+curl http://localhost:3081/downtime_report/checks/www.example.com:PING
+
+<span class="c"># or</span>
+curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.example2.com:SSH
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">downtime_report_entities</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">downtime_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">downtime_report_entities</span><span class="p">(</span><span class="s1">'76'</span><span class="p">,</span> <span class="s1">'342'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">downtime_report_checks</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">downtime_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span>
+<span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">downtime_report_checks</span><span class="p">(</span>
+  <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
+  <span class="s1">'www.example2.com:SSH'</span>
+<span class="p">)</span>
+</pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /downtime_report/entities</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /downtime_report/entities/ID[,ID,ID...]</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /downtime_report/checks</code></p>
+
+<p>or</p>
+
+<p><code class="prettyprint">GET /downtime_report/checks/ID[,ID,ID...]</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>start_time</td>
+<td>String</td>
+<td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
+</tr>
+<tr>
+<td>end_time</td>
+<td>String</td>
+<td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
+</tr>
+</tbody></table>
+
+<h3 id="http-return-codes">HTTP Return Codes</h3>
+
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/quickstart">Quickstart</a></li>
+        <li><a href="/docs/1.0">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <p><strong>These are notes from a brainstorming session done in July 2013 on how to improve the build engineering + release management of Flapjack.</strong></p>
+
+<h2 id="how-is-flapjack-currently-distributed?">How is Flapjack currently distributed?</h2>
+
+<ul>
+<li>As a <a href="https://rubygems.org/gems/flapjack">gem on rubygems.org</a></li>
+<li>We have a Rake task to <a href="../DEVELOPING#releasing">build the gem</a></li>
+<li>There is a single gem for <a href="https://rubygems.org/gems/flapjack">flapjack</a></li>
+<li>There is a single gem for <a href="https://rubygems.org/gems/flapjack-diner">flapjack-diner</a></li>
+</ul>
+
+<h2 id="how-does-a-user-currently-install-flapjack?">How does a user currently install Flapjack?</h2>
+
+<ul>
+<li>Users install Redis</li>
+<li>Users install the gem, then they need to mess with the config file</li>
+<li>We are currently managing the config files with Puppet under <code class="prettyprint">/etc/flapjack</code></li>
+<li>We create a log directory under <code class="prettyprint">/var/log/flapjack</code></li>
+</ul>
+
+<h2 id="how-does-flapjack-run?">How does Flapjack run?</h2>
+
+<ul>
+<li>Internally, Flapjack functionality is contained in Pikelets (term coined by <a href="https://github.com/ali-graham">@ali-graham</a>)</li>
+<li>We can run many Pikelets in a single process</li>
+<li>In the future we may fire up separate EventMachine loops</li>
+<li>Right now there is a single EM loop</li>
+<li>The config file controls which Pikelets are booted</li>
+<li>The config file controls the logging levels</li>
+</ul>
+
+<h2 id="are-we-happy-with-how-flapjack-is-packaged-and-distributed?">Are we happy with how Flapjack is packaged and distributed?</h2>
+
+<ul>
+<li>We have problems when we want to easily deploy a branch to a development/QA environment</li>
+<li>There are two targets: development releases, and public releases</li>
+<li><a href="http://opscode.com">Opscode</a> have written a way to package up large dependency trees</li>
+<li>They&rsquo;ve called this <a href="https://github.com/opscode/omnibus">Omnibus</a></li>
+<li>It statically compiles Ruby, and pulls in all the dependencies under a single directory</li>
+</ul>
+
+<h3 id="problems-we-have-right-now:">Problems we have right now:</h3>
+
+<ul>
+<li>The install instructions aren&rsquo;t that great</li>
+<li>We don&rsquo;t provide info on where the configs should be placed</li>
+<li>We don&rsquo;t ship a default config (are there sensible defaults?)</li>
+<li>Should we create an example config file on boot, if none is supplied?</li>
+</ul>
+
+<h3 id="are-rubygems-a-good-distribution-mechanism?">Are RubyGems a good distribution mechanism?</h3>
+
+<ul>
+<li>When the project gets large enough, we should consider splitting the gem up</li>
+<li>One issue with Omnibus is that it only produces RPMs and debs</li>
+<li>This only lowers the barrier of entry for Linux users, not everyone else</li>
+<li>This isn&rsquo;t necessarily a bad thing, as long as we make it possible to install Flapjack via RubyGems</li>
+<li>A lot of early adopters are running Arch Linux, so we should target that platform</li>
+</ul>
+
+<h3 id="are-there-alternative-ways-of-releasing-flapjack?">Are there alternative ways of releasing Flapjack?</h3>
+
+<ul>
+<li><a href="http://logstash.net">logstash</a> takes a different approach
+
+<ul>
+<li>logstash bundles up all the gems + a copy of JRuby into a single jar</li>
+<li>Anyone that has a JVM can then run the jar</li>
+<li>This would allow Flapjack to be run easily on Windows, Linux, OS X</li>
+</ul></li>
+</ul>
+
+<h2 id="what-do-we-want-flapjack-releases-to-look-like?">What do we want Flapjack releases to look like?</h2>
+
+<ol>
+<li>We want to create a great user experience for people running Flapjack the first time
+
+<ul>
+<li>People should be able to run Flapjack without any config</li>
+<li>This would populate some default contacts, &ldquo;standard reference data&rdquo;</li>
+</ul></li>
+<li>Build Flapjack <a href="https://github.com/flapjack/omnibus-flapjack">packages with Omnibus</a> for Debian, RedHat, Arch 
+
+<ul>
+<li>Omnibus lowers the barrier of entry, because users don&rsquo;t need to worry about all the dependencies</li>
+</ul></li>
+<li>Publish packages in a public repository
+
+<ul>
+<li>Do we use a Launchpad PPA?</li>
+<li>Or run our own package repository infrastructure at packages.flapjack.io?</li>
+</ul></li>
+<li>Update install documentation to reference package repos</li>
+<li>Release a Vagrant box that install packages via Puppet
+
+<ul>
+<li>This will act as a reference implementation for integrating Flapjack into your monitoring stack</li>
+</ul></li>
+</ol>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

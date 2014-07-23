@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/quickstart">Quickstart</a></li>
+        <li><a href="/docs/1.0">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h1 id="quickstart">Quickstart</h1>
+
+<p>This quickstart guide will get you <a href="http://flapjack.io/">Flapjack</a> running in a VM locally using Vagrant and VirtualBox.</p>
+
+<p>You&rsquo;ll also learn the basics of how to:</p>
+
+<ul>
+<li>Configure Flapjack</li>
+<li>Simulate a failure of a monitored service</li>
+<li>Integrate Flapjack with Nagios (or Icinga), so Flapjack takes over alerting</li>
+</ul>
+
+<p>To skip this tutorial and jump straight to the code, view the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.</p>
+
+<h2 id="getting-flapjack-running">Getting Flapjack running</h2>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<ul>
+<li><a href="http://vagrantup.com/">Vagrant</a> 1.2+</li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> 4.2+
+(or an alternative provider such as <a href="http://www.vmware.com/au/products/fusion/">VMware Fusion</a>
+and the <a href="http://www.vagrantup.com/vmware">Vagrant plugin</a>)</li>
+</ul>
+
+<h3 id="setup">Setup</h3>
+
+<p>Get the repo, and build your Vagrant box:</p>
+<pre class="highlight plaintext">git clone https://github.com/flapjack/vagrant-flapjack.git
+cd vagrant-flapjack
+vagrant up
+</pre>
+
+<p>For an alternative provider to VirtualBox (e.g. VMware Fusion), you can specify the provider when running <code class="prettyprint">vagrant up</code>:</p>
+<pre class="highlight plaintext">vagrant up --provider=vmware_fusion
+</pre>
+
+<div class="alert alert-info">
+<strong>More information:</strong>
+Check out the <a class="alert-link" href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a> project on GitHub.
+</div>
+
+<h3 id="verify">Verify</h3>
+
+<p>Visit <a href="http://localhost:3080">http://localhost:3080</a> from your host workstation.
+You should see the Flapjack Web UI:</p>
+
+<p><img alt="Screenshot of the Flapjack Web UI" src="../../../images/0.9/quickstart/web-ui.png" /></p>
+
+<p>You should also find Icinga and Nagios UIs running at:</p>
+
+<table class="table table-striped table-hover">
+  <tr>
+    <th>URL</th>
+    <th>Username</th>
+    <th>Password</th>
+  </tr>
+  <tr>
+    <td>
+      <a href="http://localhost:3083/nagios3">
+      http://localhost:3083/nagios3
+      </a>
+    </td>
+    <td>nagiosadmin</td>
+    <td>nagios</td>
+  </tr>
+  <tr>
+    <td>
+      <a href="http://localhost:3083/icinga">
+      http://localhost:3083/icinga
+      </a>
+    </td>
+    <td>icingaadmin</td>
+    <td>icinga</td>
+  </tr>
+</table>
+
+<h2 id="get-comfortable-with-the-flapjack-cli">Get comfortable with the Flapjack CLI</h2>
+
+<p>SSH into the VM:</p>
+<pre class="highlight shell">vagrant ssh
+</pre>
+
+<p>Have a look at the commands under <code class="prettyprint">/opt/flapjack/bin</code>:</p>
+<pre class="highlight plaintext">export PATH=$PATH:/opt/flapjack/bin
+# ...
+flapjack --help
+# ...
+simulate-failed-check --help
+# ...
+</pre>
+
+<div class="alert alert-info">
+Details of these commands are available <a class="alert-link" href="USING#running">on the Flapjack wiki</a>.
+</div>
+
+<p><img alt="CLI" src="../../../images/0.9/quickstart/term-flapjack-help.png" /></p>
+
+<h2 id="simulate-a-check-failure">Simulate a check failure</h2>
+
+<p>Run something like:</p>
+<pre class="highlight shell">simulate-failed-check fail-and-recover <span class="se">\</span>
+  --entity foo-app-01.example.com <span class="se">\</span>
+  --check Sausage <span class="se">\</span>
+  --time 3
+</pre>
+
+<p>This will send a stream of critical events for 3 minutes, and send one ok event at the end. If you want the last event to be a failure as well, use the <code class="prettyprint">fail</code> command instead of <code class="prettyprint">fail-and-recover</code>.</p>
+
+<h3 id="verify">Verify</h3>
+
+<p>Reload the Flapjack Web UI and you should now be able to see the status of the check you&rsquo;re simulating, e.g. at:</p>
+
+<pre>
+<a href="http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage">http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage</a>
+</pre>
+
+<h2 id="integrate-flapjack-with-nagios-(and-icinga)">Integrate Flapjack with Nagios (and Icinga)</h2>
+
+<p>Both Nagios and Icinga are configured already to append check output data to the following named pipe: <code class="prettyprint">/var/cache/icinga/event_stream.fifo</code>.</p>
+
+<p><code class="prettyprint">flapjack-nagios receiver</code> takes check output data from Nagios and turns it into events that Flapjack understands:</p>
+
+<p><img alt="Flapjack's architecture" src="../../../images/0.9/quickstart/architecture.png" /></p>
+
+<p>All that remains is to configure <code class="prettyprint">flapjack-nagios-receiver</code> to read from this named pipe, configure its Redis connection, and start it up.</p>
+
+<ul>
+<li>Edit the Flapjack config file at <code class="prettyprint">/etc/flapjack/flapjack_config.yaml</code></li>
+<li>Find the <code class="prettyprint">nagios-receiver</code> section under <code class="prettyprint">production</code> and change the <code class="prettyprint">fifo:</code> to be <code class="prettyprint">/var/cache/icinga/event_stream.fifo</code></li>
+<li>Start it up with:</li>
+</ul>
+<pre class="highlight shell">sudo /etc/init.d/flapjack-nagios-receiver start
+</pre>
+
+<p>More details on configuration are available <a href="../USING#configuring-components">on the wiki</a>.</p>
+
+<h3 id="verify">Verify</h3>
+
+<p>Reload the Flapjack web interface and you should now see the checks from Icinga and/or Nagios appearing there.</p>
+
+<p><img alt="Checks" src="../../../images/0.9/quickstart/checks-from-nagios.png" /></p>
+
+<h2 id="create-some-contacts-and-entities">Create some contacts and Entities</h2>
+
+<p>Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the <a href="../API">Flapjack API</a>.</p>
+
+<p>The vagrant-flapjack project ships with <a href="https://github.com/flapjack/vagrant-flapjack/tree/master/examples">example json files</a> that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json.</p>
+
+<h3 id="create-contacts-ada-and-charles">Create Contacts Ada and Charles</h3>
+
+<p>We&rsquo;ll be using the <a href="../API#wiki-post_contacts">POST /contacts</a> API call to create two contacts.</p>
+
+<p>Run the following from your workstation, cd&rsquo;d into the vagrant-flapjack directory:</p>
+<pre class="highlight plaintext">curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
+  -d @examples/contacts_ada_and_charles.json \
+  http://localhost:3081/contacts
+</pre>
+
+<p>Or alternatively, copy and paste the following. This does the same thing, but includes the json data inline.</p>
+<pre class="highlight plaintext">curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "contacts": [
+      {
+        "id": "21",
+        "first_name": "Ada",
+        "last_name": "Lovelace",
+        "email": "ada@example.com",
+        "media": {
+          "sms": {
+            "address": "+61412345678",
+            "interval": "3600",
+            "rollup_threshold": "5"
+          },
+          "email": {
+            "address": "ada@example.com",
+            "interval": "7200",
+            "rollup_threshold": null
+          }
+        },
+        "tags": [
+          "legend",
+          "first computer programmer"
+        ]
+      },
+      {
+        "id": "22",
+        "first_name": "Charles",
+        "last_name": "Babbage",
+        "email": "charles@example.com",
+        "media": {
+          "sms": {
+            "address": "+61412345679",
+            "interval": "3600",
+            "rollup_threshold": "5"
+          },
+          "email": {
+            "address": "charles@example.com",
+            "interval": "7200",
+            "rollup_threshold": null
+          }
+        },
+        "tags": [
+          "legend",
+          "polymath"
+        ]
+      }
+    ]
+  }' \
+ http://localhost:3081/contacts
+</pre>
+
+<p>Navigate to <a href="http://localhost:3080/contacts">Contacts</a> in the Flapjack web UI and you should see Ada Lovelace and Charles Babbage listed:</p>
+
+<p><img alt="Contacts - List" src="../../../images/0.9/quickstart/contacts-ada-and-charles.png" /></p>
+
+<p>Selecting <a href="http://localhost:3080/contacts/21">Ada</a> should give you something like:</p>
+
+<p><img alt="Contact - Ada Lovelace" src="../../../images/0.9/quickstart/contact-ada.png" /></p>
+
+<h3 id="create-entities-foo-app-01-and-foo-db-01-(.example.com)">Create entities foo-app-01 and foo-db-01 (.example.com)</h3>
+
+<p>We&rsquo;ll be using the <a href="../API#wiki-post_entities">POST /entities</a> api call to create two entities.</p>
+
+<p>We&rsquo;re going to assign both Ada and Charles to foo-app-01, and just Ada to foo-db-01.</p>
+<pre class="highlight plaintext">curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
+  -d @examples/entities_my-app-01_and_my-db-01.json \
+  http://localhost:3081/entities
+</pre>
+
+<p>Or with json inline if you prefer:</p>
+<pre class="highlight plaintext">curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
+ '{
+    "entities": [
+      {
+        "id": "801",
+        "name": "my-app-01.example.com",
+        "contacts": [
+          "21",
+          "22"
+        ],
+        "tags": [
+          "my",
+          "app"
+        ]
+      },
+      {
+        "id": "802",
+        "name": "my-db-01.example.com",
+        "contacts": [
+          "21"
+        ],
+        "tags": [
+          "my",
+          "db"
+        ]
+      }
+
+    ]
+  }' \
+ http://localhost:3081/entities
+</pre>
+
+<h4 id="verify">Verify</h4>
+
+<p>Visit <a href="http://localhost:3080/entity/my-app-01.example.com">my-app-01</a> in the web UI and you should see something like:</p>
+
+<p><img alt="Entity - my-app-01.example.com" src="../../../images/0.9/quickstart/entity-my-app-01-no-checks.png" /></p>
+
+<h2 id="feedback?">Feedback?</h2>
+
+<p>Found an error in the above? Please <a href="https://github.com/flapjack/flapjack/issues/new">submit a bug report</a> and/or a pull request against the <a href="https://github.com/flapjack/flapjack/tree/gh-pages">gh-pages branch</a> with the fix.</p>
+
+<p>Something not clear? That&rsquo;s a bug too!</p>
+
+<p>Got questions? Suggestions? Talk to us via irc, mailing list, or twitter. See <a href="/support">Support</a> for details.</p>
+
+<h2 id="coming-soon">Coming soon</h2>
+
+<p>Stay tuned for more info on how to configure:</p>
+
+<ul>
+<li>notification rules</li>
+<li>intervals</li>
+<li>summary thresholds</li>
+</ul>
+
+<p>In the mean time, check out:</p>
+
+<ul>
+<li><a href="../IMPORTING">Documentation</a> on <strong>how to import contacts and entities</strong></li>
+<li><strong><a href="../jsonapi">JSONAPI documentation</a></strong> for working with individual contacts and entities</li>
+</ul>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

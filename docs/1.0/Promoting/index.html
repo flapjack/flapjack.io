@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/quickstart">Quickstart</a></li>
+        <li><a href="/docs/1.0">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h3 id="live-demo-website:">Live demo website:</h3>
+
+<ul>
+<li>Integrate with Jabber (GTalk?)</li>
+<li>Send emails</li>
+<li>Add some default data</li>
+</ul>
+
+<h3 id="vagrant-box:">Vagrant box:</h3>
+
+<ul>
+<li>This will be easier if we produce packages with Omnibus</li>
+</ul>
+
+<h3 id="a-comparison-matrix:">A comparison matrix:</h3>
+
+<ul>
+<li>List different monitoring systems</li>
+<li>Help people compare Flapjack to other existing tools</li>
+<li>Include this on the Flapjack website</li>
+<li>Put a Venn diagram explaining the overlap of features</li>
+</ul>
+
+<h3 id="draft-comparison-matrix">Draft comparison matrix</h3>
+
+<table><thead>
+<tr>
+<th>Feature</th>
+<th>Flapjack</th>
+<th>Nagios</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Talk to jabber</td>
+<td>y</td>
+<td>y (via plugin)</td>
+</tr>
+<tr>
+<td>Talk to PagerDuty</td>
+<td>y</td>
+<td>y (via plugin)</td>
+</tr>
+<tr>
+<td>Escalations</td>
+<td>n</td>
+<td>y</td>
+</tr>
+<tr>
+<td>Time of day notifications</td>
+<td>y</td>
+<td>y</td>
+</tr>
+<tr>
+<td>API for managing contacts</td>
+<td>y</td>
+<td>n</td>
+</tr>
+<tr>
+<td>API for scheduling maintenance</td>
+<td>y</td>
+<td>n</td>
+</tr>
+<tr>
+<td>On-the-fly config changes</td>
+<td>y</td>
+<td>n</td>
+</tr>
+<tr>
+<td>Parenting</td>
+<td>n</td>
+<td>y</td>
+</tr>
+<tr>
+<td>Executes checks</td>
+<td>n</td>
+<td>y</td>
+</tr>
+<tr>
+<td>Accepts arbitrary check results</td>
+<td>y</td>
+<td>n</td>
+</tr>
+<tr>
+<td>Out-of-band verification</td>
+<td>y</td>
+<td>n</td>
+</tr>
+<tr>
+<td>Freshness checks</td>
+<td>n</td>
+<td>y</td>
+</tr>
+<tr>
+<td>Muted notifications for new checks</td>
+<td>y</td>
+<td>y</td>
+</tr>
+<tr>
+<td>License</td>
+<td>MIT</td>
+<td>GPLv2</td>
+</tr>
+<tr>
+<td>Horizontally scalable</td>
+<td>y</td>
+<td>n</td>
+</tr>
+<tr>
+<td>State storage backend</td>
+<td>Redis</td>
+<td>Flat file</td>
+</tr>
+<tr>
+<td>Web interface</td>
+<td>y</td>
+<td>y</td>
+</tr>
+<tr>
+<td>Edit configuration via web interface</td>
+<td>n</td>
+<td>n</td>
+</tr>
+<tr>
+<td>Live search</td>
+<td>n</td>
+<td>y</td>
+</tr>
+<tr>
+<td>SLA Reports</td>
+<td>y</td>
+<td>y (via plugin)</td>
+</tr>
+</tbody></table>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

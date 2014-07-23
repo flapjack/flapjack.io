@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/quickstart">Quickstart</a></li>
+        <li><a href="/docs/1.0">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <p>Flapjack follows the version numbering conventions as set out in the <a href="http://semver.org/spec/v2.0.0.html">Semantic Versioning 2.0</a> specification. Specifically:</p>
+
+<blockquote>
+<p>Given a version number MAJOR.MINOR.PATCH, increment the:</p>
+
+<ul>
+<li>MAJOR version when you make incompatible API changes,</li>
+<li>MINOR version when you add functionality in a backwards-compatible manner, and</li>
+<li>PATCH version when you make backwards-compatible bug fixes.</li>
+</ul>
+
+<p>Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.</p>
+</blockquote>
+
+<h3 id="how-features-+-bug-fixes-get-into-releases">How features + bug fixes get into releases</h3>
+
+<ul>
+<li>New issues are created, and discussion ensues in the issue&rsquo;s comments</li>
+<li>We don&rsquo;t initially allocate a milestone to an issue (unless the bug is related to a new feature of a milestone)</li>
+<li>Issues without milestones are triaged in release planning meetings</li>
+<li>Release planning meetings are held publicly on Google Hangouts, and will be announced in advance via the mailing list.</li>
+</ul>
+
+<p>The outcomes for release planning meetings are:</p>
+
+<ul>
+<li>Issues without milestones are allocated a milestone</li>
+<li>Issues are allocated to the next MINOR release</li>
+<li>A release plan is published to the <a href="../wiki">Flapjack wiki</a> in the format &ldquo;Release plan for &lt;MAJOR.MINOR&gt;&rdquo;</li>
+</ul>
+
+<h3 id="bug-policy">Bug policy</h3>
+
+<p>Bugs are swept under the carpet in many open source projects. Flapjack has a clear policy for how we deal with bugs:</p>
+
+<ul>
+<li>For bugs triaged as <strong>easy</strong>, we try to fix + release in a PATCH release</li>
+<li>For bugs triaged as <strong>medium</strong>, we try to fix + release in the next MINOR release</li>
+<li>For bugs triaged as <strong>hard</strong>, we try to fix + release in the next MAJOR release</li>
+</ul>
+
+<h3 id="building-releases">Building Releases</h3>
+
+<p>See <a href="../DEVELOPING#releasing">Releasing</a> under DEVELOPING.</p>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

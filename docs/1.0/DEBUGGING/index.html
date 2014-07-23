@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/quickstart">Quickstart</a></li>
+        <li><a href="/docs/1.0">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <p>Here are some useful ways of debugging various things in Flapjack.</p>
+
+<h3 id="redis-connection-leaks">Redis Connection Leaks</h3>
+
+<p>The following command reports every five seconds the number of connections to Redis (as reported by <code class="prettyprint">lsof</code>) and the total number of EventMachine external protocol connections currently in place:</p>
+
+<p>Production paths:</p>
+<pre class="highlight shell"><span class="k">while </span><span class="nb">true</span> ; <span class="k">do
+  </span><span class="nb">echo</span> -n <span class="s2">"EM connection count: "</span>
+  tail -50000 /var/log/flapjack/flapjack.log | grep -i <span class="s2">"connection count"</span> <span class="se">\</span>
+    | tail -1 | awk <span class="s1">'{ print $5 }'</span>
+  <span class="nb">echo</span> -n <span class="s2">"lsof redis: "</span>
+  sudo lsof -p <span class="sb">`</span>cat /var/run/flapjack/flapjack.pid<span class="sb">`</span> | grep :6379 | wc -l
+  sleep 5
+<span class="k">done</span>
+</pre>
+
+<p>Development paths:</p>
+<pre class="highlight shell"><span class="k">while </span><span class="nb">true</span> ; <span class="k">do
+  </span><span class="nb">echo</span> -n <span class="s2">"EM connection count: "</span>
+  tail -50000 log/flapjack.log | grep -i <span class="s2">"connection count"</span> <span class="se">\</span>
+    | tail -1 | awk <span class="s1">'{ print $5 }'</span>
+  <span class="nb">echo</span> -n <span class="s2">"lsof redis: "</span>
+  sudo lsof -p <span class="sb">`</span>cat tmp/pids/flapjack.pid<span class="sb">`</span> | grep localhost:6379 | wc -l
+  sleep 5
+<span class="k">done</span>
+</pre>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

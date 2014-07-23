@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/quickstart">Quickstart</a></li>
+        <li><a href="/docs/1.0">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h2 id="flapjack-data-structures-in-redis">Flapjack Data Structures in Redis</h2>
+
+<p>Flapjack is using redis as its data store. Here are the data structures in use.</p>
+
+<h3 id="event-queue">Event queue</h3>
+<pre class="highlight plaintext">events (list) -&gt; [ EVENT, EVENT, ... ]
+
+EVENT      (string) - A Ruby hash serialised in JSON: 
+
+                     { 
+                       'entity'   =&gt; ENTITY,
+                       'check'    =&gt; CHECK,
+                       'type'     =&gt; EVENT_TYPE,
+                       'state'    =&gt; STATE,
+                       'time'     =&gt; TIMESTAMP,
+                       'summary'  =&gt; SUMMARY,
+                       'details'  =&gt; DETAILS,
+                       'tags'     =&gt; TAGS,
+                       'perfdata' =&gt; PERFDATA
+                     }
+
+ENTITY     (string)   - Name of the relevant entity (e.g. FQDN)
+CHECK      (string)   - The check name ('service description' in Nagios terminology)
+EVENT_TYPE (string)   - One of 'service' or 'action'
+STATE      (string)   - One of 'ok', 'warning', 'critical', 'unknown', 'acknowledgement'
+TIMESTAMP  (string)   - UNIX timestamp of the event's creation
+SUMMARY    (string)   - The check output in the case of a service event, otherwise a
+                        message created for an acknowledgement or similar
+DETAILS    (string)   - Long check output for a Nagios service event
+PERFDATA   (string)   - Performance data for a Nagios service event
+TAGS       (string[]) - Array of tags pertaining to the event
+</pre>
+
+<h3 id="event-archive-(sliding-window)">Event Archive (sliding window)</h3>
+
+<p>Version 0.7.1 +</p>
+
+<p>If enabled in the configuration (environment / executive / archive_events) flapjack
+will save a copy of events as they are being processed into this data structure. The
+keys used for the archive are changed every hour and an expiry placed on the keys
+taken from the configuration (environment / executive / events_archive_maxage - seconds).</p>
+<pre class="highlight plaintext">events_archive:YYYYMMDDHH (list, with expiry) -&gt; [ EVENT, EVENT, ...]
+
+EVENT - see the Event queue documentation above
+</pre>
+
+<h3 id="jabber-notification-queue">Jabber notification queue</h3>
+<pre class="highlight plaintext">jabber_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
+
+NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
+</pre>
+
+<h3 id="pagerduty-notification-queue">PagerDuty notification queue</h3>
+<pre class="highlight plaintext">pagerduty_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
+
+NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
+</pre>
+
+<h3 id="storing-all-check-state-changes">Storing all check state changes</h3>
+
+<p><em>Current state</em></p>
+<pre class="highlight plaintext">check:ENTITY:CHECK (hash) -&gt; { 'state' =&gt; STATE, 'last_change' =&gt; TIMESTAMP, 'last_update' =&gt; TIMESTAMP }
+</pre>
+
+<p>The current state hash above is redundant given the All state changes structures below, but may provide a speed improvement.</p>
+
+<p>The <code class="prettyprint">last_update</code> timestamp is updated for every service event received for the service.</p>
+
+<p><em>All state changes</em>
+<code class="prettyprint">text
+ENTITY:CHECK:states                    (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:TIMESTAMP:state         (string) -&gt; STATE
+ENTITY:CHECK:TIMESTAMP:summary       (string) -&gt; SUMMARY
+ENTITY:CHECK:TIMESTAMP:count         (string) -&gt; COUNT
+ENTITY:CHECK:TIMESTAMP:check_latency (string) -&gt; LATENCY
+</code></p>
+
+<p>In order to query against this data while filtering by timestamp range, the following mirror of the list is being maintained:</p>
+
+<p><em>Sorted state timestamps</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:sorted_state_timestamps (sorted set) -&gt; (TIMESTAMP, TIMESTAMP; TIMESTAP, TIMESTAMP; ...)
+</pre>
+
+<h3 id="storing-all-action-events">Storing all action events</h3>
+<pre class="highlight plaintext">ENTITY:CHECK:actions (hash) -&gt; { TIMESTAMP =&gt; STATE }
+
+STATE (string) - eg 'acknowledgement'
+</pre>
+
+<h3 id="failed-checks">Failed checks</h3>
+
+<p><em>All failing checks</em></p>
+
+<p>failed_checks (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; &hellip; )</p>
+
+<h3 id="current-checks-and-entities">Current checks and entities</h3>
+
+<p>Any time an event is received from the check execution system for a check, the check&rsquo;s timestamp (rank) is updated in the sorted set for the entity. If a check isn&rsquo;t in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.</p>
+
+<p>Related to this is the current_entities sorted set, which contains all entities that have current checks, ordered by the timestamp of the latest check event received for each entity.</p>
+
+<p>current_checks:ENTITY (sorted set) =&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; &hellip; )
+    current_entities (sorted set) =&gt; ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; &hellip; )</p>
+
+<h3 id="unscheduled-maintenance">Unscheduled Maintenance</h3>
+
+<p>This key will only be present during the unschedule maintenance period for quick lookup of whether a service is in unschedule maintenance. An expiry TTL will be put on the key so it automatically goes away (default 4 hrs expiry time).</p>
+
+<p><em>Current state</em>
+&ldquo;`text
+ENTITY:CHECK:unscheduled_maintenance (string with expiry) -&gt; TIMESTAMP</p>
+
+<p>TIMESTAMP - the time the unscheduled maintenance begun
+&rdquo;`</p>
+
+<p><em>Collect all unscheduled outages for reporting etc</em>
+&ldquo;`text
+ENTITY:CHECK:unscheduled_maintenances             (ordered set) -&gt; ( DURATION, TIMESTAMP;
+                                                                     DURATION, TIMESTAMP; &hellip; )
+ENTITY:CHECK:TIMESTAMP:unscheduled_maintenance:summary (string) -&gt; SUMMARY</p>
+
+<p>TIMESTAMP - start of the unscheduled maintenance period
+DURATION  - the elapsed time of the unscheduled maintenance (including any extensions to the original period)
+SUMMARY   - populated from the summary of the acknowledgement(s) (summaries to be glued together if there are
+            multiple during an unscheduled outage)
+&rdquo;`</p>
+
+<p>In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:</p>
+
+<p><em>Sorted unscheduled maintenance timestamps</em>
+<code class="prettyprint">text
+ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
+                                                                          TIMESTAMP, TIMESTAMP; ... )
+</code></p>
+
+<h3 id="scheduled-maintenance">Scheduled Maintenance</h3>
+
+<p>This key will only be present during the scheduled maintenance period for quick lookup of whether a check is in scheduled maintenance. An expiry TTL (4 hours by default) will be put on the key so it destroys itself after this time.</p>
+
+<p><em>Current state</em>
+&ldquo;`text
+ENTITY:CHECK:scheduled_maintenance (string with expiry) -&gt; TIMESTAMP</p>
+
+<p>TIMESTAMP - the time the scheduled maintenance begun
+&rdquo;`</p>
+
+<p><em>All future scheduled outages, and left for reporting purposes</em>
+&ldquo;`text
+ENTITY:CHECK:scheduled_maintenances (ordered set)             -&gt; ( DURATION, TIMESTAMP;
+                                                                   DURATION, TIMESTAMP; &hellip; )
+ENTITY:CHECK:TIMESTAMP:scheduled_maintenance:summary (string) -&gt; SUMMARY</p>
+
+<p>TIMESTAMP - start of the scheduled maintenance period
+DURATION  - the elapsed time of the scheduled maintenance window (including any extensions to the original period)
+SUMMARY   - populated from the summary of the scheduled maintenance creation event(s) (summaries to be glued
+            together if there are multiple)
+&rdquo;`</p>
+
+<p>In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:</p>
+
+<p><em>Sorted scheduled maintenance timestamps</em>
+&ldquo;`text
+ENTITY:CHECK:sorted_scheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
+                                                                        TIMESTAMP, TIMESTAMP; &hellip; )</p>
+
+<p>TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the score and value of each
+            item in the ordered set)
+&rdquo;`</p>
+
+<h3 id="notifications">Notifications</h3>
+
+<p>We need to store notifications that have been generated (not necessarily sent out, see Alerts), for problems, recoveries, and acknowledgements.</p>
+
+<p><em>Last alert of each type (problem, recovery, acknowledgement)</em>
+&ldquo;`text
+ENTITY:CHECK:last_problem_notification         (string) -&gt; TIMESTAMP
+ENTITY:CHECK:last_unknown_notification         (string) -&gt; TIMESTAMP
+ENTITY:CHECK:last_warning_notification         (string) -&gt; TIMESTAMP
+ENTITY:CHECK:last_critical_notification        (string) -&gt; TIMESTAMP
+ENTITY:CHECK:last_recovery_notification        (string) -&gt; TIMESTAMP
+ENTITY:CHECK:last_acknowledgement_notification (string) -&gt; TIMESTAMP</p>
+
+<p>TIMESTAMP - the time of the last notification sent of the corresponding type (problem, recovery, acknowledgement)
+&rdquo;`</p>
+
+<p><em>Retention of all notifications</em>
+<code class="prettyprint">text
+ENTITY:CHECK:problem_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:unknown_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:warning_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:critical_notifications        (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:recovery_notifications        (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+ENTITY:CHECK:acknowledgement_notifications (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+</code></p>
+
+<h3 id="alerts">Alerts</h3>
+
+<p>Alerts correspond to messages that get emitted by Flapjack. A &lsquo;notification&rsquo; may result in 0 or more alerts being sent out, depending on notification rules and intervals configured on the contacts for the check in question.</p>
+<pre class="highlight plaintext">drop_alerts_for_contact:CONTACT_ID                          (string with expiry) -&gt; DURATION
+drop_alerts_for_contact:CONTACT_ID:MEDIA                    (string with expiry) -&gt; DURATION
+drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK       (string with expiry) -&gt; DURATION
+drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE (string with expiry) -&gt; DURATION
+drop_rollup_alerts_for_contact:CONTACT_ID:MEDIA             (string with expiry) -&gt; DURATION
+
+# Vapourware warning: the alerts and alerts_by_* data structures are in the design phase and as yet
+unimplemented. Work being tracked in gh-182 ... This data structure will change as it is not time
+bucketed, and needs to be (for ease of aging out old data)
+
+alerts                                                     (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alerts_by_contact:CONTACT_ID                               (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_contact:CONTACT_ID:MEDIA                         (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_contact:CONTACT_ID:MEDIA:ENTITY:CHECK *          (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE *    (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alerts_by_entity:ENTITY *                                  (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alerts_by_check:ENTITY:CHECK                               (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_check:ENTITY:CHECK:CONTACT_ID *                  (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_check:ENTITY:CHECK:CONTACT_ID:MEDIA *            (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_check:ENTITY:CHECK:CONTACT_ID:MEDIA:STATE *      (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alerts_by_time:DATE       (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+alerts_by_time:DATE:HH *  (sorted set) -&gt; [ TIMESTAMP, ALERT_ID; TIMESTAMP, ALERT_ID; ... ]
+
+alert:ALERT_ID  (hash) -&gt; { timestamp =&gt; TIMESTAMP,
+                            contact   =&gt; CONTACT_ID,
+                            media     =&gt; MEDIA,
+                            address   =&gt; ADDRESS,
+                            check     =&gt; ENTITY:CHECK,
+                            type      =&gt; NOTIFICATION_TYPE,
+                            rollup    =&gt; ROLLUP_TYPE,
+                            state     =&gt; STATE,
+                            subject   =&gt; SUBJECT,
+                            body      =&gt; BODY, }
+
+ALERT_ID    - unique identifier for the alert (UUID?)
+DATE        - date string of the form YYYYMMDD
+HOUR        - 2 character string representing the hour, eg '00', '01', ... '23'
+*           - this key type is probably overkill
+SUBJECT     - for email alerts, the subject
+BODY        - for email alerts, the body of the email message. for sms, pagerduty, jabber, the whole message content.
+ROLLUP_TYPE - one of nil, 'problem' or 'recovery'. A recovery rollup alert is where the rollup is ending due to
+              the number of alerting events falling below the rollup threshold
+
+</pre>
+
+<h3 id="contacts">Contacts</h3>
+
+<p>Contacts are populated from an external system via REST API or the flapjack-populator command line utility. See IMPORTING.</p>
+<pre class="highlight plaintext">contact:CONTACT_ID           (hash) -&gt; { 'first_name' =&gt; FIRST_NAME,
+                                         'last_name'  =&gt; LAST_NAME,
+                                         'email'      =&gt; EMAIL }
+contact_media:CONTACT_ID     (hash) -&gt; { 'email'     =&gt; EMAIL,
+                                         'sms'       =&gt; PHONE_NUMBER,
+                                         'jabber'    =&gt; JABBER_ID,
+                                         'pagerduty' =&gt; PAGERDUTY_SERVICE_KEY }
+contact_tz:CONTACT_ID      (string) -&gt; TIMEZONE
+contact_media_intervals:CONTACT_ID  -&gt; { 'email'     =&gt; INTERVAL,
+                             (hash)      'sms'       =&gt; INTERVAL,
+                                         'jabber'    =&gt; INTERVAL,
+                                         'pagerduty' =&gt; INTERVAL }
+contact_media_rollup_thresholds:CONTACT_ID -&gt; {
+                             (hash)      'email'     =&gt; FAILURE_COUNT,
+                                         'sms'       =&gt; FAILURE_COUNT,
+                                         'jabber'    =&gt; FAILURE_COUNT,
+                                         'pagerduty' =&gt; FAILURE_COUNT }
+contact_pagerduty:CONTACT_ID (hash) -&gt; { 'subdomain' =&gt; PAGERDUTY_SUBDOMAIN,
+                                         'username'  =&gt; PAGERDUTY_USERNAME,
+                                         'password'  =&gt; PAGERDUTY_PASSWORD }
+contact_tag:TAG               (set) -&gt; ( CONTACT_ID, CONTACT_ID, ...)
+
+CONTACT_ID            (string) - an external reference / identifier for this contact (used for synchronisation)
+INTERVAL              (string) - number of seconds in between repeat alerts
+PHONE_NUMBER          (string) - a phone number in international format, starting with +
+JABBER_ID             (string) - the jabber id of the contact, eg 'adalovelace@jabber.charlesbabbage.com',
+                                 can be a group chat
+PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service'
+                                 within this contact's PagerDuty account
+PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "foobar" in the case
+                                 of https://foobar.pagerduty.com/
+PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data
+                                 back out of PagerDuty
+PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
+TAG                   (string) - arbitrary tag
+TIMEZONE              (string) - a timezone string representing the user's local timezone, eg 'Australia/Broken_Hill'
+                                 see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/,
+                                 http://api.rubyonrails.org/classes/ActiveSupport/TimeZone.html
+FAILURE_COUNT         (string) - the number of failing checks this contact has before rollup kicks in, 0 means never
+</pre>
+
+<p>Notes:</p>
+
+<ul>
+<li><code class="prettyprint">contact:CONTACT_ID</code> is about the contact, <code class="prettyprint">contac_media:CONTACT_ID</code> lists which contact methods to use
+for this contact (so if it just contains sms then we&rsquo;ll only notify this person by sms).</li>
+<li><code class="prettyprint">EMAIL</code> &hellip; note that this is potentially duplicated, the email field in <code class="prettyprint">contact:CONTACT_ID</code> is really
+just for matching up users and is not used as a contact media</li>
+<li><code class="prettyprint">JABBER_ID</code> - may be a jabber id of an individual, or of a group chat room. If a group chat room this
+jabber_id should also be included in the flapjack configuration file so that flapjack jabber gateway joins
+the group chat</li>
+</ul>
+
+<h3 id="entity-and-check-contacts">Entity and Check Contacts</h3>
+
+<p>Which contacts are interested in which entities and/or which checks?</p>
+<pre class="highlight plaintext">contacts_for:ENTITY_ID       (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
+contacts_for:ENTITY_ID:CHECK (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
+entity:ENTITY_ID            (hash) -&gt; { 'name' =&gt; ENTITY }
+entity_id:ENTITY          (string) -&gt; ENTITY_ID
+entity_tag:TAG               (set) -&gt; ( ENTITY_ID, ENTITY_ID, ... )
+
+ENTITY_ID - a unique, immutable identifier given to each entity. This allows the name of the entity
+            to change (eg a host gets renamed) and synchronisation to not go out of whack.
+TAG       - arbitrary tag
+</pre>
+
+<h3 id="notification-rules">Notification Rules</h3>
+
+<p>A contact may have a set of notification rules to fine tune when, and by what means, they are notified.</p>
+<pre class="highlight plaintext">contact_notification_rules:CONTACT_ID (set) -&gt; { RULE_ID }
+notification_rule:RULE_ID (hash) -&gt; {
+                                      'contact_id'         =&gt; CONTACT_ID,
+                                      'entity_tags'        =&gt; TAG_LIST,
+                                      'entities'           =&gt; ENTITY_LIST,
+                                      'time_restrictions'  =&gt; TIME_RESTRICTIONS,
+                                      'unknown_media'      =&gt; MEDIA_LIST,
+                                      'warning_media'      =&gt; MEDIA_LIST,
+                                      'critical_media'     =&gt; MEDIA_LIST,
+                                      'unknown_blackhole'  =&gt; BOOLEAN,
+                                      'warning_blackhole'  =&gt; BOOLEAN,
+                                      'critical_blackhole' =&gt; BOOLEAN,
+                                    }
+
+TAG_LIST            (string, json) - array of tags
+ENTITY_LIST         (string, json) - array of entities
+TIME_RESTRICTIONS   (string, json) - array of TIME_RESTRICTIONs
+MEDIA_LIST          (string, json) - array of medias eg ['email', 'sms']
+BOOLEAN                   (string) - 'true' or 'false'
+
+TIME_RESTRICTION (json hash) -&gt;
+      {
+        "start_time": "TIME_ZONELESS",
+        "end_time":   "TIME_ZONELESS",
+        "rrules":     [ RRULE, RRULE, ... ],
+        "exrules":    [ EXRULE, EXRULE, ... ],
+        "rtimes":     [ RTIME, RTIME, ... ],
+        "extimes":    [ EXTIME, EXTIME, ... ]
+      }
+
+TIME_ZONELESS - time string with no timezone or UTF offset information (taken to be
+  in the contact's configured timezone, or the configured default contact timezone),
+  format: YYYY-MM-DD HH:MM:SS eg "2013-04-18 15:00:00". Used to represent the start
+  and end time of the FIRST OCCURRANCE of the repeating time period.
+RRULE - See the ice_cube documentation and the iCal specification for details. Here's an example of an RRULE:
+          {
+            "validations": {
+              "day": [1,2,3,4,5]
+            },
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
+          }
+EXRULE, RTIME, EXTIME - See the ice_cube documentation and the iCal specification for details.
+</pre>
+
+<p>Notes
+* TIME_RESTRICTION is a hash representation of an RFC 2445 iCalendar schedule. It is the same format accepted by the flapjack API. When acting on the time restrictions within a notification rule, flapjack modifies the format of the hash to be compatible with <a href="https://github.com/seejohnrun/ice_cube">ice_cube</a>&rsquo;s hash format before instantiating an IceCube::Schedule object to operate on.</p>
+
+<h3 id="alerting-checks-per-contact-media">Alerting Checks per Contact Media</h3>
+
+<p>We keep track of which failing checks are alerting for each contact&rsquo;s media, for rollup initially but should provide a useful and fast view for users into which failing checks they are being alerted for.</p>
+<pre class="highlight plaintext">contact_alerting_checks:CONTACT_ID:media:MEDIA (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; ... )
+</pre>
+
+<h3 id="event-processor-statistics">Event processor statistics</h3>
+
+<p>The following counters are incremented during event processing so we can see how many events flapjack is processing, and of which types.</p>
+<pre class="highlight plaintext">event_counters (hash) -&gt; { all =&gt; COUNTER, ok =&gt; COUNTER, failure =&gt; COUNTER, action =&gt; COUNTER }
+
+COUNTER - incrementing integer counter, reset to zero when the event processor boots
+</pre>
+
+<p>&ldquo;The range of values supported by HINCRBY is limited to 64 bit signed integers.&rdquo; So up to 9,223,372,036,854,775,807. I guess we&rsquo;ll need to reset it on occasion - at midnight perhaps. But if we&rsquo;re getting that many events during a run of flapjack-executive then we probably have other problems&hellip;</p>
+
+<p>To support multiple concurrent executive instances:</p>
+<pre class="highlight plaintext">executive_instance:HOSTIDENT:PID (hash) -&gt; { boot_time =&gt; BOOTTIME }
+event_counters:HOSTIDENT:PID     (hash) -&gt; { all =&gt; COUNTER, ok =&gt; COUNTER, failure =&gt; COUNTER,
+                                                    action =&gt; COUNTER }
+</pre>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

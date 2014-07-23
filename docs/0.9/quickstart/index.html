@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Flapjack, monitoring notification routing + event processing</title>
-    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
-    <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
-    <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
-    <nav class="navbar navbar-default navbar-inverse" role="navigation">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">
-          <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
-          <span class="name">Flapjack</span>
-        </a>
-      </div>
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/docs/0.9/quickstart">Quickstart</a></li>
-          <li><a href="/docs/0.9">Documentation</a></li>
-          <li><a href="/support">Support</a></li>
-        </ul>
-      </div>
-    </nav>
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/0.9/quickstart">Quickstart</a></li>
+        <li><a href="/docs/0.9">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
 
     <div class="container content">
       <div class="row">
@@ -75,7 +76,7 @@ Check out the <a class="alert-link" href="https://github.com/flapjack/vagrant-fl
 <p>Visit <a href="http://localhost:3080">http://localhost:3080</a> from your host workstation.
 You should see the Flapjack Web UI:</p>
 
-<p><img alt="Screenshot of the Flapjack Web UI" src="../../../images/quickstart/web-ui.png" /></p>
+<p><img alt="Screenshot of the Flapjack Web UI" src="../../../images/0.9/quickstart/web-ui.png" /></p>
 
 <p>You should also find Icinga and Nagios UIs running at:</p>
 
@@ -124,7 +125,7 @@ simulate-failed-check --help
 Details of these commands are available <a class="alert-link" href="USING#running">on the Flapjack wiki</a>.
 </div>
 
-<p><img alt="CLI" src="../../../images/quickstart/term-flapjack-help.png" /></p>
+<p><img alt="CLI" src="../../../images/0.9/quickstart/term-flapjack-help.png" /></p>
 
 <h2 id="simulate-a-check-failure">Simulate a check failure</h2>
 
@@ -151,7 +152,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p><code class="prettyprint">flapjack-nagios receiver</code> takes check output data from Nagios and turns it into events that Flapjack understands:</p>
 
-<p><img alt="Flapjack's architecture" src="../../../images/quickstart/architecture.png" /></p>
+<p><img alt="Flapjack's architecture" src="../../../images/0.9/quickstart/architecture.png" /></p>
 
 <p>All that remains is to configure <code class="prettyprint">flapjack-nagios-receiver</code> to read from this named pipe, configure its Redis connection, and start it up.</p>
 
@@ -169,7 +170,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Reload the Flapjack web interface and you should now see the checks from Icinga and/or Nagios appearing there.</p>
 
-<p><img alt="Checks" src="../../../images/quickstart/checks-from-nagios.png" /></p>
+<p><img alt="Checks" src="../../../images/0.9/quickstart/checks-from-nagios.png" /></p>
 
 <h2 id="create-some-contacts-and-entities">Create some contacts and Entities</h2>
 
@@ -242,11 +243,11 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Navigate to <a href="http://localhost:3080/contacts">Contacts</a> in the Flapjack web UI and you should see Ada Lovelace and Charles Babbage listed:</p>
 
-<p><img alt="Contacts - List" src="../../../images/quickstart/contacts-ada-and-charles.png" /></p>
+<p><img alt="Contacts - List" src="../../../images/0.9/quickstart/contacts-ada-and-charles.png" /></p>
 
 <p>Selecting <a href="http://localhost:3080/contacts/21">Ada</a> should give you something like:</p>
 
-<p><img alt="Contact - Ada Lovelace" src="../../../images/quickstart/contact-ada.png" /></p>
+<p><img alt="Contact - Ada Lovelace" src="../../../images/0.9/quickstart/contact-ada.png" /></p>
 
 <h3 id="create-entities-foo-app-01-and-foo-db-01-(.example.com)">Create entities foo-app-01 and foo-db-01 (.example.com)</h3>
 
@@ -295,7 +296,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Visit <a href="http://localhost:3080/entity/my-app-01.example.com">my-app-01</a> in the web UI and you should see something like:</p>
 
-<p><img alt="Entity - my-app-01.example.com" src="../../../images/quickstart/entity-my-app-01-no-checks.png" /></p>
+<p><img alt="Entity - my-app-01.example.com" src="../../../images/0.9/quickstart/entity-my-app-01-no-checks.png" /></p>
 
 <h2 id="feedback?">Feedback?</h2>
 
@@ -326,7 +327,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
     </div>
   </div> <!-- container -->
 
-<footer>
+  <footer>
 <div class="row">
 <div class="col-md-4 col-md-offset-2">
   Flapjack was conceptualised by
@@ -358,5 +359,6 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
     pageTracker._trackPageview();
   } catch(err) {}
 </script>
+
 </body>
 </html>
