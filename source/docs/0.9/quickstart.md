@@ -45,7 +45,7 @@ Check out the <a class="alert-link" href="https://github.com/flapjack/vagrant-fl
 Visit [http://localhost:3080](http://localhost:3080) from your host workstation.
 You should see the Flapjack Web UI:
 
-![Screenshot of the Flapjack Web UI](/images/quickstart/web-ui.png)
+![Screenshot of the Flapjack Web UI](/images/0.9/quickstart/web-ui.png)
 
 You should also find Icinga and Nagios UIs running at:
 
@@ -99,7 +99,7 @@ simulate-failed-check --help
 Details of these commands are available <a class="alert-link" href="USING#running">on the Flapjack wiki</a>.
 </div>
 
-![CLI](/images/quickstart/term-flapjack-help.png)
+![CLI](/images/0.9/quickstart/term-flapjack-help.png)
 
 ## Simulate a check failure
 
@@ -128,7 +128,7 @@ Both Nagios and Icinga are configured already to append check output data to the
 
 `flapjack-nagios receiver` takes check output data from Nagios and turns it into events that Flapjack understands:
 
-![Flapjack's architecture](/images/quickstart/architecture.png)
+![Flapjack's architecture](/images/0.9/quickstart/architecture.png)
 
 All that remains is to configure `flapjack-nagios-receiver` to read from this named pipe, configure its Redis connection, and start it up.
 
@@ -146,7 +146,7 @@ More details on configuration are available [on the wiki](../USING#configuring-c
 
 Reload the Flapjack web interface and you should now see the checks from Icinga and/or Nagios appearing there.
 
-![Checks](/images/quickstart/checks-from-nagios.png)
+![Checks](/images/0.9/quickstart/checks-from-nagios.png)
 
 ## Create some contacts and Entities
 
@@ -223,11 +223,11 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 Navigate to [Contacts](http://localhost:3080/contacts) in the Flapjack web UI and you should see Ada Lovelace and Charles Babbage listed:
 
-![Contacts - List](/images/quickstart/contacts-ada-and-charles.png)
+![Contacts - List](/images/0.9/quickstart/contacts-ada-and-charles.png)
 
 Selecting [Ada](http://localhost:3080/contacts/21) should give you something like:
 
-![Contact - Ada Lovelace](/images/quickstart/contact-ada.png)
+![Contact - Ada Lovelace](/images/0.9/quickstart/contact-ada.png)
 
 ### Create entities foo-app-01 and foo-db-01 (.example.com)
 
@@ -280,7 +280,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
 
 Visit [my-app-01](http://localhost:3080/entity/my-app-01.example.com) in the web UI and you should see something like:
 
-![Entity - my-app-01.example.com](/images/quickstart/entity-my-app-01-no-checks.png)
+![Entity - my-app-01.example.com](/images/0.9/quickstart/entity-my-app-01-no-checks.png)
 
 ## Feedback?
 
