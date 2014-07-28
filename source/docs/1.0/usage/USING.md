@@ -96,7 +96,7 @@ Flapjack **Gateways** serve as the public interface to Flapjack. There are *unid
 
 ### Processor and Notifier
 
-In the beginning, there was Executive. This has been split into two separte components, *processor* and *notifier*.
+In the beginning, there was Executive. This has been split into two separate components, *processor* and *notifier*.
 
 Flapjack processor processes events from the *events* list in redis. It does a blocking read on redis so new events are picked off the events list and processed as soon as they created.
 
@@ -364,7 +364,7 @@ Create the named pipe if it doesn't already exist:
 
     mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
 
-Note that the templates used in the nagios configuration for service_perfdata_file_template and host_perfdata_file_template must be configured to be exactly as flapjack-nagios-receiver expects otherwise it will drop events that don't match the expected format. The current requrements for the data format that flapjack-nagios-receiver expects from the named pipe is as per the above nagios templates. The following checks are made of each line of textual data found in the pipe, and if any fail the line does not result in an event being created:
+Note that the templates used in the nagios configuration for service_perfdata_file_template and host_perfdata_file_template must be configured to be exactly as flapjack-nagios-receiver expects otherwise it will drop events that don't match the expected format. The current requirements for the data format that flapjack-nagios-receiver expects from the named pipe is as per the above nagios templates. The following checks are made of each line of textual data found in the pipe, and if any fail the line does not result in an event being created:
 
 The line must:
 - split into at least 9 tab-separated words
@@ -504,7 +504,7 @@ Commands
 
 Options
     -c, --config [PATH]              PATH to the config file to use
-    -s, --source URL                 URL of source redis database, eg redis://localhost:6379/0
+    -s, --source URL                 URL of source redis database, e.g. redis://localhost:6379/0
     -f, --follow                     keep reading events as they are archived on the source
     -a, --all                        replay all archived events from the source
     -l, --last COUNT                 replay the last COUNT events from the source
@@ -522,7 +522,7 @@ Commands
 Options
     -c, --config [PATH]              PATH to the config file to use
     -t, --time MINUTES               MINUTES to generate failure events for
-    -i, --interval SECONDS           SECONDS between events, can be decimal eg 0.1 (10)
+    -i, --interval SECONDS           SECONDS between events, can be decimal e.g. 0.1 (10)
     -e, --entity ENTITY              ENTITY to generate failure events for ('foo-app-01')
     -k, --check CHECK                CHECK to generate failure events for ('HTTP')
     -s, --state STATE                optional STATE to generate failure events with ('CRITICAL')
@@ -549,7 +549,7 @@ To background it you can add `BACKGROUND=yes`. Useful documentation is available
 
 ### Resque Queue Management with resque-web
 
-If you need to inspect or purge the queues managed by resque you'll want to start up an instance of resque-web. This will by default connect to redis database 0 which is fine for production but in development you'll need to specify database id 13 (or whatever you have it set to in the flapjack config) eg:
+If you need to inspect or purge the queues managed by resque you'll want to start up an instance of resque-web. This will by default connect to redis database 0 which is fine for production but in development you'll need to specify database id 13 (or whatever you have it set to in the flapjack config) e.g.:
 
 ```bash
 resque-web -p 4082 -r localhost:6379:13
