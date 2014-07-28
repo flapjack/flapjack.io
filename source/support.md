@@ -23,3 +23,27 @@ Ping [@auxesis](https://twitter.com/auxesis) (Lindsay Holmwood) or [@jessereynol
 We try to cover as much as possible in the [documentation](../docs).
 
 If you find the Flapjack documentation lacking, we consider that a bug! Please create a [GitHub issue](https://github.com/flapjack/flapjack/issues/new) and we'll get it fixed ASAP.
+
+## Logo
+
+Formats:
+
+* [JPEG](/images/flapjack.jpg)
+* [PNG](/images/flapjack.png)
+* [EPS](/images/flapjack.eps)
+
+Or download the
+[logo bundle zip](/images/flapjack.zip)
+(includes the Illustrator source).
+
+The Flapjack logo is shared under the
+[Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)](http://creativecommons.org/licenses/by-sa/3.0/deed.en_US)
+license.
+
+Font used in logo is [Exo](http://www.google.com/fonts/specimen/Exo).
+
+There is an [Apple colour palette](/images/Flapjack.clr) available for use on OS X.
+
+## Sources
+
+* [Architecture diagrams](/images/FlapjackArchitecture.key)
