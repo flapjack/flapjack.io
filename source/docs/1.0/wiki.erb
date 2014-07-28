@@ -1,0 +1,28 @@
+<h1>Welcome to the Flapjack Wiki.</h1>
+
+<% %w(usage development).each do |section| %>
+
+  <%="<h2> #{section.capitalize} </h2>"%>
+  
+  <% Dir[File.dirname(__FILE__) + "/#{section}/*"].map {|f| File.basename(f, '.md') }.sort.each do |filename| %>
+    <% pagename = filename.split(/-|_/).join(' ').capitalize %>
+    <li><a href=<%="../usage/#{filename}"%>><%="#{pagename}"%></a></li>
+  <% end %>
+
+<% end %>
+
+<!--
+### Documentation
+
+- [Using Flapjack](../USING)
+- [JSONAPI](../jsonapi)
+- [API](../API) (deprecated)
+- [Notification Routing](../Notification-Routing)
+- [Importing](../IMPORTING)
+- [Debugging Flapjack](../DEBUGGING)
+- [Developing Flapjack](../DEVELOPING)
+- [Redis Data Structure](../DATA_STRUCTURES)
+- [Flapjack Glossary](../GLOSSARY)
+- [Release Planning](../Release-Planning)
+- [Out Of Band, End To End Test (oobetet)](../oobetet)
+- Methods for [promoting Flapjack](../Promoting) -->
