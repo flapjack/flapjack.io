@@ -121,7 +121,7 @@ FLAPJACK_ENV=development bundle exec bin/flapjack --config etc/flapjack_config.y
 
 When running, check you can access the web interface at [localhost:3080](http://localhost:3080/). The port for development can be modified in etc/flapjack_config.yaml under `development` - `gateways` - `web` - `port`.
 
-See [Using](../USING) for more information.
+See [Using](../../using/USING) for more information.
 
 Releasing
 ---------
@@ -175,11 +175,11 @@ See [Data Structures](../DATA_STRUCTURES)
 
 RESTful API for input, output and actions
 -----------------------------------------
-See [API](../API)
+See [API](../../jsonapi)
 
 Importing via the command line
 ------------------------------
-See [Importing](../IMPORTING)
+See [Importing](../../usage/IMPORTING)
 
 Architecture
 ------------

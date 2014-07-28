@@ -1,10 +1,10 @@
 # Importing data into Flapjack
 
-Flapjack provides a RESTful HTTP API for all data import / export functions, and triggering actions. See the [API docs](../API) for full details.
+Flapjack provides a RESTful HTTP API for all data import / export functions, and triggering actions. See the [API docs](../../jsonapi) for full details.
 
 Flapjack also provides a simple command line utility, `flapjack-populator`, which can also be used for importing to some of the data structures.
 
-See also the [data structures](../DATA_STRUCTURES) documentation.
+See also the [data structures](../../development/DATA_STRUCTURES) documentation.
 
 ## Importing contacts and entities using flapjack-populator
 
@@ -17,7 +17,7 @@ There are example JSON files, and example ruby scripts which generate the exampl
 
 ### Format of JSON contact + entity data
 
-The format of these files is identical to the format required by the API functions [POST /contacts](../API#wiki-post_contacts) and [POST /entities](../API#wiki-post_entities), consult the API documentation for the data specification. There are also some examples below.
+The format of these files is identical to the format required by the API functions [POST /contacts](../../jsonapi/#create-contacts) and [POST /entities](../../jsonapi/#create-entities), consult the API documentation for the data specification. There are also some examples below.
 
 The `flapjack-populator` script populates the event processing/notification database with entities and contacts. This initialises the entities for which checks will be monitored, which contacts are interested in which entities, and the notification details for these contacts (email address, mobile number for SMS, etc.).
 
