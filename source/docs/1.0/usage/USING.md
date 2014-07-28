@@ -102,7 +102,7 @@ Flapjack processor processes events from the *events* list in redis. It does a b
 
 When executive decides somebody ought to be notified (for a problem, recovery, or acknowledgement or what-have-you) it generates a job on the *notifications* queue.
 
-Notifier picks up jobs from the *notificaitons* queue, looks up contact information, applies notification rules and per-media intervals and rollup logic, and then creates notification jobs for the appropriate notification gateways.
+Notifier picks up jobs from the *notifications* queue, looks up contact information, applies notification rules and per-media intervals and rollup logic, and then creates notification jobs for the appropriate notification gateways.
 
 <a id="components">&nbsp;</a>
 ## Components
@@ -133,7 +133,7 @@ Pikelets:
 
 *   other gateways
     * `web` => browsable web interface (sinatra, thin)
-    * `api` => HTTP API server (sinatra, thin)
+    * `jsonapi` => HTTP API server (sinatra, thin)
     * `oobetet` => "out-of-band" end-to-end testing, used for monitoring other instances of flapjack to ensure that they are running correctly
 
 Pikelets are flapjack components which can be run within the same ruby process, or as separate processes.
@@ -312,25 +312,25 @@ development:
 
 ##### processor: `new_check_scheduled_maintenance_duration`
 
-This setting controls how long we set scheduled maintenance for new check results. 
+This setting controls how long we set scheduled maintenance for new check results.
 
-Flapjack sets scheduled maintenance on new check results so contacts aren't notified as soon as Flapjack becomes aware of an entity to notify on. This is useful is cases where your monitoring starts checking something before it is completely provisioned, 
+Flapjack sets scheduled maintenance on new check results so contacts aren't notified as soon as Flapjack becomes aware of an entity to notify on. This is useful is cases where your monitoring starts checking something before it is completely provisioned,
 
-For example: 
+For example:
 
-> CloudFormation starts a cluster of EC2 instances that take 10 minutes to provision, but your monitoring starts checking those EC2 instances 5 minutes into their provisioning. This would result in false-positives from Flapjack, as Flapjack would notify contacts before the instances are fully provisioned. 
+> CloudFormation starts a cluster of EC2 instances that take 10 minutes to provision, but your monitoring starts checking those EC2 instances 5 minutes into their provisioning. This would result in false-positives from Flapjack, as Flapjack would notify contacts before the instances are fully provisioned.
 
-The value for this setting is parsed by [Chronic Duration](https://github.com/hpoydar/chronic_duration), so you can specify interesting things like: 
+The value for this setting is parsed by [Chronic Duration](https://github.com/hpoydar/chronic_duration), so you can specify interesting things like:
 
 - `12.4 secs`
 - `1:20` => 1 minute 20 seconds
 - `6 mos 1 day` => 6 months 1 day
-- `47 yrs 6 mos and 4d` 
+- `47 yrs 6 mos and 4d`
 - `two hours and twenty minutes`
 
-You can disable this setting by specifying `0 seconds`. 
+You can disable this setting by specifying `0 seconds`.
 
-The default value for this setting is `100 years`. 
+The default value for this setting is `100 years`.
 
 <a id="configuring_nagios">&nbsp;</a>
 ### Configuring Nagios
@@ -386,23 +386,29 @@ There's a collection of executables included. Here's their usage information.
 
 ### flapjack
 ``` text
-Usage: flapjack COMMAND [OPTIONS]
+NAME
+    flapjack - Flexible monitoring notification routing system
 
-Commands
-     start                           start flapjack
-     stop                            stop flapjack
-     restart                         (re)start flapjack
-     reload                          reload flapjack configuration
-     status                          see if flapjack is running
-     version                         display flapjack version and exit
-     help                            display this usage info
+SYNOPSIS
+    flapjack [global options] command [command options] [arguments...]
 
-Options
-    -c, --config [PATH]              PATH to the config file to use
-    -d, --[no-]daemonize             Daemonize?
-    -p, --pidfile [PATH]             PATH to the pidfile to write to
-    -l, --logfile [PATH]             PATH to the logfile to write to
-    -v, --version                    display flapjack version
+VERSION
+    1.0.0
+
+GLOBAL OPTIONS
+    -c, --config=/path/to/flapjack.yaml    - Configuration file to use (default:
+                                             /etc/flapjack/flapjack_config.yaml)
+    -n, --env, --environment=<environment> - Environment to boot (default: production)
+    --version                              - Display the program version
+    --help                                 - Show this message
+
+COMMANDS
+    help     - Shows a list of commands or help for one command
+    flapper  - Artificial service that oscillates up and down
+    import   - Bulk import data from an external source
+    receiver - Receive events from external systems and send them to Flapjack
+    server   - Server for running components (e.g. processor, notifier, gateways)
+    simulate - Generate streams of events in various states
 ```
 
 ### flapjack-nagios-receiver
