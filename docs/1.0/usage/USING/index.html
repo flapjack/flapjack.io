@@ -113,7 +113,7 @@ EOF
 
 <h2 id="architecture">Architecture</h2>
 
-<p><img alt="Flapjack architecture diagram as of 2013-09-27" src="../../../images/architecture.png" /></p>
+<p><img alt="Flapjack architecture diagram as of 2013-09-27" src="../../../../images/architecture.png" /></p>
 <pre class="highlight plaintext">Check Receivers ---&gt; Executive ---&gt; Gateways
 </pre>
 
@@ -125,13 +125,13 @@ EOF
 
 <h3 id="processor-and-notifier">Processor and Notifier</h3>
 
-<p>In the beginning, there was Executive. This has been split into two separte components, <em>processor</em> and <em>notifier</em>.</p>
+<p>In the beginning, there was Executive. This has been split into two separate components, <em>processor</em> and <em>notifier</em>.</p>
 
 <p>Flapjack processor processes events from the <em>events</em> list in redis. It does a blocking read on redis so new events are picked off the events list and processed as soon as they created.</p>
 
 <p>When executive decides somebody ought to be notified (for a problem, recovery, or acknowledgement or what-have-you) it generates a job on the <em>notifications</em> queue.</p>
 
-<p>Notifier picks up jobs from the <em>notificaitons</em> queue, looks up contact information, applies notification rules and per-media intervals and rollup logic, and then creates notification jobs for the appropriate notification gateways.</p>
+<p>Notifier picks up jobs from the <em>notifications</em> queue, looks up contact information, applies notification rules and per-media intervals and rollup logic, and then creates notification jobs for the appropriate notification gateways.</p>
 
 <p><a id="components">&nbsp;</a></p>
 
@@ -169,7 +169,7 @@ to be used for generating heartbeat events for end to end monitoring of flapjack
 
 <ul>
 <li><code class="prettyprint">web</code> =&gt; browsable web interface (sinatra, thin)</li>
-<li><code class="prettyprint">api</code> =&gt; HTTP API server (sinatra, thin)</li>
+<li><code class="prettyprint">jsonapi</code> =&gt; HTTP API server (sinatra, thin)</li>
 <li><code class="prettyprint">oobetet</code> =&gt; &ldquo;out-of-band&rdquo; end-to-end testing, used for monitoring other instances of flapjack to ensure that they are running correctly</li>
 </ul></li>
 </ul>
@@ -188,186 +188,33 @@ to be used for generating heartbeat events for end to end monitoring of flapjack
 
 <p>and then edit the configuration to suit. The value of the environment variable <code class="prettyprint">FLAPJACK_ENV</code> is used as the configuration key, to choose which of the top-level configuration hashes in the YAML file should be loaded. (The default FLAPJACK_ENV is &ldquo;development&rdquo; if there is no environment variable set.)</p>
 
-<p>An example configuration stanza is replicated below, along with comments describing the function of the configuration settings.</p>
-<pre class="highlight yaml"><span class="s">development</span><span class="pi">:</span>
-  <span class="s">pid_file</span><span class="pi">:</span> <span class="s">tmp/pids/flapjack.pid</span>
-  <span class="s">log_file</span><span class="pi">:</span> <span class="s">log/flapjack.log</span>
-  <span class="c1"># whether or not flapjack should run daemonized (using the daemons gem)</span>
-  <span class="s">daemonize</span><span class="pi">:</span> <span class="s">no</span>
-  <span class="s">redis</span><span class="pi">:</span>
-    <span class="c1"># the redis server hostname to connect to</span>
-    <span class="s">host</span><span class="pi">:</span> <span class="s">127.0.0.1</span>
-    <span class="c1"># the redis server port to connect to</span>
-    <span class="s">port</span><span class="pi">:</span> <span class="s">6379</span>
-    <span class="c1"># the redis database number to use</span>
-    <span class="s">db</span><span class="pi">:</span> <span class="s">13</span>
-  <span class="s">processor</span><span class="pi">:</span>
-    <span class="s">enabled</span><span class="pi">:</span> <span class="s">yes</span>
-    <span class="s">queue</span><span class="pi">:</span> <span class="s">events</span>
-    <span class="s">notifier_queue</span><span class="pi">:</span> <span class="s">notifications</span>
-    <span class="s">archive_events</span><span class="pi">:</span> <span class="s">true</span>
-    <span class="s">events_archive_maxage</span><span class="pi">:</span> <span class="s">10800</span>
-    <span class="s">new_check_scheduled_maintenance_duration</span><span class="pi">:</span> <span class="s">100 years</span>
-    <span class="s">logger</span><span class="pi">:</span>
-      <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
-      <span class="s">syslog_errors</span><span class="pi">:</span> <span class="s">yes</span>
-  <span class="s">notifier</span><span class="pi">:</span>
-    <span class="s">enabled</span><span class="pi">:</span> <span class="s">yes</span>
-    <span class="s">queue</span><span class="pi">:</span> <span class="s">notifications</span>
-    <span class="s">email_queue</span><span class="pi">:</span> <span class="s">email_notifications</span>
-    <span class="s">sms_queue</span><span class="pi">:</span> <span class="s">sms_notifications</span>
-    <span class="s">jabber_queue</span><span class="pi">:</span> <span class="s">jabber_notifications</span>
-    <span class="s">pagerduty_queue</span><span class="pi">:</span> <span class="s">pagerduty_notifications</span>
-    <span class="s">notification_log_file</span><span class="pi">:</span> <span class="s">/var/log/flapjack/notification.log</span>
-    <span class="s">default_contact_timezone</span><span class="pi">:</span> <span class="s">UTC</span>
-    <span class="s">logger</span><span class="pi">:</span>
-      <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
-      <span class="s">syslog_errors</span><span class="pi">:</span> <span class="s">yes</span>
-  <span class="s">nagios-receiver</span><span class="pi">:</span>
-    <span class="s">fifo</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/var/cache/nagios3/event_stream.fifo"</span>
-    <span class="s">pid_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/var/run/flapjack/flapjack-nagios-receiver.pid"</span>
-    <span class="s">log_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/var/log/flapjack/flapjack-nagios-receiver.log"</span>
-  <span class="s">nsca-receiver</span><span class="pi">:</span>
-    <span class="s">fifo</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/var/lib/nagios3/rw/nagios.cmd"</span>
-    <span class="s">pid_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/var/run/flapjack/flapjack-nsca-receiver.pid"</span>
-    <span class="s">log_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/var/log/flapjack/flapjack-nsca-receiver.log"</span>
-  <span class="s">gateways</span><span class="pi">:</span>
-    <span class="s">email</span><span class="pi">:</span>
-      <span class="c1"># whether or not this pikelet should be started</span>
-      <span class="s">enabled</span><span class="pi">:</span> <span class="s">yes</span>
-      <span class="c1"># the redis queue the pikelet will look for notifications on</span>
-      <span class="s">queue</span><span class="pi">:</span> <span class="s">email_notifications</span>
-      <span class="s">logger</span><span class="pi">:</span>
-        <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
-      <span class="s">smtp_config</span><span class="pi">:</span>
-        <span class="c1"># these values are passed directly through to EventMachine::Protocols::SmtpClient configuration,</span>
-        <span class="c1"># and can be omitted if the defaults are acceptable</span>
-        <span class="s">host</span><span class="pi">:</span> <span class="s2">"</span><span class="s">localhost"</span>
-        <span class="s">port</span><span class="pi">:</span> <span class="s">25</span>
-        <span class="s">domain</span><span class="pi">:</span> <span class="s1">'</span><span class="s">localhost.localdomain'</span>
-        <span class="s">starttls</span><span class="pi">:</span> <span class="s">false</span>
-        <span class="s">from</span><span class="pi">:</span> <span class="s1">'</span><span class="s">flapjack@localhost.localdomain'</span>
-        <span class="c1">#auth:</span>
-        <span class="c1">#  type: :plain</span>
-        <span class="c1">#  username: vera</span>
-        <span class="c1">#  password: xxxxxxxx</span>
-      <span class="c1"># location of custom alert templates</span>
-      <span class="c1">#templates:</span>
-      <span class="c1">#  rollup_subject.text: '/etc/flapjack/templates/email/rollup_subject.text.erb'</span>
-      <span class="c1">#  alert_subject.text: '/etc/flapjack/templates/email/alert_subject.text.erb'</span>
-      <span class="c1">#  rollup.text: '/etc/flapjack/templates/email/rollup.text.erb'</span>
-      <span class="c1">#  alert.text: '/etc/flapjack/templates/email/alert.text.erb'</span>
-      <span class="c1">#  rollup.html: '/etc/flapjack/templates/email/rollup.html.erb'</span>
-      <span class="c1">#  alert.html: '/etc/flapjack/templates/email/alert.html.erb'</span>
-    <span class="s">sms</span><span class="pi">:</span>
-      <span class="c1"># whether or not this pikelet should be started</span>
-      <span class="s">enabled</span><span class="pi">:</span> <span class="s">yes</span>
-      <span class="c1"># the redis queue the pikelet will look for notifications on</span>
-      <span class="s">queue</span><span class="pi">:</span> <span class="s">sms_notifications</span>
-      <span class="s">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">ermahgerd"</span>
-      <span class="s">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">xxxx"</span>
-      <span class="s">logger</span><span class="pi">:</span>
-        <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
-      <span class="c1"># location of custom alert templates</span>
-      <span class="c1">#templates:</span>
-      <span class="c1">#  rollup.text: '/etc/flapjack/templates/sms/rollup.text.erb'</span>
-      <span class="c1">#  alert.text: '/etc/flapjack/templates/sms/alert.text.erb'</span>
-    <span class="s">jabber</span><span class="pi">:</span>
-      <span class="c1"># whether or not this pikelet should be started</span>
-      <span class="s">enabled</span><span class="pi">:</span> <span class="s">yes</span>
-      <span class="c1"># the redis queue the pikelet will look for notifications on</span>
-      <span class="s">queue</span><span class="pi">:</span> <span class="s">jabber_notifications</span>
-      <span class="c1"># the jabber server hostname to connect to</span>
-      <span class="s">server</span><span class="pi">:</span> <span class="s2">"</span><span class="s">jabber.domain.tld"</span>
-      <span class="c1"># the jabber server port to connect to</span>
-      <span class="s">port</span><span class="pi">:</span> <span class="s">5222</span>
-      <span class="c1"># the jabber username to present for signing in</span>
-      <span class="s">jabberid</span><span class="pi">:</span> <span class="s2">"</span><span class="s">flapjack@jabber.domain.tld"</span>
-      <span class="c1"># the jabber password to present for signing in</span>
-      <span class="s">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">good-password"</span>
-      <span class="c1"># the user alias the pikelet should use</span>
-      <span class="s">alias</span><span class="pi">:</span> <span class="s2">"</span><span class="s">flapjack"</span>
-      <span class="c1"># the Multi-User Chats the pikelet should join and announce to</span>
-      <span class="s">rooms</span><span class="pi">:</span>
-        <span class="pi">-</span> <span class="s2">"</span><span class="s">flapjacktest@conference.jabber.domain.tld"</span>
-        <span class="pi">-</span> <span class="s2">"</span><span class="s">log@conference.jabber.domain.tld"</span>
-      <span class="s">logger</span><span class="pi">:</span>
-        <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
-      <span class="c1"># location of custom alert templates</span>
-      <span class="c1">#templates:</span>
-      <span class="c1">#  rollup.text: '/etc/flapjack/templates/jabber/rollup.text.erb'</span>
-      <span class="c1">#  alert.text: '/etc/flapjack/templates/jabber/alert.text.erb'</span>
-    <span class="s">oobetet</span><span class="pi">:</span>
-      <span class="c1"># whether or not this pikelet should be started</span>
-      <span class="s">enabled</span><span class="pi">:</span> <span class="s">yes</span>
-      <span class="c1"># server, port, jabberid, password, alias, rooms: see the jabber pikelet</span>
-      <span class="s">server</span><span class="pi">:</span> <span class="s2">"</span><span class="s">jabber.domain.tld"</span>
-      <span class="s">port</span><span class="pi">:</span> <span class="s">5222</span>
-      <span class="s">jabberid</span><span class="pi">:</span> <span class="s2">"</span><span class="s">flapjacktest@jabber.domain.tld"</span>
-      <span class="s">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">nuther-good-password"</span>
-      <span class="s">alias</span><span class="pi">:</span> <span class="s2">"</span><span class="s">flapjacktest"</span>
-      <span class="s">watched_check</span><span class="pi">:</span> <span class="s2">"</span><span class="s">PING"</span>
-      <span class="s">watched_entity</span><span class="pi">:</span> <span class="s2">"</span><span class="s">foo.bar.net"</span>
-      <span class="s">max_latency</span><span class="pi">:</span> <span class="s">300</span>
-      <span class="s">pagerduty_contact</span><span class="pi">:</span> <span class="s2">"</span><span class="s">11111111111111111111111111111111"</span>
-      <span class="s">rooms</span><span class="pi">:</span>
-        <span class="pi">-</span> <span class="s2">"</span><span class="s">flapjacktest@conference.jabber.domain.tld"</span>
-        <span class="pi">-</span> <span class="s2">"</span><span class="s">log@conference.jabber.domain.tld"</span>
-      <span class="s">logger</span><span class="pi">:</span>
-        <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
-    <span class="s">pagerduty</span><span class="pi">:</span>
-      <span class="c1"># whether or not this pikelet should be started</span>
-      <span class="s">enabled</span><span class="pi">:</span> <span class="s">yes</span>
-      <span class="c1"># the redis queue the pikelet will look for notifications on</span>
-      <span class="s">queue</span><span class="pi">:</span> <span class="s">pagerduty_notifications</span>
-      <span class="s">logger</span><span class="pi">:</span>
-        <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
-      <span class="c1"># location of custom alert templates</span>
-      <span class="c1">#templates:</span>
-      <span class="c1">#  alert.text: '/etc/flapjack/templates/pagerduty/alert.text.erb'</span>
-    <span class="s">web</span><span class="pi">:</span>
-      <span class="c1"># whether or not this pikelet should be started</span>
-      <span class="s">enabled</span><span class="pi">:</span> <span class="s">yes</span>
-      <span class="c1"># the port the web server should be run on</span>
-      <span class="s">port</span><span class="pi">:</span> <span class="s">5080</span>
-      <span class="s">logger</span><span class="pi">:</span>
-        <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
-    <span class="s">api</span><span class="pi">:</span>
-      <span class="c1"># whether or not this pikelet should be started</span>
-      <span class="s">enabled</span><span class="pi">:</span> <span class="s">yes</span>
-      <span class="c1"># the port the API server should be run on</span>
-      <span class="s">port</span><span class="pi">:</span> <span class="s">5081</span>
-      <span class="s">logger</span><span class="pi">:</span>
-        <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
-</pre>
-
 <h4 id="details">Details</h4>
 
 <h5 id="processor:-new_check_scheduled_maintenance_duration">processor: <code class="prettyprint">new_check_scheduled_maintenance_duration</code></h5>
 
-<p>This setting controls how long we set scheduled maintenance for new check results. </p>
+<p>This setting controls how long we set scheduled maintenance for new check results.</p>
 
-<p>Flapjack sets scheduled maintenance on new check results so contacts aren&rsquo;t notified as soon as Flapjack becomes aware of an entity to notify on. This is useful is cases where your monitoring starts checking something before it is completely provisioned, </p>
+<p>Flapjack sets scheduled maintenance on new check results so contacts aren&rsquo;t notified as soon as Flapjack becomes aware of an entity to notify on. This is useful is cases where your monitoring starts checking something before it is completely provisioned,</p>
 
-<p>For example: </p>
+<p>For example:</p>
 
 <blockquote>
-<p>CloudFormation starts a cluster of EC2 instances that take 10 minutes to provision, but your monitoring starts checking those EC2 instances 5 minutes into their provisioning. This would result in false-positives from Flapjack, as Flapjack would notify contacts before the instances are fully provisioned. </p>
+<p>CloudFormation starts a cluster of EC2 instances that take 10 minutes to provision, but your monitoring starts checking those EC2 instances 5 minutes into their provisioning. This would result in false-positives from Flapjack, as Flapjack would notify contacts before the instances are fully provisioned.</p>
 </blockquote>
 
-<p>The value for this setting is parsed by <a href="https://github.com/hpoydar/chronic_duration">Chronic Duration</a>, so you can specify interesting things like: </p>
+<p>The value for this setting is parsed by <a href="https://github.com/hpoydar/chronic_duration">Chronic Duration</a>, so you can specify interesting things like:</p>
 
 <ul>
 <li><code class="prettyprint">12.4 secs</code></li>
 <li><code class="prettyprint">1:20</code> =&gt; 1 minute 20 seconds</li>
 <li><code class="prettyprint">6 mos 1 day</code> =&gt; 6 months 1 day</li>
-<li><code class="prettyprint">47 yrs 6 mos and 4d</code> </li>
+<li><code class="prettyprint">47 yrs 6 mos and 4d</code></li>
 <li><code class="prettyprint">two hours and twenty minutes</code></li>
 </ul>
 
-<p>You can disable this setting by specifying <code class="prettyprint">0 seconds</code>. </p>
+<p>You can disable this setting by specifying <code class="prettyprint">0 seconds</code>.</p>
 
-<p>The default value for this setting is <code class="prettyprint">100 years</code>. </p>
+<p>The default value for this setting is <code class="prettyprint">100 years</code>.</p>
 
 <p><a id="configuring_nagios">&nbsp;</a></p>
 
@@ -400,7 +247,7 @@ service_perfdata_file_mode=p
 
 <p>mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo</p>
 
-<p>Note that the templates used in the nagios configuration for service_perfdata_file_template and host_perfdata_file_template must be configured to be exactly as flapjack-nagios-receiver expects otherwise it will drop events that don&rsquo;t match the expected format. The current requrements for the data format that flapjack-nagios-receiver expects from the named pipe is as per the above nagios templates. The following checks are made of each line of textual data found in the pipe, and if any fail the line does not result in an event being created:</p>
+<p>Note that the templates used in the nagios configuration for service_perfdata_file_template and host_perfdata_file_template must be configured to be exactly as flapjack-nagios-receiver expects otherwise it will drop events that don&rsquo;t match the expected format. The current requirements for the data format that flapjack-nagios-receiver expects from the named pipe is as per the above nagios templates. The following checks are made of each line of textual data found in the pipe, and if any fail the line does not result in an event being created:</p>
 
 <p>The line must:
 - split into at least 9 tab-separated words
@@ -422,23 +269,29 @@ service_perfdata_file_mode=p
 <p>There&rsquo;s a collection of executables included. Here&rsquo;s their usage information.</p>
 
 <h3 id="flapjack">flapjack</h3>
-<pre class="highlight plaintext">Usage: flapjack COMMAND [OPTIONS]
+<pre class="highlight plaintext">NAME
+    flapjack - Flexible monitoring notification routing system
 
-Commands
-     start                           start flapjack
-     stop                            stop flapjack
-     restart                         (re)start flapjack
-     reload                          reload flapjack configuration
-     status                          see if flapjack is running
-     version                         display flapjack version and exit
-     help                            display this usage info
+SYNOPSIS
+    flapjack [global options] command [command options] [arguments...]
 
-Options
-    -c, --config [PATH]              PATH to the config file to use
-    -d, --[no-]daemonize             Daemonize?
-    -p, --pidfile [PATH]             PATH to the pidfile to write to
-    -l, --logfile [PATH]             PATH to the logfile to write to
-    -v, --version                    display flapjack version
+VERSION
+    1.0.0
+
+GLOBAL OPTIONS
+    -c, --config=/path/to/flapjack.yaml    - Configuration file to use (default:
+                                             /etc/flapjack/flapjack_config.yaml)
+    -n, --env, --environment=&lt;environment&gt; - Environment to boot (default: production)
+    --version                              - Display the program version
+    --help                                 - Show this message
+
+COMMANDS
+    help     - Shows a list of commands or help for one command
+    flapper  - Artificial service that oscillates up and down
+    import   - Bulk import data from an external source
+    receiver - Receive events from external systems and send them to Flapjack
+    server   - Server for running components (e.g. processor, notifier, gateways)
+    simulate - Generate streams of events in various states
 </pre>
 
 <h3 id="flapjack-nagios-receiver">flapjack-nagios-receiver</h3>
@@ -531,7 +384,7 @@ Commands
 
 Options
     -c, --config [PATH]              PATH to the config file to use
-    -s, --source URL                 URL of source redis database, eg redis://localhost:6379/0
+    -s, --source URL                 URL of source redis database, e.g. redis://localhost:6379/0
     -f, --follow                     keep reading events as they are archived on the source
     -a, --all                        replay all archived events from the source
     -l, --last COUNT                 replay the last COUNT events from the source
@@ -548,7 +401,7 @@ Commands
 Options
     -c, --config [PATH]              PATH to the config file to use
     -t, --time MINUTES               MINUTES to generate failure events for
-    -i, --interval SECONDS           SECONDS between events, can be decimal eg 0.1 (10)
+    -i, --interval SECONDS           SECONDS between events, can be decimal e.g. 0.1 (10)
     -e, --entity ENTITY              ENTITY to generate failure events for ('foo-app-01')
     -k, --check CHECK                CHECK to generate failure events for ('HTTP')
     -s, --state STATE                optional STATE to generate failure events with ('CRITICAL')
@@ -576,7 +429,7 @@ Options
 
 <h3 id="resque-queue-management-with-resque-web">Resque Queue Management with resque-web</h3>
 
-<p>If you need to inspect or purge the queues managed by resque you&rsquo;ll want to start up an instance of resque-web. This will by default connect to redis database 0 which is fine for production but in development you&rsquo;ll need to specify database id 13 (or whatever you have it set to in the flapjack config) eg:</p>
+<p>If you need to inspect or purge the queues managed by resque you&rsquo;ll want to start up an instance of resque-web. This will by default connect to redis database 0 which is fine for production but in development you&rsquo;ll need to specify database id 13 (or whatever you have it set to in the flapjack config) e.g.:</p>
 <pre class="highlight shell">resque-web -p 4082 -r localhost:6379:13
 </pre>
 

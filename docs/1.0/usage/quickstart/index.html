@@ -76,7 +76,7 @@ Check out the <a class="alert-link" href="https://github.com/flapjack/vagrant-fl
 <p>Visit <a href="http://localhost:3080">http://localhost:3080</a> from your host workstation.
 You should see the Flapjack Web UI:</p>
 
-<p><img alt="Screenshot of the Flapjack Web UI" src="../../../images/0.9/quickstart/web-ui.png" /></p>
+<p><img alt="Screenshot of the Flapjack Web UI" src="../../../../images/0.9/quickstart/web-ui.png" /></p>
 
 <p>You should also find Icinga and Nagios UIs running at:</p>
 
@@ -125,7 +125,7 @@ simulate-failed-check --help
 Details of these commands are available <a class="alert-link" href="USING#running">on the Flapjack wiki</a>.
 </div>
 
-<p><img alt="CLI" src="../../../images/0.9/quickstart/term-flapjack-help.png" /></p>
+<p><img alt="CLI" src="../../../../images/0.9/quickstart/term-flapjack-help.png" /></p>
 
 <h2 id="simulate-a-check-failure">Simulate a check failure</h2>
 
@@ -152,7 +152,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p><code class="prettyprint">flapjack-nagios receiver</code> takes check output data from Nagios and turns it into events that Flapjack understands:</p>
 
-<p><img alt="Flapjack's architecture" src="../../../images/0.9/quickstart/architecture.png" /></p>
+<p><img alt="Flapjack's architecture" src="../../../../images/0.9/quickstart/architecture.png" /></p>
 
 <p>All that remains is to configure <code class="prettyprint">flapjack-nagios-receiver</code> to read from this named pipe, configure its Redis connection, and start it up.</p>
 
@@ -170,17 +170,17 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Reload the Flapjack web interface and you should now see the checks from Icinga and/or Nagios appearing there.</p>
 
-<p><img alt="Checks" src="../../../images/0.9/quickstart/checks-from-nagios.png" /></p>
+<p><img alt="Checks" src="../../../../images/0.9/quickstart/checks-from-nagios.png" /></p>
 
 <h2 id="create-some-contacts-and-entities">Create some contacts and Entities</h2>
 
-<p>Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the <a href="../API">Flapjack API</a>.</p>
+<p>Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the <a href="../../jsonapi">Flapjack API</a>.</p>
 
 <p>The vagrant-flapjack project ships with <a href="https://github.com/flapjack/vagrant-flapjack/tree/master/examples">example json files</a> that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json.</p>
 
 <h3 id="create-contacts-ada-and-charles">Create Contacts Ada and Charles</h3>
 
-<p>We&rsquo;ll be using the <a href="../API#wiki-post_contacts">POST /contacts</a> API call to create two contacts.</p>
+<p>We&rsquo;ll be using the <a href="../../jsonapi/#create-contacts">POST /contacts</a> API call to create two contacts.</p>
 
 <p>Run the following from your workstation, cd&rsquo;d into the vagrant-flapjack directory:</p>
 <pre class="highlight plaintext">curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
@@ -243,15 +243,15 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Navigate to <a href="http://localhost:3080/contacts">Contacts</a> in the Flapjack web UI and you should see Ada Lovelace and Charles Babbage listed:</p>
 
-<p><img alt="Contacts - List" src="../../../images/0.9/quickstart/contacts-ada-and-charles.png" /></p>
+<p><img alt="Contacts - List" src="../../../../images/0.9/quickstart/contacts-ada-and-charles.png" /></p>
 
 <p>Selecting <a href="http://localhost:3080/contacts/21">Ada</a> should give you something like:</p>
 
-<p><img alt="Contact - Ada Lovelace" src="../../../images/0.9/quickstart/contact-ada.png" /></p>
+<p><img alt="Contact - Ada Lovelace" src="../../../../images/0.9/quickstart/contact-ada.png" /></p>
 
 <h3 id="create-entities-foo-app-01-and-foo-db-01-(.example.com)">Create entities foo-app-01 and foo-db-01 (.example.com)</h3>
 
-<p>We&rsquo;ll be using the <a href="../API#wiki-post_entities">POST /entities</a> api call to create two entities.</p>
+<p>We&rsquo;ll be using the <a href="../../jsonapi/#create-entities">POST /entities</a> API call to create two entities.</p>
 
 <p>We&rsquo;re going to assign both Ada and Charles to foo-app-01, and just Ada to foo-db-01.</p>
 <pre class="highlight plaintext">curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
@@ -296,7 +296,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Visit <a href="http://localhost:3080/entity/my-app-01.example.com">my-app-01</a> in the web UI and you should see something like:</p>
 
-<p><img alt="Entity - my-app-01.example.com" src="../../../images/0.9/quickstart/entity-my-app-01-no-checks.png" /></p>
+<p><img alt="Entity - my-app-01.example.com" src="../../../../images/0.9/quickstart/entity-my-app-01-no-checks.png" /></p>
 
 <h2 id="feedback?">Feedback?</h2>
 
@@ -320,7 +320,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <ul>
 <li><a href="../IMPORTING">Documentation</a> on <strong>how to import contacts and entities</strong></li>
-<li><strong><a href="../jsonapi">JSONAPI documentation</a></strong> for working with individual contacts and entities</li>
+<li><strong><a href="../../jsonapi">JSONAPI documentation</a></strong> for working with individual contacts and entities</li>
 </ul>
 
       </div>

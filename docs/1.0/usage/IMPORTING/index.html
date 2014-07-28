@@ -31,11 +31,11 @@
         <div class="col-md-offset-1 col-md-10">
         <h1 id="importing-data-into-flapjack">Importing data into Flapjack</h1>
 
-<p>Flapjack provides a RESTful HTTP API for all data import / export functions, and triggering actions. See the <a href="../API">API docs</a> for full details.</p>
+<p>Flapjack provides a RESTful HTTP API for all data import / export functions, and triggering actions. See the <a href="../../jsonapi">API docs</a> for full details.</p>
 
 <p>Flapjack also provides a simple command line utility, <code class="prettyprint">flapjack-populator</code>, which can also be used for importing to some of the data structures.</p>
 
-<p>See also the <a href="../DATA_STRUCTURES">data structures</a> documentation.</p>
+<p>See also the <a href="../../development/DATA_STRUCTURES">data structures</a> documentation.</p>
 
 <h2 id="importing-contacts-and-entities-using-flapjack-populator">Importing contacts and entities using flapjack-populator</h2>
 
@@ -48,7 +48,7 @@
 
 <h3 id="format-of-json-contact-+-entity-data">Format of JSON contact + entity data</h3>
 
-<p>The format of these files is identical to the format required by the API functions <a href="../API#wiki-post_contacts">POST /contacts</a> and <a href="../API#wiki-post_entities">POST /entities</a>, consult the API documentation for the data specification. There are also some examples below.</p>
+<p>The format of these files is identical to the format required by the API functions <a href="../../jsonapi/#create-contacts">POST /contacts</a> and <a href="../../jsonapi/#create-entities">POST /entities</a>, consult the API documentation for the data specification. There are also some examples below.</p>
 
 <p>The <code class="prettyprint">flapjack-populator</code> script populates the event processing/notification database with entities and contacts. This initialises the entities for which checks will be monitored, which contacts are interested in which entities, and the notification details for these contacts (email address, mobile number for SMS, etc.).</p>
 
