@@ -110,13 +110,12 @@ Notifier picks up jobs from the *notifications* queue, looks up contact informat
 Executables:
 
   * `flapjack` => starts multiple components ('pikelets') within the one ruby process as specified in the configuration file.
-  * `flapjack-nagios-receiver` => reads nagios check output on standard input and places them on the events queue in redis as JSON blobs. Currently unable to be run in-process with `flapjack`
-  * `flapjack-nsca-receiver` => reads the nagios' commandfile output and places them on the events queue in redis as JSON blobs. Currently unable to be run in-process with `flapjack`
-  * `flapper` => runs a daemon that intermittently listens on port 12345 (one minute on, one minute off, ...)
+  * `flapjack receiver nagios` => reads nagios check output on standard input and places them on the events queue in redis as JSON blobs.
+  * `flapjack receiver nsca` => reads the nagios' commandfile output and places them on the events queue in redis as JSON blobs.
+  * `flapjack flapper` => runs a daemon that intermittently listens on port 12345 (one minute on, one minute off, ...)
     to be used for generating heartbeat events for end to end monitoring of flapjack
-  * `flapjack-populator` => creates contacts and entities in redis, reading from JSON formatted data files
-  * `receive-events` => reads archived events from a separate flapjack environment and adds them to the local events queue for processing
-  * `simulate-failed-check` => simulates a failed check by creating a stream of events for flapjack to process
+  * `flapjack import` => creates contacts and entities in redis, reading from JSON formatted data files
+  * `flapjack simulate fail` => simulates a failed check by creating a stream of events for flapjack to process
 
 Usage information for each executable is provided below.
 
