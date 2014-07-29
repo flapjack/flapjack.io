@@ -2,16 +2,16 @@
 
 Flapjack provides a RESTful HTTP API for all data import / export functions, and triggering actions. See the [API docs](../../jsonapi) for full details.
 
-Flapjack also provides a simple command line utility, `flapjack-populator`, which can also be used for importing to some of the data structures.
+Flapjack also provides a simple command line utility, `flapjack import`, which can also be used for importing to some of the data structures.
 
 See also the [data structures](../../development/DATA_STRUCTURES) documentation.
 
-## Importing contacts and entities using flapjack-populator
+## Importing contacts and entities using flapjack import
 
-The `flapjack-populator` script provides a mechanism for importing contacts and entities in JSON format. Here are some command line examples for `flapjack-populator`:
+The `flapjack import` script provides a mechanism for importing contacts and entities in JSON format. Here are some command line examples for `flapjack import`:
 
-    bin/flapjack-populator import-contacts --from tmp/dummy_contacts.json --config /etc/flapjack/flapjack-config.yml
-    bin/flapjack-populator import-entities --from tmp/dummy_entities.json --config /etc/flapjack/flapjack-config.yml
+    bin/flapjack --config etc/flapjack_config.yaml import contacts  --from tmp/dummy_contacts.json
+    bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_entities.json
 
 There are example JSON files, and example ruby scripts which generate the examples, in the tmp/ directory.
 
@@ -19,7 +19,7 @@ There are example JSON files, and example ruby scripts which generate the exampl
 
 The format of these files is identical to the format required by the API functions [POST /contacts](../../jsonapi/#create-contacts) and [POST /entities](../../jsonapi/#create-entities), consult the API documentation for the data specification. There are also some examples below.
 
-The `flapjack-populator` script populates the event processing/notification database with entities and contacts. This initialises the entities for which checks will be monitored, which contacts are interested in which entities, and the notification details for these contacts (email address, mobile number for SMS, etc.).
+The `flapjack import` script populates the event processing/notification database with entities and contacts. This initialises the entities for which checks will be monitored, which contacts are interested in which entities, and the notification details for these contacts (email address, mobile number for SMS, etc.).
 
 The import process will delete any existing matching object (matching on ID) before importing the new details, so if an object is being updated, the whole object must be exported. In this way we can handle the removal of an email address in the media hash for example. The operation on Redis is wrapped in a transaction, so the update is atomic.
 

@@ -147,7 +147,7 @@ The simplest configuration will have one `flapjack` process running processor, n
 Copy the example config file into place:
 
 ```
-cp etc/flapjack-config.yaml.example etc/flapjack-config.yaml
+cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml
 ```
 
 and then edit the configuration to suit. The value of the environment variable `FLAPJACK_ENV` is used as the configuration key, to choose which of the top-level configuration hashes in the YAML file should be loaded. (The default FLAPJACK_ENV is "development" if there is no environment variable set.)
@@ -298,9 +298,9 @@ Details on the [wiki](#configuring_nagios)
 ```
 Examples:
 ``` bash
-flapjack-nagios-receiver start --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
+flapjack-nagios-receiver start --config /etc/flapjack/flapjack_config.yaml --fifo /path/to/nagios/perfdata.fifo
 flapjack-nagios-receiver status
-flapjack-nagios-receiver restart --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
+flapjack-nagios-receiver restart --config /etc/flapjack/flapjack_config.yaml --fifo /path/to/nagios/perfdata.fifo
 flapjack-nagios-receiver stop
 ```
 
@@ -381,7 +381,7 @@ We're using [Resque](https://github.com/resque/resque) to queue email and sms no
 - email_notifications
 - sms_notifications
 
-Note that using the flapjack-config.yaml file you can have flapjack start the resque workers in-process. Or you can run them standalone with the `rake resque:work` command as follows.
+Note that using the flapjack_config.yaml file you can have flapjack start the resque workers in-process. Or you can run them standalone with the `rake resque:work` command as follows.
 
 One resque worker that processes both queues (but prioritises SMS above email) can be started as follows:
 
