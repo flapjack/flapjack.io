@@ -52,11 +52,9 @@ Flapjack is made of a number of components, all accessible via the Flapjack exec
 Information on each command can be accessed by running `flapjack command help`
 
 ``` text
-    flapper  - Artificial service that oscillates up and down
-    import   - Bulk import data from an external source
-    receiver - Receive events from external systems and send them to
-               Flapjack
-    server   - Server for running components (e.g. processor, notifier,
-               gateways)
-    simulate - Generate streams of events in various states
+    flapper  - Artificial service that oscillates up and down, for use in http://flapjack.io/docs/1.0/usage/oobetet
+    import   - Bulk import data from an external source, reading from JSON formatted data files
+    receiver - Receive events from external systems and sends them to Flapjack
+    server   - Server for running components (e.g. processor, notifier, gateways)
+    simulate - Simulates a check by creating a stream of events for Flapjack to process
 ```
