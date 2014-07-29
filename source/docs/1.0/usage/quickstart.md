@@ -89,9 +89,9 @@ Have a look at the commands under `/opt/flapjack/bin`:
 ```text
 export PATH=$PATH:/opt/flapjack/bin
 # ...
-flapjack --help
+flapjack help
 # ...
-simulate-failed-check --help
+flapjack simulate help
 # ...
 ```
 
@@ -106,13 +106,13 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 Run something like:
 
 ``` bash
-simulate-failed-check fail-and-recover \
+flapjack simulate fail_and_recover \
   --entity foo-app-01.example.com \
   --check Sausage \
   --time 3
 ```
 
-This will send a stream of critical events for 3 minutes, and send one ok event at the end. If you want the last event to be a failure as well, use the `fail` command instead of `fail-and-recover`.
+This will send a stream of critical events for 3 minutes, and send one ok event at the end. If you want the last event to be a failure as well, use the `flapjack simulate fail` command instead of `flapjack simulate fail_and_recover`.
 
 ### Verify
 

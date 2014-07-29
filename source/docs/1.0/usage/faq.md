@@ -144,10 +144,10 @@ number of Flapjack processors count == number of cores - number of redis instanc
 </p>
 </div>
 
-To test out the limits of Flapjack's event processing speed in your environment, you can use the `simulate-failed-check` tool to create lots of events quickly:
+To test out the limits of Flapjack's event processing speed in your environment, you can use the `flapjack simulate fail` tool to create lots of events quickly:
 
 ```
-simulate fail_and_recover -i 0.001 -e foo-app-01 -k http --time 60 -c etc/flapjack_config.yaml
+flapjack simulate fail -i 0.001 -e foo-app-01 -k http --time 60 -c etc/flapjack_config.yaml
 ```
 
 Scaling the web + API gateways is just like scaling any web app - just throw up more instances and sit them behind a reverse proxy.
