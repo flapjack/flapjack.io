@@ -115,9 +115,9 @@ You should see the Flapjack Web UI:</p>
 <p>Have a look at the commands under <code class="prettyprint">/opt/flapjack/bin</code>:</p>
 <pre class="highlight plaintext">export PATH=$PATH:/opt/flapjack/bin
 # ...
-flapjack --help
+flapjack help
 # ...
-simulate-failed-check --help
+flapjack simulate help
 # ...
 </pre>
 
@@ -130,13 +130,13 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 <h2 id="simulate-a-check-failure">Simulate a check failure</h2>
 
 <p>Run something like:</p>
-<pre class="highlight shell">simulate-failed-check fail-and-recover <span class="se">\</span>
+<pre class="highlight shell">flapjack simulate fail_and_recover <span class="se">\</span>
   --entity foo-app-01.example.com <span class="se">\</span>
   --check Sausage <span class="se">\</span>
   --time 3
 </pre>
 
-<p>This will send a stream of critical events for 3 minutes, and send one ok event at the end. If you want the last event to be a failure as well, use the <code class="prettyprint">fail</code> command instead of <code class="prettyprint">fail-and-recover</code>.</p>
+<p>This will send a stream of critical events for 3 minutes, and send one ok event at the end. If you want the last event to be a failure as well, use the <code class="prettyprint">flapjack simulate fail</code> command instead of <code class="prettyprint">flapjack simulate fail_and_recover</code>.</p>
 
 <h3 id="verify">Verify</h3>
 
