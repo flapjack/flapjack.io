@@ -1,10 +1,10 @@
 # Configuring Nagios
 
-You need a Nagios prior to version 3.3 as it introduced [a bug that breaks perfdata output](http://tracker.nagios.org/view.php?id=247) for checks which don't generate performance data (text after a | in the check output).
+Nagios versions 3.3 - 3.4.2 will not work due to [a bug that breaks perfdata output](http://tracker.nagios.org/view.php?id=247) for checks which don't generate performance data (text after a | in the check output).
 
 Because this output is omitted, `flapjack receiver nagios` is unable to parse event information from Nagios and send it to Flapjack.
 
-There are unconfirmed reports Nagios releases in the 3.4.x series have a fix for the perfdata, however we have not confirmed this. Nagios 4.x *may* also work, however this is also unconfirmed.
+This has been fixed in Nagios 3.4.2.  Nagios 4.x *may* also work, however this is unconfirmed.
 
 We are developing and running against Nagios version 3.2.3 with success.
 
