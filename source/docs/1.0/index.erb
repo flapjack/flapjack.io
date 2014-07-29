@@ -13,7 +13,7 @@
   <ul>
     <% Dir[File.dirname(__FILE__) + "/#{section}/*.md"].map {|f| File.basename(f, '.md')}.sort.each do |filename| %>
       <% pagename = filename.split(/-|_/).join(' ').capitalize %>
-      <li><a href=<%="../#{section}/#{filename}"%>><%="#{pagename}"%></a></li>
+      <li><a href=<%="#{section}/#{filename}"%>><%="#{pagename}"%></a></li>
     <% end %>
   </ul>
 

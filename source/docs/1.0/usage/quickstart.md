@@ -96,7 +96,7 @@ simulate-failed-check --help
 ```
 
 <div class="alert alert-info">
-Details of these commands are available <a class="alert-link" href="USING#running">on the Flapjack wiki</a>.
+Details of these commands are available <a class="alert-link" href="USING#running">here</a>.
 </div>
 
 ![CLI](/images/1.0/quickstart/term-flapjack-help.png)
@@ -140,7 +140,7 @@ All that remains is to configure `flapjack receiver nagios` to read from this na
 sudo /etc/init.d/flapjack receiver nagios start
 ```
 
-More details on configuration are available [on the wiki](../USING#configuring-components).
+More details on configuration are available [here](../USING#configuring-components).
 
 ### Verify
 
