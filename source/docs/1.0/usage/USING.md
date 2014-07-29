@@ -1,8 +1,3 @@
-- [Installing](#installing)
-- [Configuration](#configuration)
-- [Running](#running)
-
-<a id="installing">&nbsp;</a>
 # Installation
 
 ## Debian packages
@@ -39,12 +34,10 @@ Install build-essential, and Ruby 2.1.1 using [rbenv](https://github.com/sstephe
 gem install flapjack
 ```
 
-<a id="configuration">&nbsp;</a>
 # Configuration
 
 The default configuration file is located at /etc/flapjack/flapjack_config.yaml.
 
-<a id="running">&nbsp;</a>
 # Running
 
 Flapjack is made of a number of components, all accessible via the Flapjack executable.
