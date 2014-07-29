@@ -76,7 +76,7 @@ Check out the <a class="alert-link" href="https://github.com/flapjack/vagrant-fl
 <p>Visit <a href="http://localhost:3080">http://localhost:3080</a> from your host workstation.
 You should see the Flapjack Web UI:</p>
 
-<p><img alt="Screenshot of the Flapjack Web UI" src="../../../../images/0.9/quickstart/web-ui.png" /></p>
+<p><img alt="Screenshot of the Flapjack Web UI" src="../../../../images/1.0/quickstart/web-ui.png" /></p>
 
 <p>You should also find Icinga and Nagios UIs running at:</p>
 
@@ -125,7 +125,7 @@ simulate-failed-check --help
 Details of these commands are available <a class="alert-link" href="USING#running">on the Flapjack wiki</a>.
 </div>
 
-<p><img alt="CLI" src="../../../../images/0.9/quickstart/term-flapjack-help.png" /></p>
+<p><img alt="CLI" src="../../../../images/1.0/quickstart/term-flapjack-help.png" /></p>
 
 <h2 id="simulate-a-check-failure">Simulate a check failure</h2>
 
@@ -150,18 +150,18 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Both Nagios and Icinga are configured already to append check output data to the following named pipe: <code class="prettyprint">/var/cache/icinga/event_stream.fifo</code>.</p>
 
-<p><code class="prettyprint">flapjack-nagios receiver</code> takes check output data from Nagios and turns it into events that Flapjack understands:</p>
+<p><code class="prettyprint">flapjack receiver nagios</code> takes check output data from Nagios and turns it into events that Flapjack understands:</p>
 
-<p><img alt="Flapjack's architecture" src="../../../../images/0.9/quickstart/architecture.png" /></p>
+<p><img alt="Flapjack's architecture" src="../../../../images/1.0/quickstart/architecture.png" /></p>
 
-<p>All that remains is to configure <code class="prettyprint">flapjack-nagios-receiver</code> to read from this named pipe, configure its Redis connection, and start it up.</p>
+<p>All that remains is to configure <code class="prettyprint">flapjack receiver nagios</code> to read from this named pipe, configure its Redis connection, and start it up.</p>
 
 <ul>
 <li>Edit the Flapjack config file at <code class="prettyprint">/etc/flapjack/flapjack_config.yaml</code></li>
 <li>Find the <code class="prettyprint">nagios-receiver</code> section under <code class="prettyprint">production</code> and change the <code class="prettyprint">fifo:</code> to be <code class="prettyprint">/var/cache/icinga/event_stream.fifo</code></li>
 <li>Start it up with:</li>
 </ul>
-<pre class="highlight shell">sudo /etc/init.d/flapjack-nagios-receiver start
+<pre class="highlight shell">sudo /etc/init.d/flapjack receiver nagios start
 </pre>
 
 <p>More details on configuration are available <a href="../USING#configuring-components">on the wiki</a>.</p>
@@ -170,7 +170,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Reload the Flapjack web interface and you should now see the checks from Icinga and/or Nagios appearing there.</p>
 
-<p><img alt="Checks" src="../../../../images/0.9/quickstart/checks-from-nagios.png" /></p>
+<p><img alt="Checks" src="../../../../images/1.0/quickstart/checks-from-nagios.png" /></p>
 
 <h2 id="create-some-contacts-and-entities">Create some contacts and Entities</h2>
 
@@ -243,11 +243,11 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Navigate to <a href="http://localhost:3080/contacts">Contacts</a> in the Flapjack web UI and you should see Ada Lovelace and Charles Babbage listed:</p>
 
-<p><img alt="Contacts - List" src="../../../../images/0.9/quickstart/contacts-ada-and-charles.png" /></p>
+<p><img alt="Contacts - List" src="../../../../images/1.0/quickstart/contacts-ada-and-charles.png" /></p>
 
 <p>Selecting <a href="http://localhost:3080/contacts/21">Ada</a> should give you something like:</p>
 
-<p><img alt="Contact - Ada Lovelace" src="../../../../images/0.9/quickstart/contact-ada.png" /></p>
+<p><img alt="Contact - Ada Lovelace" src="../../../../images/1.0/quickstart/contact-ada.png" /></p>
 
 <h3 id="create-entities-foo-app-01-and-foo-db-01-(.example.com)">Create entities foo-app-01 and foo-db-01 (.example.com)</h3>
 
@@ -296,7 +296,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 
 <p>Visit <a href="http://localhost:3080/entity/my-app-01.example.com">my-app-01</a> in the web UI and you should see something like:</p>
 
-<p><img alt="Entity - my-app-01.example.com" src="../../../../images/0.9/quickstart/entity-my-app-01-no-checks.png" /></p>
+<p><img alt="Entity - my-app-01.example.com" src="../../../../images/1.0/quickstart/entity-my-app-01-no-checks.png" /></p>
 
 <h2 id="feedback?">Feedback?</h2>
 

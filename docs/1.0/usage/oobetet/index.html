@@ -43,51 +43,21 @@
 
 <p><img alt="oobetet high level" src="../../../../images/oobetet-high-level.png" /></p>
 
-<p>Flapper is a process that oscillates between up (listening on a TCP port) and down (not listening). By default, the oscillation frequency is 2 minutes. This frequency is user-tunable. </p>
+<p>The Flapjack flapper is a process that oscillates between up (listening on a TCP port) and down (not listening). By default, the oscillation frequency is 2 minutes. This frequency is user-tunable.</p>
 
-<p>Your check execution engine (e.g. Icinga, Sensu, Nagios, &hellip;) is configured to monitor the Flapper with a high frequency (e.g every 10 seconds), and passes on the results of all checks to Flapjack&rsquo;s event processor (via <code class="prettyprint">flapjack-nagios-receiver</code> or <code class="prettyprint">flapjackfeeder</code>).</p>
+<p>Your check execution engine (e.g. Icinga, Sensu, Nagios, &hellip;) is configured to monitor the Flapper with a high frequency (e.g every 10 seconds), and passes on the results of all checks to Flapjack&rsquo;s event processor (via <code class="prettyprint">flapjack receiver</code>).</p>
 
 <p>Flapjack is configured with a contact that is interested in the Flapper check, and who has one of the Jabber chat rooms as its Jabber contact address. Flapjack will therefore generate alerts in this Jabber chat room about Flapper going up, down, up, down, continuously.</p>
 
 <p>The oobetet pikelet connects to the Jabber server and joins the room to which Flapjack is sending alerts for Flapper. It then watches for alerts in the chat room for Flapper. If it detects that Flapper doesn&rsquo;t change state within a period of time (we recommend 5 minutes), it will fire an alert, both by Jabber back into this chat room, and to PagerDuty.</p>
 
-<p>Here is an example oobetet config from the Flapjack configuration file:</p>
-<pre class="highlight plaintext">oobetet:
-  enabled: yes
-  server: "jabber.example.com"
-  port: 5222
-  jabberid: "flapjacktest@jabber.example.com"
-  password: "nuther-good-password"
-  alias: "flapjacktest"
-  watched_check: "Flapper"
-  watched_entity: "flapper-on-nagios-01.example.org"
-  max_latency: 300
-  pagerduty_contact: "11111111111111111111111111111111"
-  rooms:
-    - "flapjacktest@conference.jabber.example.com"
-    - "gimp@conference.jabber.example.com"
-    - "log@conference.jabber.example.com"
-  logger:
-    level: INFO
-    syslog_errors: yes
-</pre>
-
-<p>The key configuration directives are:</p>
-
-<ul>
-<li><code class="prettyprint">watched_check</code> - what check should the oobetet should watch for the state change.</li>
-<li><code class="prettyprint">watched_entity</code> - what entity that check should be associated with.</li>
-<li><code class="prettyprint">max_latency</code> - the maximum amount of time allowed to pass between state changes on that check.</li>
-<li><code class="prettyprint">pagerduty_contact</code> - the API key for a service in PagerDuty that the oobetet will use to alert you</li>
-<li><code class="prettyprint">server</code>, <code class="prettyprint">port</code>, <code class="prettyprint">jabberid</code>, <code class="prettyprint">password</code> - Jabber server connection and authentication credentials</li>
-<li><code class="prettyprint">rooms</code> - Jabber rooms to join</li>
-</ul>
+<p>You can find an example oobetet config in the Flapjack example configuration file.</p>
 
 <h3 id="event-producers">Event producers</h3>
 
 <p>The upstream monitoring check is expected to switch between states within that time period. If it does not, an alert will fire.</p>
 
-<p>Assuming you&rsquo;re running Nagios as your check execution engine, and your Nagios is hooked up to Flapjack with <code class="prettyprint">flapjack-nagios-receiver</code>, here&rsquo;s an example Nagios config to setup a flapping service:</p>
+<p>Assuming you&rsquo;re running Nagios as your check execution engine, and your Nagios is hooked up to Flapjack with <code class="prettyprint">flapjack receiver nagios</code>, here&rsquo;s an example Nagios config to setup a flapping service:</p>
 <pre class="highlight plaintext">define host {
   use            base
   host_name      flapper-on-nagios-01.example.org
@@ -113,7 +83,7 @@ define command {
 <p>Flapjack ships a Flapper service that the above <code class="prettyprint">check_tcp</code> check queries. The Flapper service oscillates between opening and closing TCP port 12345, at a user-specified frequency (the default is 120 seconds).</p>
 
 <p>You start it like this:</p>
-<pre class="highlight shell">flapper start
+<pre class="highlight shell">flapjack flapper start
 </pre>
 
 <h2 id="stringing-it-all-together">Stringing it all together</h2>
@@ -122,7 +92,7 @@ define command {
 
 <ul>
 <li>Nagios checks the Flapper service is available every 10 seconds</li>
-<li>Nagios reports the events to Flapjack via the <code class="prettyprint">flapjack-nagios-receiver</code></li>
+<li>Nagios reports the events to Flapjack via the <code class="prettyprint">flapjack receiver nagios</code></li>
 <li>Flapjack generates alerts for Flapper in a Jabber chat room</li>
 <li>Oobetet watches for these alerts in the Jabber chat room</li>
 <li>Oobetet checks the notifications are coming through at least every 5 minutes</li>
