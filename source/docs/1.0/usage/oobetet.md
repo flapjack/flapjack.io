@@ -12,51 +12,21 @@ Oobetet works like this:
 
 ![oobetet high level](/images/oobetet-high-level.png)
 
-Flapper is a process that oscillates between up (listening on a TCP port) and down (not listening). By default, the oscillation frequency is 2 minutes. This frequency is user-tunable. 
+The Flapjack flapper is a process that oscillates between up (listening on a TCP port) and down (not listening). By default, the oscillation frequency is 2 minutes. This frequency is user-tunable.
 
-Your check execution engine (e.g. Icinga, Sensu, Nagios, ...) is configured to monitor the Flapper with a high frequency (e.g every 10 seconds), and passes on the results of all checks to Flapjack's event processor (via `flapjack-nagios-receiver` or `flapjackfeeder`).
+Your check execution engine (e.g. Icinga, Sensu, Nagios, ...) is configured to monitor the Flapper with a high frequency (e.g every 10 seconds), and passes on the results of all checks to Flapjack's event processor (via `flapjack receiver`).
 
 Flapjack is configured with a contact that is interested in the Flapper check, and who has one of the Jabber chat rooms as its Jabber contact address. Flapjack will therefore generate alerts in this Jabber chat room about Flapper going up, down, up, down, continuously.
 
 The oobetet pikelet connects to the Jabber server and joins the room to which Flapjack is sending alerts for Flapper. It then watches for alerts in the chat room for Flapper. If it detects that Flapper doesn't change state within a period of time (we recommend 5 minutes), it will fire an alert, both by Jabber back into this chat room, and to PagerDuty.
 
-Here is an example oobetet config from the Flapjack configuration file:
-
-```
-oobetet:
-  enabled: yes
-  server: "jabber.example.com"
-  port: 5222
-  jabberid: "flapjacktest@jabber.example.com"
-  password: "nuther-good-password"
-  alias: "flapjacktest"
-  watched_check: "Flapper"
-  watched_entity: "flapper-on-nagios-01.example.org"
-  max_latency: 300
-  pagerduty_contact: "11111111111111111111111111111111"
-  rooms:
-    - "flapjacktest@conference.jabber.example.com"
-    - "gimp@conference.jabber.example.com"
-    - "log@conference.jabber.example.com"
-  logger:
-    level: INFO
-    syslog_errors: yes
-```
-
-The key configuration directives are:
-
- - `watched_check` - what check should the oobetet should watch for the state change.
- - `watched_entity` - what entity that check should be associated with.
- - `max_latency` - the maximum amount of time allowed to pass between state changes on that check.
- - `pagerduty_contact` - the API key for a service in PagerDuty that the oobetet will use to alert you
- - `server`, `port`, `jabberid`, `password` - Jabber server connection and authentication credentials
- - `rooms` - Jabber rooms to join
+You can find an example oobetet config in the Flapjack example configuration file.
 
 ### Event producers
 
 The upstream monitoring check is expected to switch between states within that time period. If it does not, an alert will fire.
 
-Assuming you're running Nagios as your check execution engine, and your Nagios is hooked up to Flapjack with `flapjack-nagios-receiver`, here's an example Nagios config to setup a flapping service:
+Assuming you're running Nagios as your check execution engine, and your Nagios is hooked up to Flapjack with `flapjack receiver nagios`, here's an example Nagios config to setup a flapping service:
 
 ```
 define host {
@@ -86,7 +56,7 @@ Flapjack ships a Flapper service that the above `check_tcp` check queries. The F
 You start it like this:
 
 ``` bash
-flapper start
+flapjack flapper start
 ```
 
 ## Stringing it all together
@@ -94,7 +64,7 @@ flapper start
 With the above configuration:
 
  - Nagios checks the Flapper service is available every 10 seconds
- - Nagios reports the events to Flapjack via the `flapjack-nagios-receiver`
+ - Nagios reports the events to Flapjack via the `flapjack receiver nagios`
  - Flapjack generates alerts for Flapper in a Jabber chat room
  - Oobetet watches for these alerts in the Jabber chat room
  - Oobetet checks the notifications are coming through at least every 5 minutes
