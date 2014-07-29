@@ -264,7 +264,7 @@ ROLLUP_TYPE - one of nil, 'problem' or 'recovery'. A recovery rollup alert is wh
 
 ### Contacts
 
-Contacts are populated from an external system via REST API or the flapjack-populator command line utility. See IMPORTING.
+Contacts are populated from an external system via REST API or the `flapjack import` command line utility. See IMPORTING.
 
 ```text
 contact:CONTACT_ID           (hash) -> { 'first_name' => FIRST_NAME,
