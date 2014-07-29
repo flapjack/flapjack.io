@@ -137,7 +137,7 @@ All that remains is to configure `flapjack receiver nagios` to read from this na
 - Start it up with:
 
 ``` bash
-sudo /etc/init.d/flapjack-nagios-receiver start
+sudo /etc/init.d/flapjack receiver nagios start
 ```
 
 More details on configuration are available [on the wiki](../USING#configuring-components).
