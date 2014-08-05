@@ -119,8 +119,8 @@ to be used for generating heartbeat events for end to end monitoring of flapjack
 <p>Note that using the flapjack_config.yaml file you can have flapjack start the resque workers in-process. Or you can run them standalone with the <code class="prettyprint">rake resque:work</code> command as follows.</p>
 
 <p>One resque worker that processes both queues (but prioritises SMS above email) can be started as follows:</p>
-
-<p>QUEUE=sms_notifications,email_notifications VERBOSE=1 be rake resque:work</p>
+<pre class="highlight plaintext">QUEUE=sms_notifications,email_notifications VERBOSE=1 be rake resque:work
+</pre>
 
 <p>resque sets the command name so grep&#39;ing ps output for <code class="prettyprint">rake</code> or <code class="prettyprint">ruby</code> will NOT find resque processes. Search instead for <code class="prettyprint">resque</code>. (and remember the &lsquo;q&rsquo;).</p>
 

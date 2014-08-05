@@ -246,72 +246,73 @@ curl http://localhost:3081/contacts/21
 
 <p>If ID is supplied in any of the included contacts, and any of them clash with an existing contact, the whole request will be rejected and no changes will be written.</p>
 
-<p><strong>Input JSON Format</strong>
-&ldquo;`text
-CONTACTS  (array) = [ CONTACT, CONTACT, &hellip;]
-CONTACT   (hash)  = { &quot;id&rdquo;: CONTACT_ID, &ldquo;first_name&rdquo;: FIRST_NAME, &ldquo;last_name&rdquo;: LAST_NAME,
-                      &ldquo;email&rdquo;: EMAIL, &ldquo;media&rdquo;: MEDIAS }
-MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, &ldquo;pagerduty&rdquo;: PAGERDUTY&hellip; }
-MEDIA     (hash)  = { &ldquo;address&rdquo;: MEDIA_ADDRESS,
-                      &ldquo;interval&rdquo;: INTERVAL,
-                      &ldquo;rollup_threshold&rdquo;: FAILURE_COUNT }
-PAGERDUTY (hash)  = { &ldquo;service_key&rdquo;: PAGERDUTY_SERVICE_KEY, &ldquo;subdomain&rdquo;: PAGERDUTY_SUBDOMAIN,
-                      &ldquo;username&rdquo;: PAGERDUTY_USERNAME, &ldquo;password&rdquo;: PAGERDUTY_PASSWORD }
-TAGS      (array) = [ &ldquo;TAG&rdquo;, &ldquo;TAG&rdquo;, &hellip;]</p>
+<p><strong>Input JSON Format</strong></p>
+<pre class="highlight plaintext">CONTACTS  (array) = [ CONTACT, CONTACT, ...]
+CONTACT   (hash)  = { "id": CONTACT_ID, "first_name": FIRST_NAME, "last_name": LAST_NAME,
+                      "email": EMAIL, "media": MEDIAS }
+MEDIAS    (hash)  = { MEDIA_TYPE: MEDIA, MEDIA_TYPE: MEDIA, "pagerduty": PAGERDUTY... }
+MEDIA     (hash)  = { "address": MEDIA_ADDRESS,
+                      "interval": INTERVAL,
+                      "rollup_threshold": FAILURE_COUNT }
+PAGERDUTY (hash)  = { "service_key": PAGERDUTY_SERVICE_KEY, "subdomain": PAGERDUTY_SUBDOMAIN,
+                      "username": PAGERDUTY_USERNAME, "password": PAGERDUTY_PASSWORD }
+TAGS      (array) = [ "TAG", "TAG", ...]
 
-<p>CONTACT_ID            (string) - a unique, immutable identifier for this contact (optional). If ommitted, a UUID will be created
-MEDIA_TYPE            (string) - one of &ldquo;email&rdquo;, &ldquo;sms&rdquo;, &ldquo;jabber&rdquo;, or any other media type we add support for in the future
+CONTACT_ID            (string) - a unique, immutable identifier for this contact (optional). If ommitted, a UUID will be created
+MEDIA_TYPE            (string) - one of "email", "sms", "jabber", or any other media type we add support for in the future
 MEDIA_ADDRESS         (string) - address to send to for the paired MEDIA_TYPE, eg an email address, mobile phone number, or jabber id
-PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty&rsquo;s integration API, corresponds to a &lsquo;service&rsquo; within this contact&rsquo;s PagerDuty account
-PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact&rsquo;s PagerDuty account, eg &ldquo;companyname&rdquo; in the case of https://companyname.pagerduty.com/
+PAGERDUTY_SERVICE_KEY (string) - the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account
+PAGERDUTY_SUBDOMAIN   (string) - the subdomain for this contact's PagerDuty account, eg "companyname" in the case of https://companyname.pagerduty.com/
 PAGERDUTY_USERNAME    (string) - the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty
 PAGERDUTY_PASSWORD    (string) - the password for the PagerDuty REST API
 TAG                   (string) - a tag, you know?
 INTERVAL              (string) - number of seconds to repeat the same alert on this media type
 FAILURE_COUNT         (string) - the number of failing checks this contact has before rollup kicks in, 0 and null mean never
-&ldquo;`</p>
+</pre>
 
-<p><strong>Notes:</strong>
-* The &quot;email&rdquo; key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact&rsquo;s identity only. Only the &ldquo;email&rdquo; key in the MEDIA hash, if present, is to be used for notifications.
-* The value for ID must be unique and must never change as it is used for synchronisation during updates.
-* The &ldquo;pagerduty&rdquo; hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.</p>
+<p><strong>Notes:</strong></p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;contacts&quot;: [
+<ul>
+<li>The &ldquo;email&rdquo; key in the CONTACT hash is not to be used for sending alerts, it is supplied as a qualification of the contact&rsquo;s identity only. Only the &ldquo;email&rdquo; key in the MEDIA hash, if present, is to be used for notifications.</li>
+<li>The value for ID must be unique and must never change as it is used for synchronisation during updates.</li>
+<li>The &ldquo;pagerduty&rdquo; hash may or may not be present. If absent, any existing pagerduty info for the contact will be removed on import.</li>
+</ul>
+
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "contacts": [
       {
-        &quot;first_name&quot;: &quot;Ada&quot;,
-        &quot;last_name&quot;: &quot;Lovelace&quot;,
-        &quot;email&quot;: &quot;ada@example.com&quot;,
-        &quot;media&quot;: {
-          &quot;sms&quot;: {
-            &quot;address&quot;: &quot;+61412345678&quot;,
-            &quot;interval&quot;: &quot;3600&quot;,
-            &quot;rollup_threshold&quot;: &quot;5&quot;
+        "first_name": "Ada",
+        "last_name": "Lovelace",
+        "email": "ada@example.com",
+        "media": {
+          "sms": {
+            "address": "+61412345678",
+            "interval": "3600",
+            "rollup_threshold": "5"
           },
-          &quot;email&quot;: {
-            &quot;address&quot;: &quot;ada@example.com&quot;,
-            &quot;interval&quot;: &quot;7200&quot;,
-            &quot;rollup_threshold&quot;: null
+          "email": {
+            "address": "ada@example.com",
+            "interval": "7200",
+            "rollup_threshold": null
           }
         },
-        &quot;tags&quot;: [
-          &quot;legend&quot;,
-          &quot;first computer programmer&quot;
+        "tags": [
+          "legend",
+          "first computer programmer"
         ]
       }
     ]
-  }&#39; \
+  }'</span> <span class="se">\</span>
  http://localhost:3081/contacts
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-  &#39;4b5897cf-9ba4-4da5-b317-64497e5a49de&#39;
-]
-</code></p>
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="err">'</span><span class="mi">4</span><span class="err">b</span><span class="mi">5897</span><span class="err">cf</span><span class="mi">-9</span><span class="err">ba</span><span class="mi">4-4</span><span class="err">da</span><span class="mi">5</span><span class="err">-b</span><span class="mi">317-64497</span><span class="err">e</span><span class="mi">5</span><span class="err">a</span><span class="mi">49</span><span class="err">de'</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a id="put_contacts_id">&nbsp;</a></p>
 
@@ -321,32 +322,31 @@ curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: appli
 
 <p>The data format (for PUT) is the same as the CONTACT hash detailed in <a href="#post_contacts">POST /contacts</a> however ID must not be supplied (as it is present in the URL).</p>
 
-<p><strong>Example 1 - PUT</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X PUT -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;first_name&quot;: &quot;Ada&quot;,
-    &quot;last_name&quot;: &quot;Lovelace&quot;,
-    &quot;email&quot;: &quot;ada@example.com&quot;,
-    &quot;media&quot;: {
-      &quot;sms&quot;: {
-        &quot;address&quot;: &quot;+61412345678&quot;,
-        &quot;interval&quot;: &quot;3600&quot;,
-        &quot;rollup_threshold&quot;: &quot;5&quot;
+<p><strong>Example 1 - PUT</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PUT -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "first_name": "Ada",
+    "last_name": "Lovelace",
+    "email": "ada@example.com",
+    "media": {
+      "sms": {
+        "address": "+61412345678",
+        "interval": "3600",
+        "rollup_threshold": "5"
       },
-      &quot;email&quot;: {
-        &quot;address&quot;: &quot;ada@example.com&quot;,
-        &quot;interval&quot;: &quot;7200&quot;,
-        &quot;rollup_threshold&quot;: null
+      "email": {
+        "address": "ada@example.com",
+        "interval": "7200",
+        "rollup_threshold": null
       }
     },
-    &quot;tags&quot;: [
-      &quot;legend&quot;,
-      &quot;first computer programmer&quot;
+    "tags": [
+      "legend",
+      "first computer programmer"
     ]
-  }&#39; \
- &#39;http://localhost:3081/contacts/21&#39;
-</code></p>
+  }'</span> <span class="se">\</span>
+ <span class="s1">'http://localhost:3081/contacts/21'</span>
+</pre>
 
 <p><strong>Example 2 - DELETE</strong></p>
 <pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
@@ -372,11 +372,10 @@ curl -w &#39;response: %{http_code} \n&#39; -X PUT -H &quot;Content-type: applic
 
 <p>Includes media type, address, interval, and rollup threshold.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; \
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> <span class="se">\</span>
  http://localhost:3081/contacts/21/media
-</code></p>
+</pre>
 
 <p><a id="get_contacts_id_media_media">&nbsp;</a></p>
 
@@ -390,35 +389,37 @@ curl -w &#39;response: %{http_code} \n&#39; \
 
 <p>Creates or updates (PUT) or deletes (DELETE) a media of a contact</p>
 
-<p><strong>Example 1 - PUT</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X PUT -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;address&quot;: &quot;dmitri@example.com&quot;,
-    &quot;interval&quot;: 900,
-    &quot;rollup_threshold&quot;: 3
-  }&#39; \
+<p><strong>Example 1 - PUT</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PUT -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "address": "dmitri@example.com",
+    "interval": 900,
+    "rollup_threshold": 3
+  }'</span> <span class="se">\</span>
  http://localhost:3081/contacts/21/media/email
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-{
-  &quot;address&quot;: &quot;dmitri@example.com&quot;,
-  &quot;interval&quot;: 900,
-  &quot;rollup_threshold&quot;: 3
-}
-</code></p>
+</pre>
 
-<p><strong>Example 2 - DELETE</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dmitri@example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">900</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"rollup_threshold"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre>
+
+<p><strong>Example 2 - DELETE</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
  http://localhost:3081/contacts/21/media/pagerduty
-</code>
-<strong>Response</strong> Status: 204 OK</p>
+</pre>
 
-<p><strong>Notes:</strong>
-* any missing attributes in an update will remove those attributes (eg interval)
-* address can&rsquo;t be removed and will cause a validation error</p>
+<p><strong>Response</strong> Status: 204 OK</p>
+
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>any missing attributes in an update will remove those attributes (eg interval)</li>
+<li>address can&rsquo;t be removed and will cause a validation error</li>
+</ul>
 
 <p><a id="get_contacts_id_notification_rules">&nbsp;</a></p>
 
@@ -428,79 +429,78 @@ curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
 
 <p>Lists a contact&rsquo;s notification rules.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/contacts/21/notification_rules
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-  {
-    &quot;id&quot;: &quot;08f607c7-618d-460a-b3fe-868464eb6045&quot;,
-    &quot;contact_id&quot;: &quot;21&quot;,
-    &quot;tags&quot;: [
-      &quot;database&quot;,
-      &quot;physical&quot;
-    ],
-    &quot;entities&quot;: [
-      &quot;foo-app-01.example.com&quot;
-    ],
-    &quot;time_restrictions&quot;: [
-      {
-        &quot;start_time&quot;: &quot;2013-01-28 08:00:00&quot;,
-        &quot;end_time&quot;: &quot;2013-01-28 18:00:00&quot;,
-        &quot;rrules&quot;: [
-          {
-            &quot;validations&quot;: {
-              &quot;day&quot;: [1,2,3,4,5]
-            },
-            &quot;rule_type&quot;: &quot;Weekly&quot;,
-            &quot;interval&quot;: 1,
-            &quot;week_start&quot;: 0
-          }
-        ],
-        &quot;exrules&quot;: [],
-        &quot;rtimes&quot;: [],
-        &quot;extimes&quot;: []
-      }
-    ],
-    &quot;unknown_media&quot;: [],
-    &quot;warning_media&quot;: [
-      &quot;email&quot;
-    ],
-    &quot;critical_media&quot;: [
-      &quot;sms&quot;,
-      &quot;email&quot;
-    ],
-    &quot;unknown_blackhole&quot;: false,
-    &quot;warning_blackhole&quot;: false,
-    &quot;critical_blackhole&quot;: false
-  },
-  {
-    &quot;id&quot;: &quot;2be654d8-9ad4-42b7-963d-f6727dc302a2&quot;,
-    &quot;contact_id&quot;: &quot;21&quot;,
-    &quot;tags&quot;: [
-      &quot;database&quot;,
-      &quot;physical&quot;
-    ],
-    &quot;entities&quot;: [
-      &quot;foo-app-02.example.com&quot;
-    ],
-    &quot;time_restrictions&quot;: [],
-    &quot;unknown_media&quot;: [],
-    &quot;warning_media&quot;: [
-      &quot;email&quot;
-    ],
-    &quot;critical_media&quot;: [
-      &quot;sms&quot;,
-      &quot;email&quot;
-    ],
-    &quot;unknown_blackhole&quot;: false,
-    &quot;warning_blackhole&quot;: false,
-    &quot;critical_blackhole&quot;: false
-  }
-]
-</code></p>
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/contacts/21/notification_rules
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"08f607c7-618d-460a-b3fe-868464eb6045"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"contact_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"database"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"physical"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"foo-app-01.example.com"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"time_restrictions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-01-28 08:00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"end_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-01-28 18:00:00"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"rrules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"validations"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"day"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"rule_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Weekly"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"week_start"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"exrules"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+        </span><span class="s2">"rtimes"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+        </span><span class="s2">"extimes"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"unknown_media"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+    </span><span class="s2">"warning_media"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"email"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"critical_media"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"sms"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"email"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"unknown_blackhole"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"warning_blackhole"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"critical_blackhole"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2be654d8-9ad4-42b7-963d-f6727dc302a2"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"contact_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"database"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"physical"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"foo-app-02.example.com"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"time_restrictions"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+    </span><span class="s2">"unknown_media"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+    </span><span class="s2">"warning_media"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"email"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"critical_media"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"sms"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"email"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"unknown_blackhole"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"warning_blackhole"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"critical_blackhole"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a id="get_notification_rules_id">&nbsp;</a></p>
 
@@ -508,54 +508,53 @@ curl http://localhost:3081/contacts/21/notification_rules
 
 <p>Returns a specified notification rule.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-{
-  &quot;id&quot;: &quot;08f607c7-618d-460a-b3fe-868464eb6045&quot;,
-  &quot;contact_id&quot;: &quot;21&quot;,
-  &quot;tags&quot;: [
-    &quot;database&quot;,
-    &quot;physical&quot;
-  ],
-  &quot;entities&quot;: [
-    &quot;foo-app-01.example.com&quot;
-  ],
-  &quot;time_restrictions&quot;: [
-    {
-      &quot;start_time&quot;: &quot;2013-01-28 08:00:00&quot;,
-      &quot;end_time&quot;: &quot;2013-01-28 18:00:00&quot;,
-      &quot;rrules&quot;: [
-        {
-          &quot;validations&quot;: {
-            &quot;day&quot;: [1,2,3,4,5]
-          },
-          &quot;rule_type&quot;: &quot;Weekly&quot;,
-          &quot;interval&quot;: 1,
-          &quot;week_start&quot;: 0
-        }
-      ],
-      &quot;exrules&quot;: [],
-      &quot;rtimes&quot;: [],
-      &quot;extimes&quot;: []
-    }
-  ],
-  &quot;unknown_media&quot;: [],
-  &quot;warning_media&quot;: [
-    &quot;email&quot;
-  ],
-  &quot;critical_media&quot;: [
-    &quot;sms&quot;,
-    &quot;email&quot;
-  ],
-  &quot;unknown_blackhole&quot;: false,
-  &quot;warning_blackhole&quot;: false,
-  &quot;critical_blackhole&quot;: false
-}
-</code></p>
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"08f607c7-618d-460a-b3fe-868464eb6045"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"contact_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"database"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"physical"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"foo-app-01.example.com"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"time_restrictions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-01-28 08:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"end_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2013-01-28 18:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"rrules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"validations"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"day"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"rule_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Weekly"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"interval"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"week_start"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"exrules"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="s2">"rtimes"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="s2">"extimes"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"unknown_media"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="s2">"warning_media"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"email"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"critical_media"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"sms"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"unknown_blackhole"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"warning_blackhole"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"critical_blackhole"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre>
 
 <p><a id="post_notification_rules">&nbsp;</a></p>
 
@@ -563,61 +562,64 @@ curl -w &#39;response: %{http_code} \n&#39; http://localhost:3081/notification_r
 
 <p>Creates a new notification rule.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;contact_id&quot;: &quot;21&quot;,
-    &quot;tags&quot;: [
-      &quot;database&quot;,
-      &quot;physical&quot;
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "contact_id": "21",
+    "tags": [
+      "database",
+      "physical"
     ],
-    &quot;entities&quot;: [
-      &quot;foo-app-01.example.com&quot;
+    "entities": [
+      "foo-app-01.example.com"
     ],
-    &quot;time_restrictions&quot;: [
+    "time_restrictions": [
       {
-        &quot;start_time&quot;: &quot;2013-01-28 08:00:00&quot;,
-        &quot;end_time&quot;: &quot;2013-01-28 18:00:00&quot;,
-        &quot;rrules&quot;: [
+        "start_time": "2013-01-28 08:00:00",
+        "end_time": "2013-01-28 18:00:00",
+        "rrules": [
           {
-            &quot;validations&quot;: {
-              &quot;day&quot;: [1,2,3,4,5]
+            "validations": {
+              "day": [1,2,3,4,5]
             },
-            &quot;rule_type&quot;: &quot;Weekly&quot;,
-            &quot;interval&quot;: 1,
-            &quot;week_start&quot;: 0
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
           }
         ],
-        &quot;exrules&quot;: [],
-        &quot;rtimes&quot;: [],
-        &quot;extimes&quot;: []
+        "exrules": [],
+        "rtimes": [],
+        "extimes": []
       }
     ],
-    &quot;unknown_media&quot;: [],
-    &quot;warning_media&quot;: [
-      &quot;email&quot;
+    "unknown_media": [],
+    "warning_media": [
+      "email"
     ],
-    &quot;critical_media&quot;: [
-      &quot;sms&quot;,
-      &quot;email&quot;
+    "critical_media": [
+      "sms",
+      "email"
     ],
-    &quot;unknown_blackhole&quot;: false,
-    &quot;warning_blackhole&quot;: false,
-    &quot;critical_blackhole&quot;: false
-  }&#39; \
+    "unknown_blackhole": false,
+    "warning_blackhole": false,
+    "critical_blackhole": false
+  }'</span> <span class="se">\</span>
  http://localhost:3081/notification_rules
-</code>
-<strong>Response</strong> Status: 200 OK</p>
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
 
 <p>Returns the notification rule object as per GET.</p>
 
-<p><strong>Notes:</strong>
-* the rule_id will be generated by flapjack as a UUID and supplied in the response body along with the rest of the contact&rsquo;s information
-* time_restrictions are implemented within flapjack by the ice_cube gem, which is an implementation of the iCalendar RFC for Ruby. The interface we&rsquo;re exposing is close to ice_cube&rsquo;s hash representation of a schedule.
-* in time_restrictions, the start_time and end_time should contain no timezone information, or UTC offset. They will be interpreted by flapjack as being in the user&rsquo;s local timezone, or the timezone configured in executive/default_contact_timezone in the flapjack configuration.
-* in time_restrictions, the day validations are numbers corresponding to days of the week, as per the UNIX crontab file. Week days start on Sunday - 0, and progress through to Saturday - 6. So a day validation of &ldquo;[1,2,3,4,5]&rdquo; means Monday through Friday.
-* time_restrictions rule_type specifies on what basis the time restriction schedule is to be repeated. It can be one of &ldquo;Secondly&rdquo;, &ldquo;Minutely&rdquo;, &ldquo;Hourly&rdquo;, &ldquo;Daily&rdquo;, &ldquo;Weekly&rdquo;, &ldquo;Monthly&rdquo;, or &ldquo;Yearly&rdquo;.</p>
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>the rule_id will be generated by flapjack as a UUID and supplied in the response body along with the rest of the contact&rsquo;s information</li>
+<li>time_restrictions are implemented within flapjack by the ice_cube gem, which is an implementation of the iCalendar RFC for Ruby. The interface we&rsquo;re exposing is close to ice_cube&rsquo;s hash representation of a schedule.</li>
+<li>in time_restrictions, the start_time and end_time should contain no timezone information, or UTC offset. They will be interpreted by flapjack as being in the user&rsquo;s local timezone, or the timezone configured in executive/default_contact_timezone in the flapjack configuration.</li>
+<li>in time_restrictions, the day validations are numbers corresponding to days of the week, as per the UNIX crontab file. Week days start on Sunday - 0, and progress through to Saturday - 6. So a day validation of &ldquo;[1,2,3,4,5]&rdquo; means Monday through Friday.</li>
+<li>time_restrictions rule_type specifies on what basis the time restriction schedule is to be repeated. It can be one of &ldquo;Secondly&rdquo;, &ldquo;Minutely&rdquo;, &ldquo;Hourly&rdquo;, &ldquo;Daily&rdquo;, &ldquo;Weekly&rdquo;, &ldquo;Monthly&rdquo;, or &ldquo;Yearly&rdquo;.</li>
+</ul>
 
 <p><a id="put_notification_rules_id">&nbsp;</a></p>
 
@@ -625,60 +627,60 @@ curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: appli
 
 <p>Updates or deletes a notification rule</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X PUT -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;tags&quot;: [
-      &quot;database&quot;,
-      &quot;physical&quot;
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PUT -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "tags": [
+      "database",
+      "physical"
     ],
-    &quot;entities&quot;: [
-      &quot;foo-app-01.example.com&quot;
+    "entities": [
+      "foo-app-01.example.com"
     ],
-    &quot;time_restrictions&quot;: [
+    "time_restrictions": [
       {
-        &quot;start_time&quot;: &quot;2013-01-28 08:00:00&quot;,
-        &quot;end_time&quot;: &quot;2013-01-28 18:00:00&quot;,
-        &quot;rrules&quot;: [
+        "start_time": "2013-01-28 08:00:00",
+        "end_time": "2013-01-28 18:00:00",
+        "rrules": [
           {
-            &quot;validations&quot;: {
-              &quot;day&quot;: [1,2,3,4,5]
+            "validations": {
+              "day": [1,2,3,4,5]
             },
-            &quot;rule_type&quot;: &quot;Weekly&quot;,
-            &quot;interval&quot;: 1,
-            &quot;week_start&quot;: 0
+            "rule_type": "Weekly",
+            "interval": 1,
+            "week_start": 0
           }
         ],
-        &quot;exrules&quot;: [],
-        &quot;rtimes&quot;: [],
-        &quot;extimes&quot;: []
+        "exrules": [],
+        "rtimes": [],
+        "extimes": []
       }
     ],
-    &quot;unknown_media&quot;: [],
-    &quot;warning_media&quot;: [
-      &quot;email&quot;
+    "unknown_media": [],
+    "warning_media": [
+      "email"
     ],
-    &quot;critical_media&quot;: [
-      &quot;sms&quot;,
-      &quot;email&quot;
+    "critical_media": [
+      "sms",
+      "email"
     ],
-    &quot;unknown_blackhole&quot;: false,
-    &quot;warning_blackhole&quot;: false,
-    &quot;critical_blackhole&quot;: false
-  }&#39; \
+    "unknown_blackhole": false,
+    "warning_blackhole": false,
+    "critical_blackhole": false
+  }'</span> <span class="se">\</span>
  http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
-</code>
-<strong>Response</strong> Status: 200 OK</p>
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
 
 <p>Returns the notification rule object as per GET.</p>
 
-<p><strong>Example 2 - DELETE</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
+<p><strong>Example 2 - DELETE</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
  http://localhost:3081/notification_rules/08f607c7-618d-460a-b3fe-868464eb6045
-</code>
-<strong>Response</strong> Status: 204 OK</p>
+</pre>
+
+<p><strong>Response</strong> Status: 204 OK</p>
 
 <p><a id="post_contacts_atomic">&nbsp;</a></p>
 
@@ -694,38 +696,38 @@ curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
 
 <p>Uses the same JSON format as <a href="#post_contacts">POST /contacts</a>, however ID is always required.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;contacts&quot;: [
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "contacts": [
       {
-        &quot;id&quot;: &quot;21&quot;,
-        &quot;first_name&quot;: &quot;Ada&quot;,
-        &quot;last_name&quot;: &quot;Lovelace&quot;,
-        &quot;email&quot;: &quot;ada@example.com&quot;,
-        &quot;media&quot;: {
-          &quot;sms&quot;: {
-            &quot;address&quot;: &quot;+61412345678&quot;,
-            &quot;interval&quot;: &quot;3600&quot;,
-            &quot;rollup_threshold&quot;: &quot;5&quot;
+        "id": "21",
+        "first_name": "Ada",
+        "last_name": "Lovelace",
+        "email": "ada@example.com",
+        "media": {
+          "sms": {
+            "address": "+61412345678",
+            "interval": "3600",
+            "rollup_threshold": "5"
           },
-          &quot;email&quot;: {
-            &quot;address&quot;: &quot;ada@example.com&quot;,
-            &quot;interval&quot;: &quot;7200&quot;,
-            &quot;rollup_threshold&quot;: null
+          "email": {
+            "address": "ada@example.com",
+            "interval": "7200",
+            "rollup_threshold": null
           }
         },
-        &quot;tags&quot;: [
-          &quot;legend&quot;,
-          &quot;first computer programmer&quot;
+        "tags": [
+          "legend",
+          "first computer programmer"
         ]
       }
     ]
-  }&#39; \
+  }'</span> <span class="se">\</span>
  http://localhost:3081/contacts
-</code>
-<strong>Response</strong> Status: 204 No Content</p>
+</pre>
+
+<p><strong>Response</strong> Status: 204 No Content</p>
 
 <p><a id="get_contacts_id_timezone">&nbsp;</a></p>
 
@@ -733,18 +735,17 @@ curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: appli
 
 <p>Returns the timezone of a contact.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; http://localhost:3081/contacts/21/timezone
-</code></p>
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> http://localhost:3081/contacts/21/timezone
+</pre>
 
-<p><strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-{
-  &quot;timezone&quot;: &quot;Australia/Broken_Hill&quot;
-}
-</code>
-FIXME: too much repetition to have the response include the key name &ldquo;timezone&rdquo;? Perhaps just return a string?</p>
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"timezone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Australia/Broken_Hill"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre>
+
+<p>FIXME: too much repetition to have the response include the key name &ldquo;timezone&rdquo;? Perhaps just return a string?</p>
 
 <p><a id="put_contacts_id_timezone">&nbsp;</a></p>
 
@@ -752,14 +753,13 @@ FIXME: too much repetition to have the response include the key name &ldquo;time
 
 <p>Sets (PUT) or deletes (DELETE) the timezone of a contact.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X PUT -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;timezone&quot;: &quot;Australia/Broken_Hill&quot;
-  }&#39; \
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PUT -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "timezone": "Australia/Broken_Hill"
+  }'</span> <span class="se">\</span>
  http://localhost:3081/contacts/21/timezone
-</code></p>
+</pre>
 
 <p><strong>Response</strong> Status: 200 OK
 <code class="prettyprint">json
@@ -768,8 +768,11 @@ curl -w &#39;response: %{http_code} \n&#39; -X PUT -H &quot;Content-type: applic
 }
 </code></p>
 
-<p><strong>Notes:</strong>
-* the timezone string must be one defined in the tzinfo database, see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/</p>
+<p><strong>Notes:</strong></p>
+
+<ul>
+<li>the timezone string must be one defined in the tzinfo database, see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/</li>
+</ul>
 
 <p><a name="get_contacts_id_tags">&nbsp;</a></p>
 
@@ -777,14 +780,13 @@ curl -w &#39;response: %{http_code} \n&#39; -X PUT -H &quot;Content-type: applic
 
 <p>Gets the tags for a contact.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/contacts/21/tags
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[&quot;user&quot;, &quot;admin&quot;]
-</code></p>
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/contacts/21/tags
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="s2">"user"</span><span class="p">,</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a name="post_contacts_id_tags">&nbsp;</a></p>
 
@@ -792,23 +794,22 @@ curl http://localhost:3081/contacts/21/tags
 
 <p>Add tags to a contact.</p>
 
-<p><strong>Example 1 - JSON params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;tag&quot;: [&quot;admin&quot;, &quot;user&quot;]
-  }&#39; \
+<p><strong>Example 1 - JSON params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "tag": ["admin", "user"]
+  }'</span> <span class="se">\</span>
  http://localhost:3081/contacts/21/tags
-</code>
-<strong>Example 2 - URL params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST \
- &#39;http://localhost:3081/contacts/21/tags?tag[]=admin&amp;tag[]=user&#39;
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[&quot;user&quot;, &quot;admin&quot;]
-</code></p>
+</pre>
+
+<p><strong>Example 2 - URL params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class="se">\</span>
+ <span class="s1">'http://localhost:3081/contacts/21/tags?tag[]=admin&amp;tag[]=user'</span>
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="s2">"user"</span><span class="p">,</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a name="delete_contacts_id_tags">&nbsp;</a></p>
 
@@ -816,20 +817,20 @@ curl -w &#39;response: %{http_code} \n&#39; -X POST \
 
 <p>Delete tags from a contact.</p>
 
-<p><strong>Example 1 - JSON params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;tag&quot;: [&quot;admin&quot;, &quot;user&quot;]
-  }&#39; \
+<p><strong>Example 1 - JSON params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "tag": ["admin", "user"]
+  }'</span> <span class="se">\</span>
  http://localhost:3081/contacts/21/tags
-</code>
-<strong>Example 2 - URL params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
- &#39;http://localhost:3081/contacts/21/tags?tag[]=admin&amp;tag[]=user&quot;
-</code>
-<strong>Response</strong> Status: 204 No Content</p>
+</pre>
+
+<p><strong>Example 2 - URL params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+ <span class="s1">'http://localhost:3081/contacts/21/tags?tag[]=admin&amp;tag[]=user'</span>
+</pre>
+
+<p><strong>Response</strong> Status: 204 No Content</p>
 
 <p><a name="get_contacts_id_entitytags">&nbsp;</a></p>
 
@@ -837,15 +838,14 @@ curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
 
 <p>Gets the tags for all entities linked to a contact.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/contacts/21/entity_tags
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-{&quot;foo-app-01.example.com&quot; : [&quot;example&quot;, &quot;app&quot;],
- &quot;foo-app-02.example.com&quot; : [&quot;example&quot;, &quot;database&quot;]}
-</code></p>
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/contacts/21/entity_tags
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">{</span><span class="s2">"foo-app-01.example.com"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example"</span><span class="p">,</span><span class="w"> </span><span class="s2">"app"</span><span class="p">],</span><span class="w">
+ </span><span class="s2">"foo-app-02.example.com"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example"</span><span class="p">,</span><span class="w"> </span><span class="s2">"database"</span><span class="p">]}</span><span class="w">
+</span></pre>
 
 <p><a name="post_contacts_id_entitytags">&nbsp;</a></p>
 
@@ -853,25 +853,24 @@ curl http://localhost:3081/contacts/21/entity_tags
 
 <p>Add tags to entities linked to a contact.</p>
 
-<p><strong>Example 1 - JSON params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;entity&quot;: {&quot;foo-app-01.example.com&quot; : [&quot;decommission&quot;, &quot;unneeded&quot;],
-               &quot;foo-app-02.example.com&quot; : [&quot;upgrade&quot;]}
-  }&#39; \
+<p><strong>Example 1 - JSON params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "entity": {"foo-app-01.example.com" : ["decommission", "unneeded"],
+               "foo-app-02.example.com" : ["upgrade"]}
+  }'</span> <span class="se">\</span>
  http://localhost:3081/contacts/21/entity_tags
-</code>
-<strong>Example 2 - URL params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST \
- &#39;http://localhost:3081/contacts/21/entity_tags?entity[foo-app-01.example.com]=decommission&amp;entity[foo-app-01.example.com]=unneeded&amp;entity[foo-app-02.example.com]=upgrade&#39;
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-{&quot;foo-app-01.example.com&quot; : [&quot;example&quot;, &quot;app&quot;, &quot;decommission&quot;, &quot;unneeded&quot;],
- &quot;foo-app-02.example.com&quot; : [&quot;example&quot;, &quot;database&quot;, &quot;upgrade&quot;]}
-</code></p>
+</pre>
+
+<p><strong>Example 2 - URL params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class="se">\</span>
+ <span class="s1">'http://localhost:3081/contacts/21/entity_tags?entity[foo-app-01.example.com]=decommission&amp;entity[foo-app-01.example.com]=unneeded&amp;entity[foo-app-02.example.com]=upgrade'</span>
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">{</span><span class="s2">"foo-app-01.example.com"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example"</span><span class="p">,</span><span class="w"> </span><span class="s2">"app"</span><span class="p">,</span><span class="w"> </span><span class="s2">"decommission"</span><span class="p">,</span><span class="w"> </span><span class="s2">"unneeded"</span><span class="p">],</span><span class="w">
+ </span><span class="s2">"foo-app-02.example.com"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"example"</span><span class="p">,</span><span class="w"> </span><span class="s2">"database"</span><span class="p">,</span><span class="w"> </span><span class="s2">"upgrade"</span><span class="p">]}</span><span class="w">
+</span></pre>
 
 <p><a name="delete_contacts_id_entitytags">&nbsp;</a></p>
 
@@ -879,21 +878,21 @@ curl -w &#39;response: %{http_code} \n&#39; -X POST \
 
 <p>Delete tags from entities linked to a contact.</p>
 
-<p><strong>Example 1 - JSON params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;entity&quot;: {&quot;foo-app-01.example.com&quot; : [&quot;unneeded&quot;],
-               &quot;foo-app-02.example.com&quot; : [&quot;upgrade&quot;]}
-  }&#39; \
+<p><strong>Example 1 - JSON params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "entity": {"foo-app-01.example.com" : ["unneeded"],
+               "foo-app-02.example.com" : ["upgrade"]}
+  }'</span> <span class="se">\</span>
  http://localhost:3081/contacts/21/entity_tags
-</code>
-<strong>Example 2 - URL params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
- &#39;http://localhost:3081/contacts/21/entity_tags?entity[foo-app-01.example.com]=unneeded&amp;entity[foo-app-02.example.com]=upgrade&#39;
-</code>
-<strong>Response</strong> Status: 204 No Content</p>
+</pre>
+
+<p><strong>Example 2 - URL params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+ <span class="s1">'http://localhost:3081/contacts/21/entity_tags?entity[foo-app-01.example.com]=unneeded&amp;entity[foo-app-02.example.com]=upgrade'</span>
+</pre>
+
+<p><strong>Response</strong> Status: 204 No Content</p>
 
 <h2 id="entities-and-checks">Entities and Checks</h2>
 
@@ -905,62 +904,60 @@ curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
 
 <p>Retrieve an array of all entities including core attributes and state of any checks on the entity.</p>
 
-<p><strong>Output JSON Format</strong>
-&ldquo;`text
-ENTITIES (array) = [ENTITY, ENTITY, &hellip;]
-ENTITY    (hash) = { &quot;id&rdquo;: &ldquo;ENTITY_ID&rdquo;, &ldquo;name&rdquo;: &ldquo;NAME&rdquo;, &ldquo;checks&rdquo;: CHECKS }
-CHECKS   (array) = [ CHECK, CHECK, &hellip; ]
-CHECK     (hash) = { &ldquo;check&rdquo;: &ldquo;CHECK_NAME&rdquo;,
-                     &ldquo;entity&rdquo;: &ldquo;ENTITY_NAME&rdquo;,
-                     &ldquo;status&rdquo;: STATUS }
-STATUS    (hash) = { &ldquo;name&rdquo;: &ldquo;CHECK_NAME&rdquo;,
-                     &ldquo;state&rdquo;: &ldquo;CHECK_STATE&rdquo;,
-                     &ldquo;enabled&rdquo;: BOOLEAN,
-                     &ldquo;summary&rdquo;: STRING,
-                     &ldquo;details&rdquo;: STRING or NULL,
-                     &ldquo;in_unscheduled_maintenance&rdquo;: BOOLEAN,
-                     &ldquo;in_scheduled_maintenance&rdquo;: BOOLEAN,
-                     &ldquo;last_update&rdquo;: TIMESTAMP,
-                     &ldquo;last_problem_notification&rdquo;: TIMESTAMP,
-                     &ldquo;last_recovery_notification&rdquo;: TIMESTAMP,
-                     &ldquo;last_acknowledgement_notification&rdquo;: TIMESTAMP }</p>
+<p><strong>Output JSON Format</strong></p>
+<pre class="highlight plaintext">ENTITIES (array) = [ENTITY, ENTITY, ...]
+ENTITY    (hash) = { "id": "ENTITY_ID", "name": "NAME", "checks": CHECKS }
+CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "check": "CHECK_NAME",
+                     "entity": "ENTITY_NAME",
+                     "status": STATUS }
+STATUS    (hash) = { "name": "CHECK_NAME",
+                     "state": "CHECK_STATE",
+                     "enabled": BOOLEAN,
+                     "summary": STRING,
+                     "details": STRING or NULL,
+                     "in_unscheduled_maintenance": BOOLEAN,
+                     "in_scheduled_maintenance": BOOLEAN,
+                     "last_update": TIMESTAMP,
+                     "last_problem_notification": TIMESTAMP,
+                     "last_recovery_notification": TIMESTAMP,
+                     "last_acknowledgement_notification": TIMESTAMP }
 
-<p>TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
-BOOLEAN:   one of &lsquo;true&rsquo; or &lsquo;false&rsquo;
-&ldquo;`</p>
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+BOOLEAN:   one of 'true' or 'false'
+</pre>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/entities
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   {
-      &quot;checks&quot; : [
-         {
-            &quot;entity&quot; : &quot;foo-app-02.example.com&quot;,
-            &quot;check&quot; : &quot;HOST&quot;,
-            &quot;status&quot; : {
-              &quot;name&quot; : &quot;HOST&quot;,
-              &quot;state&quot; : &quot;ok&quot;,
-              &quot;enabled&quot; : true,
-              &quot;summary&quot; : &quot;OK&quot;,
-              &quot;details&quot; : null,
-              &quot;in_scheduled_maintenance&quot; : false,
-              &quot;in_unscheduled_maintenance&quot; : false,
-              &quot;last_update&quot; : 1356853261,
-              &quot;last_problem_notification&quot; : null,
-              &quot;last_recovery_notification&quot; : null,
-              &quot;last_acknowledgement_notification&quot; : null,
-           }
-         }
-      ],
-      &quot;name&quot; : &quot;foo-app-02.example.com&quot;,
-      &quot;id&quot; : &quot;10002&quot;
-   }
-]
-</code></p>
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/entities
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"checks"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-02.example.com"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"OK"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"details"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"in_scheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"in_unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"last_update"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356853261</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"last_problem_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"last_recovery_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"last_acknowledgement_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+           </span><span class="err">}</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-02.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"10002"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a id="post_entities">&nbsp;</a></p>
 
@@ -968,43 +965,43 @@ curl http://localhost:3081/entities
 
 <p>Creates or updates entities from the supplied entities, using id as key.</p>
 
-<p><strong>Input JSON Format</strong>
-&rdquo;`text
-ENTITIES (array) = [ ENTITY, ENTITY, &hellip;]
-ENTITY   (hash)  = { &ldquo;id&rdquo;: &ldquo;ENTITY_ID&rdquo;,
-                     &ldquo;name&rdquo;: &ldquo;NAME&rdquo;,
-                     &ldquo;contacts&rdquo;: CONTACTS,
-                     &ldquo;tags&rdquo;: TAGS }
-CONTACTS (array) = [ &ldquo;CONTACT_ID&rdquo;, &ldquo;CONTACT_ID&rdquo;, &hellip; ]
-TAGS     (array) = [ &ldquo;TAG&rdquo;, &ldquo;TAG&rdquo;, &hellip; ]</p>
+<p><strong>Input JSON Format</strong></p>
+<pre class="highlight plaintext">ENTITIES (array) = [ ENTITY, ENTITY, ...]
+ENTITY   (hash)  = { "id": "ENTITY_ID",
+                     "name": "NAME",
+                     "contacts": CONTACTS,
+                     "tags": TAGS }
+CONTACTS (array) = [ "CONTACT_ID", "CONTACT_ID", ... ]
+TAGS     (array) = [ "TAG", "TAG", ... ]
 
-<p>ENTITY_ID     (string) - a unique, immutable identifier for this entity
-CONTACT_ID    (string) - a unique identifier for each contact (key&rsquo;d to CONTACT_ID in the contacts import, surprise)
+
+ENTITY_ID     (string) - a unique, immutable identifier for this entity
+CONTACT_ID    (string) - a unique identifier for each contact (key'd to CONTACT_ID in the contacts import, surprise)
 NAME          (string) - name of the entity, eg a hostname / service identifier. syntax rules for hostnames (qualified or no) applies to this field, refer RFC 1123. This needs to match up with whatever is put into the check execution configuration, eg FQDN.
 TAG           (string) - a tag
-&ldquo;`</p>
+</pre>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;entities&quot;: [
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "entities": [
       {
-        &quot;id&quot;: &quot;825&quot;,
-        &quot;name&quot;: &quot;foo.example.com&quot;,
-        &quot;contacts&quot;: [
-          &quot;21&quot;,
-          &quot;22&quot;
+        "id": "825",
+        "name": "foo.example.com",
+        "contacts": [
+          "21",
+          "22"
         ],
-        &quot;tags&quot;: [
-          &quot;foo&quot;
+        "tags": [
+          "foo"
         ]
       }
     ]
-  }&#39; \
+  }'</span> <span class="se">\</span>
  http://localhost:3081/entities
-</code>
-<strong>Response</strong> Status: 204 No Content</p>
+</pre>
+
+<p><strong>Response</strong> Status: 204 No Content</p>
 
 <p><a name="get_entities_id_tags">&nbsp;</a></p>
 
@@ -1012,11 +1009,11 @@ curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: appli
 
 <p>Gets the tags for an entity.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/entities/foo-app-01.example.com/tags
-</code>
-<strong>Response</strong> Status: 200 OK
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/entities/foo-app-01.example.com/tags
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK
 <code class="prettyprint">json
 [&quot;web&quot;, &quot;app&quot;]
 </code></p>
@@ -1027,15 +1024,15 @@ curl http://localhost:3081/entities/foo-app-01.example.com/tags
 
 <p>Add tags to an entity.</p>
 
-<p><strong>Example 1 - JSON params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;tag&quot;: [&quot;web&quot;, &quot;app&quot;]
-  }&#39; \
+<p><strong>Example 1 - JSON params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "tag": ["web", "app"]
+  }'</span> <span class="se">\</span>
  http://localhost:3081/entities/foo-app-01.example.com/tags
-</code>
-<strong>Example 2 - URL params</strong>
+</pre>
+
+<p><strong>Example 2 - URL params</strong>
 <code class="prettyprint">bash
 curl -w &#39;response: %{http_code} \n&#39; -X POST \
  &#39;http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&amp;tag[]=app&#39;
@@ -1053,19 +1050,18 @@ curl -w &#39;response: %{http_code} \n&#39; -X POST \
 
 <p>Delete tags from an entity.</p>
 
-<p><strong>Example 1 - JSON params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;tag&quot;: [&quot;web&quot;, &quot;app&quot;]
-  }&#39; \
+<p><strong>Example 1 - JSON params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "tag": ["web", "app"]
+  }'</span> <span class="se">\</span>
  http://localhost:3081/entities/foo-app-01.example.com/tags
-</code>
-<strong>Example 2 - URL params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
- &#39;http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&amp;tag[]=app&#39;
-</code></p>
+</pre>
+
+<p><strong>Example 2 - URL params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+ <span class="s1">'http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&amp;tag[]=app'</span>
+</pre>
 
 <p><strong>Response</strong> Status: 204 No Content</p>
 
@@ -1077,22 +1073,20 @@ curl -w &#39;response: %{http_code} \n&#39; -X DELETE \
 
 <p>Retrieve the names of the checks for the specified entity.</p>
 
-<p><strong>Output JSON Format</strong>
-<code class="prettyprint">text
-CHECKS   (array) = [ CHECK_NAME, CHECK_NAME, ... ]
-</code></p>
+<p><strong>Output JSON Format</strong></p>
+<pre class="highlight plaintext">CHECKS   (array) = [ CHECK_NAME, CHECK_NAME, ... ]
+</pre>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/checks/foo-app-02.example.com
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   &quot;HOST&quot;,
-   &quot;HTTP Port 443&quot;
-]
-</code></p>
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/checks/foo-app-02.example.com
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"HTTP Port 443"</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a id="get_status">&nbsp;</a></p>
 
@@ -1102,125 +1096,121 @@ curl http://localhost:3081/checks/foo-app-02.example.com
 
 <p>Get the status of a specified check, or for all checks of a specified entity, or for checks on multiple entities.</p>
 
-<p><strong>Output JSON Format</strong>
-&rdquo;`text
-CHECKS   (array) = [ CHECK, CHECK, &hellip; ]
-CHECK     (hash) = { &ldquo;name&rdquo;: &ldquo;CHECK_NAME&rdquo;,
-                     &ldquo;state&rdquo;: &ldquo;CHECK_STATE&rdquo;,
-                     &ldquo;summary&rdquo;: &ldquo;SUMMARY&rdquo;,
-                     &ldquo;details&rdquo;: &ldquo;DETAILS&rdquo;,
-                     &ldquo;in_unscheduled_maintenance&rdquo;: BOOLEAN,
-                     &ldquo;in_scheduled_maintenance&rdquo;: BOOLEAN,
-                     &ldquo;last_update&rdquo;: TIMESTAMP,
-                     &ldquo;last_problem_notification&rdquo;: TIMESTAMP,
-                     &ldquo;last_recovery_notification&rdquo;: TIMESTAMP,
-                     &ldquo;last_acknowledgement_notification&rdquo;: TIMESTAMP }</p>
+<p><strong>Output JSON Format</strong></p>
+<pre class="highlight plaintext">CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "name": "CHECK_NAME",
+                     "state": "CHECK_STATE",
+                     "summary": "SUMMARY",
+                     "details": "DETAILS",
+                     "in_unscheduled_maintenance": BOOLEAN,
+                     "in_scheduled_maintenance": BOOLEAN,
+                     "last_update": TIMESTAMP,
+                     "last_problem_notification": TIMESTAMP,
+                     "last_recovery_notification": TIMESTAMP,
+                     "last_acknowledgement_notification": TIMESTAMP }
 
-<p>TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
-BOOLEAN:   one of &lsquo;true&rsquo; or &lsquo;false&rsquo;</p>
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+BOOLEAN:   one of 'true' or 'false'
 
-<p>NB: a bulk query wraps each returned array item with entity &amp; check details (see example 3).
-&ldquo;`</p>
+NB: a bulk query wraps each returned array item with entity &amp; check details (see example 3).
+</pre>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/status/foo-app-02.example.com
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   {
-      &quot;last_recovery_notification&quot; : null,
-      &quot;last_acknowledgement_notification&quot; : null,
-      &quot;last_update&quot; : 1356853261,
-      &quot;name&quot; : &quot;HOST&quot;,
-      &quot;summary&quot;: &quot;available&quot;,
-      &quot;details&quot;: null,
-      &quot;last_problem_notification&quot; : null,
-      &quot;in_scheduled_maintenance&quot; : false,
-      &quot;in_unscheduled_maintenance&quot; : false,
-      &quot;state&quot; : &quot;ok&quot;
-   },
-   {
-      &quot;last_recovery_notification&quot; : null,
-      &quot;last_acknowledgement_notification&quot; : null,
-      &quot;last_update&quot; : 1356853261,
-      &quot;name&quot; : &quot;HTTP Port 443&quot;,
-      &quot;summary&quot;: &quot;unavailable&quot;,
-      &quot;details&quot;: null,
-      &quot;last_problem_notification&quot; : 1356853151,
-      &quot;in_scheduled_maintenance&quot; : false,
-      &quot;in_unscheduled_maintenance&quot; : false,
-      &quot;state&quot; : &quot;critical&quot;
-   }
-]
-</code></p>
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/status/foo-app-02.example.com
+</pre>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/status/foo-app-02.example.com/HTTP+Port+443
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
- {
-    &quot;last_recovery_notification&quot; : null,
-    &quot;last_acknowledgement_notification&quot; : null,
-    &quot;last_update&quot; : 1356853261,
-    &quot;name&quot; : &quot;HTTP Port 443&quot;,
-    &quot;summary&quot;: &quot;timed out&quot;,
-    &quot;details&quot;: null,
-    &quot;last_problem_notification&quot; : 1356853151,
-    &quot;in_scheduled_maintenance&quot; : false,
-    &quot;in_unscheduled_maintenance&quot; : false,
-    &quot;state&quot; : &quot;critical&quot;
- }
-</code></p>
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"last_recovery_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_acknowledgement_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_update"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356853261</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"available"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"details"</span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_problem_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"in_scheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"in_unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"last_recovery_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_acknowledgement_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_update"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356853261</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unavailable"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"details"</span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_problem_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356853151</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"in_scheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"in_unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
-<p><strong>Example 3</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/status?check[foo-app-02.example.com]=HOST&amp;check[foo-app-02.example.com]=HTTP+Port+443
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-  {
-    &quot;entity&quot; : &quot;foo-app-02.example.com&quot;,
-    &quot;check&quot; : &quot;HOST&quot;,
-    &quot;status&quot; :
-    {
-      &quot;last_recovery_notification&quot; : null,
-      &quot;last_acknowledgement_notification&quot; : null,
-      &quot;last_update&quot; : 1356853261,
-      &quot;name&quot; : &quot;HOST&quot;,
-      &quot;last_problem_notification&quot; : null,
-      &quot;in_scheduled_maintenance&quot; : false,
-      &quot;in_unscheduled_maintenance&quot; : false,
-      &quot;state&quot; : &quot;ok&quot;,
-      &quot;summary&quot; : &quot;host is up&quot;,
-      &quot;details&quot; : null,
-      &quot;enabled&quot; : true
-    }
-  },
-  {
-    &quot;entity&quot; : &quot;foo-app-02.example.com&quot;,
-    &quot;check&quot; : &quot;HTTP Port 443&quot;,
-    &quot;status&quot; :
-    {
-      &quot;last_recovery_notification&quot; : null,
-      &quot;last_acknowledgement_notification&quot; : null,
-      &quot;last_update&quot; : 1356853261,
-      &quot;name&quot; : &quot;HTTP Port 443&quot;,
-      &quot;last_problem_notification&quot; : 1356853151,
-      &quot;in_scheduled_maintenance&quot; : false,
-      &quot;in_unscheduled_maintenance&quot; : false,
-      &quot;state&quot; : &quot;critical&quot;,
-      &quot;summary&quot; : &quot;Connection Refused&quot;,
-      &quot;details&quot; : null,
-      &quot;enabled&quot; : true
-    }
-  }
-]
-</code></p>
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/status/foo-app-02.example.com/HTTP+Port+443
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"last_recovery_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_acknowledgement_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_update"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356853261</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"timed out"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"details"</span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_problem_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356853151</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"in_scheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"in_unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span></pre>
+
+<p><strong>Example 3</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/status?check[foo-app-02.example.com]<span class="o">=</span>HOST&amp;check[foo-app-02.example.com]<span class="o">=</span>HTTP+Port+443
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-02.example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"last_recovery_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_acknowledgement_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_update"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356853261</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_problem_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"in_scheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"in_unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ok"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"host is up"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"details"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-02.example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"last_recovery_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_acknowledgement_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_update"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356853261</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_problem_notification"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356853151</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"in_scheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"in_unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Connection Refused"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"details"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a id="get_outages">&nbsp;</a></p>
 
@@ -1228,126 +1218,122 @@ curl http://localhost:3081/status?check[foo-app-02.example.com]=HOST&amp;check[f
 
 <p><strong>Optional parameters:</strong> <em>start_time, end</em>time_</p>
 
-<p><strong>Output JSON Format</strong>
-&rdquo;`text
-CHECKS   (array) = [ CHECK, CHECK, &hellip; ]
-CHECK     (hash) = { &ldquo;check&rdquo;: &ldquo;CHECK_NAME&rdquo;,
-                     &ldquo;outages&rdquo;: OUTAGES }
-OUTAGES  (array) = [ OUTAGE, OUTAGE, &hellip; ]
-OUTAGE    (hash) = { &ldquo;start_time&rdquo;: TIMESTAMP,
-                     &ldquo;end_time&rdquo;: TIMESTAMP,
-                     &ldquo;duration&rdquo;: DURATION,
-                     &ldquo;state&rdquo;: &ldquo;STATE&rdquo;,
-                     &ldquo;summary&rdquo;: &ldquo;SUMMARY&rdquo; }</p>
+<p><strong>Output JSON Format</strong></p>
+<pre class="highlight plaintext">CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "check": "CHECK_NAME",
+                     "outages": OUTAGES }
+OUTAGES  (array) = [ OUTAGE, OUTAGE, ... ]
+OUTAGE    (hash) = { "start_time": TIMESTAMP,
+                     "end_time": TIMESTAMP,
+                     "duration": DURATION,
+                     "state": "STATE",
+                     "summary": "SUMMARY" }
 
-<p>TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
-DURATION: period of time in seconds, integer</p>
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+DURATION: period of time in seconds, integer
 
-<p>NB: a bulk query adds entity names to the CHECK hash (see example 3).
-&ldquo;`</p>
+NB: a bulk query adds entity names to the CHECK hash (see example 3).
+</pre>
 
 <p>Get the list of outages for a check, or for all checks of an entity, or for checks on multiple entities.</p>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/outages/foo-app-02.example.com
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   {
-      &quot;check&quot; : &quot;HOST&quot;,
-      &quot;outages&quot; : [
-         {
-            &quot;end_time&quot; : 1355958411,
-            &quot;summary&quot; : &quot;(Host Check Timed Out)&quot;,
-            &quot;start_time&quot; : 1355958401,
-            &quot;duration&quot; : 10,
-            &quot;state&quot; : &quot;critical&quot;
-         },
-         {
-            &quot;end_time&quot; : 1356562502,
-            &quot;summary&quot; : &quot;(Host Check Timed Out)&quot;,
-            &quot;start_time&quot; : 1356562492,
-            &quot;duration&quot; : 10,
-            &quot;state&quot; : &quot;critical&quot;
-         }
-      ]
-   },
-   {
-      &quot;check&quot; : &quot;HTTP Port 443&quot;,
-      &quot;outages&quot; : [
-         {
-            &quot;end_time&quot; : null,
-            &quot;summary&quot; : &quot;Connection refused&quot;,
-            &quot;start_time&quot; : 1355917335,
-            &quot;duration&quot; : null,
-            &quot;state&quot; : &quot;critical&quot;
-         }
-      ]
-   }
-]
-</code></p>
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/outages/foo-app-02.example.com
+</pre>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/outages/foo-app-02.example.com/HOST?start_time=2012-12-24T00:00:00Z
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   {
-      &quot;end_time&quot; : 1356562502,
-      &quot;summary&quot; : &quot;(Host Check Timed Out)&quot;,
-      &quot;start_time&quot; : 1356562492,
-      &quot;duration&quot; : 10,
-      &quot;state&quot; : &quot;critical&quot;
-   }
-]
-</code></p>
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"outages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1355958411</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"(Host Check Timed Out)"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1355958401</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356562502</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"(Host Check Timed Out)"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356562492</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"outages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Connection refused"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1355917335</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
-<p><strong>Example 3</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/outages?entity=foo-app-01.example.com&amp;check[foo-app-02.example.com]=HTTP+Port+443
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   {
-      &quot;entity&quot; : &quot;foo-app-01.example.com&quot;,
-      &quot;check&quot; : &quot;HOST&quot;,
-      &quot;outages&quot; : [
-         {
-            &quot;end_time&quot; : 1355958411,
-            &quot;summary&quot; : &quot;(Host Check Timed Out)&quot;,
-            &quot;start_time&quot; : 1355958401,
-            &quot;duration&quot; : 10,
-            &quot;state&quot; : &quot;critical&quot;
-         },
-         {
-            &quot;end_time&quot; : 1356562502,
-            &quot;summary&quot; : &quot;(Host Check Timed Out)&quot;,
-            &quot;start_time&quot; : 1356562492,
-            &quot;duration&quot; : 10,
-            &quot;state&quot; : &quot;critical&quot;
-         }
-      ]
-   },
-   {
-      &quot;entity&quot; : &quot;foo-app-02.example.com&quot;,
-      &quot;check&quot; : &quot;HTTP Port 443&quot;,
-      &quot;outages&quot; : [
-         {
-            &quot;end_time&quot; : null,
-            &quot;summary&quot; : &quot;Connection refused&quot;,
-            &quot;start_time&quot; : 1355917335,
-            &quot;duration&quot; : null,
-            &quot;state&quot; : &quot;critical&quot;
-         }
-      ]
-   }
-]
-</code></p>
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/outages/foo-app-02.example.com/HOST?start_time<span class="o">=</span>2012-12-24T00:00:00Z
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356562502</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"(Host Check Timed Out)"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356562492</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p><strong>Example 3</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/outages?entity<span class="o">=</span>foo-app-01.example.com&amp;check[foo-app-02.example.com]<span class="o">=</span>HTTP+Port+443
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-01.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"outages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1355958411</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"(Host Check Timed Out)"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1355958401</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+         </span><span class="p">},</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356562502</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"(Host Check Timed Out)"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356562492</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-02.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"outages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Connection refused"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1355917335</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a id="get_unscheduled_maintenances">&nbsp;</a></p>
 
@@ -1355,86 +1341,83 @@ curl http://localhost:3081/outages?entity=foo-app-01.example.com&amp;check[foo-a
 
 <p><strong>Optional parameters:</strong> <em>start_time, end</em>time_</p>
 
-<p><strong>Output JSON Format</strong>
-&rdquo;`text
-CHECKS   (array) = [ CHECK, CHECK, &hellip; ]
-CHECK     (hash) = { &ldquo;check&rdquo;: &ldquo;CHECK_NAME&rdquo;,
-                     &ldquo;unscheduled_maintenance&rdquo;: MAINTS }
-MAINTS   (array) = [ MAINT, MAINT, &hellip; ]
-MAINT     (hash) = { &ldquo;start_time&rdquo;: TIMESTAMP,
-                     &ldquo;end_time&rdquo;: TIMESTAMP,
-                     &ldquo;duration&rdquo;: DURATION,
-                     &ldquo;summary&rdquo;: &ldquo;SUMMARY&rdquo; }</p>
+<p><strong>Output JSON Format</strong></p>
+<pre class="highlight plaintext">CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "check": "CHECK_NAME",
+                     "unscheduled_maintenance": MAINTS }
+MAINTS   (array) = [ MAINT, MAINT, ... ]
+MAINT     (hash) = { "start_time": TIMESTAMP,
+                     "end_time": TIMESTAMP,
+                     "duration": DURATION,
+                     "summary": "SUMMARY" }
 
-<p>TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
-DURATION: period of time in seconds, integer</p>
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+DURATION: period of time in seconds, integer
 
-<p>NB: a bulk query adds entity names to the CHECK hash (see example 2).
-&ldquo;`</p>
+NB: a bulk query adds entity names to the CHECK hash (see example 2).
+</pre>
 
 <p>Get the list of unscheduled maintenance periods for a check, or for all checks of an entity, or for checks on multiple entities.</p>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/unscheduled_maintenances/foo-app-01.example.com
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   {
-      &quot;check&quot; : &quot;HOST&quot;,
-      &quot;unscheduled_maintenance&quot; : []
-   },
-   {
-      &quot;check&quot; : &quot;HTTP Port 443&quot;,
-      &quot;unscheduled_maintenance&quot; : [
-         {
-            &quot;end_time&quot; : 1356067056,
-            &quot;summary&quot; : &quot;- JR looking&quot;,
-            &quot;start_time&quot; : 1356044450,
-            &quot;duration&quot; : 22606
-         }
-      ]
-   }
-]
-</code></p>
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/unscheduled_maintenances/foo-app-01.example.com
+</pre>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/unscheduled_maintenances?entity[]=foo-app-01.example.com&amp;entity[]=foo-app-02.example.com
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   {
-      &quot;entity&quot; : &quot;foo-app-01.example.com&quot;,
-      &quot;check&quot; : &quot;HOST&quot;,
-      &quot;unscheduled_maintenance&quot; : []
-   },
-   {
-      &quot;entity&quot; : &quot;foo-app-01.example.com&quot;,
-      &quot;check&quot; : &quot;HTTP Port 443&quot;,
-      &quot;unscheduled_maintenance&quot; : [
-         {
-            &quot;end_time&quot; : 1356067056,
-            &quot;summary&quot; : &quot;- JR looking&quot;,
-            &quot;start_time&quot; : 1356044450,
-            &quot;duration&quot; : 22606
-         }
-      ]
-   },
-   {
-      &quot;entity&quot; : &quot;foo-app-02.example.com&quot;,
-      &quot;check&quot; : &quot;HOST&quot;,
-      &quot;unscheduled_maintenance&quot; : []
-   },
-   {
-      &quot;entity&quot; : &quot;foo-app-02.example.com&quot;,
-      &quot;check&quot; : &quot;HTTP Port 443&quot;,
-      &quot;unscheduled_maintenance&quot; : []
-   }
-]
-</code></p>
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356067056</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"- JR looking"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356044450</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">22606</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/unscheduled_maintenances?entity[]<span class="o">=</span>foo-app-01.example.com&amp;entity[]<span class="o">=</span>foo-app-02.example.com
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-01.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-01.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+         </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356067056</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"- JR looking"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356044450</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">22606</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-02.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-02.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"unscheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a id="post_acknowledgements">&nbsp;</a></p>
 
@@ -1442,49 +1425,48 @@ curl http://localhost:3081/unscheduled_maintenances?entity[]=foo-app-01.example.
 
 <p>Acknowledges a problem on a check (or for all checks of an entity, or for checks on multiple entities) and creates unscheduled maintenance. 4 hrs is the default period but can be specified in the body. An optional message may also be supplied.</p>
 
-<p><strong>Input JSON Format</strong>
-&rdquo;`text
-ACK (hash) = { &ldquo;duration&rdquo;: DURATION,
-               &ldquo;summary&rdquo;: &ldquo;SUMMARY&rdquo; }</p>
+<p><strong>Input JSON Format</strong></p>
+<pre class="highlight plaintext">ACK (hash) = { "duration": DURATION,
+               "summary": "SUMMARY" }
 
-<p>(BULK is merged into the above hash if the entity and check are not provided
-in the request URL.)</p>
+(BULK is merged into the above hash if the entity and check are not provided
+in the request URL.)
 
-<p>BULK          (hash) = { &ldquo;entity&rdquo; : ENTITIES,
-                         &ldquo;check&rdquo; : ENTITY_CHECKS }
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
 ENTITY      (string) = entity name
 ENTITIES    (string) = ENTITY or
-            (array)    [ENTITY, &hellip;]
-ENTITY_CHECKS (hash) = { ENTITY : CHECKS, &hellip; }
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
 CHECK       (string) = check name
 CHECKS      (string) = CHECK or
-             (array)   [CHECK, &hellip;]
-&ldquo;`</p>
+             (array)   [CHECK, ...]
+</pre>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;duration&quot;: 3600,
-    &quot;summary&quot;: &quot;AL - working on it&quot;
-  }&#39; \
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "duration": 3600,
+    "summary": "AL - working on it"
+  }'</span> <span class="se">\</span>
  http://localhost:3081/acknowledgements/foo-app-02.example.com/HOST
-</code>
-<strong>Response</strong> Status: 204 (No Content)</p>
+</pre>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;check&quot; : {
-      &quot;foo-app-02.example.com&quot; : [&quot;ping&quot;, &quot;ssh&quot;]
+<p><strong>Response</strong> Status: 204 (No Content)</p>
+
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "check" : {
+      "foo-app-02.example.com" : ["ping", "ssh"]
     },
-    &quot;duration&quot;: 3600,
-    &quot;summary&quot;: &quot;AL - working on it&quot;
-  }&#39; \
+    "duration": 3600,
+    "summary": "AL - working on it"
+  }'</span> <span class="se">\</span>
  http://localhost:3081/acknowledgements
-</code>
-<strong>Response</strong> Status: 204 (No Content)</p>
+</pre>
+
+<p><strong>Response</strong> Status: 204 (No Content)</p>
 
 <p><a id="delete_unscheduled_maintenances">&nbsp;</a></p>
 
@@ -1492,43 +1474,42 @@ curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: appli
 
 <p>Deletes an unscheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied &ndash; the deletion will take effect immediately if it is not.</p>
 
-<p><strong>Input JSON Format</strong>
-&rdquo;`text
-UNSCHED_MAINT (hash) = { &ldquo;end_time&rdquo;: TIME }</p>
+<p><strong>Input JSON Format</strong></p>
+<pre class="highlight plaintext">UNSCHED_MAINT (hash) = { "end_time": TIME }
 
-<p>(BULK is merged into the above hash if the entity and check are not provided
-in the request URL.)</p>
+(BULK is merged into the above hash if the entity and check are not provided
+in the request URL.)
 
-<p>BULK          (hash) = { &ldquo;entity&rdquo; : ENTITIES,
-                         &ldquo;check&rdquo; : ENTITY_CHECKS }
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
 ENTITY      (string) = entity name
 ENTITIES    (string) = ENTITY or
-            (array)    [ENTITY, &hellip;]
-ENTITY_CHECKS (hash) = { ENTITY : CHECKS, &hellip; }
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
 CHECK       (string) = check name
 CHECKS      (string) = CHECK or
-             (array)   [CHECK, &hellip;]
-&ldquo;`</p>
+             (array)   [CHECK, ...]
+</pre>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: application/json&quot; \
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE -H <span class="s2">"Content-type: application/json"</span> <span class="se">\</span>
  http://localhost:3081/unscheduled_maintenances/foo-app-02.example.com/HOST
-</code>
-<strong>Response</strong> Status: 204 (No Content)</p>
+</pre>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;check&quot; : {
-      &quot;foo-app-02.example.com&quot; : [&quot;ping&quot;, &quot;ssh&quot;]
+<p><strong>Response</strong> Status: 204 (No Content)</p>
+
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "check" : {
+      "foo-app-02.example.com" : ["ping", "ssh"]
     },
-    &quot;end_time&quot; : &quot;2012-12-21T15:47:36+10:30&quot;,
-  }&#39; \
+    "end_time" : "2012-12-21T15:47:36+10:30",
+  }'</span> <span class="se">\</span>
  http://localhost:3081/unscheduled_maintenances
-</code>
-<strong>Response</strong> Status: 204 (No Content)</p>
+</pre>
+
+<p><strong>Response</strong> Status: 204 (No Content)</p>
 
 <p><a id="get_scheduled_maintenances">&nbsp;</a></p>
 
@@ -1536,57 +1517,54 @@ curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: app
 
 <p><strong>Optional parameters:</strong> <em>start_time, end</em>time_</p>
 
-<p><strong>Output JSON Format</strong>
-&rdquo;`text
-CHECKS   (array) = [ CHECK, CHECK, &hellip; ]
-CHECK     (hash) = { &ldquo;check&rdquo;: &ldquo;CHECK_NAME&rdquo;,
-                     &ldquo;scheduled_maintenance&rdquo;: MAINTS }
-MAINTS   (array) = [ MAINT, MAINT, &hellip; ]
-MAINT     (hash) = { &ldquo;start_time&rdquo;: TIMESTAMP,
-                     &ldquo;end_time&rdquo;: TIMESTAMP,
-                     &ldquo;duration&rdquo;: DURATION,
-                     &ldquo;summary&rdquo;: &ldquo;SUMMARY&rdquo; }</p>
+<p><strong>Output JSON Format</strong></p>
+<pre class="highlight plaintext">CHECKS   (array) = [ CHECK, CHECK, ... ]
+CHECK     (hash) = { "check": "CHECK_NAME",
+                     "scheduled_maintenance": MAINTS }
+MAINTS   (array) = [ MAINT, MAINT, ... ]
+MAINT     (hash) = { "start_time": TIMESTAMP,
+                     "end_time": TIMESTAMP,
+                     "duration": DURATION,
+                     "summary": "SUMMARY" }
 
-<p>TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
-DURATION: period of time in seconds, integer</p>
+TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
+DURATION: period of time in seconds, integer
 
-<p>NB: a bulk query adds entity names to the CHECK hash (see example 2).
-&ldquo;`</p>
+NB: a bulk query adds entity names to the CHECK hash (see example 2).
+</pre>
 
 <p>Get the list of scheduled maintenance periods for a check (or for all checks of an entity, or for checks on multiple entities).</p>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/scheduled_maintenances/foo-app-02.example.com
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   {
-      &quot;check&quot; : &quot;HOST&quot;,
-      &quot;scheduled_maintenance&quot; : []
-   },
-   {
-      &quot;check&quot; : &quot;HTTP Port 443&quot;,
-      &quot;scheduled_maintenance&quot; : []
-   }
-]
-</code></p>
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/scheduled_maintenances/foo-app-02.example.com
+</pre>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/scheduled_maintenances?check[foo-app-02.example.com]=HOST
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[
-   {
-      &quot;entity&quot; : &quot;foo-app-02.example.com&quot;,
-      &quot;check&quot; : &quot;HOST&quot;,
-      &quot;scheduled_maintenance&quot; : []
-   }
-]
-</code></p>
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"scheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HTTP Port 443"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"scheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
+
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/scheduled_maintenances?check[foo-app-02.example.com]<span class="o">=</span>HOST
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+   </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"entity"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-app-02.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"check"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"HOST"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"scheduled_maintenance"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a id="post_scheduled_maintenances">&nbsp;</a></p>
 
@@ -1594,53 +1572,52 @@ curl http://localhost:3081/scheduled_maintenances?check[foo-app-02.example.com]=
 
 <p>Creates scheduled maintenance for the specified check.</p>
 
-<p><strong>Input JSON Format</strong>
-&rdquo;`text
-MAINT (hash) = { &ldquo;start_time&rdquo;: TIME,
-                 &ldquo;duration&rdquo;: DURATION,
-                 &ldquo;summary&rdquo;: &ldquo;SUMMARY&rdquo; }</p>
+<p><strong>Input JSON Format</strong></p>
+<pre class="highlight plaintext">MAINT (hash) = { "start_time": TIME,
+                 "duration": DURATION,
+                 "summary": "SUMMARY" }
 
-<p>(BULK is merged into the above hash if the entity and check are not provided
-in the request URL.)</p>
+(BULK is merged into the above hash if the entity and check are not provided
+in the request URL.)
 
-<p>BULK          (hash) = { &ldquo;entity&rdquo; : ENTITIES,
-                         &ldquo;check&rdquo; : ENTITY_CHECKS }
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
 ENTITY      (string) = entity name
 ENTITIES    (string) = ENTITY or
-            (array)    [ENTITY, &hellip;]
-ENTITY_CHECKS (hash) = { ENTITY : CHECKS, &hellip; }
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
 CHECK       (string) = check name
 CHECKS      (string) = CHECK or
-             (array)   [CHECK, &hellip;]
-&ldquo;`</p>
+             (array)   [CHECK, ...]
+</pre>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;start_time&quot;: &quot;2012-12-21T15:47:36+10:30&quot;,
-    &quot;duration&quot;: 3600,
-    &quot;summary&quot;: &quot;SHUT IT ALL DOWN!&quot;
-  }&#39; \
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "start_time": "2012-12-21T15:47:36+10:30",
+    "duration": 3600,
+    "summary": "SHUT IT ALL DOWN!"
+  }'</span> <span class="se">\</span>
  http://localhost:3081/scheduled_maintenances/foo-app-02.example.com/HOST
-</code>
-<strong>Response</strong> Status: 204 (No Content)</p>
+</pre>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;entity&quot; : &quot;foo-app-01.example.com&quot;,
-    &quot;check&quot; : {
-      &quot;foo-app-02.example.com&quot; : &quot;HOST&quot;
+<p><strong>Response</strong> Status: 204 (No Content)</p>
+
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "entity" : "foo-app-01.example.com",
+    "check" : {
+      "foo-app-02.example.com" : "HOST"
     },
-    &quot;start_time&quot;: &quot;2012-12-21T15:47:36+10:30&quot;,
-    &quot;duration&quot;: 3600,
-    &quot;summary&quot;: &quot;SHUT IT ALL DOWN!&quot;
-  }&#39; \
+    "start_time": "2012-12-21T15:47:36+10:30",
+    "duration": 3600,
+    "summary": "SHUT IT ALL DOWN!"
+  }'</span> <span class="se">\</span>
  http://localhost:3081/scheduled_maintenances
-</code>
-<strong>Response</strong> Status: 204 (No Content)</p>
+</pre>
+
+<p><strong>Response</strong> Status: 204 (No Content)</p>
 
 <p><a id="delete_scheduled_maintenances">&nbsp;</a></p>
 
@@ -1648,43 +1625,42 @@ curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: appli
 
 <p>Deletes an scheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied &ndash; the deletion will take effect immediately if it is not.</p>
 
-<p><strong>Input JSON Format</strong>
-&rdquo;`text
-SCHED_MAINT (hash) = { &ldquo;end_time&rdquo;: TIME }</p>
+<p><strong>Input JSON Format</strong></p>
+<pre class="highlight plaintext">SCHED_MAINT (hash) = { "end_time": TIME }
 
-<p>(BULK is merged into the above hash if the entity and check are not provided
-in the request URL.)</p>
+(BULK is merged into the above hash if the entity and check are not provided
+in the request URL.)
 
-<p>BULK          (hash) = { &ldquo;entity&rdquo; : ENTITIES,
-                         &ldquo;check&rdquo; : ENTITY_CHECKS }
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
 ENTITY      (string) = entity name
 ENTITIES    (string) = ENTITY or
-            (array)    [ENTITY, &hellip;]
-ENTITY_CHECKS (hash) = { ENTITY : CHECKS, &hellip; }
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
 CHECK       (string) = check name
 CHECKS      (string) = CHECK or
-             (array)   [CHECK, &hellip;]
-&ldquo;`</p>
+             (array)   [CHECK, ...]
+</pre>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: application/json&quot; \
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE -H <span class="s2">"Content-type: application/json"</span> <span class="se">\</span>
  http://localhost:3081/scheduled_maintenances/foo-app-02.example.com/HOST
-</code>
-<strong>Response</strong> Status: 204 (No Content)</p>
+</pre>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;check&quot; : {
-      &quot;foo-app-02.example.com&quot; : [&quot;ping&quot;, &quot;ssh&quot;]
+<p><strong>Response</strong> Status: 204 (No Content)</p>
+
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "check" : {
+      "foo-app-02.example.com" : ["ping", "ssh"]
     },
-    &quot;end_time&quot; : &quot;2012-12-21T15:47:36+10:30&quot;,
-  }&#39; \
+    "end_time" : "2012-12-21T15:47:36+10:30",
+  }'</span> <span class="se">\</span>
  http://localhost:3081/scheduled_maintenances
-</code>
-<strong>Response</strong> Status: 204 (No Content)</p>
+</pre>
+
+<p><strong>Response</strong> Status: 204 (No Content)</p>
 
 <p><a id="get_downtime">&nbsp;</a></p>
 
@@ -1696,81 +1672,82 @@ curl -w &#39;response: %{http_code} \n&#39; -X DELETE -H &quot;Content-type: app
 
 <p>Note that a start_time and end_time must be specified in order for the percentages to be calculated.</p>
 
-<p><strong>Output JSON Format</strong>
-&rdquo;`text
-CHECKS     (array)  = [ CHECK, CHECK, &hellip; ]
-CHECK       (hash)  = { &ldquo;check&rdquo;: &ldquo;CHECK_NAME&rdquo;,
-                        &ldquo;downtime&rdquo;: DOWNTIME }
-DOWNTIME    (hash)  = { &ldquo;downtime&rdquo;: PERIODS,
-                        &ldquo;percentages&rdquo;: PERCENTAGES,
-                        &ldquo;total_seconds&rdquo;: TOTAL_SECONDS }
-PERIODS     (array) = [ PERIOD, PERIOD, &hellip; ]
-PERIOD       (hash) = { &ldquo;start_time&rdquo;: TIMESTAMP,
-                        &ldquo;end_time&rdquo;: TIMESTAMP,
-                        &ldquo;duration&rdquo;: DURATION,
-                        &ldquo;state&rdquo;: &ldquo;STATE&rdquo;,
-                        &ldquo;summary&rdquo;: &ldquo;SUMMARY&rdquo; }
-PERCENTAGES   (hash) = { &ldquo;ok&rdquo;: PERCENTAGE,
-                         &ldquo;warning&rdquo;: PERCENTAGE,
-                         &ldquo;critical&rdquo;: PERCENTAGE,
-                         &ldquo;unknown&rdquo;: PERCENTAGE }
-TOTAL_SECONDS (hash) = { &ldquo;ok&rdquo;: DURATION,
-                         &ldquo;warning&rdquo;: DURATION,
-                         &ldquo;critical&rdquo;: DURATION,
-                         &ldquo;unknown&rdquo;: DURATION }</p>
+<p><strong>Output JSON Format</strong></p>
+<pre class="highlight plaintext">CHECKS     (array)  = [ CHECK, CHECK, ... ]
+CHECK       (hash)  = { "check": "CHECK_NAME",
+                        "downtime": DOWNTIME }
+DOWNTIME    (hash)  = { "downtime": PERIODS,
+                        "percentages": PERCENTAGES,
+                        "total_seconds": TOTAL_SECONDS }
+PERIODS     (array) = [ PERIOD, PERIOD, ... ]
+PERIOD       (hash) = { "start_time": TIMESTAMP,
+                        "end_time": TIMESTAMP,
+                        "duration": DURATION,
+                        "state": "STATE",
+                        "summary": "SUMMARY" }
+PERCENTAGES   (hash) = { "ok": PERCENTAGE,
+                         "warning": PERCENTAGE,
+                         "critical": PERCENTAGE,
+                         "unknown": PERCENTAGE }
+TOTAL_SECONDS (hash) = { "ok": DURATION,
+                         "warning": DURATION,
+                         "critical": DURATION,
+                         "unknown": DURATION }
 
-<p>PERCENTAGE: floating point number between 0 and 100 representing a percentage
+PERCENTAGE: floating point number between 0 and 100 representing a percentage
 TIMESTAMP: unix timestamp (number of seconds since 1 January 1970, UTC)
 DURATION: period of time in seconds, integer
-STATE: one of &#39;ok&rsquo;, &lsquo;warning&rsquo;, &lsquo;critical&rsquo;, or &lsquo;unknown&rsquo;</p>
+STATE: one of 'ok', 'warning', 'critical', or 'unknown'
 
-<p>NB: a bulk query adds entity names to the CHECK hash (see example 2).
-&ldquo;`</p>
+NB: a bulk query adds entity names to the CHECK hash (see example 2).
+</pre>
 
-<p><strong>Notes:</strong>
-* the states under PERCENTAGES and TOTAL_SECONDS may be omitted if they are zero.
-* the non-ok states under PERCENTAGES and TOTAL_SECONDS represent total downtime for this state.
-* the ok state time is calculated as: total report period - sum of non OK downtime durations</p>
+<p><strong>Notes:</strong></p>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl &quot;http://localhost:3081/downtime/foo-app-02.example.com/HOST?start_time=2012-12-01T00:00:00Z&amp;end_time=2013-01-01T00:00:00Z&quot;
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-{
-   &quot;downtime&quot; : [
-      {
-         &quot;end_time&quot; : 1355958411,
-         &quot;summary&quot; : &quot;(Host Check Timed Out)&quot;,
-         &quot;start_time&quot; : 1355958401,
-         &quot;duration&quot; : 10,
-         &quot;state&quot; : &quot;critical&quot;
-      },
-      {
-         &quot;end_time&quot; : 1356562502,
-         &quot;summary&quot; : &quot;(Host Check Timed Out)&quot;,
-         &quot;start_time&quot; : 1356562492,
-         &quot;duration&quot; : 10,
-         &quot;state&quot; : &quot;critical&quot;
-      }
-   ],
-   &quot;percentages&quot; : {
-      &quot;ok&quot; : 99.9992532855436,
-      &quot;critical&quot; : 0.000746714456391876
-   },
-   &quot;total_seconds&quot; : {
-      &quot;ok&quot; : 2678380,
-      &quot;critical&quot; : 20
-   }
-}
-</code></p>
+<ul>
+<li>the states under PERCENTAGES and TOTAL_SECONDS may be omitted if they are zero.</li>
+<li>the non-ok states under PERCENTAGES and TOTAL_SECONDS represent total downtime for this state.</li>
+<li>the ok state time is calculated as: total report period - sum of non OK downtime durations</li>
+</ul>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl &quot;http://localhost:3081/downtime?check[foo-app-02.example.com]=HOST&amp;start_time=2012-12-01T00:00:00Z&amp;end_time=2013-01-01T00:00:00Z&quot;
-</code>
-<strong>Response</strong> Status: 200 OK
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl <span class="s2">"http://localhost:3081/downtime/foo-app-02.example.com/HOST?start_time=2012-12-01T00:00:00Z&amp;end_time=2013-01-01T00:00:00Z"</span>
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">{</span><span class="w">
+   </span><span class="s2">"downtime"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1355958411</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"(Host Check Timed Out)"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1355958401</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+         </span><span class="s2">"end_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356562502</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"summary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"(Host Check Timed Out)"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"start_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1356562492</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"duration"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"state"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"critical"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="s2">"percentages"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"ok"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">99.9992532855436</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"critical"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mf">0.000746714456391876</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"total_seconds"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"ok"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">2678380</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"critical"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="w">
+   </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre>
+
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl <span class="s2">"http://localhost:3081/downtime?check[foo-app-02.example.com]=HOST&amp;start_time=2012-12-01T00:00:00Z&amp;end_time=2013-01-01T00:00:00Z"</span>
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK
 (See the Response section for the previous example.)</p>
 
 <p><a id="post_test_notifications">&nbsp;</a></p>
@@ -1781,34 +1758,31 @@ curl &quot;http://localhost:3081/downtime?check[foo-app-02.example.com]=HOST&amp
 
 <p>Generates test notifications for the specified check. Body can be left empty.</p>
 
-<p><strong>Input JSON Format</strong>
-&rdquo;`text
-(BULK is only used if the entity and check are not provided in the request URL.)</p>
+<p><strong>Input JSON Format</strong></p>
+<pre class="highlight plaintext">(BULK is only used if the entity and check are not provided in the request URL.)
 
-<p>BULK          (hash) = { &ldquo;entity&rdquo; : ENTITIES,
-                         &ldquo;check&rdquo; : ENTITY_CHECKS }
+BULK          (hash) = { "entity" : ENTITIES,
+                         "check" : ENTITY_CHECKS }
 ENTITY      (string) = entity name
 ENTITIES    (string) = ENTITY or
-            (array)    [ENTITY, &hellip;]
-ENTITY_CHECKS (hash) = { ENTITY : CHECKS, &hellip; }
+            (array)    [ENTITY, ...]
+ENTITY_CHECKS (hash) = { ENTITY : CHECKS, ... }
 CHECK       (string) = check name
 CHECKS      (string) = CHECK or
-             (array)   [CHECK, &hellip;]
-&ldquo;`</p>
+             (array)   [CHECK, ...]
+</pre>
 
-<p><strong>Example 1</strong>
-<code class="prettyprint">bash
-curl -X POST &quot;http://localhost:3081/test_notifications/foo-app-01.example.com/HOST&quot;
-</code></p>
+<p><strong>Example 1</strong></p>
+<pre class="highlight shell">curl -X POST <span class="s2">"http://localhost:3081/test_notifications/foo-app-01.example.com/HOST"</span>
+</pre>
 
-<p><strong>Example 2</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST -H &quot;Content-type: application/json&quot; -d \
- &#39;{
-    &quot;entity&quot;: &quot;foo-app-02.example.com&quot;
-  }&#39; \
+<p><strong>Example 2</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "entity": "foo-app-02.example.com"
+  }'</span> <span class="se">\</span>
  http://localhost:3081/test_notifications
-</code></p>
+</pre>
 
 <p><strong>Response</strong> Status: 204 No Content</p>
 

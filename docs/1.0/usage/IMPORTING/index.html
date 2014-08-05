@@ -40,9 +40,9 @@
 <h2 id="importing-contacts-and-entities-using-flapjack-import">Importing contacts and entities using flapjack import</h2>
 
 <p>The <code class="prettyprint">flapjack import</code> script provides a mechanism for importing contacts and entities in JSON format. Here are some command line examples for <code class="prettyprint">flapjack import</code>:</p>
-
-<p>bin/flapjack &ndash;config etc/flapjack_config.yaml import contacts  &ndash;from tmp/dummy_contacts.json
-    bin/flapjack &ndash;config etc/flapjack_config.yaml import entities &ndash;from tmp/dummy_entities.json</p>
+<pre class="highlight plaintext">bin/flapjack --config etc/flapjack_config.yaml import contacts  --from tmp/dummy_contacts.json
+bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_entities.json
+</pre>
 
 <p>There are example JSON files, and example ruby scripts which generate the examples, in the tmp/ directory.</p>
 
@@ -56,52 +56,51 @@
 
 <h3 id="contacts-example">Contacts Example</h3>
 
-<p>Example - three contacts with varying media
-<code class="prettyprint">json
-[
-  {
-    &quot;id&quot;: &quot;362&quot;,
-    &quot;first_name&quot;: &quot;John&quot;,
-    &quot;last_name&quot;: &quot;Johnson&quot;,
-    &quot;email&quot;: &quot;johnj@example.com&quot;,
-    &quot;media&quot;: {
-      &quot;sms&quot;: &quot;+61412345678&quot;,
-      &quot;email&quot;: &quot;johnj@example.com&quot;
-    },
-    &quot;tags&quot;: [
-      &quot;source:titanium&quot;,
-      &quot;foo&quot;
-    ]
-  },
-  {
-    &quot;id&quot;: &quot;363&quot;,
-    &quot;first_name&quot;: &quot;Jane&quot;,
-    &quot;last_name&quot;: &quot;Janeley&quot;,
-    &quot;email&quot;: &quot;janej@example.com&quot;,
-    &quot;media&quot;: {
-      &quot;email&quot;: &quot;janej@example.com&quot;
-    },
-    &quot;tags&quot;: [
-      &quot;source:titanium&quot;,
-      &quot;bar&quot;
-    ]
-  },
-  {
-    &quot;id&quot;: &quot;364&quot;,
-    &quot;first_name&quot;: &quot;Roger&quot;,
-    &quot;last_name&quot;: &quot;Wilco&quot;,
-    &quot;email&quot;: &quot;rogerw@example.com&quot;,
-    &quot;media&quot;: {
-      &quot;jabber&quot;: &quot;roger@conference.example.com&quot;
-    },
-    &quot;tags&quot;: [
-      &quot;source:titanium&quot;,
-      &quot;bar&quot;,
-      &quot;foo&quot;
-    ]
-  }
-]
-</code></p>
+<p>Example - three contacts with varying media</p>
+<pre class="highlight json"><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"362"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Johnson"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"johnj@example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"media"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"sms"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+61412345678"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"johnj@example.com"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"source:titanium"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"foo"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"363"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Janeley"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janej@example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"media"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"janej@example.com"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"source:titanium"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"bar"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"364"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Roger"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wilco"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rogerw@example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"media"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"jabber"</span><span class="p">:</span><span class="w"> </span><span class="s2">"roger@conference.example.com"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"source:titanium"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"bar"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"foo"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p>Example ruby code to construct this format:</p>
 <pre class="highlight ruby"><span class="c1">#!/usr/bin/env ruby</span>

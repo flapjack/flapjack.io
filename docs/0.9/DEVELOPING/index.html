@@ -102,14 +102,13 @@ open coverage/index.html
 
 <h2 id="startup-and-shutdown">Startup and Shutdown</h2>
 
-<p>Copy the example configuration file into place:
-<code class="prettyprint">bash
-if [ ! -e etc/flapjack_config.yaml ] ; then
-  cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml
-else
-  echo &quot;you&#39;ve already got a config file at etc/flapjack_config.yaml, exiting&quot;
-fi
-</code></p>
+<p>Copy the example configuration file into place:</p>
+<pre class="highlight shell"><span class="k">if</span> <span class="o">[</span> ! -e etc/flapjack_config.yaml <span class="o">]</span> ; <span class="k">then
+  </span>cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml
+<span class="k">else
+  </span><span class="nb">echo</span> <span class="s2">"you've already got a config file at etc/flapjack_config.yaml, exiting"</span>
+<span class="k">fi</span>
+</pre>
 
 <p>Ensure your local Redis server is running, and then to start:</p>
 <pre class="highlight shell"><span class="nv">FLAPJACK_ENV</span><span class="o">=</span>development bundle <span class="nb">exec </span>bin/flapjack start --config etc/flapjack_config.yaml
@@ -166,11 +165,10 @@ vagrant up ubuntu-precise64
 
 <p>&hellip; and <a href="https://github.com/flapjack/omnibus-flapjack/#updating-the-debian-package-repo-ubuntu-precise-only-at-present">push it up</a> to <a href="http://packages.flapjack.io">packages.flapjack.io</a>.</p>
 
-<p>You can then test the latest package with <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>:
-<code class="prettyprint">bash
-git clone https://github.com/flapjack/vagrant-flapjack.git &amp;&amp; cd vagrant-flapjack
+<p>You can then test the latest package with <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>:</p>
+<pre class="highlight shell">git clone https://github.com/flapjack/vagrant-flapjack.git <span class="o">&amp;&amp;</span> <span class="nb">cd </span>vagrant-flapjack
 vagrant up
-</code></p>
+</pre>
 
 <h2 id="data-structures">Data Structures</h2>
 

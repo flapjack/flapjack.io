@@ -36,9 +36,9 @@
 <h3 id="event-queue">Event queue</h3>
 <pre class="highlight plaintext">events (list) -&gt; [ EVENT, EVENT, ... ]
 
-EVENT      (string) - A Ruby hash serialised in JSON: 
+EVENT      (string) - A Ruby hash serialised in JSON:
 
-                     { 
+                     {
                        'entity'   =&gt; ENTITY,
                        'check'    =&gt; CHECK,
                        'type'     =&gt; EVENT_TYPE,
@@ -97,14 +97,13 @@ NOTIFICATION (string) - ruby hash representing the notification object, serialis
 
 <p>The <code class="prettyprint">last_update</code> timestamp is updated for every service event received for the service.</p>
 
-<p><em>All state changes</em>
-<code class="prettyprint">text
-ENTITY:CHECK:states                    (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+<p><em>All state changes</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:states                    (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:TIMESTAMP:state         (string) -&gt; STATE
 ENTITY:CHECK:TIMESTAMP:summary       (string) -&gt; SUMMARY
 ENTITY:CHECK:TIMESTAMP:count         (string) -&gt; COUNT
 ENTITY:CHECK:TIMESTAMP:check_latency (string) -&gt; LATENCY
-</code></p>
+</pre>
 
 <p>In order to query against this data while filtering by timestamp range, the following mirror of the list is being maintained:</p>
 
@@ -121,108 +120,100 @@ STATE (string) - eg 'acknowledgement'
 <h3 id="failed-checks">Failed checks</h3>
 
 <p><em>All failing checks</em></p>
-
-<p>failed_checks (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; &hellip; )</p>
+<pre class="highlight plaintext">failed_checks (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
+</pre>
 
 <h3 id="current-checks-and-entities">Current checks and entities</h3>
 
 <p>Any time an event is received from the check execution system for a check, the check&rsquo;s timestamp (rank) is updated in the sorted set for the entity. If a check isn&rsquo;t in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.</p>
 
 <p>Related to this is the current_entities sorted set, which contains all entities that have current checks, ordered by the timestamp of the latest check event received for each entity.</p>
-
-<p>current_checks:ENTITY (sorted set) =&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; &hellip; )
-    current_entities (sorted set) =&gt; ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; &hellip; )</p>
+<pre class="highlight plaintext">current_checks:ENTITY (sorted set) =&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+current_entities (sorted set) =&gt; ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
+</pre>
 
 <h3 id="unscheduled-maintenance">Unscheduled Maintenance</h3>
 
 <p>This key will only be present during the unschedule maintenance period for quick lookup of whether a service is in unschedule maintenance. An expiry TTL will be put on the key so it automatically goes away (default 4 hrs expiry time).</p>
 
-<p><em>Current state</em>
-&ldquo;`text
-ENTITY:CHECK:unscheduled_maintenance (string with expiry) -&gt; TIMESTAMP</p>
+<p><em>Current state</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:unscheduled_maintenance (string with expiry) -&gt; TIMESTAMP
 
-<p>TIMESTAMP - the time the unscheduled maintenance begun
-&rdquo;`</p>
+TIMESTAMP - the time the unscheduled maintenance begun
+</pre>
 
-<p><em>Collect all unscheduled outages for reporting etc</em>
-&ldquo;`text
-ENTITY:CHECK:unscheduled_maintenances             (ordered set) -&gt; ( DURATION, TIMESTAMP;
-                                                                     DURATION, TIMESTAMP; &hellip; )
-ENTITY:CHECK:TIMESTAMP:unscheduled_maintenance:summary (string) -&gt; SUMMARY</p>
+<p><em>Collect all unscheduled outages for reporting etc</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:unscheduled_maintenances             (ordered set) -&gt; ( DURATION, TIMESTAMP;
+                                                                     DURATION, TIMESTAMP; ... )
+ENTITY:CHECK:TIMESTAMP:unscheduled_maintenance:summary (string) -&gt; SUMMARY
 
-<p>TIMESTAMP - start of the unscheduled maintenance period
+TIMESTAMP - start of the unscheduled maintenance period
 DURATION  - the elapsed time of the unscheduled maintenance (including any extensions to the original period)
 SUMMARY   - populated from the summary of the acknowledgement(s) (summaries to be glued together if there are
             multiple during an unscheduled outage)
-&rdquo;`</p>
+</pre>
 
 <p>In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:</p>
 
-<p><em>Sorted unscheduled maintenance timestamps</em>
-<code class="prettyprint">text
-ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
+<p><em>Sorted unscheduled maintenance timestamps</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
                                                                           TIMESTAMP, TIMESTAMP; ... )
-</code></p>
+</pre>
 
 <h3 id="scheduled-maintenance">Scheduled Maintenance</h3>
 
 <p>This key will only be present during the scheduled maintenance period for quick lookup of whether a check is in scheduled maintenance. An expiry TTL (4 hours by default) will be put on the key so it destroys itself after this time.</p>
 
-<p><em>Current state</em>
-&ldquo;`text
-ENTITY:CHECK:scheduled_maintenance (string with expiry) -&gt; TIMESTAMP</p>
+<p><em>Current state</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:scheduled_maintenance (string with expiry) -&gt; TIMESTAMP
 
-<p>TIMESTAMP - the time the scheduled maintenance begun
-&rdquo;`</p>
+TIMESTAMP - the time the scheduled maintenance begun
+</pre>
 
-<p><em>All future scheduled outages, and left for reporting purposes</em>
-&ldquo;`text
-ENTITY:CHECK:scheduled_maintenances (ordered set)             -&gt; ( DURATION, TIMESTAMP;
-                                                                   DURATION, TIMESTAMP; &hellip; )
-ENTITY:CHECK:TIMESTAMP:scheduled_maintenance:summary (string) -&gt; SUMMARY</p>
+<p><em>All future scheduled outages, and left for reporting purposes</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:scheduled_maintenances (ordered set)             -&gt; ( DURATION, TIMESTAMP;
+                                                                   DURATION, TIMESTAMP; ... )
+ENTITY:CHECK:TIMESTAMP:scheduled_maintenance:summary (string) -&gt; SUMMARY
 
-<p>TIMESTAMP - start of the scheduled maintenance period
+TIMESTAMP - start of the scheduled maintenance period
 DURATION  - the elapsed time of the scheduled maintenance window (including any extensions to the original period)
 SUMMARY   - populated from the summary of the scheduled maintenance creation event(s) (summaries to be glued
             together if there are multiple)
-&rdquo;`</p>
+</pre>
 
 <p>In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:</p>
 
-<p><em>Sorted scheduled maintenance timestamps</em>
-&ldquo;`text
-ENTITY:CHECK:sorted_scheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
-                                                                        TIMESTAMP, TIMESTAMP; &hellip; )</p>
+<p><em>Sorted scheduled maintenance timestamps</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:sorted_scheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
+                                                                        TIMESTAMP, TIMESTAMP; ... )
 
-<p>TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the score and value of each
+TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the score and value of each
             item in the ordered set)
-&rdquo;`</p>
+</pre>
 
 <h3 id="notifications">Notifications</h3>
 
 <p>We need to store notifications that have been generated (not necessarily sent out, see Alerts), for problems, recoveries, and acknowledgements.</p>
 
-<p><em>Last alert of each type (problem, recovery, acknowledgement)</em>
-&ldquo;`text
-ENTITY:CHECK:last_problem_notification         (string) -&gt; TIMESTAMP
+<p><em>Last alert of each type (problem, recovery, acknowledgement)</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:last_problem_notification         (string) -&gt; TIMESTAMP
 ENTITY:CHECK:last_unknown_notification         (string) -&gt; TIMESTAMP
 ENTITY:CHECK:last_warning_notification         (string) -&gt; TIMESTAMP
 ENTITY:CHECK:last_critical_notification        (string) -&gt; TIMESTAMP
 ENTITY:CHECK:last_recovery_notification        (string) -&gt; TIMESTAMP
-ENTITY:CHECK:last_acknowledgement_notification (string) -&gt; TIMESTAMP</p>
+ENTITY:CHECK:last_acknowledgement_notification (string) -&gt; TIMESTAMP
 
-<p>TIMESTAMP - the time of the last notification sent of the corresponding type (problem, recovery, acknowledgement)
-&rdquo;`</p>
+TIMESTAMP - the time of the last notification sent of the corresponding type (problem, recovery, acknowledgement)
+</pre>
 
-<p><em>Retention of all notifications</em>
-<code class="prettyprint">text
-ENTITY:CHECK:problem_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+<p><em>Retention of all notifications</em></p>
+<pre class="highlight plaintext">ENTITY:CHECK:problem_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:unknown_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:warning_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:critical_notifications        (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:recovery_notifications        (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:acknowledgement_notifications (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
-</code></p>
+</pre>
 
 <h3 id="alerts">Alerts</h3>
 
@@ -323,7 +314,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 <p>Notes:</p>
 
 <ul>
-<li><code class="prettyprint">contact:CONTACT_ID</code> is about the contact, <code class="prettyprint">contac_media:CONTACT_ID</code> lists which contact methods to use
+<li><code class="prettyprint">contact:CONTACT_ID</code> is about the contact, <code class="prettyprint">contact_media:CONTACT_ID</code> lists which contact methods to use
 for this contact (so if it just contains sms then we&rsquo;ll only notify this person by sms).</li>
 <li><code class="prettyprint">EMAIL</code> &hellip; note that this is potentially duplicated, the email field in <code class="prettyprint">contact:CONTACT_ID</code> is really
 just for matching up users and is not used as a contact media</li>
@@ -395,8 +386,11 @@ RRULE - See the ice_cube documentation and the iCal specification for details. H
 EXRULE, RTIME, EXTIME - See the ice_cube documentation and the iCal specification for details.
 </pre>
 
-<p>Notes
-* TIME_RESTRICTION is a hash representation of an RFC 2445 iCalendar schedule. It is the same format accepted by the flapjack API. When acting on the time restrictions within a notification rule, flapjack modifies the format of the hash to be compatible with <a href="https://github.com/seejohnrun/ice_cube">ice_cube</a>&rsquo;s hash format before instantiating an IceCube::Schedule object to operate on.</p>
+<p>Notes</p>
+
+<ul>
+<li>TIME_RESTRICTION is a hash representation of an RFC 2445 iCalendar schedule. It is the same format accepted by the flapjack API. When acting on the time restrictions within a notification rule, flapjack modifies the format of the hash to be compatible with <a href="https://github.com/seejohnrun/ice_cube">ice_cube</a>&rsquo;s hash format before instantiating an IceCube::Schedule object to operate on.</li>
+</ul>
 
 <h3 id="alerting-checks-per-contact-media">Alerting Checks per Contact Media</h3>
 
