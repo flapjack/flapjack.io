@@ -8,9 +8,9 @@ Flapjack is using redis as its data store. Here are the data structures in use.
 ``` text
 events (list) -> [ EVENT, EVENT, ... ]
 
-EVENT      (string) - A Ruby hash serialised in JSON: 
+EVENT      (string) - A Ruby hash serialised in JSON:
 
-                     { 
+                     {
                        'entity'   => ENTITY,
                        'check'    => CHECK,
                        'type'     => EVENT_TYPE,
@@ -21,7 +21,7 @@ EVENT      (string) - A Ruby hash serialised in JSON:
                        'tags'     => TAGS,
                        'perfdata' => PERFDATA
                      }
-                     
+
 ENTITY     (string)   - Name of the relevant entity (e.g. FQDN)
 CHECK      (string)   - The check name ('service description' in Nagios terminology)
 EVENT_TYPE (string)   - One of 'service' or 'action'
@@ -78,6 +78,7 @@ The current state hash above is redundant given the All state changes structures
 The `last_update` timestamp is updated for every service event received for the service.
 
 *All state changes*
+
 ```text
 ENTITY:CHECK:states                    (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:TIMESTAMP:state         (string) -> STATE
@@ -106,7 +107,9 @@ STATE (string) - eg 'acknowledgement'
 
 *All failing checks*
 
-    failed_checks (sorted set) -> ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
+```text
+failed_checks (sorted set) -> ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
+```
 
 ### Current checks and entities
 
@@ -114,14 +117,17 @@ Any time an event is received from the check execution system for a check, the c
 
 Related to this is the current_entities sorted set, which contains all entities that have current checks, ordered by the timestamp of the latest check event received for each entity.
 
-    current_checks:ENTITY (sorted set) => ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
-    current_entities (sorted set) => ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
+```text
+current_checks:ENTITY (sorted set) => ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+current_entities (sorted set) => ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
+```
 
 ### Unscheduled Maintenance
 
 This key will only be present during the unschedule maintenance period for quick lookup of whether a service is in unschedule maintenance. An expiry TTL will be put on the key so it automatically goes away (default 4 hrs expiry time).
 
 *Current state*
+
 ```text
 ENTITY:CHECK:unscheduled_maintenance (string with expiry) -> TIMESTAMP
 
@@ -129,6 +135,7 @@ TIMESTAMP - the time the unscheduled maintenance begun
 ```
 
 *Collect all unscheduled outages for reporting etc*
+
 ```text
 ENTITY:CHECK:unscheduled_maintenances             (ordered set) -> ( DURATION, TIMESTAMP;
                                                                      DURATION, TIMESTAMP; ... )
@@ -143,6 +150,7 @@ SUMMARY   - populated from the summary of the acknowledgement(s) (summaries to b
 In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:
 
 *Sorted unscheduled maintenance timestamps*
+
 ```text
 ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -> ( TIMESTAMP, TIMESTAMP;
                                                                           TIMESTAMP, TIMESTAMP; ... )
@@ -153,6 +161,7 @@ ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -> ( TIMEST
 This key will only be present during the scheduled maintenance period for quick lookup of whether a check is in scheduled maintenance. An expiry TTL (4 hours by default) will be put on the key so it destroys itself after this time.
 
 *Current state*
+
 ```text
 ENTITY:CHECK:scheduled_maintenance (string with expiry) -> TIMESTAMP
 
@@ -160,6 +169,7 @@ TIMESTAMP - the time the scheduled maintenance begun
 ```
 
 *All future scheduled outages, and left for reporting purposes*
+
 ```text
 ENTITY:CHECK:scheduled_maintenances (ordered set)             -> ( DURATION, TIMESTAMP;
                                                                    DURATION, TIMESTAMP; ... )
@@ -174,6 +184,7 @@ SUMMARY   - populated from the summary of the scheduled maintenance creation eve
 In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:
 
 *Sorted scheduled maintenance timestamps*
+
 ```text
 ENTITY:CHECK:sorted_scheduled_maintenance_timestamps (ordered set) -> ( TIMESTAMP, TIMESTAMP;
                                                                         TIMESTAMP, TIMESTAMP; ... )
@@ -187,6 +198,7 @@ TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the s
 We need to store notifications that have been generated (not necessarily sent out, see Alerts), for problems, recoveries, and acknowledgements.
 
 *Last alert of each type (problem, recovery, acknowledgement)*
+
 ```text
 ENTITY:CHECK:last_problem_notification         (string) -> TIMESTAMP
 ENTITY:CHECK:last_unknown_notification         (string) -> TIMESTAMP
@@ -199,6 +211,7 @@ TIMESTAMP - the time of the last notification sent of the corresponding type (pr
 ```
 
 *Retention of all notifications*
+
 ```text
 ENTITY:CHECK:problem_notifications         (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:unknown_notifications         (list) -> [ TIMESTAMP, TIMESTAMP, ... ]
@@ -310,7 +323,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 
 Notes:
 
-- `contact:CONTACT_ID` is about the contact, `contac_media:CONTACT_ID` lists which contact methods to use
+- `contact:CONTACT_ID` is about the contact, `contact_media:CONTACT_ID` lists which contact methods to use
   for this contact (so if it just contains sms then we'll only notify this person by sms).
 - `EMAIL` ... note that this is potentially duplicated, the email field in `contact:CONTACT_ID` is really
   just for matching up users and is not used as a contact media
@@ -385,6 +398,7 @@ RRULE - See the ice_cube documentation and the iCal specification for details. H
 EXRULE, RTIME, EXTIME - See the ice_cube documentation and the iCal specification for details.
 ```
 Notes
+
 * TIME_RESTRICTION is a hash representation of an RFC 2445 iCalendar schedule. It is the same format accepted by the flapjack API. When acting on the time restrictions within a notification rule, flapjack modifies the format of the hash to be compatible with [ice_cube](https://github.com/seejohnrun/ice_cube)'s hash format before instantiating an IceCube::Schedule object to operate on.
 
 ### Alerting Checks per Contact Media
@@ -414,4 +428,3 @@ executive_instance:HOSTIDENT:PID (hash) -> { boot_time => BOOTTIME }
 event_counters:HOSTIDENT:PID     (hash) -> { all => COUNTER, ok => COUNTER, failure => COUNTER,
                                                     action => COUNTER }
 ```
-
