@@ -88,6 +88,7 @@ Note that SimpleCov will merge the results of the two test suite's measured code
 Startup and Shutdown
 --------------------
 Copy the example configuration file into place:
+
 ```bash
 if [ ! -e etc/flapjack_config.yaml ] ; then
   cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml

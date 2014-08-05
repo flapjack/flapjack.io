@@ -88,6 +88,7 @@ Note that SimpleCov will merge the results of the two test suite's measured code
 Startup and Shutdown
 --------------------
 Copy the example configuration file into place:
+
 ```bash
 if [ ! -e etc/flapjack_config.yaml ] ; then
   cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml
@@ -164,6 +165,7 @@ vagrant up ubuntu-precise64
 ... and [push it up](https://github.com/flapjack/omnibus-flapjack/#updating-the-debian-package-repo-ubuntu-precise-only-at-present) to [packages.flapjack.io](http://packages.flapjack.io).
 
 You can then test the latest package with [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack):
+
 ```bash
 git clone https://github.com/flapjack/vagrant-flapjack.git && cd vagrant-flapjack
 vagrant up

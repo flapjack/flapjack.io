@@ -79,7 +79,9 @@ Note that using the flapjack_config.yaml file you can have flapjack start the re
 
 One resque worker that processes both queues (but prioritises SMS above email) can be started as follows:
 
-    QUEUE=sms_notifications,email_notifications VERBOSE=1 be rake resque:work
+```text
+QUEUE=sms_notifications,email_notifications VERBOSE=1 be rake resque:work
+```
 
 resque sets the command name so grep'ing ps output for `rake` or `ruby` will NOT find resque processes. Search instead for `resque`. (and remember the 'q').
 

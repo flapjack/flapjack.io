@@ -26,6 +26,7 @@ The import process will delete any existing matching object (matching on ID) bef
 ### Contacts Example
 
 Example - three contacts with varying media
+
 ```json
 [
   {
@@ -70,6 +71,7 @@ Example - three contacts with varying media
     ]
   }
 ]
+
 ```
 
 Example ruby code to construct this format:
@@ -177,4 +179,3 @@ entities.push(entity)
 
 puts JSON.generate(entities, :pretty => true)
 ```
-

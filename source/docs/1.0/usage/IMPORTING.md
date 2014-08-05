@@ -10,8 +10,10 @@ See also the [data structures](../../development/DATA_STRUCTURES) documentation.
 
 The `flapjack import` script provides a mechanism for importing contacts and entities in JSON format. Here are some command line examples for `flapjack import`:
 
-    bin/flapjack --config etc/flapjack_config.yaml import contacts  --from tmp/dummy_contacts.json
-    bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_entities.json
+```
+bin/flapjack --config etc/flapjack_config.yaml import contacts  --from tmp/dummy_contacts.json
+bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_entities.json
+```
 
 There are example JSON files, and example ruby scripts which generate the examples, in the tmp/ directory.
 
@@ -26,6 +28,7 @@ The import process will delete any existing matching object (matching on ID) bef
 ### Contacts Example
 
 Example - three contacts with varying media
+
 ```json
 [
   {

@@ -312,25 +312,25 @@ development:
 
 ##### processor: `new_check_scheduled_maintenance_duration`
 
-This setting controls how long we set scheduled maintenance for new check results. 
+This setting controls how long we set scheduled maintenance for new check results.
 
-Flapjack sets scheduled maintenance on new check results so contacts aren't notified as soon as Flapjack becomes aware of an entity to notify on. This is useful is cases where your monitoring starts checking something before it is completely provisioned, 
+Flapjack sets scheduled maintenance on new check results so contacts aren't notified as soon as Flapjack becomes aware of an entity to notify on. This is useful is cases where your monitoring starts checking something before it is completely provisioned,
 
-For example: 
+For example:
 
-> CloudFormation starts a cluster of EC2 instances that take 10 minutes to provision, but your monitoring starts checking those EC2 instances 5 minutes into their provisioning. This would result in false-positives from Flapjack, as Flapjack would notify contacts before the instances are fully provisioned. 
+> CloudFormation starts a cluster of EC2 instances that take 10 minutes to provision, but your monitoring starts checking those EC2 instances 5 minutes into their provisioning. This would result in false-positives from Flapjack, as Flapjack would notify contacts before the instances are fully provisioned.
 
-The value for this setting is parsed by [Chronic Duration](https://github.com/hpoydar/chronic_duration), so you can specify interesting things like: 
+The value for this setting is parsed by [Chronic Duration](https://github.com/hpoydar/chronic_duration), so you can specify interesting things like:
 
 - `12.4 secs`
 - `1:20` => 1 minute 20 seconds
 - `6 mos 1 day` => 6 months 1 day
-- `47 yrs 6 mos and 4d` 
+- `47 yrs 6 mos and 4d`
 - `two hours and twenty minutes`
 
-You can disable this setting by specifying `0 seconds`. 
+You can disable this setting by specifying `0 seconds`.
 
-The default value for this setting is `100 years`. 
+The default value for this setting is `100 years`.
 
 <a id="configuring_nagios">&nbsp;</a>
 ### Configuring Nagios
@@ -362,7 +362,9 @@ All hosts and services (or templates that they use) will need to have process_pe
 
 Create the named pipe if it doesn't already exist:
 
-    mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
+```text
+mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
+```
 
 Note that the templates used in the nagios configuration for service_perfdata_file_template and host_perfdata_file_template must be configured to be exactly as flapjack-nagios-receiver expects otherwise it will drop events that don't match the expected format. The current requrements for the data format that flapjack-nagios-receiver expects from the named pipe is as per the above nagios templates. The following checks are made of each line of textual data found in the pipe, and if any fail the line does not result in an event being created:
 
@@ -422,6 +424,7 @@ Options
     -p, --pidfile [PATH]             PATH to the pidfile to write to
     -l, --logfile [PATH]             PATH to the logfile to write to
     -h, --help                       Show this usage message
+```
 
 Required Nagios Configuration Changes
 -------------------------------------
@@ -431,10 +434,13 @@ data output to it.
 
 To create the named pipe:
 
-  mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
+```
+mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
+```
 
 nagios.cfg changes:
 
+```text
   # modified lines:
   enable_notifications=0
   host_perfdata_file=/var/cache/nagios3/event_stream.fifo
@@ -443,10 +449,11 @@ nagios.cfg changes:
   service_perfdata_file_template=[SERVICEPERFDATA]\t$TIMET$\t$HOSTNAME$\t$SERVICEDESC$\t$SERVICESTATE$\t$SERVICEEXECUTIONTIME$\t$SERVICELATENCY$\t$SERVICEOUTPUT$\t$SERVICEPERFDATA$
   host_perfdata_file_mode=p
   service_perfdata_file_mode=p
-
-Details on the [wiki](#configuring_nagios)
 ```
+Details on the [wiki](#configuring_nagios)
+
 Examples:
+
 ``` bash
 flapjack-nagios-receiver start --config /etc/flapjack/flapjack-config.yaml --fifo /path/to/nagios/perfdata.fifo
 flapjack-nagios-receiver status
@@ -459,6 +466,7 @@ The redis database connection information is read out of the specified flapjack 
 See the [Configuring Nagios](#configuring_nagios) section above for more information.
 
 ### flapper
+
 ``` text
 Usage: flapper COMMAND [OPTIONS]
 
@@ -476,6 +484,7 @@ Options
 ```
 
 ### flapjack-populator
+
 ``` text
 Usage: flapjack-populator COMMAND [OPTIONS]
 
@@ -490,6 +499,7 @@ Options
 ```
 
 ### receive-events
+
 ``` text
 Usage: receive-events COMMAND [OPTIONS]
 
@@ -506,6 +516,7 @@ Options
 ```
 
 ### simulate-failed-check
+
 ``` text
 Usage: simulate-failed-check COMMAND [OPTIONS]
 
@@ -535,7 +546,9 @@ Note that using the flapjack-config.yaml file you can have flapjack start the re
 
 One resque worker that processes both queues (but prioritises SMS above email) can be started as follows:
 
-    QUEUE=sms_notifications,email_notifications VERBOSE=1 be rake resque:work
+```
+QUEUE=sms_notifications,email_notifications VERBOSE=1 be rake resque:work
+```
 
 resque sets the command name so grep'ing ps output for `rake` or `ruby` will NOT find resque processes. Search instead for `resque`. (and remember the 'q').
 

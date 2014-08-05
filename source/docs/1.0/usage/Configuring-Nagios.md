@@ -27,7 +27,9 @@ All hosts and services (or templates that they use) will need to have process_pe
 
 Create the named pipe if it doesn't already exist:
 
-    mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
+```
+mkfifo -m 0666 /var/cache/nagios3/event_stream.fifo
+```
 
 Note that the templates used in the nagios configuration for service_perfdata_file_template and host_perfdata_file_template must be configured to be exactly as flapjack-nagios-receiver expects otherwise it will drop events that don't match the expected format. The current requirements for the data format that flapjack-nagios-receiver expects from the named pipe is as per the above nagios templates. The following checks are made of each line of textual data found in the pipe, and if any fail the line does not result in an event being created:
 
