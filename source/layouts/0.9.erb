@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-    <%= partial(:header, :locals => { :version => 0.9 }) %>
-
+    <%= partial "header" %>
+    <center>
+      <%= partial(:version_warning, :locals => { :version => "0.9" }) %>
+    </center>
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">

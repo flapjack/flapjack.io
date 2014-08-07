@@ -27,9 +27,9 @@ page "/docs/0.9/*", :layout => "0.9"
 page "/docs/1.0/*", :layout => "1.0"
 
 # Links in the menubar and front page load the default_version of Flapjack's docs.
-# The following two lines are the only places to update when you want to use a new default version.
-set :default_version, 0.9
-set :layout, "0.9"
+# The following line is the only place to update when you want to use a new default version.
+set :default_version, "0.9"
+set :layout, "main"
 
 # Build-specific configuration
 configure :build do

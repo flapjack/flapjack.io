@@ -1,0 +1,6 @@
+<% if version && default_version != version %>
+  <div class="alert alert-info" style="padding-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
+      <strong>This is documentation for Flapjack version <%= version %>:</strong>
+      If you're looking for version <%= default_version %> documentation, click <a class="alert-link" href="http://flapjack.io/docs/<%= default_version %>">here.</a>
+  </div>
+<% end %>
