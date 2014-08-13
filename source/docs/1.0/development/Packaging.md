@@ -11,6 +11,7 @@ Flapjack follows the version numbering conventions as set out in the [Semantic V
 > Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 
 For Flapjack 0.9.x, we provide a Precise package at:
+
 ```
 deb http://packages.flapjack.io/deb/ precise main
 ```
