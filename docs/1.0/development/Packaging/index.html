@@ -35,88 +35,44 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h1> Documentation </h1>
+        <h1 id="packaging-and-distribution-of-flapjack">Packaging and Distribution of Flapjack</h1>
+
+<p>Flapjack follows the version numbering conventions as set out in the <a href="http://semver.org/spec/v2.0.0.html">Semantic Versioning 2.0</a> specification. Specifically:</p>
+
+<blockquote>
+<p>Given a version number MAJOR.MINOR.PATCH, increment the:</p>
 
 <ul>
-<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
-<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
-<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
+<li>MAJOR version when you make incompatible API changes,</li>
+<li>MINOR version when you add functionality in a backwards-compatible manner, and</li>
+<li>PATCH version when you make backwards-compatible bug fixes.</li>
 </ul>
 
+<p>Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.</p>
+</blockquote>
 
-  <h4> Usage </h4>
+<p>For Flapjack 0.9.x, we provide a Precise package at:
+<code class="prettyprint">
+deb http://packages.flapjack.io/deb/ precise main
+</code></p>
 
-  <ul>
-    
-      
-      <li><a href=usage/Architecture>Architecture</a></li>
-    
-      
-      <li><a href=usage/Configuring-Nagios>Configuring nagios</a></li>
-    
-      
-      <li><a href=usage/GLOSSARY>Glossary</a></li>
-    
-      
-      <li><a href=usage/Howto-Dynamic-Entity-Contact-Linking>Howto dynamic entity contact linking</a></li>
-    
-      
-      <li><a href=usage/IMPORTING>Importing</a></li>
-    
-      
-      <li><a href=usage/Installation>Installation</a></li>
-    
-      
-      <li><a href=usage/Notification-Routing>Notification routing</a></li>
-    
-      
-      <li><a href=usage/Promoting>Promoting</a></li>
-    
-      
-      <li><a href=usage/faq>Faq</a></li>
-    
-      
-      <li><a href=usage/oobetet>Oobetet</a></li>
-    
-      
-      <li><a href=usage/quickstart>Quickstart</a></li>
-    
-  </ul>
+<p>For the Flapjack 1.x series, we provide <a href="http://packages.flapjack.io/deb/">Ubuntu packages</a> for Precise and Trusty.  These are split into the following categories:</p>
 
+<h2 id="precise">Precise</h2>
+<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/1.0 precise main
+</pre>
 
-  <h4> Development </h4>
+<h2 id="trusty">Trusty</h2>
+<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/1.0 trusty main
+</pre>
 
-  <ul>
-    
-      
-      <li><a href=development/DATA_STRUCTURES>Data structures</a></li>
-    
-      
-      <li><a href=development/DEBUGGING>Debugging</a></li>
-    
-      
-      <li><a href=development/DEVELOPING>Developing</a></li>
-    
-      
-      <li><a href=development/Future-Data-Structures>Future data structures</a></li>
-    
-      
-      <li><a href=development/Gathering-internal-statistics-with-collectd>Gathering internal statistics with collectd</a></li>
-    
-      
-      <li><a href=development/Improving-the-Flapjack-release-process>Improving the flapjack release process</a></li>
-    
-      
-      <li><a href=development/Packaging>Packaging</a></li>
-    
-      
-      <li><a href=development/Pre-made-docker-image-for-flapjack>Pre made docker image for flapjack</a></li>
-    
-      
-      <li><a href=development/Release-Planning>Release planning</a></li>
-    
-  </ul>
+<p>In future, packages from the Flapjack 2.x series will be available at:</p>
+<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/2.0 trusty main
+</pre>
 
+<p>An experimental component is used for pre-release builds.  This is for testing purposes, and we would not recommend running packages from experimental in production.</p>
+<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/flapjack_version distro_release experimental
+</pre>
 
       </div>
     </div>
