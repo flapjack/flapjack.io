@@ -17,13 +17,13 @@ To skip this tutorial and jump straight to the code, view the project on [GitHub
 - [Vagrant](http://vagrantup.com/) 1.2+
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads) 4.2+
   (or an alternative provider such as [VMware Fusion](http://www.vmware.com/au/products/fusion/)
-  and the [Vagrant plugin](http://www.vagrantup.com/vmware))
+  and the [Vagrant plugin](http://www.vagrantup.com/vmware)
 
 ### Setup
 
 Get the repo, and build your Vagrant box:
 
-```
+```bash
 git clone https://github.com/flapjack/vagrant-flapjack.git
 cd vagrant-flapjack
 vagrant up
@@ -31,7 +31,7 @@ vagrant up
 
 For an alternative provider to VirtualBox (e.g. VMware Fusion), you can specify the provider when running `vagrant up`:
 
-```
+```bash
 vagrant up --provider=vmware_fusion
 ```
 
@@ -40,101 +40,127 @@ vagrant up --provider=vmware_fusion
 Check out the <a class="alert-link" href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a> project on GitHub.
 </div>
 
-### Verify
+## Using Flapjack
 
-Visit [http://localhost:3080](http://localhost:3080) from your host workstation.
+Flapjack will now be visible at [http://localhost:3080](http://localhost:3080) from your host workstation.
 You should see the Flapjack Web UI:
 
 ![Screenshot of the Flapjack Web UI](/images/1.0/quickstart/web-ui.png)
 
-You should also find Icinga and Nagios UIs running at:
-
-
-<table class="table table-striped table-hover">
-  <tr>
-    <th>URL</th>
-    <th>Username</th>
-    <th>Password</th>
-  </tr>
-  <tr>
-    <td>
-      <a href="http://localhost:3083/nagios3">
-      http://localhost:3083/nagios3
-      </a>
-    </td>
-    <td>nagiosadmin</td>
-    <td>nagios</td>
-  </tr>
-  <tr>
-    <td>
-      <a href="http://localhost:3083/icinga">
-      http://localhost:3083/icinga
-      </a>
-    </td>
-    <td>icingaadmin</td>
-    <td>icinga</td>
-  </tr>
-</table>
-
-## Get comfortable with the Flapjack CLI
-
-SSH into the VM:
+To continue with this guide, SSH into the vagrant box:
 
 ``` bash
 vagrant ssh
 ```
 
-Have a look at the commands under `/opt/flapjack/bin`:
+You'll find the commands under `/opt/flapjack/bin`:
 
-```text
+```bash
 export PATH=$PATH:/opt/flapjack/bin
-# ...
 flapjack help
-# ...
 flapjack simulate help
-# ...
 ```
 
 <div class="alert alert-info">
 Details of these commands are available <a class="alert-link" href="USING#running">here</a>.
 </div>
 
-![CLI](/images/1.0/quickstart/term-flapjack-help.png)
+### The checks
 
-## Simulate a check failure
+Flapjack can receive notifications from a number of different systems.  When it does, the machine, otherwise known as the entity, and the check, are automatically created in flapjack.
 
-Run something like:
+For now, we'll create our own  using Flapjack's simulate command:
 
-``` bash
+```bash
+flapjack simulate fail \
+  --entity restaurant1 \
+  --check bacon \
+  --interval 1 \
+  --time 0.1
+flapjack simulate ok \
+  --entity restaurant1 \
+  --check eggs \
+  --interval 1 \
+  --time 0.1
 flapjack simulate fail_and_recover \
-  --entity foo-app-01.example.com \
-  --check Sausage \
-  --time 3
+  --entity restaurant2 \
+  --check pancakes \
+  --interval 1 \
+  --time 0.1
 ```
 
-This will send a stream of critical events for 3 minutes, and send one ok event at the end. If you want the last event to be a failure as well, use the `flapjack simulate fail` command instead of `flapjack simulate fail_and_recover`.
+The definition of these commands are as follows:
 
-### Verify
+```text
+flapjack simulate fail             - Generate a stream of failure events
+flapjack simulate fail_and_recover - Generate a stream of failure events, and one final recovery
+flapjack simulate ok               - Generate a stream of ok events
+```
 
-Reload the Flapjack Web UI and you should now be able to see the status of the check you're simulating, e.g. at:
+You can now see these under the [list of entities](http://localhost:3080/entities) and [list of checks](http://localhost:3080/checks).
 
-<pre>
-<a href="http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage">http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage</a>
-</pre>
+![Screenshot of the list of checks](/images/1.0/quickstart/check-list.png)
 
-## Integrate Flapjack with Nagios (and Icinga)
+#### Maintenance (including acknowledgements)
 
-Both Nagios and Icinga are configured already to append check output data to the following named pipe: `/var/cache/icinga/event_stream.fifo`.
+There are two types of maintenance - scheduled and unscheduled maintenance.  An acknowledgment counts as an unscheduled maintenance.
+
+All checks are created with a default period of scheduled maintenance, usually 100 years.  
+
+Click the 'End Now' button on the [Bacon check](http://localhost:3080/check?entity=restaurant1&check=bacon) to end this maintenance.
+
+#### Unscheduled downtime (acknowledgements)
+
+Our Bacon check is now critical, and sending out alerts.  To acknowledge this check, and silence the alerts, we add unscheduled maintenance for a period of time by filling out the [Acknowledge Alert](http://localhost:3080/check?entity=restaurant1&check=bacon) box.
+
+![Screenshot of adding unscheduled maintenance](/images/1.0/quickstart/add-unscheduled-maintenance.png)
+
+If you want to add more scheduled maintenance, fill out the 'Add Scheduled Maintenance' box further down the page.
+
+You can also add, list and remove maintenance by using the CLI tool `flapjack maintenance`:
+
+```bash
+flapjack maintenance show   - Show maintenance windows according to criteria (default: all ongoing maintenance)
+flapjack maintenance delete - Delete maintenance windows according to criteria (default: all ongoing maintenance)
+flapjack maintenance create - Create a maintenance window
+```
+
+### The people
+
+Contacts can be created using the 'edit contacts' button on the [contacts page](http://localhost:3080/contacts).
+
+![Screenshot of new user creation](/images/1.0/quickstart/add-new-user.png)
+
+To add media to contacts (such as an email address and a pager number), go to the [edit contacts page](http://localhost:3080/edit_contacts), mouseover the name, and click the 'media' button.
+
+![Screenshot of adding media to user](/images/1.0/quickstart/add-media-to-user.png)
+
+Contacts can also be added through the [API](http://flapjack.io/docs/1.0/jsonapi/#contacts)
+
+From here, we add entities the given contact should be alerted about.  To do this, go back to the [edit contacts page](http://localhost:3080/edit_contacts), mouseover the name, and click the 'entity' button.  Select the entities to add, and click 'Add Entities'.
+
+![Screenshot of adding entities to user](/images/1.0/quickstart/add-entities-to-user.png)
+
+The bottom of the [check page](http://localhost:3080/check?entity=restaurant1&check=bacon) lists which contacts will be notified of events.
+
+### The outputs
+
+How do I connect my gateways out?
+Can we have email generation?
+What's the relationship between contacts and gateways?
+How do you configure notifications to go to a jabber room, rather than a particular person?
+
+Instructions on export to influxdb
+
+### Getting real data into Flapjack
+
+Both Nagios and Icinga are configured already to append check output data to the following named pipe: `/var/cache/nagios3/event_stream.fifo`.
 
 `flapjack receiver nagios` takes check output data from Nagios and turns it into events that Flapjack understands:
 
 ![Flapjack's architecture](/images/1.0/quickstart/architecture.png)
 
-All that remains is to configure `flapjack receiver nagios` to read from this named pipe, configure its Redis connection, and start it up.
-
-- Edit the Flapjack config file at `/etc/flapjack/flapjack_config.yaml`
-- Find the `nagios-receiver` section under `production` and change the `fifo: ` to be `/var/cache/icinga/event_stream.fifo`
-- Start it up with:
+All that remains is to start the receiver up:
 
 ``` bash
 sudo /etc/init.d/flapjack receiver nagios start
@@ -142,147 +168,7 @@ sudo /etc/init.d/flapjack receiver nagios start
 
 More details on configuration are available [here](../USING#configuring-components).
 
-### Verify
-
-Reload the Flapjack web interface and you should now see the checks from Icinga and/or Nagios appearing there.
-
-![Checks](/images/1.0/quickstart/checks-from-nagios.png)
-
-## Create some contacts and Entities
-
-Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the [Flapjack API](../../jsonapi).
-
-The vagrant-flapjack project ships with [example json files](https://github.com/flapjack/vagrant-flapjack/tree/master/examples) that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json.
-
-### Create Contacts Ada and Charles
-
-We'll be using the [POST /contacts](../../jsonapi/#create-contacts) API call to create two contacts.
-
-Run the following from your workstation, cd'd into the vagrant-flapjack directory:
-
-```
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
-  -d @examples/contacts_ada_and_charles.json \
-  http://localhost:3081/contacts
-```
-
-Or alternatively, copy and paste the following. This does the same thing, but includes the json data inline.
-
-```
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "contacts": [
-      {
-        "id": "21",
-        "first_name": "Ada",
-        "last_name": "Lovelace",
-        "email": "ada@example.com",
-        "media": {
-          "sms": {
-            "address": "+61412345678",
-            "interval": "3600",
-            "rollup_threshold": "5"
-          },
-          "email": {
-            "address": "ada@example.com",
-            "interval": "7200",
-            "rollup_threshold": null
-          }
-        },
-        "tags": [
-          "legend",
-          "first computer programmer"
-        ]
-      },
-      {
-        "id": "22",
-        "first_name": "Charles",
-        "last_name": "Babbage",
-        "email": "charles@example.com",
-        "media": {
-          "sms": {
-            "address": "+61412345679",
-            "interval": "3600",
-            "rollup_threshold": "5"
-          },
-          "email": {
-            "address": "charles@example.com",
-            "interval": "7200",
-            "rollup_threshold": null
-          }
-        },
-        "tags": [
-          "legend",
-          "polymath"
-        ]
-      }
-    ]
-  }' \
- http://localhost:3081/contacts
-```
-
-Navigate to [Contacts](http://localhost:3080/contacts) in the Flapjack web UI and you should see Ada Lovelace and Charles Babbage listed:
-
-![Contacts - List](/images/1.0/quickstart/contacts-ada-and-charles.png)
-
-Selecting [Ada](http://localhost:3080/contacts/21) should give you something like:
-
-![Contact - Ada Lovelace](/images/1.0/quickstart/contact-ada.png)
-
-### Create entities foo-app-01 and foo-db-01 (.example.com)
-
-We'll be using the [POST /entities](../../jsonapi/#create-entities) API call to create two entities.
-
-We're going to assign both Ada and Charles to foo-app-01, and just Ada to foo-db-01.
-
-```
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" \
-  -d @examples/entities_my-app-01_and_my-db-01.json \
-  http://localhost:3081/entities
-```
-
-Or with json inline if you prefer:
-
-```
-curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" -d \
- '{
-    "entities": [
-      {
-        "id": "801",
-        "name": "my-app-01.example.com",
-        "contacts": [
-          "21",
-          "22"
-        ],
-        "tags": [
-          "my",
-          "app"
-        ]
-      },
-      {
-        "id": "802",
-        "name": "my-db-01.example.com",
-        "contacts": [
-          "21"
-        ],
-        "tags": [
-          "my",
-          "db"
-        ]
-      }
-
-    ]
-  }' \
- http://localhost:3081/entities
-```
-
-#### Verify
-
-Visit [my-app-01](http://localhost:3080/entity/my-app-01.example.com) in the web UI and you should see something like:
-
-![Entity - my-app-01.example.com](/images/1.0/quickstart/entity-my-app-01-no-checks.png)
-
-## Feedback?
+### Feedback?
 
 Found an error in the above? Please [submit a bug report](https://github.com/flapjack/flapjack/issues/new) and/or a pull request against the [gh-pages branch](https://github.com/flapjack/flapjack/tree/gh-pages) with the fix.
 
@@ -290,7 +176,7 @@ Something not clear? That's a bug too!
 
 Got questions? Suggestions? Talk to us via irc, mailing list, or twitter. See [Support](/support) for details.
 
-## Coming soon
+### Coming soon
 
 Stay tuned for more info on how to configure:
 
@@ -300,5 +186,6 @@ Stay tuned for more info on how to configure:
 
 In the mean time, check out:
 
- - [Documentation](../IMPORTING) on **how to import contacts and entities**
- - **[JSONAPI documentation](../../jsonapi)** for working with individual contacts and entities
+ - [Documentation](../IMPORTING) on how to import contacts and entities
+ - [JSONAPI documentation](../../jsonapi) for working with individual contacts and entities
+ - [Flapjack-diner](https://github.com/flapjack/flapjack-diner), the ruby interface to Flapjack
