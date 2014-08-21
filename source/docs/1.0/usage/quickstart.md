@@ -145,12 +145,16 @@ The bottom of the [check page](http://localhost:3080/check?entity=restaurant1&ch
 
 ### The outputs
 
-How do I connect my gateways out?
-Can we have email generation?
-What's the relationship between contacts and gateways?
-How do you configure notifications to go to a jabber room, rather than a particular person?
+To enable gateways, edit /etc/flapjack/flapjack_config.yaml and update the enabled flag for the given gateways:
 
-Instructions on export to influxdb
+```text
+gateways:
+  # Generates email notifications
+  email:
+    enabled: yes
+```
+
+Further configuration options are available in each of the gateway blocks.
 
 ### Getting real data into Flapjack
 
