@@ -172,12 +172,14 @@ flapjack maintenance create - Create a maintenance window
 
 <h3 id="the-outputs">The outputs</h3>
 
-<p>How do I connect my gateways out?
-Can we have email generation?
-What&rsquo;s the relationship between contacts and gateways?
-How do you configure notifications to go to a jabber room, rather than a particular person?</p>
+<p>To enable gateways, edit /etc/flapjack/flapjack_config.yaml and update the enabled flag for the given gateways:</p>
+<pre class="highlight plaintext">gateways:
+  # Generates email notifications
+  email:
+    enabled: yes
+</pre>
 
-<p>Instructions on export to influxdb</p>
+<p>Further configuration options are available in each of the gateway blocks.</p>
 
 <h3 id="getting-real-data-into-flapjack">Getting real data into Flapjack</h3>
 
