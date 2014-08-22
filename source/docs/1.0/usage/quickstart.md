@@ -154,12 +154,6 @@ Further configuration options are available in each of the gateway blocks.
 
 ### Getting real data into Flapjack
 
-```text
-# modified lines:
-enable_notifications=0
-broker_module=/usr/local/lib/flapjackfeeder.o redis_host=localhost,redis_port=6380
-```
-
 Both Nagios and Icinga are configured already to send data to Flapjack's broker module, which sends it to redis, in place of the earlier Flapjack Nagios receiver.
 
 ![Flapjack's architecture](/images/1.0/quickstart/architecture.png)
