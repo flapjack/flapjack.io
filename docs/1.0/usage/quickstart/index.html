@@ -90,10 +90,6 @@ flapjack <span class="nb">help
 </span>flapjack simulate <span class="nb">help</span>
 </pre>
 
-<div class="alert alert-info">
-Details of these commands are available <a class="alert-link" href="USING#running">here</a>.
-</div>
-
 <h3 id="the-checks">The checks</h3>
 
 <p>Flapjack can receive notifications from a number of different systems.  When it does, the machine, otherwise known as the entity, and the check, are automatically created in flapjack.</p>
@@ -178,22 +174,20 @@ flapjack maintenance create - Create a maintenance window
 <p>Further configuration options are available in each of the gateway blocks.</p>
 
 <h3 id="getting-real-data-into-flapjack">Getting real data into Flapjack</h3>
+<pre class="highlight plaintext"># modified lines:
+enable_notifications=0
+broker_module=/usr/local/lib/flapjackfeeder.o redis_host=localhost,redis_port=6380
+</pre>
 
-<p>Both Nagios and Icinga are configured already to append check output data to the following named pipe: <code class="prettyprint">/var/cache/nagios3/event_stream.fifo</code>.</p>
-
-<p><code class="prettyprint">flapjack receiver nagios</code> takes check output data from Nagios and turns it into events that Flapjack understands:</p>
+<p>Both Nagios and Icinga are configured already to send data to Flapjack&rsquo;s broker module, which sends it to redis, in place of the earlier Flapjack Nagios receiver.</p>
 
 <p><img alt="Flapjack's architecture" src="../../../../images/1.0/quickstart/architecture.png" /></p>
 
-<p>All that remains is to start the receiver up:</p>
-<pre class="highlight shell">sudo /etc/init.d/flapjack receiver nagios start
-</pre>
-
-<p>More details on configuration are available <a href="../USING#configuring-components">here</a>.</p>
+<p>More details on configuration are available <a href="../Configuring-Nagios">here</a>.</p>
 
 <h3 id="feedback?">Feedback?</h3>
 
-<p>Found an error in the above? Please <a href="https://github.com/flapjack/flapjack/issues/new">submit a bug report</a> and/or a pull request against the <a href="https://github.com/flapjack/flapjack/tree/gh-pages">gh-pages branch</a> with the fix.</p>
+<p>Found an error in the above? Please <a href="https://github.com/flapjack/flapjack/issues/new">submit a bug report</a> and/or a pull request against the <a href="https://github.com/flapjack/flapjack.io">flapjack.io repository</a> with the fix.</p>
 
 <p>Something not clear? That&rsquo;s a bug too!</p>
 

@@ -41,6 +41,22 @@
 
 <p>We are developing and running against Nagios version 3.2.3 with success.</p>
 
+<p>There are two ways to configure nagios.</p>
+
+<h2 id="flapjack&#39;s-broker-module">Flapjack&rsquo;s broker module</h2>
+
+<p>The first (and recommended) way is to enable the flapjackfeeder.o broker module.</p>
+
+<p><code class="prettyprint">nagios.cfg</code> config file changes:</p>
+<pre class="highlight plaintext"># modified lines:
+enable_notifications=0
+broker_module=/usr/local/lib/flapjackfeeder.o redis_host=localhost,redis_port=6380
+</pre>
+
+<h2 id="flapjack&#39;s-receiver-command">Flapjack&rsquo;s receiver command</h2>
+
+<p>Note: We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.  For this reason, the nagios event broker module above was created, and is now the recommended configuration.</p>
+
 <p><code class="prettyprint">nagios.cfg</code> config file changes:</p>
 <pre class="highlight plaintext"># modified lines:
 enable_notifications=0
@@ -68,12 +84,6 @@ service_perfdata_file_mode=p
 - the first word (object type) must contain either <code class="prettyprint">[HOSTPERFDATA]</code> or <code class="prettyprint">[SERVICEPERFDATA]</code>.</p>
 
 <p>Currently any error messages about lines that are unable to be read are written to STDOUT.</p>
-
-<h2 id="limitations-with-the-flapjack-receiver-nagios-approach">Limitations with the flapjack receiver nagios approach</h2>
-
-<p>We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.</p>
-
-<p>For this reason, a nagios event broker module - <a href="https://github.com/flapjack/flapjackfeeder">flapjackfeeder</a> - is being developed to offer an alternative to flapjack receiver nagios for high check throughput environments, or potentially a full replacement.</p>
 
       </div>
     </div>
