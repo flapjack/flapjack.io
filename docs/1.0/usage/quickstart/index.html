@@ -174,10 +174,6 @@ flapjack maintenance create - Create a maintenance window
 <p>Further configuration options are available in each of the gateway blocks.</p>
 
 <h3 id="getting-real-data-into-flapjack">Getting real data into Flapjack</h3>
-<pre class="highlight plaintext"># modified lines:
-enable_notifications=0
-broker_module=/usr/local/lib/flapjackfeeder.o redis_host=localhost,redis_port=6380
-</pre>
 
 <p>Both Nagios and Icinga are configured already to send data to Flapjack&rsquo;s broker module, which sends it to redis, in place of the earlier Flapjack Nagios receiver.</p>
 
