@@ -8,6 +8,24 @@ This has been fixed in Nagios 3.4.2.  Nagios 4.x *may* also work, however this i
 
 We are developing and running against Nagios version 3.2.3 with success.
 
+There are two ways to configure nagios.
+
+## Flapjack's broker module
+
+The first (and recommended) way is to enable the flapjackfeeder.o broker module.
+
+`nagios.cfg` config file changes:
+
+```text
+# modified lines:
+enable_notifications=0
+broker_module=/usr/local/lib/flapjackfeeder.o redis_host=localhost,redis_port=6380
+```
+
+## Flapjack's receiver command
+
+Note: We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.  For this reason, the nagios event broker module above was created, and is now the recommended configuration.
+
 `nagios.cfg` config file changes:
 
 ```text
@@ -39,9 +57,3 @@ The line must:
 - the first word (object type) must contain either `[HOSTPERFDATA]` or `[SERVICEPERFDATA]`.
 
 Currently any error messages about lines that are unable to be read are written to STDOUT.
-
-## Limitations with the flapjack receiver nagios approach
-
-We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.
-
-For this reason, a nagios event broker module - [flapjackfeeder](https://github.com/flapjack/flapjackfeeder) - is being developed to offer an alternative to flapjack receiver nagios for high check throughput environments, or potentially a full replacement.

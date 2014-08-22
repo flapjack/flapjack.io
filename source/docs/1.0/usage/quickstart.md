@@ -61,10 +61,6 @@ flapjack help
 flapjack simulate help
 ```
 
-<div class="alert alert-info">
-Details of these commands are available <a class="alert-link" href="USING#running">here</a>.
-</div>
-
 ### The checks
 
 Flapjack can receive notifications from a number of different systems.  When it does, the machine, otherwise known as the entity, and the check, are automatically created in flapjack.
@@ -158,23 +154,21 @@ Further configuration options are available in each of the gateway blocks.
 
 ### Getting real data into Flapjack
 
-Both Nagios and Icinga are configured already to append check output data to the following named pipe: `/var/cache/nagios3/event_stream.fifo`.
+```text
+# modified lines:
+enable_notifications=0
+broker_module=/usr/local/lib/flapjackfeeder.o redis_host=localhost,redis_port=6380
+```
 
-`flapjack receiver nagios` takes check output data from Nagios and turns it into events that Flapjack understands:
+Both Nagios and Icinga are configured already to send data to Flapjack's broker module, which sends it to redis, in place of the earlier Flapjack Nagios receiver.
 
 ![Flapjack's architecture](/images/1.0/quickstart/architecture.png)
 
-All that remains is to start the receiver up:
-
-``` bash
-sudo /etc/init.d/flapjack receiver nagios start
-```
-
-More details on configuration are available [here](../USING#configuring-components).
+More details on configuration are available [here](../Configuring-Nagios).
 
 ### Feedback?
 
-Found an error in the above? Please [submit a bug report](https://github.com/flapjack/flapjack/issues/new) and/or a pull request against the [gh-pages branch](https://github.com/flapjack/flapjack/tree/gh-pages) with the fix.
+Found an error in the above? Please [submit a bug report](https://github.com/flapjack/flapjack/issues/new) and/or a pull request against the [flapjack.io repository](https://github.com/flapjack/flapjack.io) with the fix.
 
 Something not clear? That's a bug too!
 
