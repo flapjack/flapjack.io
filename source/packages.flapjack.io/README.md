@@ -31,10 +31,7 @@ aws configure --profile default
 From within the root directory of the flapjack.io repo run:
 
 ```bash
-bundle exec middleman build
-sed -i .bak s#href=\"/#href=\"http://flapjack.io/# build/packages.flapjack.io/index.html
-sed -i .bak s#src=\"/#src=\"http://flapjack.io/# build/packages.flapjack.io/index.html
-aws s3 cp --region us-east-1 --acl public-read build/packages.flapjack.io/index.html s3://packages.flapjack.io/
+bin/publish-packages-flapjack-io
 ```
 
 ## Adding or revoking other AWS users' permissions
