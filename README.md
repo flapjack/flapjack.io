@@ -18,8 +18,11 @@ View your changes at [http://localhost:4567/](http://localhost:4567/).
 When you want to push updated documentation to [flapjack.io](http://flapjack.io/), run:
 
 ``` bash
+# stop the middleman server if it's running and then:
+
 git commit
 git push
+rm -rf build
 bundle exec rake publish
 ```
 
