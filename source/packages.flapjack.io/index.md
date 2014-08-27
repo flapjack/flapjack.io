@@ -9,7 +9,7 @@ Packages for the 0.9.x and 1.0.x series are currently available for Ubuntu.
 Add the [deb repo](http://packages.flapjack.io/deb) to your apt sources:
 
 ```
-deb http://packages.flapjack.io/deb precise main
+echo "deb http://packages.flapjack.io/deb precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
 
 ### 1.0
@@ -18,13 +18,13 @@ For the Flapjack 1.x series, we provide [Ubuntu packages](http://packages.flapja
 #### Precise
 
 ```
-deb http://packages.flapjack.io/deb/1.0 precise main
+echo "deb http://packages.flapjack.io/deb/1.0 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
 
 #### Trusty
 
 ```
-deb http://packages.flapjack.io/deb/1.0 trusty main
+echo "deb http://packages.flapjack.io/deb/1.0 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
 
 ## Installation
@@ -42,5 +42,5 @@ sudo apt-get update && sudo apt-get install flapjack
 An experimental component is used for pre-release builds.  This is for testing purposes, and we would not recommend running packages from experimental in production.
 
 ```
-deb http://packages.flapjack.io/deb/flapjack_version distro_release experimental
+echo "deb http://packages.flapjack.io/deb/1.0 distro_release experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
