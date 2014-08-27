@@ -1,4 +1,6 @@
-This is the entire site and documentation for flapjack.io.
+This is the entire site and documentation for [flapjack.io](http://flapjack.io) and [packages.flapjack.io](http://packages.flapjack.io)
+
+# flapjack.io
 
 ## Building
 
@@ -38,3 +40,8 @@ To update all the links, update the following variables:
 set :default_version, 1.0
 set :layout, "1.0"
 ```
+
+# packages.flapjack.io
+
+Refer the [README](https://github.com/flapjack/flapjack.io/blob/master/source/packages.flapjack.io/README.md) under [source/packages.flapjack.io](https://github.com/flapjack/flapjack.io/blob/master/source/packages.flapjack.io/)
+
