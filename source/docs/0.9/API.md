@@ -149,6 +149,7 @@ data is expressed as encoded form parameters, or serialized as JSON, etc.
 Returns all the contacts
 
 **Example**
+
 ```bash
 curl http://localhost:3081/contacts
 ```
@@ -184,6 +185,7 @@ curl http://localhost:3081/contacts
 Returns the core information of a specified contact.
 
 **Example**
+
 ```bash
 curl http://localhost:3081/contacts/21
 ```
@@ -745,6 +747,7 @@ curl -w 'response: %{http_code} \n' -X PUT -H "Content-type: application/json" -
 ```
 
 **Response** Status: 200 OK
+
 ```json
 {
   "timezone": "Australia/Broken_Hill"
@@ -1016,6 +1019,7 @@ Gets the tags for an entity.
 curl http://localhost:3081/entities/foo-app-01.example.com/tags
 ```
 **Response** Status: 200 OK
+
 ```json
 ["web", "app"]
 ```
@@ -1035,11 +1039,13 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/json" 
  http://localhost:3081/entities/foo-app-01.example.com/tags
  ```
 **Example 2 - URL params**
+
 ```bash
 curl -w 'response: %{http_code} \n' -X POST \
  'http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&tag[]=app'
 ```
 **Response** Status: 200 OK
+
 ```json
 ["web", "app"]
 ```
