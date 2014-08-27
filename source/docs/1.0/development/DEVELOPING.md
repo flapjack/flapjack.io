@@ -1,5 +1,4 @@
-Developing Flapjack
--------------------
+## Developing
 
 Clone the repository:
 

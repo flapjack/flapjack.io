@@ -1,4 +1,6 @@
-Here is an example configuration file: 
+## Gathering internal statistics with collectd
+
+Here is an example collectd configuration file:
 
 ```
 LoadPlugin "curl_json"

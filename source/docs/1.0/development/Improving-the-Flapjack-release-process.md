@@ -1,3 +1,5 @@
+## Improving the Flapjack release process
+
 **These are notes from a brainstorming session done in July 2013 on how to improve the build engineering + release management of Flapjack.**
 
 ## How is Flapjack currently distributed?
@@ -58,7 +60,7 @@
 1. We want to create a great user experience for people running Flapjack the first time
   * People should be able to run Flapjack without any config
   * This would populate some default contacts, "standard reference data"
-1. Build Flapjack [packages with Omnibus](https://github.com/flapjack/omnibus-flapjack) for Debian, RedHat, Arch 
+1. Build Flapjack [packages with Omnibus](https://github.com/flapjack/omnibus-flapjack) for Debian, RedHat, Arch
   * Omnibus lowers the barrier of entry, because users don't need to worry about all the dependencies
 1. Publish packages in a public repository
   * Do we use a Launchpad PPA?

@@ -1,3 +1,5 @@
+## Release Planning
+
 Flapjack follows the version numbering conventions as set out in the [Semantic Versioning 2.0](http://semver.org/spec/v2.0.0.html) specification. Specifically:
 
 > Given a version number MAJOR.MINOR.PATCH, increment the:

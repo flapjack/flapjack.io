@@ -1,3 +1,5 @@
+## Debugging
+
 Here are some useful ways of debugging various things in Flapjack.
 
 ### Redis Connection Leaks ###
