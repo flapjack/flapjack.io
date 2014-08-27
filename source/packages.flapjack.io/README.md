@@ -28,7 +28,7 @@ aws configure --profile default
 
 ## Push to S3:
 
-From the root of the packages.flapjack.io repository, run:
+From within the root directory of the flapjack.io repo run:
 
 ```bash
 bundle exec middleman build

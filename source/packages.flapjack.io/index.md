@@ -13,8 +13,6 @@ echo "deb http://packages.flapjack.io/deb precise main" | sudo tee /etc/apt/sour
 ```
 
 ### 1.0
-For the Flapjack 1.x series, we provide [Ubuntu packages](http://packages.flapjack.io/deb/1.0) for Precise and Trusty.  These are split into the following categories:
-
 #### Precise
 
 ```
