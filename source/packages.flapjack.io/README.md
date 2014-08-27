@@ -31,6 +31,9 @@ aws configure --profile default
 From the root of the packages.flapjack.io repository, run:
 
 ```bash
+bundle exec middleman build
+sed -i .bak s#href=\"/#href=\"http://flapjack.io/# build/packages.flapjack.io/index.html
+sed -i .bak s#src=\"/#src=\"http://flapjack.io/# build/packages.flapjack.io/index.html
 aws s3 cp --region us-east-1 --acl public-read build/packages.flapjack.io/index.html s3://packages.flapjack.io/
 ```
 
