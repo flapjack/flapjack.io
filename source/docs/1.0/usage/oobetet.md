@@ -1,3 +1,5 @@
+## Oobetet
+
 "Out Of Band, End To End Test" (oobetet) is a self-check mechanism that verifies the stream of events from the upstream event producers is current, and that Flapjack is able to emit alerts in a timely fashion to a Jabber multi user chat room.
 
 The oobetet verifies this currency of the event stream by sitting in a Jabber multi user chat room and watching for problem and recovery notifications for a specific check.
@@ -6,7 +8,7 @@ If the oobetet does not observe state changes within a certain timeframe, it fir
 
 This helps you identify when your upstream event producers have gotten stuck, e.g. Nagios has hung, the node has gone away, etc.
 
-## How it works
+### How it works
 
 Oobetet works like this:
 
@@ -59,7 +61,7 @@ You start it like this:
 flapjack flapper start
 ```
 
-## Stringing it all together
+### Stringing it all together
 
 With the above configuration:
 

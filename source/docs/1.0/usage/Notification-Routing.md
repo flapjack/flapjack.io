@@ -1,3 +1,5 @@
+## Notification routing
+
 This is how events are turned into notifications, and how notifications are routed to contacts:
 
 ![notification routing](/images/notification-routing.gif)

@@ -1,3 +1,5 @@
+## Promoting
+
 ### Live demo website:
 * Integrate with Jabber (GTalk?)
 * Send emails
@@ -14,7 +16,7 @@
 
 ### Draft comparison matrix
 
-| Feature                              | Flapjack       | Nagios         | 
+| Feature                              | Flapjack       | Nagios         |
 |--------------------------------------|----------------|----------------|
 | Talk to jabber                       | y              | y (via plugin) |
 | Talk to PagerDuty                    | y              | y (via plugin) |

@@ -1,3 +1,4 @@
+## Glossary
 
 As implemented for the reporting API functions, these are placeholder terms only and open for discussion.
 
