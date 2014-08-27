@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ ! -d "source" ] ; then
+  echo "You must be in the root directory of the flapjack.io repository to run this."
+  exit 1
+else
+  bundle exec middleman build
+  sed -i .bak s#href=\"/#href=\"http://flapjack.io/# build/packages.flapjack.io/index.html
+  sed -i .bak s#src=\"/#src=\"http://flapjack.io/# build/packages.flapjack.io/index.html
+  aws s3 cp --region us-east-1 --acl public-read build/packages.flapjack.io/index.html s3://packages.flapjack.io/
+fi
+
