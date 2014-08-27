@@ -193,10 +193,9 @@ data is expressed as encoded form parameters, or serialized as JSON, etc.</p>
 
 <p>Returns all the contacts</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/contacts
-</code></p>
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/contacts
+</pre>
 <pre class="highlight json"><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21"</span><span class="p">,</span><span class="w">
@@ -226,10 +225,9 @@ curl http://localhost:3081/contacts
 
 <p>Returns the core information of a specified contact.</p>
 
-<p><strong>Example</strong>
-<code class="prettyprint">bash
-curl http://localhost:3081/contacts/21
-</code></p>
+<p><strong>Example</strong></p>
+<pre class="highlight shell">curl http://localhost:3081/contacts/21
+</pre>
 <pre class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ada"</span><span class="p">,</span><span class="w">
@@ -767,12 +765,11 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
  http://localhost:3081/contacts/21/timezone
 </pre>
 
-<p><strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-{
-  &quot;timezone&quot;: &quot;Australia/Broken_Hill&quot;
-}
-</code></p>
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"timezone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Australia/Broken_Hill"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre>
 
 <p><strong>Notes:</strong></p>
 
@@ -1019,10 +1016,9 @@ TAG           (string) - a tag
 <pre class="highlight shell">curl http://localhost:3081/entities/foo-app-01.example.com/tags
 </pre>
 
-<p><strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[&quot;web&quot;, &quot;app&quot;]
-</code></p>
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="s2">"web"</span><span class="p">,</span><span class="w"> </span><span class="s2">"app"</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p><a name="post_entities_id_tags">&nbsp;</a></p>
 
@@ -1038,15 +1034,14 @@ TAG           (string) - a tag
  http://localhost:3081/entities/foo-app-01.example.com/tags
 </pre>
 
-<p><strong>Example 2 - URL params</strong>
-<code class="prettyprint">bash
-curl -w &#39;response: %{http_code} \n&#39; -X POST \
- &#39;http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&amp;tag[]=app&#39;
-</code>
-<strong>Response</strong> Status: 200 OK
-<code class="prettyprint">json
-[&quot;web&quot;, &quot;app&quot;]
-</code></p>
+<p><strong>Example 2 - URL params</strong></p>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class="se">\</span>
+ <span class="s1">'http://localhost:3081/entities/foo-app-01.example.com/tags?tag[]=web&amp;tag[]=app'</span>
+</pre>
+
+<p><strong>Response</strong> Status: 200 OK</p>
+<pre class="highlight json"><span class="p">[</span><span class="s2">"web"</span><span class="p">,</span><span class="w"> </span><span class="s2">"app"</span><span class="p">]</span><span class="w">
+</span></pre>
 
 <p>Add tags to an entity.</p>
 
