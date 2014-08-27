@@ -1,4 +1,4 @@
-# ![Flapjack](http:////flapjack.io/images/flapjack-2013-notext-transparent-50-50.png "Flapjack") packages.flapjack.io
+# ![Flapjack](http://flapjack.io/images/flapjack-2013-notext-transparent-50-50.png "Flapjack") packages.flapjack.io
 
 The [Flapjack package repositories](http://packages.flapjack.io/) web page and maintenance info.
 
