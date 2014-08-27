@@ -29,11 +29,45 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h1 id="flapjack-documentation">Flapjack Documentation</h1>
+        <h1 id="flapjack-packages">Flapjack Packages</h1>
 
-<h3 id="0.9"><a href="0.9">0.9</a></h3>
+<p>Packages for the 0.9.x and 1.0.x series are currently available for Ubuntu.</p>
 
-<h3 id="1.0"><a href="1.0">1.0</a></h3>
+<h2 id="add-repository">Add Repository</h2>
+
+<h3 id="0.9">0.9</h3>
+
+<h4 id="precise">Precise</h4>
+
+<p>Add the <a href="http://packages.flapjack.io/deb">deb repo</a> to your apt sources:</p>
+<pre class="highlight plaintext">deb http://packages.flapjack.io/deb precise main
+</pre>
+
+<h3 id="1.0">1.0</h3>
+
+<p>For the Flapjack 1.x series, we provide <a href="http://packages.flapjack.io/deb/1.0">Ubuntu packages</a> for Precise and Trusty.  These are split into the following categories:</p>
+
+<h4 id="precise">Precise</h4>
+<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/1.0 precise main
+</pre>
+
+<h4 id="trusty">Trusty</h4>
+<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/1.0 trusty main
+</pre>
+
+<h2 id="installation">Installation</h2>
+
+<p>After adding the relevant entry to your apt sources list, run:</p>
+<pre class="highlight plaintext">gpg --keyserver keys.gnupg.net --recv-keys 803709B6
+gpg -a --export 803709B6 | sudo apt-key add -
+sudo apt-get update &amp;&amp; sudo apt-get install flapjack
+</pre>
+
+<h2 id="experimental-releases">Experimental releases</h2>
+
+<p>An experimental component is used for pre-release builds.  This is for testing purposes, and we would not recommend running packages from experimental in production.</p>
+<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/flapjack_version distro_release experimental
+</pre>
 
       </div>
     </div>

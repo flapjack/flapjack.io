@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+        <li><a href="/docs">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h1 id="-packages.flapjack.io"><img title="Flapjack" alt="Flapjack" src="http:////flapjack.io/images/flapjack-2013-notext-transparent-50-50.png" /> packages.flapjack.io</h1>
+
+<p>The <a href="http://packages.flapjack.io/">Flapjack package repositories</a> web page and maintenance info.</p>
+
+<p>Packages are created with <a href="http://github.com/flapjack/omnibus-flapjack">Omnibus</a>,
+and pushed to S3 as part of that project.</p>
+
+<h1 id="making-changes">Making changes</h1>
+
+<p>Make changes to the web content on packages.flapjack.io in this directory and push changes to github.</p>
+
+<p>Note that package repositories are now maintained by <a href="http://github.com/flapjack/omnibus-flapjack">omnibus-flapjack</a> using <a href="http://www.aptly.info">aptly</a>.</p>
+
+<h1 id="publishing-to-packages.flapjack.io">Publishing to packages.flapjack.io</h1>
+
+<h2 id="install-awscli:">Install awscli:</h2>
+
+<ul>
+<li>OS X: <code class="prettyprint">brew install awscli</code></li>
+<li>Debian/Ubuntu: <code class="prettyprint">sudo apt-get update &amp;&amp; sudo apt-get install python-pip groff &amp;&amp; sudo pip install awscli</code></li>
+</ul>
+
+<p>Configure awscli if you haven&rsquo;t already:</p>
+<pre class="highlight shell">aws configure --profile default
+</pre>
+
+<p>(or use a separate profile for this repo)</p>
+
+<h2 id="push-to-s3:">Push to S3:</h2>
+
+<p>From the root of the packages.flapjack.io repository, run:</p>
+<pre class="highlight shell">aws s3 cp --region us-east-1 --acl public-read build/packages.flapjack.io/index.html s3://packages.flapjack.io/
+</pre>
+
+<h2 id="adding-or-revoking-other-aws-users&#39;-permissions">Adding or revoking other AWS users&#39; permissions</h2>
+
+<p>There is a select group of people who can push packages to the official repositories at <a href="http://packages.flapjack.io">packages.flapjack.io</a>, which is hosted on S3.</p>
+
+<p>To view who has access:</p>
+<pre class="highlight plaintext">aws s3api get-bucket-acl --bucket packages.flapjack.io
+</pre>
+
+<p>To grant another AWS user to have write access to the packages.flapjack.io S3 bucket:</p>
+
+<div class="alert alert-info">
+Warning: this replaces all existing ACLs - you can find the existing IDs of the existing users using the view command above.
+</div>
+<pre class="highlight plaintext">aws s3api put-bucket-acl --bucket  packages.flapjack.io --grant-full-control 'id="EXISTINGID1",id="EXISTINGID2",...,emailaddress="YOUREMAILHERE"' --grant-read 'uri="http://acs.amazonaws.com/groups/global/AllUsers"'
+</pre>
+
+<p>To revoke access you need to run the above grant command, but without the ID of the person you wish to remove.</p>
+
+<p>Currently the following people have access to the bucket:</p>
+
+<ul>
+<li><a href="https://github.com/jessereynolds">Jesse Reynolds</a></li>
+<li><a href="https://github.com/auxesis">Lindsay Holmwood</a></li>
+<li><a href="https://github.com/hobbsee">Sarah Kowalik</a></li>
+</ul>
+
+<h1 id="how-is-the-hosting-configured?">How is the hosting configured?</h1>
+
+<p>We&rsquo;re using DNSimple for the flapjack.io domain name hosting, Amazon Route 53 for domain name hosting of packages.flapjack.io, and Amazon S3 to host the files and directories.</p>
+
+<p>Here are the nameservers <code class="prettyprint">flapjack.io</code> is delegated to:</p>
+<pre class="highlight plaintext">flapjack.io name server ns4.dnsimple.com.
+flapjack.io name server ns2.dnsimple.com.
+flapjack.io name server ns3.dnsimple.com.
+flapjack.io name server ns1.dnsimple.com.
+</pre>
+
+<p>Here are the nameservers <code class="prettyprint">packages.flapjack.io</code> is delegated to:</p>
+<pre class="highlight plaintext">packages.flapjack.io name server ns-1478.awsdns-56.org.
+packages.flapjack.io name server ns-1565.awsdns-03.co.uk.
+packages.flapjack.io name server ns-782.awsdns-33.net.
+packages.flapjack.io name server ns-206.awsdns-25.com.
+</pre>
+
+<p>Route 53 has the following records for the <code class="prettyprint">packages.flapjack.io</code> domain:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th style="text-align: center">Type</th>
+<th>Value</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>packages.flapjack.io</td>
+<td style="text-align: center">A</td>
+<td>ALIAS d3tuf7yoix2erv.cloudfront.net.</td>
+</tr>
+<tr>
+<td>packages.flapjack.io</td>
+<td style="text-align: center">NS</td>
+<td>(aws nameservers as listed above)</td>
+</tr>
+<tr>
+<td>packages.flapjack.io</td>
+<td style="text-align: center">SOA</td>
+<td>(usual stuff)</td>
+</tr>
+</tbody></table>
+
+<p>The S3 bucket name is <code class="prettyprint">packages.flapjack.io</code> and the endpoint is <a href="http://packages.flapjack.io.s3-website-us-east-1.amazonaws.com">packages.flapjack.io.s3-website-us-east-1.amazonaws.com</a>.</p>
+
+<p>Logging is configured to write to the bucked logs.packages.flapjack.io under <code class="prettyprint">root/</code></p>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>
