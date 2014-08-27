@@ -31,7 +31,9 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <p>NB: This is implemented using <a href="https://github.com/ali-graham/sandstorm">Sandstorm</a>. Everything below is subject to confirmation, pending review.</p>
+        <h2 id="future-data-structures">Future Data Structures</h2>
+
+<p>NB: This is implemented using <a href="https://github.com/ali-graham/sandstorm">Sandstorm</a>. Everything below is subject to confirmation, pending review.</p>
 
 <p>The following documentation just lists the data fields at the moment.</p>
 
@@ -44,234 +46,236 @@
 </ul>
 
 <h3 id="data-type-definitions">Data type definitions</h3>
-
-<p>HASH, SET, ZSET &ndash; corresponding Redis types
-    BOOLEAN &ndash; string, either &lsquo;true&rsquo; or &lsquo;false&rsquo;
-    TIMESTAMP &ndash; string, number of seconds since the Unix epoch
-    ID &ndash; string representing a RedisRecord id
-    STRING
-    INTEGER</p>
+<pre class="highlight plaintext">HASH, SET, ZSET    corresponding Redis types
+BOOLEAN            string, either 'true' or 'false'
+TIMESTAMP          string, number of seconds since the Unix epoch
+ID                 string representing a RedisRecord id
+STRING
+INTEGER
+</pre>
 
 <h3 id="entities">Entities</h3>
+<pre class="highlight plaintext"># global
+entity::ids                -&gt; SET of IDs
+entity::by_name            -&gt; HASH of STRING -&gt; ID
+entity::by_enabled:ENABLED -&gt; two SETs of IDs, as enabled is a BOOLEAN
+</pre>
 
-<p># global
-    entity::ids                -&gt; SET of IDs
-    entity::by_name            -&gt; HASH of STRING -&gt; ID
-    entity::by_enabled:ENABLED -&gt; two SETs of IDs, as enabled is a BOOLEAN</p>
-
-<p># single record
-    entity:ID:attrs                -&gt; HASH
-      {name,                         -&gt; STRING
-       enabled}                      -&gt; BOOLEAN
-    entity:ID:attrs:tags           -&gt; SET of STRINGs
-    entity:ID:attrs:contacts_ids   -&gt; SET of IDs of Contact records
-    entity:ID:attrs:checks_ids     -&gt; SET of IDs of Check records</p>
+<h1 id="single-record">single record</h1>
+<pre class="highlight plaintext">entity:ID:attrs                -&gt; HASH
+  {name,                         -&gt; STRING
+   enabled}                      -&gt; BOOLEAN
+entity:ID:attrs:tags           -&gt; SET of STRINGs
+entity:ID:attrs:contacts_ids   -&gt; SET of IDs of Contact records
+entity:ID:attrs:checks_ids     -&gt; SET of IDs of Check records
+</pre>
 
 <h3 id="checks">Checks</h3>
+<pre class="highlight plaintext"># global
+check::ids                         -&gt; SET of IDs
+check::by_entity_name:ENTITY_NAME  -&gt; multiple SETs of IDs
+check::by_name:NAME                -&gt; multiple SETs of IDs
+check::by_enabled:ENABLED          -&gt; two SETs of IDs, as enabled is a BOOLEAN
+check::by_state:STATE              -&gt; four SETs of IDs (valid values for 'state')
 
-<p># global
-    check::ids                         -&gt; SET of IDs
-    check::by_entity_name:ENTITY_NAME  -&gt; multiple SETs of IDs
-    check::by_name:NAME                -&gt; multiple SETs of IDs
-    check::by_enabled:ENABLED          -&gt; two SETs of IDs, as enabled is a BOOLEAN
-    check::by_state:STATE              -&gt; four SETs of IDs (valid values for &lsquo;state&rsquo;)</p>
+# single record
+check:ID:attrs                                 -&gt; HASH
+  {entity_name,                                  -&gt; STRING
+   name,                                         -&gt; STRING
+   state,                                        -&gt; STRING
+   summary,                                      -&gt; STRING
+   details,                                      -&gt; STRING
+   last_update,                                  -&gt; TIMESTAMP
+   last_problem_alert,                           -&gt; TIMESTAMP
+   enabled}                                      -&gt; BOOLEAN
+check:ID:contacts_ids                          -&gt; SET
+check:ID:states_ids                            -&gt; ZSET of CheckState ids, timestamp key
+check:ID:scheduled_maintenances_by_start_ids   -&gt; ZSET of ScheduledMaintenance ids, start_time key
+check:ID:scheduled_maintenances_by_end_ids     -&gt; ZSET of ScheduledMaintenance ids, end_time key
+check:ID:unscheduled_maintenances_by_start_ids -&gt; ZSET of UnscheduledMaintenance ids, start_time key
+check:ID:unscheduled_maintenances_by_end_ids   -&gt; ZSET of UnscheduledMaintenance ids, end_time key
 
-<p># single record
-    check:ID:attrs                                 -&gt; HASH
-      {entity_name,                                  -&gt; STRING
-       name,                                         -&gt; STRING
-       state,                                        -&gt; STRING
-       summary,                                      -&gt; STRING
-       details,                                      -&gt; STRING
-       last_update,                                  -&gt; TIMESTAMP
-       last_problem_alert,                           -&gt; TIMESTAMP
-       enabled}                                      -&gt; BOOLEAN
-    check:ID:contacts_ids                          -&gt; SET
-    check:ID:states_ids                            -&gt; ZSET of CheckState ids, timestamp key
-    check:ID:scheduled_maintenances_by_start_ids   -&gt; ZSET of ScheduledMaintenance ids, start_time key
-    check:ID:scheduled_maintenances_by_end_ids     -&gt; ZSET of ScheduledMaintenance ids, end_time key
-    check:ID:unscheduled_maintenances_by_start_ids -&gt; ZSET of UnscheduledMaintenance ids, start_time key
-    check:ID:unscheduled_maintenances_by_end_ids   -&gt; ZSET of UnscheduledMaintenance ids, end_time key</p>
-
-<p># these five are for internal usage only
-    check:ID:notification_blocks_ids               -&gt; SET of NotificationBlock ids
-    check:ID:alerting_media_ids                    -&gt; SET of Medium ids
-    check:ID:notifications_ids                     -&gt; SET of Notification ids
-    check:ID:alerts_ids                            -&gt; SET of Alert ids
-    check:ID:rollup_alerts_ids                     -&gt; SET of RollupAlert ids</p>
+# these five are for internal usage only
+check:ID:notification_blocks_ids               -&gt; SET of NotificationBlock ids
+check:ID:alerting_media_ids                    -&gt; SET of Medium ids
+check:ID:notifications_ids                     -&gt; SET of Notification ids
+check:ID:alerts_ids                            -&gt; SET of Alert ids
+check:ID:rollup_alerts_ids                     -&gt; SET of RollupAlert ids
+</pre>
 
 <h3 id="check-state-changes-&amp;-notifications">Check state changes &amp; notifications</h3>
+<pre class="highlight plaintext"># global
+check_state::ids            -&gt; SET of IDs
+check_state::by_state       -&gt; four SETs of IDs
+check_state::by_notified    -&gt; two SETs of IDS, as notified is a BOOLEAN
+check_state::by_count       -&gt; HASH of INTEGER -&gt; ID
 
-<p># global
-    check_state::ids            -&gt; SET of IDs
-    check_state::by_state       -&gt; four SETs of IDs
-    check_state::by_notified    -&gt; two SETs of IDS, as notified is a BOOLEAN
-    check_state::by_count       -&gt; HASH of INTEGER -&gt; ID</p>
+# single record
+check_state:ID:attrs              -&gt; HASH
+  {state,                           -&gt; STRING
+   summary,                         -&gt; STRING
+   details,                         -&gt; STRING
+   count,                           -&gt; INTEGER
+   timestamp,                       -&gt; TIMESTAMP
+   notified,                        -&gt; BOOLEAN
+   last_notification_count}         -&gt; INTEGER
+check_state:ID:belongs_to         -&gt; HASH {'check_id' =&gt; ID}
 
-<p># single record
-    check_state:ID:attrs              -&gt; HASH
-      {state,                           -&gt; STRING
-       summary,                         -&gt; STRING
-       details,                         -&gt; STRING
-       count,                           -&gt; INTEGER
-       timestamp,                       -&gt; TIMESTAMP
-       notified,                        -&gt; BOOLEAN
-       last_notification_count}         -&gt; INTEGER
-    check_state:ID:belongs_to         -&gt; HASH {&lsquo;check_id&rsquo; =&gt; ID}</p>
-
-<p># these two are for internal usage only
-    check_state:ID:current_notifications_ids         -&gt; SET of Notification ids
-    check_state:ID:previous_notifications_ids        -&gt; SET of Notification ids</p>
+# these two are for internal usage only
+check_state:ID:current_notifications_ids         -&gt; SET of Notification ids
+check_state:ID:previous_notifications_ids        -&gt; SET of Notification ids
+</pre>
 
 <h3 id="unscheduled-maintenance-periods-&amp;-notifications">Unscheduled maintenance periods &amp; notifications</h3>
+<pre class="highlight plaintext"># global
+unscheduled_maintenance::ids            -&gt; SET of IDs
 
-<p># global
-    unscheduled_maintenance::ids            -&gt; SET of IDs</p>
-
-<p># single record
-    unscheduled_maintenance:ID:attrs        -&gt; HASH
-      {start_time,                          -&gt; TIMESTAMP
-       end_time,                            -&gt; TIMESTAMP
-       summary,                             -&gt; STRING
-       notified,                            -&gt; BOOLEAN
-       last_notification_count}             -&gt; INTEGER
-    unscheduled_maintenance:ID:belongs_to   -&gt; HASH {&lsquo;check_by_start_id&rsquo; =&gt; ID,
-                                                     &lsquo;check_by_end_id&rsquo; =&gt; ID}</p>
+# single record
+unscheduled_maintenance:ID:attrs        -&gt; HASH
+  {start_time,                          -&gt; TIMESTAMP
+   end_time,                            -&gt; TIMESTAMP
+   summary,                             -&gt; STRING
+   notified,                            -&gt; BOOLEAN
+   last_notification_count}             -&gt; INTEGER
+unscheduled_maintenance:ID:belongs_to   -&gt; HASH {'check_by_start_id' =&gt; ID,
+                                                 'check_by_end_id' =&gt; ID}
+</pre>
 
 <h3 id="scheduled-maintenance-periods">Scheduled maintenance periods</h3>
+<pre class="highlight plaintext"># global
+scheduled_maintenance::ids              -&gt; SET of IDs
 
-<p># global
-    scheduled_maintenance::ids              -&gt; SET of IDs</p>
-
-<p># single record
-    scheduled_maintenance:ID:attrs          -&gt; HASH
-      {start_time,                            -&gt; TIMESTAMP
-       end_time,                              -&gt; TIMESTAMP
-       summary}                               -&gt; STRING
-    scheduled_maintenance:ID:belongs_to     -&gt; HASH {&lsquo;check_by_start_id&rsquo; =&gt; ID,
-                                                     &lsquo;check_by_end_id&rsquo; =&gt; ID}</p>
+# single record
+scheduled_maintenance:ID:attrs          -&gt; HASH
+  {start_time,                            -&gt; TIMESTAMP
+   end_time,                              -&gt; TIMESTAMP
+   summary}                               -&gt; STRING
+scheduled_maintenance:ID:belongs_to     -&gt; HASH {'check_by_start_id' =&gt; ID,
+                                                 'check_by_end_id' =&gt; ID}
+</pre>
 
 <h3 id="contacts">Contacts</h3>
+<pre class="highlight plaintext"># global
+contact::ids                           -&gt; SET of IDs
 
-<p># global
-    contact::ids                           -&gt; SET of IDs</p>
-
-<p># single record
-    contact:ID:attrs                       -&gt; HASH
-      {first_name                            -&gt; STRING
-       last_name                             -&gt; STRING
-       email                                 -&gt; STRING
-       timezone}                             -&gt; STRING
-    contact:ID:attrs:pagerduty_credentials -&gt; HASH
-    contact:ID:attrs:tags                  -&gt; SET of STRINGs
-    contact:ID:entities_ids                -&gt; SET of IDs of Entity records
-    contact:ID:media_ids                   -&gt; SET of IDs of Medium records
-    contact:ID:notification_rules_ids      -&gt; SET of IDs of NotificationRule records</p>
+# single record
+contact:ID:attrs                       -&gt; HASH
+  {first_name                            -&gt; STRING
+   last_name                             -&gt; STRING
+   email                                 -&gt; STRING
+   timezone}                             -&gt; STRING
+contact:ID:attrs:pagerduty_credentials -&gt; HASH
+contact:ID:attrs:tags                  -&gt; SET of STRINGs
+contact:ID:entities_ids                -&gt; SET of IDs of Entity records
+contact:ID:media_ids                   -&gt; SET of IDs of Medium records
+contact:ID:notification_rules_ids      -&gt; SET of IDs of NotificationRule records
+</pre>
 
 <h3 id="message-media">Message media</h3>
+<pre class="highlight plaintext"># global
+medium::ids            -&gt; SET of IDs
+medium::by_type        -&gt; four SETs of IDs
 
-<p># global
-    medium::ids            -&gt; SET of IDs
-    medium::by_type        -&gt; four SETs of IDs</p>
+# single record
+medium:ID:attrs        -&gt; HASH
+  {type                  -&gt; STRING
+   address               -&gt; STRING
+   interval,             -&gt; INTEGER
+   rollup_threshold}     -&gt; INTEGER
+medium:ID:belongs_to   -&gt; HASH {'contact_id' =&gt; ID}
 
-<p># single record
-    medium:ID:attrs        -&gt; HASH
-      {type                  -&gt; STRING
-       address               -&gt; STRING
-       interval,             -&gt; INTEGER
-       rollup_threshold}     -&gt; INTEGER
-    medium:ID:belongs_to   -&gt; HASH {&lsquo;contact_id&rsquo; =&gt; ID}</p>
-
-<p># these three are for internal usage only
-    medium:ID:alerting_checks_ids       -&gt; SET of IDs of Check records
-    medium:ID:alerts_ids                -&gt; SET of IDs of Alert records
-    medium:ID:notification_blocks_ids   -&gt; ZSET of IDs of NotificationBlock records, expire_at key</p>
+# these three are for internal usage only
+medium:ID:alerting_checks_ids       -&gt; SET of IDs of Check records
+medium:ID:alerts_ids                -&gt; SET of IDs of Alert records
+medium:ID:notification_blocks_ids   -&gt; ZSET of IDs of NotificationBlock records, expire_at key
+</pre>
 
 <h3 id="notification-rules">Notification rules</h3>
+<pre class="highlight plaintext"># global
+notification_rule::ids                      -&gt; SET of IDs
 
-<p># global
-    notification_rule::ids                      -&gt; SET of IDs</p>
-
-<p># single record
-    notification_rule:ID:attrs                  -&gt; HASH
-      {time_restrictions_json,                    -&gt; STRING
-       unknown_blackhole,                         -&gt; BOOLEAN
-       warning_blackhole,                         -&gt; BOOLEAN
-       critical_blackhole}                        -&gt; BOOLEAN
-    notification_rule:ID:attrs:entities         -&gt; SET of STRINGs (entity names)
-    notification_rule:ID:attrs:tags             -&gt; SET of STRINGs (tags)
-    notification_rule:ID:attrs:unknown_media    -&gt; SET of STRINGs (media types)
-    notification_rule:ID:attrs:warning_media    -&gt; SET of STRINGs (media types)
-    notification_rule:ID:attrs:critical_media   -&gt; SET of STRINGs (media types)
-    notification_rule:ID:belongs_to             -&gt; HASH {&lsquo;contact_id&rsquo; =&gt; ID}</p>
+# single record
+notification_rule:ID:attrs                  -&gt; HASH
+  {time_restrictions_json,                    -&gt; STRING
+   unknown_blackhole,                         -&gt; BOOLEAN
+   warning_blackhole,                         -&gt; BOOLEAN
+   critical_blackhole}                        -&gt; BOOLEAN
+notification_rule:ID:attrs:entities         -&gt; SET of STRINGs (entity names)
+notification_rule:ID:attrs:tags             -&gt; SET of STRINGs (tags)
+notification_rule:ID:attrs:unknown_media    -&gt; SET of STRINGs (media types)
+notification_rule:ID:attrs:warning_media    -&gt; SET of STRINGs (media types)
+notification_rule:ID:attrs:critical_media   -&gt; SET of STRINGs (media types)
+notification_rule:ID:belongs_to             -&gt; HASH {'contact_id' =&gt; ID}
+</pre>
 
 <h3 id="nb:-notifications,-notification-blocks,-alerts-and-rollup-alerts-are-internal-flapjack-data-structures">NB: Notifications, notification blocks, alerts and rollup alerts are internal Flapjack data structures</h3>
 
 <h3 id="notifications">Notifications</h3>
+<pre class="highlight plaintext"># global
+notification::ids           -&gt; SET of IDs
 
-<p># global
-    notification::ids           -&gt; SET of IDs</p>
-
-<p># single record
-    notification:ID:attrs       -&gt; HASH
-      {state_duration,            -&gt; INTEGER
-       severity,                  -&gt; STRING
-       type,                      -&gt; STRING
-       time,                      -&gt; TIMESTAMP
-       duration}                  -&gt; INTEGER
-    notification:ID:attrs:tags  -&gt; SET of STRINGs
-    notification:ID:belongs_to  -&gt; HASH {&lsquo;check_id&rsquo; =&gt; ID,
-                                         &lsquo;state_id&rsquo; =&gt; ID,
-                                         &lsquo;previous_state_id&rsquo; =&gt; ID}</p>
+# single record
+notification:ID:attrs       -&gt; HASH
+  {state_duration,            -&gt; INTEGER
+   severity,                  -&gt; STRING
+   type,                      -&gt; STRING
+   time,                      -&gt; TIMESTAMP
+   duration}                  -&gt; INTEGER
+notification:ID:attrs:tags  -&gt; SET of STRINGs
+notification:ID:belongs_to  -&gt; HASH {'check_id' =&gt; ID,
+                                     'state_id' =&gt; ID,
+                                     'previous_state_id' =&gt; ID}
+</pre>
 
 <h3 id="notification-blocks">Notification blocks</h3>
+<pre class="highlight plaintext"># global
+notification_block::ids                  -&gt; SET of IDs
+notification_block::by_rollup            -&gt; two SETs of IDs
+notification_block::by_state             -&gt; four SETs of IDs
 
-<p># global
-    notification_block::ids                  -&gt; SET of IDs
-    notification_block::by_rollup            -&gt; two SETs of IDs
-    notification_block::by_state             -&gt; four SETs of IDs</p>
-
-<p># single record
-    notification_block:ID:attrs             -&gt; HASH
-      {expire_at                              -&gt; TIMESTAMP
-       rollup                                 -&gt; BOOLEAN
-       state}                                 -&gt; STRING
-    notification_block:ID:belongs_to        -&gt; HASH {&lsquo;medium_id&rsquo; =&gt; ID, &lsquo;check_id&rsquo; =&gt; ID or nil}</p>
+# single record
+notification_block:ID:attrs             -&gt; HASH
+  {expire_at                              -&gt; TIMESTAMP
+   rollup                                 -&gt; BOOLEAN
+   state}                                 -&gt; STRING
+notification_block:ID:belongs_to        -&gt; HASH {'medium_id' =&gt; ID, 'check_id' =&gt; ID or nil}
+</pre>
 
 <ul>
 <li>Rollup notification blocks are per-media, and won&rsquo;t have a related entity check or state.</li>
 </ul>
 
 <h3 id="alerts-&amp;-rollup-alerts">Alerts &amp; rollup alerts</h3>
+<pre class="highlight plaintext"># global
+alert::ids                    -&gt; SET of IDs
 
-<p># global
-    alert::ids                    -&gt; SET of IDs</p>
+# single record
+alert:ID:attrs                -&gt; HASH
+  {state,                       -&gt; STRING
+   summary,                     -&gt; STRING
+   details,                     -&gt; STRING
+   last_state,                  -&gt; STRING
+   last_summary,                -&gt; STRING
+   event_count,                 -&gt; INTEGER
+   time,                        -&gt; TIMESTAMP
+   notification_type,           -&gt; STRING    # may not be needed
+   acknowledgement_duration,    -&gt; INTEGER
+   state_duration,              -&gt; INTEGER
+   rollup}                      -&gt; STRING
+alert:ID:belongs_to           -&gt; HASH {'medium_id' =&gt; ID, 'check_id' =&gt; ID}
+alert:ID:rollup_alerts_ids    -&gt; SET of IDs RollupAlert records
 
-<p># single record<br>
-    alert:ID:attrs                -&gt; HASH
-      {state,                       -&gt; STRING
-       summary,                     -&gt; STRING
-       details,                     -&gt; STRING
-       last_state,                  -&gt; STRING
-       last_summary,                -&gt; STRING
-       event_count,                 -&gt; INTEGER
-       time,                        -&gt; TIMESTAMP
-       notification_type,           -&gt; STRING    # may not be needed
-       acknowledgement_duration,    -&gt; INTEGER
-       state_duration,              -&gt; INTEGER
-       rollup}                      -&gt; STRING
-    alert:ID:belongs_to           -&gt; HASH {&lsquo;medium_id&rsquo; =&gt; ID, &lsquo;check_id&rsquo; =&gt; ID}
-    alert:ID:rollup_alerts_ids    -&gt; SET of IDs RollupAlert records</p>
+# global
+rollup_alert::ids             -&gt; SET of IDs
+medium::by_type               -&gt; three SETs of IDs
 
-<p># global
-    rollup_alert::ids             -&gt; SET of IDs
-    medium::by_type               -&gt; three SETs of IDs</p>
+# single record
+rollup_alert:ID:attrs         -&gt; HASH
+  {state,                       -&gt; STRING
+   duration}                    -&gt; INTEGER
+rollup_alert:ID:belongs_to    -&gt; HASH {'check_id' =&gt; ID, 'alert_id' =&gt; ID}
 
-<p># single record
-    rollup_alert:ID:attrs         -&gt; HASH
-      {state,                       -&gt; STRING
-       duration}                    -&gt; INTEGER
-    rollup_alert:ID:belongs_to    -&gt; HASH {&lsquo;check_id&rsquo; =&gt; ID, &lsquo;alert_id&rsquo; =&gt; ID}</p>
+</pre>
 
       </div>
     </div>
