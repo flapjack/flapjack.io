@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
   <title>Flapjack, monitoring notification routing + event processing</title>
-  <link rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
   <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
   <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
@@ -60,7 +60,10 @@ and pushed to S3 as part of that project.</p>
 <h2 id="push-to-s3:">Push to S3:</h2>
 
 <p>From the root of the packages.flapjack.io repository, run:</p>
-<pre class="highlight shell">aws s3 cp --region us-east-1 --acl public-read build/packages.flapjack.io/index.html s3://packages.flapjack.io/
+<pre class="highlight shell">bundle <span class="nb">exec </span>middleman build
+sed -i .bak s#href<span class="o">=</span><span class="se">\"</span>/#href<span class="o">=</span><span class="se">\"</span>http://flapjack.io/# build/packages.flapjack.io/index.html
+sed -i .bak s#src<span class="o">=</span><span class="se">\"</span>/#src<span class="o">=</span><span class="se">\"</span>http://flapjack.io/# build/packages.flapjack.io/index.html
+aws s3 cp --region us-east-1 --acl public-read build/packages.flapjack.io/index.html s3://packages.flapjack.io/
 </pre>
 
 <h2 id="adding-or-revoking-other-aws-users&#39;-permissions">Adding or revoking other AWS users&#39; permissions</h2>
@@ -153,7 +156,7 @@ packages.flapjack.io name server ns-206.awsdns-25.com.
 </div>
 <div class="col-md-4 sponsor">
   <a href="http://bulletproof.net.au" target="_bulletproof">
-    <img class="bulletproof" src='/images/bulletproof-logo.png'/>
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
   </a>
   <span class="bulletproof subtext">
     Development sponsored by
