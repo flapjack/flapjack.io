@@ -21,12 +21,6 @@ For the Flapjack 1.x series, we provide [Ubuntu packages](http://packages.flapja
 echo "deb http://packages.flapjack.io/deb/1.0 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
 
-#### Trusty
-
-```
-echo "deb http://packages.flapjack.io/deb/1.0 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
-```
-
 ## Installation
 
 After adding the relevant entry to your apt sources list, run:
@@ -42,5 +36,11 @@ sudo apt-get update && sudo apt-get install flapjack
 An experimental component is used for pre-release builds.  This is for testing purposes, and we would not recommend running packages from experimental in production.
 
 ```
-echo "deb http://packages.flapjack.io/deb/1.0 distro_release experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
+# precise:
+
+echo "deb http://packages.flapjack.io/deb/1.0 precise experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
+
+# trusty:
+
+echo "deb http://packages.flapjack.io/deb/1.0 trusty experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
