@@ -40,7 +40,7 @@
 <h4 id="precise">Precise</h4>
 
 <p>Add the <a href="http://packages.flapjack.io/deb">deb repo</a> to your apt sources:</p>
-<pre class="highlight plaintext">deb http://packages.flapjack.io/deb precise main
+<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 </pre>
 
 <h3 id="1.0">1.0</h3>
@@ -48,11 +48,11 @@
 <p>For the Flapjack 1.x series, we provide <a href="http://packages.flapjack.io/deb/1.0">Ubuntu packages</a> for Precise and Trusty.  These are split into the following categories:</p>
 
 <h4 id="precise">Precise</h4>
-<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/1.0 precise main
+<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/1.0 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 </pre>
 
 <h4 id="trusty">Trusty</h4>
-<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/1.0 trusty main
+<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/1.0 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 </pre>
 
 <h2 id="installation">Installation</h2>
@@ -66,7 +66,7 @@ sudo apt-get update &amp;&amp; sudo apt-get install flapjack
 <h2 id="experimental-releases">Experimental releases</h2>
 
 <p>An experimental component is used for pre-release builds.  This is for testing purposes, and we would not recommend running packages from experimental in production.</p>
-<pre class="highlight plaintext">deb http://packages.flapjack.io/deb/flapjack_version distro_release experimental
+<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/1.0 distro_release experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 </pre>
 
       </div>
