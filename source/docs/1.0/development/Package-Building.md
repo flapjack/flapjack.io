@@ -4,5 +4,5 @@ The [omnibus-flapjack](https://github.com/flapjack/omnibus-flapjack) repo is the
 
 Consult the omnibus-flapjack [Readme](https://github.com/flapjack/omnibus-flapjack/blob/master/README.md) for details on how to build and release packages.
 
-For some pointers on setting up a Docker environment locally see [Omnibus in your Docker](../Omnibus-In-Your-Docker.md).
+For some pointers on setting up a Docker environment locally see [Omnibus in your Docker](../Omnibus-In-Your-Docker).
 
