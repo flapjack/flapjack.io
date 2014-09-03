@@ -1704,7 +1704,7 @@ curl http://localhost:3081/entities/17,25
 
 <p>Update one or more attributes for one or more entity resources.</p>
 
-<p>NB: The entity name cannot be changed in Flapjack v1.x due to limitations in the underlying data storage model. This will be addressed in future Flapjack releases.</p>
+<p>NB: Currently the entity name cannot be modified via this interface, but this will be <a href="https://github.com/flapjack/flapjack/issues/628">addressed shortly</a>.</p>
 <pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "add",
