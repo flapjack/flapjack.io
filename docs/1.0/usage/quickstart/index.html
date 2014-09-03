@@ -84,15 +84,14 @@ You should see the Flapjack Web UI:</p>
 <pre class="highlight shell">vagrant ssh
 </pre>
 
-<p>You&rsquo;ll find the commands under <code class="prettyprint">/opt/flapjack/bin</code>:</p>
-<pre class="highlight shell"><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/opt/flapjack/bin
-flapjack <span class="nb">help
+<p>You&rsquo;ll find the commands under <code class="prettyprint">/opt/flapjack/bin</code> and in <code class="prettyprint">PATH</code>:</p>
+<pre class="highlight shell">flapjack <span class="nb">help
 </span>flapjack simulate <span class="nb">help</span>
 </pre>
 
 <h3 id="the-checks">The checks</h3>
 
-<p>Flapjack can receive notifications from a number of different systems.  When it does, the machine, otherwise known as the entity, and the check, are automatically created in flapjack.</p>
+<p>Flapjack can receive check execution results from a number of different systems.  When it does, Flapjack creates the check, and its entity, and starts retaining history of state changes etc.</p>
 
 <p>For now, we&rsquo;ll create our own  using Flapjack&rsquo;s simulate command:</p>
 <pre class="highlight shell">flapjack simulate fail <span class="se">\</span>
@@ -100,11 +99,13 @@ flapjack <span class="nb">help
   --check bacon <span class="se">\</span>
   --interval 1 <span class="se">\</span>
   --time 0.1
+
 flapjack simulate ok <span class="se">\</span>
   --entity restaurant1 <span class="se">\</span>
   --check eggs <span class="se">\</span>
   --interval 1 <span class="se">\</span>
   --time 0.1
+
 flapjack simulate fail_and_recover <span class="se">\</span>
   --entity restaurant2 <span class="se">\</span>
   --check pancakes <span class="se">\</span>
@@ -118,25 +119,29 @@ flapjack simulate fail_and_recover - Generate a stream of failure events, and on
 flapjack simulate ok               - Generate a stream of ok events
 </pre>
 
-<p>You can now see these under the <a href="http://localhost:3080/entities">list of entities</a> and <a href="http://localhost:3080/checks">list of checks</a>.</p>
+<p>You can now see these under the <a href="http://localhost:3080/entities">list of entities</a> and <a href="http://localhost:3080/checks_all">list of checks</a>.</p>
 
 <p><img alt="Screenshot of the list of checks" src="../../../../images/1.0/quickstart/check-list.png" /></p>
 
 <h4 id="maintenance-(including-acknowledgements)">Maintenance (including acknowledgements)</h4>
 
-<p>There are two types of maintenance - scheduled and unscheduled maintenance.  An acknowledgment counts as an unscheduled maintenance.</p>
+<p>There are two types of maintenance - scheduled and unscheduled maintenance. An acknowledgment creates an unscheduled maintenance starting at the time of the acknowledgement.</p>
 
-<p>All checks are created with a default period of scheduled maintenance, usually 100 years.</p>
+<p>All checks are created with a period of scheduled maintenance, 100 years by default. This can be altered, or disabled, in the flapjack config file.</p>
 
-<p>Click the &lsquo;End Now&rsquo; button on the <a href="http://localhost:3080/check?entity=restaurant1&amp;amp;check=bacon">Bacon check</a> to end this maintenance.</p>
+<p>Click the &lsquo;End Now&rsquo; button on the <a href="http://localhost:3080/check?entity=restaurant1&amp;amp;check=bacon">bacon check</a> to end this maintenance.</p>
 
-<h4 id="unscheduled-downtime-(acknowledgements)">Unscheduled downtime (acknowledgements)</h4>
+<h4 id="unscheduled-maintenance-(acknowledgements)">Unscheduled maintenance (acknowledgements)</h4>
 
-<p>Our Bacon check is now critical, and sending out alerts.  To acknowledge this check, and silence the alerts, we add unscheduled maintenance for a period of time by filling out the <a href="http://localhost:3080/check?entity=restaurant1&amp;amp;check=bacon">Acknowledge Alert</a> box.</p>
+<p>Our bacon check is now critical, and sending out alerts.  To acknowledge this check, and silence the alerts, we add unscheduled maintenance for a period of time by filling out the <a href="http://localhost:3080/check?entity=restaurant1&amp;amp;check=bacon">Acknowledge Alert</a> box.</p>
 
 <p><img alt="Screenshot of adding unscheduled maintenance" src="../../../../images/1.0/quickstart/add-unscheduled-maintenance.png" /></p>
 
-<p>If you want to add more scheduled maintenance, fill out the &lsquo;Add Scheduled Maintenance&rsquo; box further down the page.</p>
+<h4 id="secheduled-maintenance">Secheduled maintenance</h4>
+
+<p>If you want to add scheduled maintenance (lets say we know bacan will be off the menu next Saturday), fill out the &lsquo;Add Scheduled Maintenance&rsquo; box further down the page.</p>
+
+<h4 id="maintenance-cli">Maintenance CLI</h4>
 
 <p>You can also add, list and remove maintenance by using the CLI tool <code class="prettyprint">flapjack maintenance</code>:</p>
 <pre class="highlight shell">flapjack maintenance show   - Show maintenance windows according to criteria <span class="o">(</span>default: all ongoing maintenance<span class="o">)</span>
