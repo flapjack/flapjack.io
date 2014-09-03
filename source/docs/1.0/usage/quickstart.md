@@ -14,8 +14,8 @@ To skip this tutorial and jump straight to the code, view the project on [GitHub
 
 ### Dependencies
 
-- [Vagrant](http://vagrantup.com/) 1.2+
-- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) 4.2+
+- [Vagrant](http://vagrantup.com/) 1.5+
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) 4.3+
   (or an alternative provider such as [VMware Fusion](http://www.vmware.com/au/products/fusion/)
   and the [Vagrant plugin](http://www.vagrantup.com/vmware)
 
@@ -101,7 +101,7 @@ You can now see these under the [list of entities](http://localhost:3080/entitie
 
 There are two types of maintenance - scheduled and unscheduled maintenance.  An acknowledgment counts as an unscheduled maintenance.
 
-All checks are created with a default period of scheduled maintenance, usually 100 years.  
+All checks are created with a default period of scheduled maintenance, usually 100 years.
 
 Click the 'End Now' button on the [Bacon check](http://localhost:3080/check?entity=restaurant1&check=bacon) to end this maintenance.
 
