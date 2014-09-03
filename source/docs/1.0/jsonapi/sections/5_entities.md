@@ -141,7 +141,7 @@ Return code | Description
 
 Update one or more attributes for one or more entity resources.
 
-NB: The entity name cannot be changed in Flapjack v1.x due to limitations in the underlying data storage model. This will be addressed in future Flapjack releases.
+NB: Currently the entity name cannot be modified via this interface, but this will be [addressed shortly](https://github.com/flapjack/flapjack/issues/628).
 
 ```shell
 curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
