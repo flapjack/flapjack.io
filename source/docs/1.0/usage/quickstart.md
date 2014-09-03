@@ -53,17 +53,16 @@ To continue with this guide, SSH into the vagrant box:
 vagrant ssh
 ```
 
-You'll find the commands under `/opt/flapjack/bin`:
+You'll find the commands under `/opt/flapjack/bin` and in `PATH`:
 
 ```bash
-export PATH=$PATH:/opt/flapjack/bin
 flapjack help
 flapjack simulate help
 ```
 
 ### The checks
 
-Flapjack can receive notifications from a number of different systems.  When it does, the machine, otherwise known as the entity, and the check, are automatically created in flapjack.
+Flapjack can receive check execution results from a number of different systems.  When it does, Flapjack creates the check, and its entity, and starts retaining history of state changes etc.
 
 For now, we'll create our own  using Flapjack's simulate command:
 
@@ -73,11 +72,13 @@ flapjack simulate fail \
   --check bacon \
   --interval 1 \
   --time 0.1
+
 flapjack simulate ok \
   --entity restaurant1 \
   --check eggs \
   --interval 1 \
   --time 0.1
+
 flapjack simulate fail_and_recover \
   --entity restaurant2 \
   --check pancakes \
@@ -93,25 +94,29 @@ flapjack simulate fail_and_recover - Generate a stream of failure events, and on
 flapjack simulate ok               - Generate a stream of ok events
 ```
 
-You can now see these under the [list of entities](http://localhost:3080/entities) and [list of checks](http://localhost:3080/checks).
+You can now see these under the [list of entities](http://localhost:3080/entities) and [list of checks](http://localhost:3080/checks_all).
 
 ![Screenshot of the list of checks](/images/1.0/quickstart/check-list.png)
 
 #### Maintenance (including acknowledgements)
 
-There are two types of maintenance - scheduled and unscheduled maintenance.  An acknowledgment counts as an unscheduled maintenance.
+There are two types of maintenance - scheduled and unscheduled maintenance. An acknowledgment creates an unscheduled maintenance starting at the time of the acknowledgement.
 
-All checks are created with a default period of scheduled maintenance, usually 100 years.
+All checks are created with a period of scheduled maintenance, 100 years by default. This can be altered, or disabled, in the flapjack config file.
 
-Click the 'End Now' button on the [Bacon check](http://localhost:3080/check?entity=restaurant1&check=bacon) to end this maintenance.
+Click the 'End Now' button on the [bacon check](http://localhost:3080/check?entity=restaurant1&check=bacon) to end this maintenance.
 
-#### Unscheduled downtime (acknowledgements)
+#### Unscheduled maintenance (acknowledgements)
 
-Our Bacon check is now critical, and sending out alerts.  To acknowledge this check, and silence the alerts, we add unscheduled maintenance for a period of time by filling out the [Acknowledge Alert](http://localhost:3080/check?entity=restaurant1&check=bacon) box.
+Our bacon check is now critical, and sending out alerts.  To acknowledge this check, and silence the alerts, we add unscheduled maintenance for a period of time by filling out the [Acknowledge Alert](http://localhost:3080/check?entity=restaurant1&check=bacon) box.
 
 ![Screenshot of adding unscheduled maintenance](/images/1.0/quickstart/add-unscheduled-maintenance.png)
 
-If you want to add more scheduled maintenance, fill out the 'Add Scheduled Maintenance' box further down the page.
+#### Secheduled maintenance
+
+If you want to add scheduled maintenance (lets say we know bacan will be off the menu next Saturday), fill out the 'Add Scheduled Maintenance' box further down the page.
+
+#### Maintenance CLI
 
 You can also add, list and remove maintenance by using the CLI tool `flapjack maintenance`:
 
