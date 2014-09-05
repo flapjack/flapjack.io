@@ -4,20 +4,35 @@ Packages for the 0.9.x and 1.0.x series are currently available for Ubuntu.
 
 ## Add Repository
 
-### 0.9
-#### Precise
 Add the [deb repo](http://packages.flapjack.io/deb) to your apt sources:
 
-```
-echo "deb http://packages.flapjack.io/deb precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
-```
 
 ### 1.0
+#### Trusty
+
+```
+echo "deb http://packages.flapjack.io/deb/1.0 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+```
+
 #### Precise
 
 ```
 echo "deb http://packages.flapjack.io/deb/1.0 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
+
+### 0.9
+#### Trusty
+
+```
+echo "deb http://packages.flapjack.io/deb trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+```
+
+#### Precise
+
+```
+echo "deb http://packages.flapjack.io/deb precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+```
+
 
 ## Installation
 
@@ -34,11 +49,11 @@ sudo apt-get update && sudo apt-get install flapjack
 An experimental component is used for pre-release builds.  This is for testing purposes, and we would not recommend running packages from experimental in production.
 
 ```
-# precise:
-
-echo "deb http://packages.flapjack.io/deb/1.0 precise experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
-
 # trusty:
 
 echo "deb http://packages.flapjack.io/deb/1.0 trusty experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
+
+# precise:
+
+echo "deb http://packages.flapjack.io/deb/1.0 precise experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
