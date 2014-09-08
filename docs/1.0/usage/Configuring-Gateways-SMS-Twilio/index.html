@@ -44,16 +44,59 @@
 
 <h2 id="gateways/sms_twilio">gateways/sms_twilio</h2>
 
-<p>| Config | Synopsis | Description |
-| enabled | yes/no  | Enable this gateway? |
-| queue   | String  | The queue name to listen on. Must match the &lsquo;sms_twilio_queue&rsquo; defined in the notitifier. |
-| account_sid | String | The Account SID of your Twilio account |
-| auth_token  | String | The authentication token for your Twilio Account |
-| from    | String  | The number to send SMS messages from. You must have this number configured in your Twilio account. |
-| logger/level | FATAL/ERROR/WARN/INFO/DEBUG | The logging verbosity of the gateway. Set to DEBUG, reload flapjack, and consult flapjack.log if you&rsquo;re having trouble. |
-| logger/syslog_errors | yes/no | Send logging messages at ERROR or FATAL to the syslog |
-| templates/alert.text | String | Path to a custom template for alerts about individual checks. Must ben an ERB file. See the <a href="https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/sms_twilio/alert.text.erb">default</a>|
-| templates/rollup.text | String | Path to a custom template for rollup alerts. Must be an ERB file. See the <a href="https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/sms_twilio/rollup.text.erb">default</a>. |</p>
+<table><thead>
+<tr>
+<th>Config</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>enabled</td>
+<td>yes/no</td>
+<td>Enable this gateway?</td>
+</tr>
+<tr>
+<td>queue</td>
+<td>String</td>
+<td>The queue name to listen on. Must match the &lsquo;sms_twilio_queue&rsquo; defined in the notitifier.</td>
+</tr>
+<tr>
+<td>account_sid</td>
+<td>String</td>
+<td>The Account SID of your Twilio account</td>
+</tr>
+<tr>
+<td>auth_token</td>
+<td>String</td>
+<td>The authentication token for your Twilio Account</td>
+</tr>
+<tr>
+<td>from</td>
+<td>String</td>
+<td>The number to send SMS messages from. You must have this number configured in your Twilio account.</td>
+</tr>
+<tr>
+<td>logger/level</td>
+<td>FATAL/ERROR/WARN/INFO/DEBUG</td>
+<td>The logging verbosity of the gateway. Set to DEBUG, reload flapjack, and consult flapjack.log if you&rsquo;re having trouble.</td>
+</tr>
+<tr>
+<td>logger/syslog_errors</td>
+<td>yes/no</td>
+<td>Send logging messages at ERROR or FATAL to the syslog</td>
+</tr>
+<tr>
+<td>templates/alert.text</td>
+<td>String</td>
+<td>Path to a custom template for alerts about individual checks. Must ben an ERB file. See the <a href="https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/sms_twilio/alert.text.erb">default</a></td>
+</tr>
+<tr>
+<td>templates/rollup.text</td>
+<td>String</td>
+<td>Path to a custom template for rollup alerts. Must be an ERB file. See the <a href="https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/sms_twilio/rollup.text.erb">default</a>.</td>
+</tr>
+</tbody></table>
 
       </div>
     </div>
