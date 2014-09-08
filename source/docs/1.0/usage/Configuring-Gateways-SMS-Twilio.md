@@ -12,6 +12,7 @@
 ## gateways/sms_twilio
 
 | Config | Synopsis | Description |
+|--------|----------|-------------|
 | enabled | yes/no  | Enable this gateway? |
 | queue   | String  | The queue name to listen on. Must match the 'sms_twilio_queue' defined in the notitifier. |
 | account_sid | String | The Account SID of your Twilio account |
