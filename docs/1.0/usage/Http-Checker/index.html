@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+        <li><a href="/docs">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+    <center>
+      
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h2 id="http-check-engine">Http Check Engine</h2>
+
+<p>Flapjack ships with a simple http check engine. This can check the availability of websites and services.
+Failures and successes are reported to Flapjack as heartbeats - just like any other check.</p>
+
+<p>With this, you can start using Flapjack straight away.  </p>
+
+<h3 id="setting-up-a-http-check">Setting up a http check</h3>
+
+<p>The http checker runs as a Flapjack subcommand:</p>
+<pre class="highlight plaintext">flapjack receiver httpchecker -c ~/http-checker-config.json
+</pre>
+
+<p>This will load the specified config file and run as many checks as it has been told to.
+Each check will result in a stream of heartbeat events to Flapjack - OK or CRITICAL
+depending on the check result.</p>
+
+<h3 id="configuration">Configuration</h3>
+
+<p>This is a sample http-checker-config.json file:</p>
+<pre class="highlight json"><span class="p">{</span><span class="w">
+
+  </span><span class="s2">"monitors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http-status"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:8000"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My website healthcheck"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"freq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10s"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2s"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http-status"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://awesome-web:9090/health"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Some important service"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"freq"</span><span class="p">:</span><span class="w"> </span><span class="s2">"30s"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10s"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+
+  </span><span class="p">],</span><span class="w">
+
+  </span><span class="s2">"notifiers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flapjack"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"address"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"FLAPJACK_HOST:6380"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stderr"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre>
+
+<h4 id="monitors">Monitors</h4>
+
+<p>Monitors are the HTTP URLs to check - the name will appear as part of the
+entity and check information in Flapjack (as will the URL).</p>
+
+<p>You can have as many monitors as you like - set a suitable poll time and timeout.
+Don&rsquo;t worry about the odd false positive - as this is heartbeat based Flapjack will
+smooth out the bumps.</p>
+
+<h4 id="notifiers">Notifiers</h4>
+
+<p>Enture that the &ldquo;flapjack&rdquo; type is pointing to the Flapjack redis instance and that it
+is accessible. The stderr just ensures that error are printed to stderr as well.</p>
+
+<h3 id="how-it-works">How it works</h3>
+
+<p>The httpchecker pushes events into the Flapjack embedded redis server.
+This is based on the project called <a href="https://github.com/oguzbilgic/pandik">pandik</a>.</p>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>
