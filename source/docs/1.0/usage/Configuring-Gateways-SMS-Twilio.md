@@ -7,6 +7,7 @@
 ## notifier
 
 | Config | Synopsis | Description |
+|--------|----------|-------------|
 | sms_twilio_queue | String | The name of the queue to use for sending messages to the sms_twilio gateway |
 
 ## gateways/sms_twilio
