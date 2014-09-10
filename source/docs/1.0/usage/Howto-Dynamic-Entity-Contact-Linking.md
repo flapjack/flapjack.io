@@ -31,6 +31,7 @@ end
 Ensure Ada exists and is a contact on the ALL entity
 
 ```ruby
+#!/usr/bin/env ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('127.0.0.1:3081')
 
