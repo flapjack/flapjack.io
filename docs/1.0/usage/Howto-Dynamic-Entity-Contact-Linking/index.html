@@ -35,9 +35,73 @@
 
 <p>Flapjack 0.x and 1.x have a requirement that contacts must be explicity linked to entities in order for any notifications about checks on the entity to go to the contact. This is too restrictive for some sites and means it&rsquo;s much harder to use Flapjack for alerting of environments where hosts come and go without configuration management ceremony, eg in autoscaling groups.</p>
 
-<p>Sean Porter contributed a neat ~~hack~~ workaround for this situation which involves creation of a special entity named &lsquo;ALL&rsquo;. This entity doesn&rsquo;t correspond to any one entity but rather collects together all entities. Contacts can then be linked to this entity, and they&rsquo;ll then be able to receive notifications for any entity.</p>
+<p>Sean Porter contributed a neat workaround for this situation which involves creation of a special entity with an ID of &lsquo;ALL&rsquo;.
+This entity doesn&rsquo;t correspond to any one entity but rather collects together all entities for the purposes of assigning contacts. Contacts can then be linked to this entity, and they&rsquo;ll then be able to receive notifications for any entity.</p>
 
-<p>Then, notification rules can be used to refine which notifications are sent to each contact.</p>
+<p>Notification rules are then used to refine which notifications are sent to each contact.</p>
+
+<h2 id="example-using-flapjack-diner-and-the-json-api">Example using flapjack-diner and the JSON API</h2>
+
+<p>Ensure the ALL entity exists:</p>
+<pre class="highlight ruby"><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'127.0.0.1:3081'</span><span class="p">)</span>
+
+<span class="n">entity_all_data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:id</span>   <span class="o">=&gt;</span> <span class="s1">'ALL'</span><span class="p">,</span>
+  <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'ALL'</span>
+<span class="p">}</span>
+
+<span class="k">unless</span> <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">entities</span><span class="p">(</span><span class="n">entity_all_data</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Creating entity: ALL"</span>
+  <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_entities</span><span class="p">(</span><span class="o">[</span><span class="n">entity_all_data</span><span class="o">]</span><span class="p">)</span>
+<span class="k">end</span>
+</pre>
+
+<p>Ensure Ada exists and is a contact on the ALL entity</p>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'127.0.0.1:3081'</span><span class="p">)</span>
+
+<span class="c1"># Create contact Ada if she doesn't already exist</span>
+
+<span class="n">ada_data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:id</span>         <span class="o">=&gt;</span> <span class="s1">'8d5fd668-b4c4-481b-84be-9db4e5910110'</span><span class="p">,</span>
+  <span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s1">'Ada'</span><span class="p">,</span>
+  <span class="ss">:last_name</span>  <span class="o">=&gt;</span> <span class="s1">'Lovelace'</span><span class="p">,</span>
+  <span class="ss">:email</span>      <span class="o">=&gt;</span> <span class="s1">'ada@example'</span>
+<span class="p">}</span>
+
+<span class="k">unless</span> <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">contacts</span><span class="p">(</span><span class="n">ada_data</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Creating contact: Ada"</span>
+  <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contacts</span><span class="p">(</span><span class="o">[</span><span class="n">ada_data</span><span class="o">]</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c1"># Assign a mobile number to Ada for SMS via Twilio</span>
+
+<span class="n">medium</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="s1">'sms_twilio'</span><span class="p">,</span>
+  <span class="ss">:address</span> <span class="o">=&gt;</span> <span class="s1">'+61444444444'</span><span class="p">,</span>
+  <span class="ss">:interval</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="ss">:rollup_threshold</span> <span class="o">=&gt;</span> <span class="mi">3</span>
+<span class="p">}</span>
+<span class="n">ada</span> <span class="o">=</span> <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">contacts</span><span class="p">(</span><span class="n">ada_data</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">).</span><span class="nf">first</span>
+<span class="k">if</span> <span class="n">ada</span><span class="o">[</span><span class="ss">:links</span><span class="o">][</span><span class="ss">:media</span><span class="o">]</span><span class="p">.</span><span class="nf">empty?</span>
+  <span class="nb">puts</span> <span class="s2">"Creating Ada's media"</span>
+  <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contact_media</span><span class="p">(</span><span class="n">ada_data</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="n">medium</span><span class="o">]</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">ada</span> <span class="o">=</span> <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">contacts</span><span class="p">(</span><span class="n">ada_data</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">).</span><span class="nf">first</span>
+
+<span class="c1"># Add Ada to the ALL entity</span>
+
+<span class="n">entity_all</span> <span class="o">=</span> <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">entities</span><span class="p">(</span><span class="n">entity_all_data</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">).</span><span class="nf">first</span>
+<span class="k">unless</span> <span class="n">entity_all</span><span class="o">[</span><span class="ss">:links</span><span class="o">][</span><span class="ss">:contacts</span><span class="o">]</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">ada_data</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Adding Ada to the ALL entity"</span>
+  <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_entities</span><span class="p">(</span><span class="n">entity_all_data</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">,</span> <span class="ss">:add_contact</span> <span class="o">=&gt;</span> <span class="n">ada_data</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+<span class="k">end</span>
+</pre>
+
+<p>Assuming the sms_twilio gateway is configured, Ada will now receive SMS notifications for any problem detected by Flapjack on any entity. Notification Rules can be used to filter out un-interesting notificaitons, matching on entity name, domain name, words in the check description, on entity tags, etc etc.</p>
 
       </div>
     </div>
