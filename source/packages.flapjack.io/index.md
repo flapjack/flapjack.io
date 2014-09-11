@@ -1,26 +1,26 @@
 #Flapjack Packages
 
-Packages for the 0.9.x and 1.0.x series are currently available for Ubuntu.
+Packages for the 0.9.x and 1.x series are currently available for Ubuntu.
 
 ## Add Repository
 
 Add the [deb repo](http://packages.flapjack.io/deb) to your apt sources:
 
 
-### 1.0
+### 1.x Series
 #### Trusty
 
 ```
-echo "deb http://packages.flapjack.io/deb/1.0 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+echo "deb http://packages.flapjack.io/deb/v1 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
 
 #### Precise
 
 ```
-echo "deb http://packages.flapjack.io/deb/1.0 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+echo "deb http://packages.flapjack.io/deb/v1 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
 
-### 0.9
+### 0.9.x Series
 #### Trusty
 
 ```
@@ -51,9 +51,9 @@ An experimental component is used for pre-release builds.  This is for testing p
 ```
 # trusty:
 
-echo "deb http://packages.flapjack.io/deb/1.0 trusty experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
+echo "deb http://packages.flapjack.io/deb/v1 trusty experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 
 # precise:
 
-echo "deb http://packages.flapjack.io/deb/1.0 precise experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
+echo "deb http://packages.flapjack.io/deb/v1 precise experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
