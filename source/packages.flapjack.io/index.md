@@ -24,13 +24,13 @@ echo "deb http://packages.flapjack.io/deb/v1 precise main" | sudo tee /etc/apt/s
 #### Trusty
 
 ```
-echo "deb http://packages.flapjack.io/deb trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+echo "deb http://packages.flapjack.io/deb/0.9 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
 
 #### Precise
 
 ```
-echo "deb http://packages.flapjack.io/deb precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+echo "deb http://packages.flapjack.io/deb/0.9 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
 
 
