@@ -3,6 +3,7 @@
 You will get the most out of the tutorial if you've got Flapjack running locally on your laptop beforehand. The simplest way to do this is to install flapjack as per the [Quickstart](http://flapjack.io/quickstart), which involves installing [VirtualBox](https://www.virtualbox.org/) and [Vagrant](http://www.vagrantup.com/), cloning [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack) and running `vagrant up` within it.
 
 You'll need Vagrant 1.5 or higher. A recent VirtualBox is recommended. `vagrant-flapjack` is currently tested with the following versions:
+
 - Vagrant 1.6.3
 - VirtualBox 4.3.14
 
