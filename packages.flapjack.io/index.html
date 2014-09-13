@@ -31,30 +31,30 @@
         <div class="col-md-offset-1 col-md-10">
         <h1 id="flapjack-packages">Flapjack Packages</h1>
 
-<p>Packages for the 0.9.x and 1.0.x series are currently available for Ubuntu.</p>
+<p>Packages for the 0.9.x and 1.x series are currently available for Ubuntu.</p>
 
 <h2 id="add-repository">Add Repository</h2>
 
 <p>Add the <a href="http://packages.flapjack.io/deb">deb repo</a> to your apt sources:</p>
 
-<h3 id="1.0">1.0</h3>
+<h3 id="1.x-series">1.x Series</h3>
 
 <h4 id="trusty">Trusty</h4>
-<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/1.0 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/v1 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 </pre>
 
 <h4 id="precise">Precise</h4>
-<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/1.0 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/v1 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 </pre>
 
-<h3 id="0.9">0.9</h3>
+<h3 id="0.9.x-series">0.9.x Series</h3>
 
 <h4 id="trusty">Trusty</h4>
-<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/0.9 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 </pre>
 
 <h4 id="precise">Precise</h4>
-<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+<pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/0.9 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 </pre>
 
 <h2 id="installation">Installation</h2>
@@ -70,11 +70,11 @@ sudo apt-get update &amp;&amp; sudo apt-get install flapjack
 <p>An experimental component is used for pre-release builds.  This is for testing purposes, and we would not recommend running packages from experimental in production.</p>
 <pre class="highlight plaintext"># trusty:
 
-echo "deb http://packages.flapjack.io/deb/1.0 trusty experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
+echo "deb http://packages.flapjack.io/deb/v1 trusty experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 
 # precise:
 
-echo "deb http://packages.flapjack.io/deb/1.0 precise experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
+echo "deb http://packages.flapjack.io/deb/v1 precise experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 </pre>
 
       </div>
