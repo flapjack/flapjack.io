@@ -26,7 +26,7 @@ We are updating the vagrant-flapjack repo regularly so please ensure you go a `g
 You'll be able to get help from other participants during the tutorial (and afterwards) by asking in #flapjack on [freenode](https://freenode.net/).
 
 
-## Tutorial Sessions
+# Tutorial Sessions
 
 - [Velocity New York 2014](http://velocityconf.com/velocityny2014/public/schedule/detail/35835) 15 September 2014, New York, NY, USA
 - [Monitorama PDX 2014](http://monitorama.com/) 7 May 2014, Portland, OR, USA
