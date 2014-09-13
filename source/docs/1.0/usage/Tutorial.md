@@ -6,7 +6,9 @@ There's a bit to download with that, so it's best to do this in your own time be
 
 You don't need to have done the rest of the quickstart, though it can't hurt. The main thing is to have Flapjack running locally and to have Icinga or Nagios sending it check execution results. This is all taken care of by the `vagrant up` within [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack).
 
-Come back to this page closer to the conference to check if we've added any other optional preparation steps.
+We are updating the vagrant-flapjack repo regularly so please ensure you go a `git pull` and `vagrant provision` in your vagrant-flapjack directory just before coming to the tutorial.
+
+Come back to this page closer to the time of the tutorial to check if we've added any other optional preparation steps.
 
 ## Tutorial Sessions
 
