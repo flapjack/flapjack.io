@@ -1,5 +1,13 @@
 # Flapjack Tutorial Attendee Preparation
 
+If you're attending an upcoming Flapjack tutorial, please get the following things set up on your laptop beforehand if you wish to participate.
+
+Please also come back to this page closer to the time of the tutorial to check if we've added any other optional preparation steps.
+
+If you have any problems ping @auxesis or @jessereynolds on twitter, jump on to #flapjack on freenode (IRC), or post to the [mailing list](https://groups.google.com/forum/#!forum/flapjack-project).
+
+## 1. Get flapjack running locally
+
 You will get the most out of the tutorial if you've got Flapjack running locally on your laptop beforehand. The simplest way to do this is to install flapjack as per the [Quickstart](http://flapjack.io/quickstart), which involves installing [VirtualBox](https://www.virtualbox.org/) and [Vagrant](http://www.vagrantup.com/), cloning [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack) and running `vagrant up` within it.
 
 You'll need Vagrant 1.5 or higher. A recent VirtualBox is recommended. `vagrant-flapjack` is currently tested with the following versions:
@@ -13,7 +21,10 @@ You don't need to have done the rest of the quickstart, though it can't hurt. Th
 
 We are updating the vagrant-flapjack repo regularly so please ensure you go a `git pull` and `vagrant provision` in your vagrant-flapjack directory just before coming to the tutorial.
 
-Come back to this page closer to the time of the tutorial to check if we've added any other optional preparation steps.
+## 2. Get your IRC connected to #flapjack
+
+You'll be able to get help from other participants during the tutorial (and afterwards) by asking in #flapjack on [freenode](https://freenode.net/).
+
 
 ## Tutorial Sessions
 
