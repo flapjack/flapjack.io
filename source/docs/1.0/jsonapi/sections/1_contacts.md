@@ -202,8 +202,8 @@ Parameters sent for contact updates must form a valid [JSON Patch (RFC 6902)](ht
 Parameter | Type | Description
 --------- | ---- | -----------
 op | String | one of *replace* (for attributes), *add* or *remove* (for linked objects)
-path | String | "/contacts/0/ATTRIBUTE" (e.g. 'first_name') or "/contacts/0/links/LINKED_OBJ" (e.g. 'media')
-value | -> | for attributes, a value of the correct data type for that attribute; for linked objects, the String id of that object
+path | String | "/contacts/0/ATTRIBUTE" (e.g. 'first_name') or "/contacts/0/links/LINKED_OBJ" (e.g. 'media', 'tags')
+value | -> | for attributes, a value of the correct data type for that attribute; for linked objects, the String id (or name for tags) of that object
 
 ### HTTP Return Codes
 
