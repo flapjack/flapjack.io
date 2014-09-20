@@ -148,7 +148,9 @@ curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-
 '[
   {"op"    : "add",
    "path"  : "/entities/0/linked/contacts",
-   "value" : '352'}
+   "value" : '352'},
+  {"op"    : "remove",
+   "path"  : "/entities/0/linked/tags/database"
 ]' \
  'http://localhost:3081/entities/157'
 ```
@@ -159,8 +161,9 @@ Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.update_entities(
   [ '157' ],
-  :name         => 'www.example_com',
-  :add_contacts => [ '352' ]
+  :name        => 'www.example_com',
+  :add_contact => '352'
+  :remove_tag  => 'database'
 )
 ```
 
@@ -175,8 +178,8 @@ Parameters sent for entity updates must form a valid [JSON Patch (RFC 6902)](htt
 Parameter | Type | Description
 --------- | ---- | -----------
 op | String | one of *replace* (for attributes), *add* or *remove* (for linked objects)
-path | String | "/entities/0/ATTRIBUTE" (e.g. 'name') or "/entities/0/links/LINKED_OBJ" (e.g. 'contacts')
-value | -> | for attributes, a value of the correct data type for that attribute; for linked objects, the String id of that object
+path | String | "/entities/0/ATTRIBUTE" (e.g. 'name') or "/entities/0/links/LINKED_OBJ" (e.g. 'contacts', 'tags')
+value | -> | for attributes, a value of the correct data type for that attribute; for linked objects, the String id (or name for tags) of that object
 
 ### HTTP Return Codes
 

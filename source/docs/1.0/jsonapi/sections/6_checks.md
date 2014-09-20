@@ -1,14 +1,69 @@
 
 # Checks
 
-## Disable a check
+The Check resource has the following attributes:
 
-Disable a check (by setting its enabled attribute to false). This is currently
-the only supported check property for updates via the JSONAPI, due to
-limitations in the underlying data storage model. This will be addressed in
-future Flapjack releases.
+Attribute | Type | Description
+--- | --- | ---
+name | String |
+id | String |
+tags | Array[String] |
 
-(Checks are re-enabled when new events are generated for them.)
+## Create checks
+
+```shell
+curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.api+json" -d \
+ '{
+    "checks": [
+      {
+        "entity_id": "825",
+        "name": "PING",
+        "tags": [
+          "foo"
+        ]
+      }
+    ]
+  }' \
+ http://localhost:3081/checks
+```
+
+```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.create_checks([
+  {
+    'entity_id' => '825',
+    'name'      => 'foo.example.com',
+    'tags'      => [ 'foo' ]
+  }
+])
+```
+
+### HTTP Request
+
+`POST /checks`
+
+### Query Parameters
+
+Parameter | Type | Description
+--------- | ---- | -----------
+checks | Array[Check] | An array of Check resources to create.
+
+### HTTP Return Codes
+
+Return code | Description
+--------- | -----------
+201 | The submitted checks were created successfully.
+405 | **Error** The submitted check data was not sent with the JSONAPI MIME type `application/vnd.api+json`.
+422 | **Error** The submitted check data did not conform to the provided specification.
+
+
+## Update checks
+
+Update one or more checks.
+
+(NB: disabled checks are re-enabled when new events are generated for them.)
 
 ```shell
 curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
@@ -26,7 +81,8 @@ Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.update_checks(
   'www.example.com:PING',
-  :enabled => false
+  :enabled => false,
+  :add_tag => ['created_2013-14']
 )
 ```
 
@@ -40,9 +96,9 @@ Parameters sent for check updates must form a valid [JSON Patch (RFC 6902)](http
 
 Parameter | Type | Description
 --------- | ---- | -----------
-op | String | "replace"
-path | String | "/checks/0/enabled"
-value | Boolean | true or false
+op | String | one of *replace* (for attributes), *add* or *remove* (for linked objects)
+path | String | "/checks/0/ATTRIBUTE" (e.g. 'enabled') or "/entities/0/links/LINKED_OBJ" (e.g. 'tags')
+value | -> | for attributes, a value of the correct data type for that attribute (Boolean for enabled); for linked objects, the String id (or name for tags) of that object
 
 ### HTTP Return Codes
 
