@@ -225,7 +225,9 @@ curl http://localhost:3081/entities/17,25
 <span class="s1">'[
   {"op"    : "add",
    "path"  : "/entities/0/linked/contacts",
-   "value" : '</span>352<span class="s1">'}
+   "value" : '</span>352<span class="s1">'},
+  {"op"    : "remove",
+   "path"  : "/entities/0/linked/tags/database"
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/entities/157'</span>
 </pre>
@@ -234,8 +236,9 @@ curl http://localhost:3081/entities/17,25
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_entities</span><span class="p">(</span>
   <span class="o">[</span> <span class="s1">'157'</span> <span class="o">]</span><span class="p">,</span>
-  <span class="ss">:name</span>         <span class="o">=&gt;</span> <span class="s1">'www.example_com'</span><span class="p">,</span>
-  <span class="ss">:add_contacts</span> <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'352'</span> <span class="o">]</span>
+  <span class="ss">:name</span>        <span class="o">=&gt;</span> <span class="s1">'www.example_com'</span><span class="p">,</span>
+  <span class="ss">:add_contact</span> <span class="o">=&gt;</span> <span class="s1">'352'</span>
+  <span class="ss">:remove_tag</span>  <span class="o">=&gt;</span> <span class="s1">'database'</span>
 <span class="p">)</span>
 </pre>
 
@@ -262,12 +265,12 @@ curl http://localhost:3081/entities/17,25
 <tr>
 <td>path</td>
 <td>String</td>
-<td>&ldquo;/entities/0/ATTRIBUTE&rdquo; (e.g. &lsquo;name&rsquo;) or &ldquo;/entities/0/links/LINKED_OBJ&rdquo; (e.g. &lsquo;contacts&rsquo;)</td>
+<td>&ldquo;/entities/0/ATTRIBUTE&rdquo; (e.g. &lsquo;name&rsquo;) or &ldquo;/entities/0/links/LINKED_OBJ&rdquo; (e.g. &lsquo;contacts&rsquo;, &lsquo;tags&rsquo;)</td>
 </tr>
 <tr>
 <td>value</td>
 <td>-&gt;</td>
-<td>for attributes, a value of the correct data type for that attribute; for linked objects, the String id of that object</td>
+<td>for attributes, a value of the correct data type for that attribute; for linked objects, the String id (or name for tags) of that object</td>
 </tr>
 </tbody></table>
 

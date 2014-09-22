@@ -376,12 +376,12 @@ curl http://localhost:3081/contacts/21,22
 <tr>
 <td>path</td>
 <td>String</td>
-<td>&ldquo;/contacts/0/ATTRIBUTE&rdquo; (e.g. &lsquo;first_name&rsquo;) or &ldquo;/contacts/0/links/LINKED_OBJ&rdquo; (e.g. &lsquo;media&rsquo;)</td>
+<td>&ldquo;/contacts/0/ATTRIBUTE&rdquo; (e.g. &lsquo;first_name&rsquo;) or &ldquo;/contacts/0/links/LINKED_OBJ&rdquo; (e.g. &lsquo;media&rsquo;, &lsquo;tags&rsquo;)</td>
 </tr>
 <tr>
 <td>value</td>
 <td>-&gt;</td>
-<td>for attributes, a value of the correct data type for that attribute; for linked objects, the String id of that object</td>
+<td>for attributes, a value of the correct data type for that attribute; for linked objects, the String id (or name for tags) of that object</td>
 </tr>
 </tbody></table>
 
@@ -1709,7 +1709,9 @@ curl http://localhost:3081/entities/17,25
 <span class="s1">'[
   {"op"    : "add",
    "path"  : "/entities/0/linked/contacts",
-   "value" : '</span>352<span class="s1">'}
+   "value" : '</span>352<span class="s1">'},
+  {"op"    : "remove",
+   "path"  : "/entities/0/linked/tags/database"
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/entities/157'</span>
 </pre>
@@ -1718,8 +1720,9 @@ curl http://localhost:3081/entities/17,25
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_entities</span><span class="p">(</span>
   <span class="o">[</span> <span class="s1">'157'</span> <span class="o">]</span><span class="p">,</span>
-  <span class="ss">:name</span>         <span class="o">=&gt;</span> <span class="s1">'www.example_com'</span><span class="p">,</span>
-  <span class="ss">:add_contacts</span> <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'352'</span> <span class="o">]</span>
+  <span class="ss">:name</span>        <span class="o">=&gt;</span> <span class="s1">'www.example_com'</span><span class="p">,</span>
+  <span class="ss">:add_contact</span> <span class="o">=&gt;</span> <span class="s1">'352'</span>
+  <span class="ss">:remove_tag</span>  <span class="o">=&gt;</span> <span class="s1">'database'</span>
 <span class="p">)</span>
 </pre>
 
@@ -1746,12 +1749,12 @@ curl http://localhost:3081/entities/17,25
 <tr>
 <td>path</td>
 <td>String</td>
-<td>&ldquo;/entities/0/ATTRIBUTE&rdquo; (e.g. &lsquo;name&rsquo;) or &ldquo;/entities/0/links/LINKED_OBJ&rdquo; (e.g. &lsquo;contacts&rsquo;)</td>
+<td>&ldquo;/entities/0/ATTRIBUTE&rdquo; (e.g. &lsquo;name&rsquo;) or &ldquo;/entities/0/links/LINKED_OBJ&rdquo; (e.g. &lsquo;contacts&rsquo;, &lsquo;tags&rsquo;)</td>
 </tr>
 <tr>
 <td>value</td>
 <td>-&gt;</td>
-<td>for attributes, a value of the correct data type for that attribute; for linked objects, the String id of that object</td>
+<td>for attributes, a value of the correct data type for that attribute; for linked objects, the String id (or name for tags) of that object</td>
 </tr>
 </tbody></table>
 
@@ -2121,14 +2124,106 @@ curl http://localhost:3081/entities/17,25
 
   <h1 id="checks">Checks</h1>
 
-<h2 id="disable-a-check">Disable a check</h2>
+<p>The Check resource has the following attributes:</p>
 
-<p>Disable a check (by setting its enabled attribute to false). This is currently
-the only supported check property for updates via the JSONAPI, due to
-limitations in the underlying data storage model. This will be addressed in
-future Flapjack releases.</p>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>id</td>
+<td>String</td>
+<td></td>
+</tr>
+<tr>
+<td>tags</td>
+<td>Array[String]</td>
+<td></td>
+</tr>
+</tbody></table>
 
-<p>(Checks are re-enabled when new events are generated for them.)</p>
+<h2 id="create-checks">Create checks</h2>
+<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+ <span class="s1">'{
+    "checks": [
+      {
+        "entity_id": "825",
+        "name": "PING",
+        "tags": [
+          "foo"
+        ]
+      }
+    ]
+  }'</span> <span class="se">\</span>
+ http://localhost:3081/checks
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_checks</span><span class="p">(</span><span class="o">[</span>
+  <span class="p">{</span>
+    <span class="s1">'entity_id'</span> <span class="o">=&gt;</span> <span class="s1">'825'</span><span class="p">,</span>
+    <span class="s1">'name'</span>      <span class="o">=&gt;</span> <span class="s1">'foo.example.com'</span><span class="p">,</span>
+    <span class="s1">'tags'</span>      <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'foo'</span> <span class="o">]</span>
+  <span class="p">}</span>
+<span class="o">]</span><span class="p">)</span>
+</pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">POST /checks</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>checks</td>
+<td>Array[Check]</td>
+<td>An array of Check resources to create.</td>
+</tr>
+</tbody></table>
+
+<h3 id="http-return-codes">HTTP Return Codes</h3>
+
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>201</td>
+<td>The submitted checks were created successfully.</td>
+</tr>
+<tr>
+<td>405</td>
+<td><strong>Error</strong> The submitted check data was not sent with the JSONAPI MIME type <code class="prettyprint">application/vnd.api+json</code>.</td>
+</tr>
+<tr>
+<td>422</td>
+<td><strong>Error</strong> The submitted check data did not conform to the provided specification.</td>
+</tr>
+</tbody></table>
+
+<h2 id="update-checks">Update checks</h2>
+
+<p>Update one or more checks.</p>
+
+<p>(NB: disabled checks are re-enabled when new events are generated for them.)</p>
 <pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
@@ -2142,7 +2237,8 @@ future Flapjack releases.</p>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_checks</span><span class="p">(</span>
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
-  <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+  <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
+  <span class="ss">:add_tag</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s1">'created_2013-14'</span><span class="o">]</span>
 <span class="p">)</span>
 </pre>
 
@@ -2164,17 +2260,17 @@ future Flapjack releases.</p>
 <tr>
 <td>op</td>
 <td>String</td>
-<td>&ldquo;replace&rdquo;</td>
+<td>one of <em>replace</em> (for attributes), <em>add</em> or <em>remove</em> (for linked objects)</td>
 </tr>
 <tr>
 <td>path</td>
 <td>String</td>
-<td>&ldquo;/checks/0/enabled&rdquo;</td>
+<td>&ldquo;/checks/0/ATTRIBUTE&rdquo; (e.g. &lsquo;enabled&rsquo;) or &ldquo;/entities/0/links/LINKED_OBJ&rdquo; (e.g. &lsquo;tags&rsquo;)</td>
 </tr>
 <tr>
 <td>value</td>
-<td>Boolean</td>
-<td>true or false</td>
+<td>-&gt;</td>
+<td>for attributes, a value of the correct data type for that attribute (Boolean for enabled); for linked objects, the String id (or name for tags) of that object</td>
 </tr>
 </tbody></table>
 

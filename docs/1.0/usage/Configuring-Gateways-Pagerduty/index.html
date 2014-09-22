@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+        <li><a href="/docs">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+    <center>
+      
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10">
+        <h1 id="configuring-the-pagerduty-gateway">Configuring the Pagerduty gateway</h1>
+
+<p><a href="https://www.pagerduey.com/">Pagerduty</a> is a provider of alert delivery via SMS, phone calls, and push notifications. They also provide escalation and oncall rotation scheduling. Flapjack&rsquo;s Pagerduty gateway is bidirectional, in that it:
+- sends alerts to pagerduty
+- receives acknowledgements from pagerduty</p>
+
+<p>Currently Flapjack polls Pagerduty for acknowledgements. A webhook listener may be added to the Flapjack Pagerduty gateway in the future.</p>
+
+<p>The Flapjack Pagerduty gateway does not support rollup, given Pagerduty itself supports rollup.</p>
+
+<h2 id="config-options">Config Options</h2>
+
+<h2 id="notifier">notifier</h2>
+
+<table><thead>
+<tr>
+<th>Config</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pagerduty_queue</td>
+<td>String</td>
+<td>The name of the queue to use for sending messages to the pagerduty gateway</td>
+</tr>
+</tbody></table>
+
+<h2 id="gateways/pagerduty">gateways/pagerduty</h2>
+
+<table><thead>
+<tr>
+<th>Config</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>enabled</td>
+<td>yes/no</td>
+<td>Enable this gateway?</td>
+</tr>
+<tr>
+<td>queue</td>
+<td>String</td>
+<td>The queue name to listen on. Must match the &lsquo;sms_twilio_queue&rsquo; defined in the notitifier.</td>
+</tr>
+<tr>
+<td>logger/level</td>
+<td>FATAL/ERROR/WARN/INFO/DEBUG</td>
+<td>The logging verbosity of the gateway. Set to DEBUG, reload flapjack, and consult flapjack.log if you&rsquo;re having trouble.</td>
+</tr>
+<tr>
+<td>logger/syslog_errors</td>
+<td>yes/no</td>
+<td>Send logging messages at ERROR or FATAL to the syslog</td>
+</tr>
+<tr>
+<td>templates/alert.text</td>
+<td>String</td>
+<td>Path to a custom template for alerts about individual checks. Must be an ERB file. See the <a href="https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/pagerduty/alert.text.erb">default</a></td>
+</tr>
+</tbody></table>
+
+<h2 id="contact-media-setup">Contact Media Setup</h2>
+
+<p>Typically you&rsquo;ll only need one contact in Flapjack that has a Pagerduty contact medium configured. However you can have multiple, if you have several organisations in Pagerduty you wish to create incidents for.</p>
+
+<p>The pagerduty contact medium takes several parameters as follows:</p>
+
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>service_key (string)</td>
+<td>the API key for PagerDuty&rsquo;s integration API, corresponds to a &lsquo;service&rsquo; within this contact&rsquo;s PagerDuty account</td>
+</tr>
+<tr>
+<td>subdomain (string)</td>
+<td>the subdomain for this contact&rsquo;s PagerDuty account, eg &ldquo;foobar&rdquo; in the case of https://foobar.pagerduty.com/</td>
+</tr>
+<tr>
+<td>username (string)</td>
+<td>the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty</td>
+</tr>
+<tr>
+<td>password (string)</td>
+<td>the password for the PagerDuty REST API</td>
+</tr>
+</tbody></table>
+
+<p>Currently the web interface does not support management of pagerduty credentials, it will only display them. Therefore, you need to use the api to do this. See the <a href="http://flapjack.io/docs/1.0/jsonapi/#pagerduty-credentials">jsonapi reference</a> for details.</p>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>
