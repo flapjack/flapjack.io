@@ -1,6 +1,7 @@
 # Configuring the Pagerduty gateway
 
 [Pagerduty](https://www.pagerduey.com/) is a provider of alert delivery via SMS, phone calls, and push notifications. They also provide escalation and oncall rotation scheduling. Flapjack's Pagerduty gateway is bidirectional, in that it:
+
 - sends alerts to pagerduty
 - receives acknowledgements from pagerduty
 
@@ -38,6 +39,7 @@ The pagerduty contact medium takes several parameters as follows:
 | subdomain (string) | the subdomain for this contact's PagerDuty account, eg "foobar" in the case of https://foobar.pagerduty.com/ |
 | username (string) | the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty |
 | password (string) | the password for the PagerDuty REST API |
+
 
 Currently the web interface does not support management of pagerduty credentials, it will only display them. Therefore, you need to use the api to do this. See the [jsonapi reference](http://flapjack.io/docs/1.0/jsonapi/#pagerduty-credentials) for details.
 
