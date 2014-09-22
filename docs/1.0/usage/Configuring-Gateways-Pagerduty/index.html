@@ -33,9 +33,12 @@
         <div class="col-md-offset-1 col-md-10">
         <h1 id="configuring-the-pagerduty-gateway">Configuring the Pagerduty gateway</h1>
 
-<p><a href="https://www.pagerduey.com/">Pagerduty</a> is a provider of alert delivery via SMS, phone calls, and push notifications. They also provide escalation and oncall rotation scheduling. Flapjack&rsquo;s Pagerduty gateway is bidirectional, in that it:
-- sends alerts to pagerduty
-- receives acknowledgements from pagerduty</p>
+<p><a href="https://www.pagerduey.com/">Pagerduty</a> is a provider of alert delivery via SMS, phone calls, and push notifications. They also provide escalation and oncall rotation scheduling. Flapjack&rsquo;s Pagerduty gateway is bidirectional, in that it:</p>
+
+<ul>
+<li>sends alerts to pagerduty</li>
+<li>receives acknowledgements from pagerduty</li>
+</ul>
 
 <p>Currently Flapjack polls Pagerduty for acknowledgements. A webhook listener may be added to the Flapjack Pagerduty gateway in the future.</p>
 
