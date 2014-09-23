@@ -1,5 +1,6 @@
 #Flapjack Documentation
 
-### [0.9](0.9)
+### <a href="/docs/0.9/">0.9</a>
 
-### [1.0](1.0)
+### <a href="/docs/1.0/">1.x</a>
+
