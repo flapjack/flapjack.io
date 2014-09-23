@@ -5,8 +5,17 @@
   <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
   <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/github-markdown.css" type="text/css">
   <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .markdown-body {
+        min-width: 200px;
+        max-width: 790px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
@@ -30,7 +39,7 @@
     </center>
     <div class="container content">
       <div class="row">
-        <div class="col-md-offset-1 col-md-10">
+        <div class="col-md-offset-1 col-md-10 markdown-body">
         <h1 id="howto:-dynamic-linking-of-contacts-using-the-&#39;all&#39;-entity-hack">Howto: Dynamic linking of Contacts using the &lsquo;ALL&rsquo; entity hack</h1>
 
 <p>Flapjack 0.x and 1.x have a requirement that contacts must be explicity linked to entities in order for any notifications about checks on the entity to go to the contact. This is too restrictive for some sites and means it&rsquo;s much harder to use Flapjack for alerting of environments where hosts come and go without configuration management ceremony, eg in autoscaling groups.</p>
