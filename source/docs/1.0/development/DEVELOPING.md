@@ -134,8 +134,11 @@ Before building the gem for release, you need to do a bit of housekeeping:
   `vi CHANGELOG.md`
 - Update the bundle
   `bundle`
+- Update the bundle for ruby 1.9 also
+  `rbenv shell 1.9.3-p484 && BUNDLE_GEMFILE=Gemfile-ruby1.9 bundle`
+- (start a new shell to clear the `rbenv shell ...`)
 - Run the tests (to be sure, to be sure)
-  `bundle exec rake spec && bundle exec rake features`
+  `bundle exec rake spec && bundle exec rake features && bundle exec rake pact:verify`
 - Fix the tests, or abort the release mission, if any tests are failing.
 - Commit (use the actual new version string in the commit message below)
   `git commit -a -m 'prepare v0.0.0 release'`
