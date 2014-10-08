@@ -152,8 +152,11 @@ open coverage/index.html
 <code class="prettyprint">vi CHANGELOG.md</code></li>
 <li>Update the bundle
 <code class="prettyprint">bundle</code></li>
+<li>Update the bundle for ruby 1.9 also
+<code class="prettyprint">rbenv shell 1.9.3-p484 &amp;&amp; BUNDLE_GEMFILE=Gemfile-ruby1.9 bundle</code></li>
+<li>(start a new shell to clear the <code class="prettyprint">rbenv shell ...</code>)</li>
 <li>Run the tests (to be sure, to be sure)
-<code class="prettyprint">bundle exec rake spec &amp;&amp; bundle exec rake features</code></li>
+<code class="prettyprint">bundle exec rake spec &amp;&amp; bundle exec rake features &amp;&amp; bundle exec rake pact:verify</code></li>
 <li>Fix the tests, or abort the release mission, if any tests are failing.</li>
 <li>Commit (use the actual new version string in the commit message below)
 <code class="prettyprint">git commit -a -m &#39;prepare v0.0.0 release&#39;</code></li>
