@@ -59,6 +59,88 @@ Return code | Description
 422 | **Error** The submitted check data did not conform to the provided specification.
 
 
+
+## Get checks
+
+If no check ids are provided then all entities will be returned; if check ids
+are provided then only the checks matching those ids will be returned. (Check
+ids are composed by joining together the check's entity's name, the character
+':' and the check's name.)
+
+```shell
+curl http://localhost:3081/checks
+
+# or
+curl 'http://localhost:3081/checks/example.com:HOST'
+
+# or
+curl 'http://localhost:3081/checks/example.com:PING,example.com:SSH'
+```
+
+```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+Flapjack::Diner.checks
+
+# or
+Flapjack::Diner.checks('example.com:HOST')
+
+# or
+Flapjack::Diner.checks('example.com:PING', 'example.com:SSH')
+```
+
+> The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:
+
+```json
+{
+  "checks": [
+    {
+      "id": "www.example.com:PING",
+      "name": "PING",
+      "entity_name": "www.example.com",
+      "enabled": true,
+      "tags": [
+        "production"
+      ],
+      "links": {
+        "entities": ["57"]
+      }
+    },
+    {
+      "id": "www.example.com::SSH",
+      "name": "SSH",
+      "entity_name": "www.example.com",
+      "enabled": true,
+      "tags": [],
+      "links": {
+        "entities": ["57"]
+      }
+    }
+  ]
+}
+```
+
+### HTTP Request
+
+`GET /checks`
+
+**or**
+
+`GET /checks/ID[,ID,ID...]`
+
+### Query Parameters
+
+None.
+
+### HTTP Return Codes
+
+Return code | Description
+--------- | -----------
+200 | OK
+
+
+
 ## Update checks
 
 Update one or more checks.
