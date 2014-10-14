@@ -1,0 +1,20 @@
+<h1> Documentation </h1>
+
+<ul>
+<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
+<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
+<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
+</ul>
+
+<% %w(usage development).each do |section| %>
+
+  <%="<h4> #{section.capitalize} </h4>"%>
+
+  <ul>
+    <% Dir[File.dirname(__FILE__) + "/#{section}/*.md"].map {|f| File.basename(f, '.md')}.sort.each do |filename| %>
+      <% pagename = filename.split(/-|_/).join(' ').capitalize %>
+      <li><a href=<%="#{section}/#{filename}"%>><%="#{pagename}"%></a></li>
+    <% end %>
+  </ul>
+
+<% end %>

@@ -25,6 +25,7 @@ activate :directory_indexes
 # The API theme is overridden in docs/*/jsonapi
 page "/docs/0.9/*", :layout => "0.9"
 page "/docs/1.0/*", :layout => "1.0"
+page "/docs/2.x/*", :layout => "2.x"
 
 # Links in the menubar and front page load the default_version of Flapjack's docs.
 # The following line is the only place to update when you want to use a new default version.

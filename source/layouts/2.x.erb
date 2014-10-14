@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%= partial "header" %>
+    <center>
+      <%= partial(:version_warning, :locals => { :version => "2.x" }) %>
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 markdown-body">
+        <%= yield %>
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <%= partial "footer" %>
+</body>
+</html>
