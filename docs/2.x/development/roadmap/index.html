@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/github-markdown.css" type="text/css">
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .markdown-body {
+        min-width: 200px;
+        max-width: 790px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+        <li><a href="/docs">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+    <center>
+        <div class="alert alert-info" style="padding-top: 10px; padding-bottom: 0px; margin-bottom: 0px; height: 40px">
+      <strong>This is documentation for Flapjack version 2.x:</strong>
+      If you're looking for version 1.0 documentation, click <a class="alert-link" href="http://flapjack.io/docs/1.0">here.</a>
+  </div>
+
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 markdown-body">
+        <h2 id="what-could-we-deliver-in-flapjack-2.0?">What could we deliver in Flapjack 2.0?</h2>
+
+<ul>
+<li>Original idea: parity with 1.x, but with better internals</li>
+<li>Recently: data model changes including: 
+
+<ul>
+<li>Removing entities</li>
+<li>Implement relationships with tags</li>
+<li>Rework how notifications are generated (more Redis, less Ruby)</li>
+</ul></li>
+<li>Do we use different technologies for the message bus? Kafka?</li>
+<li>Do we implement different data storage technology for history? InfluxDB?</li>
+<li>Remove daemonisation code, use a Golang wrapper, or systemd.</li>
+<li>GUI improvements:
+
+<ul>
+<li>Pagination</li>
+<li>Finish off contact management</li>
+<li>Searching</li>
+</ul></li>
+<li>Split out web interface into a separate RubyGem.</li>
+<li>Re-implement the web app to talk to the API directly?</li>
+<li>Documentation on how notification rules + tags + groups of contacts work in Flapjack 2.0</li>
+<li>RPMs + full Red Hat support, with a Yum repository</li>
+<li>Configurable states - moving beyond OK, WARNING, CRITICAL, UNKNOWN</li>
+<li>Notification rule support for configurable states</li>
+<li>Ability to source extra data on alerts, like nagios-herald</li>
+<li>Formalisation around how the gateways work</li>
+<li>Unification of media gateways (e.g. multiple gateways talking to single queue, or separate gateway plugins for different SMS providers)</li>
+<li>Parenting&hellip;</li>
+</ul>
+
+<p>At a high level, deliverables fit into three categories:</p>
+
+<ul>
+<li>Architecture</li>
+<li>Features (some with architectural dependencies)</li>
+<li>Release</li>
+</ul>
+
+<h2 id="what-are-we-delivering-for-flapjack-2.0?">What are we delivering for Flapjack 2.0?</h2>
+
+<p>Background:</p>
+
+<ul>
+<li>There are features above that might be delayable to 2.x series minor releases</li>
+<li>If we can implement the backwards incompatible changes for 2.0, we have a solid platform for shipping these features in 2.x</li>
+<li>There’s a risk that we would need to introduce backwards incompatible changes that we didn’t anticipate to deliver these features </li>
+<li>1.0 took a long time to ship - 9 months delayed</li>
+<li>We all feel pretty average about the delivery time</li>
+<li>We want to ship faster in the future</li>
+<li>There was scope creep.</li>
+<li>Scope creep is inescapable in any project of sufficient complexity</li>
+<li>We can aggressively limit the scope to ship quicker</li>
+<li>Do this buy only attacking architectural deliverables, and minimal release deliverables</li>
+</ul>
+
+<h3 id="outcomes">Outcomes</h3>
+
+<p>Make Flapjack platform changes to: </p>
+
+<ul>
+<li>Make it easier to add features</li>
+<li>Make it easier to optimise performance</li>
+</ul>
+
+<h3 id="what-are-the-architectural-deliverables-we-need-to-ship?">What are the architectural deliverables we need to ship?</h3>
+
+<ul>
+<li>Data model changes:
+
+<ul>
+<li>Removing entities</li>
+<li>Implement relationships with tags</li>
+<li>Rework how notifications are generated (more Redis, less Ruby)</li>
+</ul></li>
+<li>Sandstorm as the Redis ORM</li>
+<li>Richer tagging support:
+
+<ul>
+<li>Tags as top level objects (can query intersections, relationships, do JOIN like operations)</li>
+<li>Tag namespacing - some reserved namespaces (like entity:)</li>
+<li>Contact grouping </li>
+<li>Entity grouping</li>
+</ul></li>
+</ul>
+
+<h3 id="what-have-we-currently-broken-with-these-architectural-changes?">What have we currently broken with these architectural changes?</h3>
+
+<ul>
+<li>Web interface</li>
+<li>API?</li>
+<li>Grouping of checks around entities (there are no entities)
+
+<ul>
+<li>We can re-add these with tags</li>
+<li>Multi-tenancy - restricting tags returned to a client. </li>
+<li>Tag (entity:foo,entity:bar) -&gt; checks with this tag -&gt; all other tags on those checks</li>
+<li>Gateways</li>
+<li>How do they handle lack of entities? Tags.</li>
+</ul></li>
+</ul>
+
+<p>We need to review almost every line of the code for Flapjack 2.0. </p>
+
+<h3 id="what-have-we-done-already?">What have we done already?</h3>
+
+<p>As of 2014/10/14, we have implemented these data model changes:</p>
+
+<ul>
+<li>Removing entities</li>
+<li>Implement relationships with tags</li>
+<li>Rework how notifications are generated (more Redis, less Ruby)</li>
+<li>Sandstorm as the Redis ORM</li>
+</ul>
+
+<h3 id="what-do-we-need-to-do-to-ship-flapjack-2.0?">What do we need to do to ship Flapjack 2.0?</h3>
+
+<blockquote>
+<p>“Do all the damage we’re going to do before starting to repair.”</p>
+</blockquote>
+
+<p>In order of priority:</p>
+
+<p>API:</p>
+
+<ul>
+<li>Pagination</li>
+</ul>
+
+<p>Tags:</p>
+
+<ul>
+<li>Collect use cases for tagging
+
+<ul>
+<li>Rollup</li>
+<li>Multi-tenancy</li>
+<li>Gateways</li>
+<li>Web interface</li>
+<li>API querying (e.g. get a list of all entities that have active checks, i.e. not disabled, would query /checks endpoint with tags + disabled parameter)</li>
+</ul></li>
+<li>Define what the scope of the tagging changes will be</li>
+<li>Implement tagging changes</li>
+<li>Define policy around tagging</li>
+</ul>
+
+<p>Search:</p>
+
+<ul>
+<li>Contacts</li>
+<li>Checks</li>
+<li>Tags</li>
+</ul>
+
+<p>Web: </p>
+
+<ul>
+<li>Fix broken features where possible.</li>
+<li>Drop features where it’s too hard.</li>
+</ul>
+
+<p>Start a separate project for the web interface post 2.0 release.</p>
+
+<h4 id="maybes">Maybes</h4>
+
+<p>Channels (Do we delay this until 3.0? Can we wait until a minor release?):</p>
+
+<ul>
+<li>High level routing for groups of people (teams, departments, companies)</li>
+<li>Currently sites who want to use Flapjack for multi-tenancy require some external source of truth to handle the complex mappings between contacts and entities/checks.</li>
+<li>Channels would be a helpful accelerator for multi-tenant cases. </li>
+</ul>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>
