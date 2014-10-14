@@ -23,7 +23,6 @@
  * Unification of media gateways (e.g. multiple gateways talking to single queue, or separate gateway plugins for different SMS providers)
  * Parenting...
 
-
 At a high level, deliverables fit into three categories:
 
  * Architecture
@@ -47,7 +46,7 @@ Background:
 
 ### Outcomes
 
-Make the platform changes to: 
+Make Flapjack platform changes to: 
 
 * Make it easier to add features
 * Make it easier to optimise performance
@@ -89,7 +88,9 @@ As of 2014/10/14, we have implemented these data model changes:
 
 ### What do we need to do to ship Flapjack 2.0?
 
-> “Do all the damage we’re going to do before starting the repairing.”
+> “Do all the damage we’re going to do before starting to repair.”
+
+In order of priority:
 
 API:
 
@@ -122,8 +123,10 @@ Start a separate project for the web interface post 2.0 release.
 
 #### Maybes
 
-Channels (3.0? minor release?):
+Channels (Do we delay this until 3.0? Can we wait until a minor release?):
 
  * High level routing for groups of people (teams, departments, companies)
+ * Currently sites who want to use Flapjack for multi-tenancy require some external source of truth to handle the complex mappings between contacts and entities/checks.
+ * Channels would be a helpful accelerator for multi-tenant cases. 
 
 
