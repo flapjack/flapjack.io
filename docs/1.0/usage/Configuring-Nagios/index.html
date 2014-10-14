@@ -40,8 +40,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1 id="configuring-nagios">Configuring Nagios</h1>
-
+        <h1 id='configuring-nagios'>Configuring Nagios</h1>
 <p>Nagios versions 3.3 - 3.4.2 will not work due to <a href="http://tracker.nagios.org/view.php?id=247">a bug that breaks perfdata output</a> for checks which don&rsquo;t generate performance data (text after a | in the check output).</p>
 
 <p>Because this output is omitted, <code class="prettyprint">flapjack receiver nagios</code> is unable to parse event information from Nagios and send it to Flapjack.</p>
@@ -51,9 +50,7 @@
 <p>We are developing and running against Nagios version 3.2.3 with success.</p>
 
 <p>There are two ways to configure nagios.</p>
-
-<h2 id="flapjack&#39;s-broker-module">Flapjack&rsquo;s broker module</h2>
-
+<h2 id='flapjack39s-broker-module'>Flapjack&rsquo;s broker module</h2>
 <p>The first (and recommended) way is to enable the flapjackfeeder.o broker module.</p>
 
 <p><code class="prettyprint">nagios.cfg</code> config file changes:</p>
@@ -61,9 +58,7 @@
 enable_notifications=0
 broker_module=/usr/local/lib/flapjackfeeder.o redis_host=localhost,redis_port=6380
 </pre>
-
-<h2 id="flapjack&#39;s-receiver-command">Flapjack&rsquo;s receiver command</h2>
-
+<h2 id='flapjack39s-receiver-command'>Flapjack&rsquo;s receiver command</h2>
 <p>Note: We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.  For this reason, the nagios event broker module above was created, and is now the recommended configuration.</p>
 
 <p><code class="prettyprint">nagios.cfg</code> config file changes:</p>

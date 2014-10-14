@@ -38,23 +38,16 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h1 id="-packages.flapjack.io"><img title="Flapjack" alt="Flapjack" src="http://flapjack.io/images/flapjack-2013-notext-transparent-50-50.png" /> packages.flapjack.io</h1>
-
+        <h1 id='img-titleflapjack-altflapjack-srchttpflapjack-ioimagesflapjack-2013-notext-transparent-50-50-png--packages-flapjack-io'><img title="Flapjack" alt="Flapjack" src="http://flapjack.io/images/flapjack-2013-notext-transparent-50-50.png" /> packages.flapjack.io</h1>
 <p>The <a href="http://packages.flapjack.io/">Flapjack package repositories</a> web page and maintenance info.</p>
 
 <p>Packages are created with <a href="http://github.com/flapjack/omnibus-flapjack">Omnibus</a>,
 and pushed to S3 as part of that project.</p>
-
-<h1 id="making-changes">Making changes</h1>
-
+<h1 id='making-changes'>Making changes</h1>
 <p>Make changes to the web content on packages.flapjack.io in this directory and push changes to github.</p>
 
 <p>Note that package repositories are now maintained by <a href="http://github.com/flapjack/omnibus-flapjack">omnibus-flapjack</a> using <a href="http://www.aptly.info">aptly</a>.</p>
-
-<h1 id="publishing-to-packages.flapjack.io">Publishing to packages.flapjack.io</h1>
-
-<h2 id="install-awscli:">Install awscli:</h2>
-
+<h1 id='publishing-to-packages-flapjack-io'>Publishing to packages.flapjack.io</h1><h2 id='install-awscli'>Install awscli:</h2>
 <ul>
 <li>OS X: <code class="prettyprint">brew install awscli</code></li>
 <li>Debian/Ubuntu: <code class="prettyprint">sudo apt-get update &amp;&amp; sudo apt-get install python-pip groff &amp;&amp; sudo pip install awscli</code></li>
@@ -65,15 +58,11 @@ and pushed to S3 as part of that project.</p>
 </pre>
 
 <p>(or use a separate profile for this repo)</p>
-
-<h2 id="push-to-s3:">Push to S3:</h2>
-
+<h2 id='push-to-s3'>Push to S3:</h2>
 <p>From within the root directory of the flapjack.io repo run:</p>
 <pre class="highlight shell">bin/publish-packages-flapjack-io
 </pre>
-
-<h2 id="adding-or-revoking-other-aws-users&#39;-permissions">Adding or revoking other AWS users&#39; permissions</h2>
-
+<h2 id='adding-or-revoking-other-aws-users39-permissions'>Adding or revoking other AWS users&#39; permissions</h2>
 <p>There is a select group of people who can push packages to the official repositories at <a href="http://packages.flapjack.io">packages.flapjack.io</a>, which is hosted on S3.</p>
 
 <p>To view who has access:</p>
@@ -97,9 +86,7 @@ Warning: this replaces all existing ACLs - you can find the existing IDs of the 
 <li><a href="https://github.com/auxesis">Lindsay Holmwood</a></li>
 <li><a href="https://github.com/hobbsee">Sarah Kowalik</a></li>
 </ul>
-
-<h1 id="how-is-the-hosting-configured?">How is the hosting configured?</h1>
-
+<h1 id='how-is-the-hosting-configured'>How is the hosting configured?</h1>
 <p>We&rsquo;re using DNSimple for the flapjack.io domain name hosting, Amazon Route 53 for domain name hosting of packages.flapjack.io, and Amazon S3 to host the files and directories.</p>
 
 <p>Here are the nameservers <code class="prettyprint">flapjack.io</code> is delegated to:</p>

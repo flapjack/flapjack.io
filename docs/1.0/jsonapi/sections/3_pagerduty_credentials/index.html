@@ -40,8 +40,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1 id="pagerduty-credentials">PagerDuty credentials</h1>
-
+        <h1 id='pagerduty-credentials'>PagerDuty credentials</h1>
 <p>The PagerDuty resource has the following attributes:</p>
 
 <table><thead>
@@ -72,9 +71,7 @@
 <td></td>
 </tr>
 </tbody></table>
-
-<h2 id="create-pagerduty-credentials-for-a-contact">Create PagerDuty credentials for a contact</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-pagerduty-credentials-for-a-contact'>Create PagerDuty credentials for a contact</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "pagerduty_credentials": [
       {
@@ -100,13 +97,9 @@
   <span class="p">}</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /contacts/CONTACT_ID/pagerduty_credentials</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -120,9 +113,7 @@
 <td>An array of PagerDuty resources to create.</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -142,9 +133,7 @@
 <td><strong>Error</strong> The submitted PagerDuty credentials data did not conform to the provided specification.</td>
 </tr>
 </tbody></table>
-
-<h2 id="get-pagerduty-credentials">Get PagerDuty credentials</h2>
-
+<h2 id='get-pagerduty-credentials'>Get PagerDuty credentials</h2>
 <p>If no contact ids are provided then all PagerDuty credentials resources will be returned; if contact ids
 are provided then only the PagerDuty credentials resources matching those ids will be returned.</p>
 <pre class="highlight shell">curl http://localhost:3081/pagerduty_credentials
@@ -193,21 +182,15 @@ curl http://localhost:3081/pagerduty_credentials/21,22
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /pagerduty_credentials</code></p>
 
 <p><strong>or</strong></p>
 
 <p><code class="prettyprint">GET /pagerduty_credentials/CONTACT_ID[,CONTACT_ID,CONTACT_ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <p>None.</p>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -219,9 +202,7 @@ curl http://localhost:3081/pagerduty_credentials/21,22
 <td>OK</td>
 </tr>
 </tbody></table>
-
-<h2 id="update-pagerduty-credentials">Update PagerDuty credentials</h2>
-
+<h2 id='update-pagerduty-credentials'>Update PagerDuty credentials</h2>
 <p>Update one or more attributes for one or more PagerDuty credentials resources.</p>
 <pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
@@ -243,13 +224,9 @@ curl http://localhost:3081/pagerduty_credentials/21,22
   <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s1">'ideas'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /pagerduty_credentials/CONTACT_ID[,CONTACT_ID,CONTACT_ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <p>Parameters sent for PagerDuty credentials updates must form a valid <a href="http://tools.ietf.org/html/rfc6902">JSON Patch (RFC 6902)</a> document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:</p>
 
 <table><thead>
@@ -275,9 +252,7 @@ curl http://localhost:3081/pagerduty_credentials/21,22
 <td>a value of the correct data type for the attribute in the path</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -297,9 +272,7 @@ curl http://localhost:3081/pagerduty_credentials/21,22
 <td><strong>Error</strong> The submitted PagerDuty credentials data was not sent with the JSON-Patch MIME type <code class="prettyprint">application/json-patch+json</code>.</td>
 </tr>
 </tbody></table>
-
-<h2 id="delete-pagerduty-credentials">Delete PagerDuty credentials</h2>
-
+<h2 id='delete-pagerduty-credentials'>Delete PagerDuty credentials</h2>
 <p>Delete one or more PagerDuty credentials resources.</p>
 <pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/pagerduty_credentials/11'</span>
@@ -316,17 +289,11 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_pagerduty_credentials</span><span class="p">(</span><span class="s1">'31'</span><span class="p">,</span> <span class="s1">'32'</span><span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /pagerduty_credentials/CONTACT_ID[,CONTACT_ID,CONTACT_ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <p>None.</p>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>

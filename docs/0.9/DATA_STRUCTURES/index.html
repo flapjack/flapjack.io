@@ -44,12 +44,9 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h2 id="flapjack-data-structures-in-redis">Flapjack Data Structures in Redis</h2>
-
+        <h2 id='flapjack-data-structures-in-redis'>Flapjack Data Structures in Redis</h2>
 <p>Flapjack is using redis as its data store. Here are the data structures in use.</p>
-
-<h3 id="event-queue">Event queue</h3>
-<pre class="highlight plaintext">events (list) -&gt; [ EVENT, EVENT, ... ]
+<h3 id='event-queue'>Event queue</h3><pre class="highlight plaintext">events (list) -&gt; [ EVENT, EVENT, ... ]
 
 EVENT      (string) - A Ruby hash serialised in JSON:
 
@@ -76,9 +73,7 @@ DETAILS    (string)   - Long check output for a Nagios service event
 PERFDATA   (string)   - Performance data for a Nagios service event
 TAGS       (string[]) - Array of tags pertaining to the event
 </pre>
-
-<h3 id="event-archive-(sliding-window)">Event Archive (sliding window)</h3>
-
+<h3 id='event-archive-sliding-window'>Event Archive (sliding window)</h3>
 <p>Version 0.7.1 +</p>
 
 <p>If enabled in the configuration (environment / executive / archive_events) flapjack
@@ -89,21 +84,15 @@ taken from the configuration (environment / executive / events_archive_maxage - 
 
 EVENT - see the Event queue documentation above
 </pre>
-
-<h3 id="jabber-notification-queue">Jabber notification queue</h3>
-<pre class="highlight plaintext">jabber_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
+<h3 id='jabber-notification-queue'>Jabber notification queue</h3><pre class="highlight plaintext">jabber_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
 
 NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
 </pre>
-
-<h3 id="pagerduty-notification-queue">PagerDuty notification queue</h3>
-<pre class="highlight plaintext">pagerduty_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
+<h3 id='pagerduty-notification-queue'>PagerDuty notification queue</h3><pre class="highlight plaintext">pagerduty_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
 
 NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
 </pre>
-
-<h3 id="storing-all-check-state-changes">Storing all check state changes</h3>
-
+<h3 id='storing-all-check-state-changes'>Storing all check state changes</h3>
 <p><em>Current state</em></p>
 <pre class="highlight plaintext">check:ENTITY:CHECK (hash) -&gt; { 'state' =&gt; STATE, 'last_change' =&gt; TIMESTAMP, 'last_update' =&gt; TIMESTAMP }
 </pre>
@@ -125,30 +114,22 @@ ENTITY:CHECK:TIMESTAMP:check_latency (string) -&gt; LATENCY
 <p><em>Sorted state timestamps</em></p>
 <pre class="highlight plaintext">ENTITY:CHECK:sorted_state_timestamps (sorted set) -&gt; (TIMESTAMP, TIMESTAMP; TIMESTAP, TIMESTAMP; ...)
 </pre>
-
-<h3 id="storing-all-action-events">Storing all action events</h3>
-<pre class="highlight plaintext">ENTITY:CHECK:actions (hash) -&gt; { TIMESTAMP =&gt; STATE }
+<h3 id='storing-all-action-events'>Storing all action events</h3><pre class="highlight plaintext">ENTITY:CHECK:actions (hash) -&gt; { TIMESTAMP =&gt; STATE }
 
 STATE (string) - eg 'acknowledgement'
 </pre>
-
-<h3 id="failed-checks">Failed checks</h3>
-
+<h3 id='failed-checks'>Failed checks</h3>
 <p><em>All failing checks</em></p>
 <pre class="highlight plaintext">failed_checks (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
 </pre>
-
-<h3 id="current-checks-and-entities">Current checks and entities</h3>
-
+<h3 id='current-checks-and-entities'>Current checks and entities</h3>
 <p>Any time an event is received from the check execution system for a check, the check&rsquo;s timestamp (rank) is updated in the sorted set for the entity. If a check isn&rsquo;t in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.</p>
 
 <p>Related to this is the current_entities sorted set, which contains all entities that have current checks, ordered by the timestamp of the latest check event received for each entity.</p>
 <pre class="highlight plaintext">current_checks:ENTITY (sorted set) =&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
 current_entities (sorted set) =&gt; ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
 </pre>
-
-<h3 id="unscheduled-maintenance">Unscheduled Maintenance</h3>
-
+<h3 id='unscheduled-maintenance'>Unscheduled Maintenance</h3>
 <p>This key will only be present during the unschedule maintenance period for quick lookup of whether a service is in unschedule maintenance. An expiry TTL will be put on the key so it automatically goes away (default 4 hrs expiry time).</p>
 
 <p><em>Current state</em></p>
@@ -174,9 +155,7 @@ SUMMARY   - populated from the summary of the acknowledgement(s) (summaries to b
 <pre class="highlight plaintext">ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
                                                                           TIMESTAMP, TIMESTAMP; ... )
 </pre>
-
-<h3 id="scheduled-maintenance">Scheduled Maintenance</h3>
-
+<h3 id='scheduled-maintenance'>Scheduled Maintenance</h3>
 <p>This key will only be present during the scheduled maintenance period for quick lookup of whether a check is in scheduled maintenance. An expiry TTL (4 hours by default) will be put on the key so it destroys itself after this time.</p>
 
 <p><em>Current state</em></p>
@@ -205,9 +184,7 @@ SUMMARY   - populated from the summary of the scheduled maintenance creation eve
 TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the score and value of each
             item in the ordered set)
 </pre>
-
-<h3 id="notifications">Notifications</h3>
-
+<h3 id='notifications'>Notifications</h3>
 <p>We need to store notifications that have been generated (not necessarily sent out, see Alerts), for problems, recoveries, and acknowledgements.</p>
 
 <p><em>Last alert of each type (problem, recovery, acknowledgement)</em></p>
@@ -229,9 +206,7 @@ ENTITY:CHECK:critical_notifications        (list) -&gt; [ TIMESTAMP, TIMESTAMP, 
 ENTITY:CHECK:recovery_notifications        (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:acknowledgement_notifications (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 </pre>
-
-<h3 id="alerts">Alerts</h3>
-
+<h3 id='alerts'>Alerts</h3>
 <p>Alerts correspond to messages that get emitted by Flapjack. A &lsquo;notification&rsquo; may result in 0 or more alerts being sent out, depending on notification rules and intervals configured on the contacts for the check in question.</p>
 <pre class="highlight plaintext">drop_alerts_for_contact:CONTACT_ID                          (string with expiry) -&gt; DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA                    (string with expiry) -&gt; DURATION
@@ -281,9 +256,7 @@ ROLLUP_TYPE - one of nil, 'problem' or 'recovery'. A recovery rollup alert is wh
               the number of alerting events falling below the rollup threshold
 
 </pre>
-
-<h3 id="contacts">Contacts</h3>
-
+<h3 id='contacts'>Contacts</h3>
 <p>Contacts are populated from an external system via REST API or the <code class="prettyprint">flapjack import</code> command line utility. See IMPORTING.</p>
 <pre class="highlight plaintext">contact:CONTACT_ID           (hash) -&gt; { 'first_name' =&gt; FIRST_NAME,
                                          'last_name'  =&gt; LAST_NAME,
@@ -337,9 +310,7 @@ just for matching up users and is not used as a contact media</li>
 jabber_id should also be included in the flapjack configuration file so that flapjack jabber gateway joins
 the group chat</li>
 </ul>
-
-<h3 id="entity-and-check-contacts">Entity and Check Contacts</h3>
-
+<h3 id='entity-and-check-contacts'>Entity and Check Contacts</h3>
 <p>Which contacts are interested in which entities and/or which checks?</p>
 <pre class="highlight plaintext">contacts_for:ENTITY_ID       (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
 contacts_for:ENTITY_ID:CHECK (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
@@ -351,9 +322,7 @@ ENTITY_ID - a unique, immutable identifier given to each entity. This allows the
             to change (eg a host gets renamed) and synchronisation to not go out of whack.
 TAG       - arbitrary tag
 </pre>
-
-<h3 id="notification-rules">Notification Rules</h3>
-
+<h3 id='notification-rules'>Notification Rules</h3>
 <p>A contact may have a set of notification rules to fine tune when, and by what means, they are notified.</p>
 <pre class="highlight plaintext">contact_notification_rules:CONTACT_ID (set) -&gt; { RULE_ID }
 notification_rule:RULE_ID (hash) -&gt; {
@@ -406,15 +375,11 @@ EXRULE, RTIME, EXTIME - See the ice_cube documentation and the iCal specificatio
 <ul>
 <li>TIME_RESTRICTION is a hash representation of an RFC 2445 iCalendar schedule. It is the same format accepted by the flapjack API. When acting on the time restrictions within a notification rule, flapjack modifies the format of the hash to be compatible with <a href="https://github.com/seejohnrun/ice_cube">ice_cube</a>&rsquo;s hash format before instantiating an IceCube::Schedule object to operate on.</li>
 </ul>
-
-<h3 id="alerting-checks-per-contact-media">Alerting Checks per Contact Media</h3>
-
+<h3 id='alerting-checks-per-contact-media'>Alerting Checks per Contact Media</h3>
 <p>We keep track of which failing checks are alerting for each contact&rsquo;s media, for rollup initially but should provide a useful and fast view for users into which failing checks they are being alerted for.</p>
 <pre class="highlight plaintext">contact_alerting_checks:CONTACT_ID:media:MEDIA (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; ... )
 </pre>
-
-<h3 id="event-processor-statistics">Event processor statistics</h3>
-
+<h3 id='event-processor-statistics'>Event processor statistics</h3>
 <p>The following counters are incremented during event processing so we can see how many events flapjack is processing, and of which types.</p>
 <pre class="highlight plaintext">event_counters (hash) -&gt; { all =&gt; COUNTER, ok =&gt; COUNTER, failure =&gt; COUNTER, action =&gt; COUNTER }
 

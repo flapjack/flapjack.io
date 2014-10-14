@@ -44,16 +44,11 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h1 id="api-urls">API URLs</h1>
-
+        <h1 id='api-urls'>API URLs</h1>
 <p><strong>Deprecation Warning:</strong> This api is superseded by &lsquo;<a href="jsonapi">jsonapi</a>&rsquo; - the <a href="http://jsonapi.org">jsonapi.org</a> compliant rework of this api.</p>
 
 <p>Flapjack&rsquo;s HTTP API currently provides the following queries, data import functions and actions:</p>
-
-<h2 id="contacts-and-notifications">Contacts and Notifications</h2>
-
-<h3 id="contacts">Contacts</h3>
-
+<h2 id='contacts-and-notifications'>Contacts and Notifications</h2><h3 id='contacts'>Contacts</h3>
 <ul>
 <li><a href="#get-contacts">GET /contacts</a></li>
 <li><a href="#get-contactscontact_id">GET /contacts/CONTACT_ID</a></li>
@@ -61,26 +56,20 @@
 <li><a href="#put-delete-contactscontact_id">PUT, DELETE /contacts/CONTACT_ID</a></li>
 <li><a href="#delete-contactsidcontact_ididcontact_id">DELETE /contacts</a></li>
 </ul>
-
-<h3 id="media">Media</h3>
-
+<h3 id='media'>Media</h3>
 <ul>
 <li><a href="#get-contactscontact_idmedia">GET /contacts/CONTACT_ID/media</a></li>
 <li><a href="#get-contactscontact_idmediamedia">GET /contacts/CONTACT_ID/media/MEDIA</a></li>
 <li><a href="#put-delete-contactscontact_idmediamedia">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</a></li>
 </ul>
-
-<h3 id="notification-rules">Notification Rules</h3>
-
+<h3 id='notification-rules'>Notification Rules</h3>
 <ul>
 <li><a href="#get-contactscontact_idnotification_rules">GET /contacts/CONTACT_ID/notification_rules</a></li>
 <li><a href="#get-notification_rulesrule_id">GET /notification_rules/RULE_ID</a></li>
 <li><a href="#post-notification_rules">POST /notification_rules</a></li>
 <li><a href="#put-delete-notification_rulesrule_id">PUT, DELETE /notification_rules/RULE_ID</a></li>
 </ul>
-
-<h3 id="misc">Misc</h3>
-
+<h3 id='misc'>Misc</h3>
 <ul>
 <li><a href="#post-contacts_atomic">POST /contacts_atomic</a></li>
 <li><a href="#get_contacts_id_timezone">GET /contacts/CONTACT_ID/timezone</a></li>
@@ -92,11 +81,7 @@
 <li><a href="#post_contacts_id_entitytags">POST /contacts/CONTACT_ID/entity_tags</a></li>
 <li><a href="#delete_contacts_id_entitytags">DELETE /contacts/CONTACT_ID/entity_tags</a></li>
 </ul>
-
-<h2 id="entities-and-checks">Entities and Checks</h2>
-
-<h3 id="entities">Entities</h3>
-
+<h2 id='entities-and-checks'>Entities and Checks</h2><h3 id='entities'>Entities</h3>
 <ul>
   <li><a href="#get_entities">GET /entities</a></li>
   <li><a href="#post_entities">POST /entities</a></li>
@@ -106,15 +91,11 @@
 </ul>
 
 <p></ul></p>
-
-<h3 id="checks">Checks</h3>
-
+<h3 id='checks'>Checks</h3>
 <ul>
   <li><a href="#get_checks">GET /checks/ENTITY</a></li>
 </ul>
-
-<h3 id="status,-maintenances,-acknowledgements,-outages">Status, Maintenances, Acknowledgements, Outages</h3>
-
+<h3 id='status-maintenances-acknowledgements-outages'>Status, Maintenances, Acknowledgements, Outages</h3>
 <ul>
   <li><a href="#get_status">GET /status[/ENTITY[/CHECK]]</a></li>
   <li><a href="#get_outages">GET /outages[/ENTITY[/CHECK]]</a></li>
@@ -126,17 +107,13 @@
   <li><a href="#delete_scheduled_maintenances">DELETE /scheduled_maintenances[/ENTITY[/CHECK]]</a></li>
   <li><a href="#get_downtime">GET /downtime[/ENTITY[/CHECK]]</a></li>
 </ul>
-
-<h3 id="test-notifications">Test Notifications</h3>
-
+<h3 id='test-notifications'>Test Notifications</h3>
 <ul>
   <li><a href="#post_test_notifications">POST /test_notifications[/ENTITY[/CHECK]]</a></li>
 </ul>
 
 <p>See also the <a href="https://github.com/flapjack/flapjack-diner/">flapjack-diner</a> gem which provides a ruby consumer of this API.</p>
-
-<h2 id="query-paramaters">Query Paramaters</h2>
-
+<h2 id='query-paramaters'>Query Paramaters</h2>
 <p>Some of the GET queries can take some optional query string parameters as follows:</p>
 
 <table>
@@ -191,15 +168,9 @@ and checks can be requested.</p>
 data is expressed as encoded form parameters, or serialized as JSON, etc.</p>
 
 <hr>
-
-<h2 id="contacts-and-notifications">Contacts and Notifications</h2>
-
+<h2 id='contacts-and-notifications'>Contacts and Notifications</h2>
 <p><a name="get_contacts">&nbsp;</a></p>
-
-<h3 id="contacts">Contacts</h3>
-
-<h4 id="get-/contacts">GET /contacts</h4>
-
+<h3 id='contacts'>Contacts</h3><h4 id='get-contacts'>GET /contacts</h4>
 <p>Returns all the contacts</p>
 
 <p><strong>Example</strong></p>
@@ -229,9 +200,7 @@ data is expressed as encoded form parameters, or serialized as JSON, etc.</p>
 </span></pre>
 
 <p><a id="get_contacts_id">&nbsp;</a></p>
-
-<h4 id="get-/contacts/contact_id">GET /contacts/CONTACT_ID</h4>
-
+<h4 id='get-contactscontact_id'>GET /contacts/CONTACT_ID</h4>
 <p>Returns the core information of a specified contact.</p>
 
 <p><strong>Example</strong></p>
@@ -250,9 +219,7 @@ data is expressed as encoded form parameters, or serialized as JSON, etc.</p>
 </span></pre>
 
 <p><a id="post_contacts">&nbsp;</a></p>
-
-<h4 id="post-/contacts">POST /contacts</h4>
-
+<h4 id='post-contacts'>POST /contacts</h4>
 <p>Creates one or more contacts, returns an array containing the IDs of the created contacts. The ordering is preserved, so if you POST an array of three contacts, the resulting array of IDs will be in the same order as the posted data, so the first item of the POSTed array will correspond to the first ID in the resulting array, etc.</p>
 
 <p>The ID may optionally be supplied. If it is ommitted, then a UUID will be created.</p>
@@ -328,9 +295,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </span></pre>
 
 <p><a id="put_contacts_id">&nbsp;</a></p>
-
-<h4 id="put,-delete-/contacts/contact_id">PUT, DELETE /contacts/CONTACT_ID</h4>
-
+<h4 id='put-delete-contactscontact_id'>PUT, DELETE /contacts/CONTACT_ID</h4>
 <p>Updates, or deletes, a contact.</p>
 
 <p>The data format (for PUT) is the same as the CONTACT hash detailed in <a href="#post_contacts">POST /contacts</a> however ID must not be supplied (as it is present in the URL).</p>
@@ -367,20 +332,14 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </pre>
 
 <p><a id="delete_contacts">&nbsp;</a></p>
-
-<h4 id="delete-/contacts?id[]=contact_id[&amp;id[]=contact_id[...]]">DELETE /contacts?id[]=CONTACT_ID[&amp;id[]=CONTACT_ID[&hellip;]]</h4>
-
+<h4 id='delete-contactsidcontact_idampidcontact_id-'>DELETE /contacts?id[]=CONTACT_ID[&amp;id[]=CONTACT_ID[&hellip;]]</h4>
 <p>Deletes multiple contacts.</p>
 <pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/contacts?id[]=21&amp;id[]=22'</span>
 </pre>
 
 <p><a id="get_contacts_id_media">&nbsp;</a></p>
-
-<h3 id="media">Media</h3>
-
-<h4 id="get-/contacts/contact_id/media">GET /contacts/CONTACT_ID/media</h4>
-
+<h3 id='media'>Media</h3><h4 id='get-contactscontact_idmedia'>GET /contacts/CONTACT_ID/media</h4>
 <p>Returns the media of a contact.</p>
 
 <p>Includes media type, address, interval, and rollup threshold.</p>
@@ -391,15 +350,11 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </pre>
 
 <p><a id="get_contacts_id_media_media">&nbsp;</a></p>
-
-<h4 id="get-/contacts/contact_id/media/media">GET /contacts/CONTACT_ID/media/MEDIA</h4>
-
+<h4 id='get-contactscontact_idmediamedia'>GET /contacts/CONTACT_ID/media/MEDIA</h4>
 <p>Returns the specified media of a contact.</p>
 
 <p><a id="put_contacts_id_media_media">&nbsp;</a></p>
-
-<h4 id="put,-delete-/contacts/contact_id/media/media">PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</h4>
-
+<h4 id='put-delete-contactscontact_idmediamedia'>PUT, DELETE /contacts/CONTACT_ID/media/MEDIA</h4>
 <p>Creates or updates (PUT) or deletes (DELETE) a media of a contact</p>
 
 <p><strong>Example 1 - PUT</strong></p>
@@ -435,11 +390,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </ul>
 
 <p><a id="get_contacts_id_notification_rules">&nbsp;</a></p>
-
-<h3 id="notification-rules">Notification Rules</h3>
-
-<h4 id="get-/contacts/contact_id/notification_rules">GET /contacts/CONTACT_ID/notification_rules</h4>
-
+<h3 id='notification-rules'>Notification Rules</h3><h4 id='get-contactscontact_idnotification_rules'>GET /contacts/CONTACT_ID/notification_rules</h4>
 <p>Lists a contact&rsquo;s notification rules.</p>
 
 <p><strong>Example</strong></p>
@@ -516,9 +467,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </span></pre>
 
 <p><a id="get_notification_rules_id">&nbsp;</a></p>
-
-<h4 id="get-/notification_rules/rule_id">GET /notification_rules/RULE_ID</h4>
-
+<h4 id='get-notification_rulesrule_id'>GET /notification_rules/RULE_ID</h4>
 <p>Returns a specified notification rule.</p>
 
 <p><strong>Example</strong></p>
@@ -570,9 +519,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </span></pre>
 
 <p><a id="post_notification_rules">&nbsp;</a></p>
-
-<h4 id="post-/notification_rules">POST /notification_rules</h4>
-
+<h4 id='post-notification_rules'>POST /notification_rules</h4>
 <p>Creates a new notification rule.</p>
 
 <p><strong>Example</strong></p>
@@ -635,9 +582,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </ul>
 
 <p><a id="put_notification_rules_id">&nbsp;</a></p>
-
-<h4 id="put,-delete-/notification_rules/rule_id">PUT, DELETE /notification_rules/RULE_ID</h4>
-
+<h4 id='put-delete-notification_rulesrule_id'>PUT, DELETE /notification_rules/RULE_ID</h4>
 <p>Updates or deletes a notification rule</p>
 
 <p><strong>Example</strong></p>
@@ -696,11 +641,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 <p><strong>Response</strong> Status: 204 OK</p>
 
 <p><a id="post_contacts_atomic">&nbsp;</a></p>
-
-<h3 id="misc">Misc</h3>
-
-<h4 id="post-/contacts_atomic">POST /contacts_atomic</h4>
-
+<h3 id='misc'>Misc</h3><h4 id='post-contacts_atomic'>POST /contacts_atomic</h4>
 <p><strong>Deprecated</strong> - use <a href="#post_contacts">POST /contacts</a> instead.</p>
 
 <p>Overwrite all contacts in flapjack. Any existing contacts not found in the supplied JSON payload will be deleted, then newly supplied contacts created, and existing contacts updated.</p>
@@ -743,9 +684,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 <p><strong>Response</strong> Status: 204 No Content</p>
 
 <p><a id="get_contacts_id_timezone">&nbsp;</a></p>
-
-<h4 id="get-/contacts/contact_id/timezone">GET /contacts/CONTACT_ID/timezone</h4>
-
+<h4 id='get-contactscontact_idtimezone'>GET /contacts/CONTACT_ID/timezone</h4>
 <p>Returns the timezone of a contact.</p>
 
 <p><strong>Example</strong></p>
@@ -761,9 +700,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 <p>FIXME: too much repetition to have the response include the key name &ldquo;timezone&rdquo;? Perhaps just return a string?</p>
 
 <p><a id="put_contacts_id_timezone">&nbsp;</a></p>
-
-<h4 id="put,-delete-/contacts/contact_id/timezone">PUT, DELETE /contacts/CONTACT_ID/timezone</h4>
-
+<h4 id='put-delete-contactscontact_idtimezone'>PUT, DELETE /contacts/CONTACT_ID/timezone</h4>
 <p>Sets (PUT) or deletes (DELETE) the timezone of a contact.</p>
 
 <p><strong>Example</strong></p>
@@ -787,9 +724,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </ul>
 
 <p><a name="get_contacts_id_tags">&nbsp;</a></p>
-
-<h4 id="get-/contacts/contact_id/tags">GET /contacts/CONTACT_ID/tags</h4>
-
+<h4 id='get-contactscontact_idtags'>GET /contacts/CONTACT_ID/tags</h4>
 <p>Gets the tags for a contact.</p>
 
 <p><strong>Example</strong></p>
@@ -801,9 +736,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </span></pre>
 
 <p><a name="post_contacts_id_tags">&nbsp;</a></p>
-
-<h4 id="post-/contacts/contact_id/tags">POST /contacts/CONTACT_ID/tags</h4>
-
+<h4 id='post-contactscontact_idtags'>POST /contacts/CONTACT_ID/tags</h4>
 <p>Add tags to a contact.</p>
 
 <p><strong>Example 1 - JSON params</strong></p>
@@ -824,9 +757,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </span></pre>
 
 <p><a name="delete_contacts_id_tags">&nbsp;</a></p>
-
-<h4 id="delete-/contacts/contact_id/tags">DELETE /contacts/CONTACT_ID/tags</h4>
-
+<h4 id='delete-contactscontact_idtags'>DELETE /contacts/CONTACT_ID/tags</h4>
 <p>Delete tags from a contact.</p>
 
 <p><strong>Example 1 - JSON params</strong></p>
@@ -845,9 +776,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 <p><strong>Response</strong> Status: 204 No Content</p>
 
 <p><a name="get_contacts_id_entitytags">&nbsp;</a></p>
-
-<h4 id="get-/contacts/contact_id/entity_tags">GET /contacts/CONTACT_ID/entity_tags</h4>
-
+<h4 id='get-contactscontact_identity_tags'>GET /contacts/CONTACT_ID/entity_tags</h4>
 <p>Gets the tags for all entities linked to a contact.</p>
 
 <p><strong>Example</strong></p>
@@ -860,9 +789,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </span></pre>
 
 <p><a name="post_contacts_id_entitytags">&nbsp;</a></p>
-
-<h4 id="post-/contacts/contact_id/entity_tags">POST /contacts/CONTACT_ID/entity_tags</h4>
-
+<h4 id='post-contactscontact_identity_tags'>POST /contacts/CONTACT_ID/entity_tags</h4>
 <p>Add tags to entities linked to a contact.</p>
 
 <p><strong>Example 1 - JSON params</strong></p>
@@ -885,9 +812,7 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </span></pre>
 
 <p><a name="delete_contacts_id_entitytags">&nbsp;</a></p>
-
-<h4 id="delete-/contacts/contact_id/entity_tags">DELETE /contacts/CONTACT_ID/entity_tags</h4>
-
+<h4 id='delete-contactscontact_identity_tags'>DELETE /contacts/CONTACT_ID/entity_tags</h4>
 <p>Delete tags from entities linked to a contact.</p>
 
 <p><strong>Example 1 - JSON params</strong></p>
@@ -905,15 +830,9 @@ FAILURE_COUNT         (string) - the number of failing checks this contact has b
 </pre>
 
 <p><strong>Response</strong> Status: 204 No Content</p>
-
-<h2 id="entities-and-checks">Entities and Checks</h2>
-
+<h2 id='entities-and-checks'>Entities and Checks</h2>
 <p><a id="get_entities">&nbsp;</a></p>
-
-<h3 id="entities">Entities</h3>
-
-<h4 id="get-/entities">GET /entities</h4>
-
+<h3 id='entities'>Entities</h3><h4 id='get-entities'>GET /entities</h4>
 <p>Retrieve an array of all entities including core attributes and state of any checks on the entity.</p>
 
 <p><strong>Output JSON Format</strong></p>
@@ -972,9 +891,7 @@ BOOLEAN:   one of 'true' or 'false'
 </span></pre>
 
 <p><a id="post_entities">&nbsp;</a></p>
-
-<h4 id="post-/entities">POST /entities</h4>
-
+<h4 id='post-entities'>POST /entities</h4>
 <p>Creates or updates entities from the supplied entities, using id as key.</p>
 
 <p><strong>Input JSON Format</strong></p>
@@ -1016,9 +933,7 @@ TAG           (string) - a tag
 <p><strong>Response</strong> Status: 204 No Content</p>
 
 <p><a name="get_entities_id_tags">&nbsp;</a></p>
-
-<h4 id="get-/entities/entity/tags">GET /entities/ENTITY/tags</h4>
-
+<h4 id='get-entitiesentitytags'>GET /entities/ENTITY/tags</h4>
 <p>Gets the tags for an entity.</p>
 
 <p><strong>Example</strong></p>
@@ -1030,9 +945,7 @@ TAG           (string) - a tag
 </span></pre>
 
 <p><a name="post_entities_id_tags">&nbsp;</a></p>
-
-<h4 id="post-/entities/entity/tags">POST /entities/ENTITY/tags</h4>
-
+<h4 id='post-entitiesentitytags'>POST /entities/ENTITY/tags</h4>
 <p>Add tags to an entity.</p>
 
 <p><strong>Example 1 - JSON params</strong></p>
@@ -1055,9 +968,7 @@ TAG           (string) - a tag
 <p>Add tags to an entity.</p>
 
 <p><a name="delete_entities_id_tags">&nbsp;</a></p>
-
-<h4 id="delete-/entities/entity/tags">DELETE /entities/ENTITY/tags</h4>
-
+<h4 id='delete-entitiesentitytags'>DELETE /entities/ENTITY/tags</h4>
 <p>Delete tags from an entity.</p>
 
 <p><strong>Example 1 - JSON params</strong></p>
@@ -1076,11 +987,7 @@ TAG           (string) - a tag
 <p><strong>Response</strong> Status: 204 No Content</p>
 
 <p><a id="get_checks">&nbsp;</a></p>
-
-<h3 id="checks">Checks</h3>
-
-<h4 id="get-/checks/entity">GET /checks/ENTITY</h4>
-
+<h3 id='checks'>Checks</h3><h4 id='get-checksentity'>GET /checks/ENTITY</h4>
 <p>Retrieve the names of the checks for the specified entity.</p>
 
 <p><strong>Output JSON Format</strong></p>
@@ -1099,11 +1006,7 @@ TAG           (string) - a tag
 </span></pre>
 
 <p><a id="get_status">&nbsp;</a></p>
-
-<h3 id="status,-maintenances,-acknowledgements,-outages">Status, Maintenances, Acknowledgements, Outages</h3>
-
-<h4 id="get-/status[/entity[/check]]">GET /status[/ENTITY[/CHECK]]</h4>
-
+<h3 id='status-maintenances-acknowledgements-outages'>Status, Maintenances, Acknowledgements, Outages</h3><h4 id='get-statusentitycheck'>GET /status[/ENTITY[/CHECK]]</h4>
 <p>Get the status of a specified check, or for all checks of a specified entity, or for checks on multiple entities.</p>
 
 <p><strong>Output JSON Format</strong></p>
@@ -1223,9 +1126,7 @@ NB: a bulk query wraps each returned array item with entity &amp; check details 
 </span></pre>
 
 <p><a id="get_outages">&nbsp;</a></p>
-
-<h4 id="get-/outages[/entity[/check]]">GET /outages[/ENTITY[/CHECK]]</h4>
-
+<h4 id='get-outagesentitycheck'>GET /outages[/ENTITY[/CHECK]]</h4>
 <p><strong>Optional parameters:</strong> <em>start_time, end</em>time_</p>
 
 <p><strong>Output JSON Format</strong></p>
@@ -1346,9 +1247,7 @@ NB: a bulk query adds entity names to the CHECK hash (see example 3).
 </span></pre>
 
 <p><a id="get_unscheduled_maintenances">&nbsp;</a></p>
-
-<h4 id="get-/unscheduled_maintenances[/entity[/check]]">GET /unscheduled_maintenances[/ENTITY[/CHECK]]</h4>
-
+<h4 id='get-unscheduled_maintenancesentitycheck'>GET /unscheduled_maintenances[/ENTITY[/CHECK]]</h4>
 <p><strong>Optional parameters:</strong> <em>start_time, end</em>time_</p>
 
 <p><strong>Output JSON Format</strong></p>
@@ -1430,9 +1329,7 @@ NB: a bulk query adds entity names to the CHECK hash (see example 2).
 </span></pre>
 
 <p><a id="post_acknowledgements">&nbsp;</a></p>
-
-<h4 id="post-/acknowledgements[/entity[/check]]&#39;">POST /acknowledgements[/ENTITY[/CHECK]]&lsquo;</h4>
-
+<h4 id='post-acknowledgementsentitycheck39'>POST /acknowledgements[/ENTITY[/CHECK]]&lsquo;</h4>
 <p>Acknowledges a problem on a check (or for all checks of an entity, or for checks on multiple entities) and creates unscheduled maintenance. 4 hrs is the default period but can be specified in the body. An optional message may also be supplied.</p>
 
 <p><strong>Input JSON Format</strong></p>
@@ -1479,9 +1376,7 @@ CHECKS      (string) = CHECK or
 <p><strong>Response</strong> Status: 204 (No Content)</p>
 
 <p><a id="delete_unscheduled_maintenances">&nbsp;</a></p>
-
-<h4 id="delete-/unscheduled_maintenances[/entity[/check]]">DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]</h4>
-
+<h4 id='delete-unscheduled_maintenancesentitycheck'>DELETE /unscheduled_maintenances[/ENTITY[/CHECK]]</h4>
 <p>Deletes an unscheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied &ndash; the deletion will take effect immediately if it is not.</p>
 
 <p><strong>Input JSON Format</strong></p>
@@ -1522,9 +1417,7 @@ CHECKS      (string) = CHECK or
 <p><strong>Response</strong> Status: 204 (No Content)</p>
 
 <p><a id="get_scheduled_maintenances">&nbsp;</a></p>
-
-<h4 id="get-/scheduled_maintenances[/entity[/check]]">GET /scheduled_maintenances[/ENTITY[/CHECK]]</h4>
-
+<h4 id='get-scheduled_maintenancesentitycheck'>GET /scheduled_maintenances[/ENTITY[/CHECK]]</h4>
 <p><strong>Optional parameters:</strong> <em>start_time, end</em>time_</p>
 
 <p><strong>Output JSON Format</strong></p>
@@ -1577,9 +1470,7 @@ NB: a bulk query adds entity names to the CHECK hash (see example 2).
 </span></pre>
 
 <p><a id="post_scheduled_maintenances">&nbsp;</a></p>
-
-<h4 id="post-/scheduled_maintenances[/entity/check]&#39;">POST /scheduled_maintenances[/ENTITY/CHECK]&rsquo;</h4>
-
+<h4 id='post-scheduled_maintenancesentitycheck39'>POST /scheduled_maintenances[/ENTITY/CHECK]&rsquo;</h4>
 <p>Creates scheduled maintenance for the specified check.</p>
 
 <p><strong>Input JSON Format</strong></p>
@@ -1630,9 +1521,7 @@ CHECKS      (string) = CHECK or
 <p><strong>Response</strong> Status: 204 (No Content)</p>
 
 <p><a id="delete_scheduled_maintenances">&nbsp;</a></p>
-
-<h4 id="delete-/scheduled_maintenances[/entity[/check]]&#39;">DELETE /scheduled_maintenances[/ENTITY[/CHECK]]&lsquo;</h4>
-
+<h4 id='delete-scheduled_maintenancesentitycheck39'>DELETE /scheduled_maintenances[/ENTITY[/CHECK]]&lsquo;</h4>
 <p>Deletes an scheduled maintenance period on a check (or for all checks of an entity, or for checks on multiple entities). An optional end time may be supplied &ndash; the deletion will take effect immediately if it is not.</p>
 
 <p><strong>Input JSON Format</strong></p>
@@ -1673,9 +1562,7 @@ CHECKS      (string) = CHECK or
 <p><strong>Response</strong> Status: 204 (No Content)</p>
 
 <p><a id="get_downtime">&nbsp;</a></p>
-
-<h4 id="get-/downtime[/entity[/check]]">GET /downtime[/ENTITY[/CHECK]]</h4>
-
+<h4 id='get-downtimeentitycheck'>GET /downtime[/ENTITY[/CHECK]]</h4>
 <p><strong>Optional parameters:</strong> <em>start_time, end</em>time_</p>
 
 <p>Get the list of downtimes for a check (or for all checks of an entity, or for checks on multiple entities). Downtime is outages minus scheduled maintenances across any given time period (See <a href="../GLOSSARY">the glossary</a>). The total seconds of downtime, and the corresponding percentage, are calculated and included in the results.</p>
@@ -1761,11 +1648,7 @@ NB: a bulk query adds entity names to the CHECK hash (see example 2).
 (See the Response section for the previous example.)</p>
 
 <p><a id="post_test_notifications">&nbsp;</a></p>
-
-<h3 id="test-notifications">Test Notifications</h3>
-
-<h4 id="post-/test_notifications[/entity/check]">POST /test_notifications[/ENTITY/CHECK]</h4>
-
+<h3 id='test-notifications'>Test Notifications</h3><h4 id='post-test_notificationsentitycheck'>POST /test_notifications[/ENTITY/CHECK]</h4>
 <p>Generates test notifications for the specified check. Body can be left empty.</p>
 
 <p><strong>Input JSON Format</strong></p>

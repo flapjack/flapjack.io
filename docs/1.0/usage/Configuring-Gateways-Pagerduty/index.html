@@ -40,8 +40,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1 id="configuring-the-pagerduty-gateway">Configuring the Pagerduty gateway</h1>
-
+        <h1 id='configuring-the-pagerduty-gateway'>Configuring the Pagerduty gateway</h1>
 <p><a href="https://www.pagerduey.com/">Pagerduty</a> is a provider of alert delivery via SMS, phone calls, and push notifications. They also provide escalation and oncall rotation scheduling. Flapjack&rsquo;s Pagerduty gateway is bidirectional, in that it:</p>
 
 <ul>
@@ -52,11 +51,7 @@
 <p>Currently Flapjack polls Pagerduty for acknowledgements. A webhook listener may be added to the Flapjack Pagerduty gateway in the future.</p>
 
 <p>The Flapjack Pagerduty gateway does not support rollup, given Pagerduty itself supports rollup.</p>
-
-<h2 id="config-options">Config Options</h2>
-
-<h2 id="notifier">notifier</h2>
-
+<h2 id='config-options'>Config Options</h2><h2 id='notifier'>notifier</h2>
 <table><thead>
 <tr>
 <th>Config</th>
@@ -70,9 +65,7 @@
 <td>The name of the queue to use for sending messages to the pagerduty gateway</td>
 </tr>
 </tbody></table>
-
-<h2 id="gateways/pagerduty">gateways/pagerduty</h2>
-
+<h2 id='gatewayspagerduty'>gateways/pagerduty</h2>
 <table><thead>
 <tr>
 <th>Config</th>
@@ -106,9 +99,7 @@
 <td>Path to a custom template for alerts about individual checks. Must be an ERB file. See the <a href="https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/pagerduty/alert.text.erb">default</a></td>
 </tr>
 </tbody></table>
-
-<h2 id="contact-media-setup">Contact Media Setup</h2>
-
+<h2 id='contact-media-setup'>Contact Media Setup</h2>
 <p>Typically you&rsquo;ll only need one contact in Flapjack that has a Pagerduty contact medium configured. However you can have multiple, if you have several organisations in Pagerduty you wish to create incidents for.</p>
 
 <p>The pagerduty contact medium takes several parameters as follows:</p>

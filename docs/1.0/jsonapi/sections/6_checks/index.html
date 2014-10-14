@@ -40,8 +40,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1 id="checks">Checks</h1>
-
+        <h1 id='checks'>Checks</h1>
 <p>The Check resource has the following attributes:</p>
 
 <table><thead>
@@ -67,9 +66,7 @@
 <td></td>
 </tr>
 </tbody></table>
-
-<h2 id="create-checks">Create checks</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-checks'>Create checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "checks": [
       {
@@ -94,13 +91,9 @@
   <span class="p">}</span>
 <span class="o">]</span><span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /checks</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -114,9 +107,7 @@
 <td>An array of Check resources to create.</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -136,9 +127,7 @@
 <td><strong>Error</strong> The submitted check data did not conform to the provided specification.</td>
 </tr>
 </tbody></table>
-
-<h2 id="get-checks">Get checks</h2>
-
+<h2 id='get-checks'>Get checks</h2>
 <p>If no check ids are provided then all entities will be returned; if check ids
 are provided then only the checks matching those ids will be returned. (Check
 ids are composed by joining together the check&rsquo;s entity&rsquo;s name, the character
@@ -193,21 +182,15 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /checks</code></p>
 
 <p><strong>or</strong></p>
 
 <p><code class="prettyprint">GET /checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <p>None.</p>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -219,9 +202,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td>OK</td>
 </tr>
 </tbody></table>
-
-<h2 id="update-checks">Update checks</h2>
-
+<h2 id='update-checks'>Update checks</h2>
 <p>Update one or more checks.</p>
 
 <p>(NB: disabled checks are re-enabled when new events are generated for them.)</p>
@@ -242,13 +223,9 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
   <span class="ss">:add_tag</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s1">'created_2013-14'</span><span class="o">]</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <p>Parameters sent for check updates must form a valid <a href="http://tools.ietf.org/html/rfc6902">JSON Patch (RFC 6902)</a> document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:</p>
 
 <table><thead>
@@ -274,9 +251,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td>for attributes, a value of the correct data type for that attribute (Boolean for enabled); for linked objects, the String id (or name for tags) of that object</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -300,9 +275,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td><strong>Error</strong> The submitted check data did not conform to the provided specification.</td>
 </tr>
 </tbody></table>
-
-<h2 id="create-scheduled-maintenance-periods-on-checks">Create scheduled maintenance periods on checks</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-scheduled-maintenance-periods-on-checks'>Create scheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "scheduled_maintenances": [
       {
@@ -324,13 +297,9 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
   <span class="ss">:summary</span>    <span class="o">=&gt;</span> <span class="s1">'memory replacement'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /scheduled_maintenances/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -354,9 +323,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td>A summary of the reason for the maintenance period.</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -380,9 +347,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-
-<h2 id="delete-scheduled-maintenance-periods-on-checks">Delete scheduled maintenance periods on checks</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<h2 id='delete-scheduled-maintenance-periods-on-checks'>Delete scheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/scheduled_maintenances/checks/example.com:PING?start_time=2014-05-09T16:12:16+09:30'</span>
 </pre>
 <pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
@@ -393,13 +358,9 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-05-09T16:12:16+09:30'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /scheduled_maintenances/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -413,9 +374,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -435,9 +394,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td><strong>Error</strong> No matching checks were found.</td>
 </tr>
 </tbody></table>
-
-<h2 id="create-unscheduled-maintenance-periods-on-checks">Create unscheduled maintenance periods on checks</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-unscheduled-maintenance-periods-on-checks'>Create unscheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "unscheduled_maintenances": [
       {
@@ -457,13 +414,9 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
   <span class="ss">:summary</span>  <span class="o">=&gt;</span> <span class="s1">'fixing now'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /unscheduled_maintenances/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -482,9 +435,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td>A summary of the reason for the creation of the unscheduled maintenance period(s).</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -504,9 +455,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-
-<h2 id="update-unscheduled-maintenance-periods-on-checks">Update unscheduled maintenance periods on checks</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<h2 id='update-unscheduled-maintenance-periods-on-checks'>Update unscheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/unscheduled_maintenances/0/end_time",
@@ -522,13 +471,9 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-04-09T16:12:16+09:30'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /unscheduled_maintenances/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <p>Parameters sent for unscheduled maintenance period updates must form a valid <a href="http://tools.ietf.org/html/rfc6902">JSON Patch (RFC 6902)</a> document. This is comprised of a bare JSON array of JSON-Patch operation objects, which have three members:</p>
 
 <table><thead>
@@ -554,9 +499,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td>a value of the correct data type for the attribute in the path</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -576,9 +519,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td><strong>Error</strong> The submitted data was not sent with the JSON-Patch MIME type <code class="prettyprint">application/json-patch+json</code>.</td>
 </tr>
 </tbody></table>
-
-<h2 id="create-test-notifications-on-checks">Create test notifications on checks</h2>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-test-notifications-on-checks'>Create test notifications on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "test_notifications": [
       {
@@ -596,13 +537,9 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">'testing, testing, 1, 2, 3'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /test_notifications/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -616,9 +553,7 @@ curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com
 <td>A summary of the reason for the creation of the test notifications.</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>

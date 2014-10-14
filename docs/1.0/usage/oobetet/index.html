@@ -40,8 +40,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h2 id="oobetet">Oobetet</h2>
-
+        <h2 id='oobetet'>Oobetet</h2>
 <p>&ldquo;Out Of Band, End To End Test&rdquo; (oobetet) is a self-check mechanism that verifies the stream of events from the upstream event producers is current, and that Flapjack is able to emit alerts in a timely fashion to a Jabber multi user chat room.</p>
 
 <p>The oobetet verifies this currency of the event stream by sitting in a Jabber multi user chat room and watching for problem and recovery notifications for a specific check.</p>
@@ -49,9 +48,7 @@
 <p>If the oobetet does not observe state changes within a certain timeframe, it fires an alert, via Jabber or PagerDuty.</p>
 
 <p>This helps you identify when your upstream event producers have gotten stuck, e.g. Nagios has hung, the node has gone away, etc.</p>
-
-<h3 id="how-it-works">How it works</h3>
-
+<h3 id='how-it-works'>How it works</h3>
 <p>Oobetet works like this:</p>
 
 <p><img alt="oobetet high level" src="../../../../images/oobetet-high-level.png" /></p>
@@ -65,9 +62,7 @@
 <p>The oobetet pikelet connects to the Jabber server and joins the room to which Flapjack is sending alerts for Flapper. It then watches for alerts in the chat room for Flapper. If it detects that Flapper doesn&rsquo;t change state within a period of time (we recommend 5 minutes), it will fire an alert, both by Jabber back into this chat room, and to PagerDuty.</p>
 
 <p>You can find an example oobetet config in the Flapjack example configuration file.</p>
-
-<h3 id="event-producers">Event producers</h3>
-
+<h3 id='event-producers'>Event producers</h3>
 <p>The upstream monitoring check is expected to switch between states within that time period. If it does not, an alert will fire.</p>
 
 <p>Assuming you&rsquo;re running Nagios as your check execution engine, and your Nagios is hooked up to Flapjack with <code class="prettyprint">flapjack receiver nagios</code>, here&rsquo;s an example Nagios config to setup a flapping service:</p>
@@ -98,9 +93,7 @@ define command {
 <p>You start it like this:</p>
 <pre class="highlight shell">flapjack flapper start
 </pre>
-
-<h3 id="stringing-it-all-together">Stringing it all together</h3>
-
+<h3 id='stringing-it-all-together'>Stringing it all together</h3>
 <p>With the above configuration:</p>
 
 <ul>

@@ -40,12 +40,9 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1 id="omnibus-in-your-docker">Omnibus in your Docker</h1>
-
+        <h1 id='omnibus-in-your-docker'>Omnibus in your Docker</h1>
 <p>This doc covers how to get a local development environment going for building Flapjack packages.</p>
-
-<h2 id="set-up-a-docker-server">Set up a docker server</h2>
-
+<h2 id='set-up-a-docker-server'>Set up a docker server</h2>
 <p>The easiest way to do this is to use <a href="https://github.com/boot2docker/boot2docker-cli">boot2docker-cli</a> to manage a VirtualBox VM running <a href="https://github.com/boot2docker/boot2docker">boot2docker linux</a>, a very lightweight linux distro designed to run docker server and not much else (it uses busybox for your shell if you ssh into it). The boot2docker cli is written in Go and runs on Mac OS, Windows and Linux.</p>
 
 <p>Here&rsquo;s how I installed it on Mac OS X Mavericks (10.9.3) with homebrew and VirtualBox 4.3.10 already installed:</p>
@@ -89,9 +86,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 <p>This shows that there are no docker containers running.</p>
 
 <p>More better <a href="https://github.com/boot2docker/boot2docker">doco on boot2docker</a> is available.</p>
-
-<h2 id="download-omnibus-ubuntu-images">Download omnibus-ubuntu images</h2>
-
+<h2 id='download-omnibus-ubuntu-images'>Download omnibus-ubuntu images</h2>
 <p>Pull down the latest flapjack/omnibus-ubuntu images from the docker registry:</p>
 <pre class="highlight plaintext">docker pull flapjack/omnibus-ubuntu
 </pre>
@@ -103,9 +98,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 <p>Details of the build history and so on for omnibus-ubuntu are visible on the <a href="https://registry.hub.docker.com/u/flapjack/omnibus-ubuntu">Docker Hub</a>.</p>
 
 <p>The image is rebuilt automatically when the <a href="https://github.com/flapjack/omnibus-ubuntu">omnibus-ubuntu repo</a> receives new commits.</p>
-
-<h2 id="build">Build</h2>
-
+<h2 id='build'>Build</h2>
 <p>Now you should be good to <a href="https://github.com/flapjack/omnibus-flapjack/blob/master/README.md#build">build packages</a> with the <a href="https://github.com/flapjack/omnibus-flapjack/blob/master/README.md#build">omnibus-flapjack</a> project.</p>
 
       </div>

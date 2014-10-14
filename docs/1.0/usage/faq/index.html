@@ -40,20 +40,15 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1 id="frequently-asked-questions-(faq)">Frequently Asked Questions (FAQ)</h1>
-
+        <h1 id='frequently-asked-questions-faq'>Frequently Asked Questions (FAQ)</h1>
 <p>Below you&rsquo;ll find answers to some common questions that come up in #flapjack on <code class="prettyprint">irc.freenode.net</code>, and conversations about Flapjack.</p>
 
 <p>If you have questions you think need answering here, please <a href="https://github.com/flapjack/flapjack/issues/new">open a GitHub</a> issue and we&rsquo;ll get it written up!</p>
-
-<h2 id="what-is-the-oldest-version-of-redis-usable-with-flapjack?">What is the oldest version of Redis usable with Flapjack?</h2>
-
+<h2 id='what-is-the-oldest-version-of-redis-usable-with-flapjack'>What is the oldest version of Redis usable with Flapjack?</h2>
 <p>2.6.12 is the current minimum required version of Redis.</p>
 
 <p>This is because Flapjack uses <a href="http://redis.io/commands/SET">SET&rsquo;s NX option</a> for some queries.</p>
-
-<h2 id="what-is-the-difference-between-flapjack&#39;s-jsonapi-and-api?">What is the difference between Flapjack&rsquo;s <code class="prettyprint">jsonapi</code> and <code class="prettyprint">api</code>?</h2>
-
+<h2 id='what-is-the-difference-between-flapjack39s-code-classprettyprintjsonapicode-and-code-classprettyprintapicode'>What is the difference between Flapjack&rsquo;s <code class="prettyprint">jsonapi</code> and <code class="prettyprint">api</code>?</h2>
 <p>Flapjack&rsquo;s <code class="prettyprint">api</code> was grown organically over the course of Flapjack&rsquo;s first year. We added new features to the <code class="prettyprint">api</code> as we needed, and ended up with something pretty featureful.</p>
 
 <p>As we were writing documentation for a 1.0 release of Flapjack in December 2013, we realised that while there were a lot of features, there some surprising gaps in the data model <a href="http://en.wikipedia.org/wiki/CRUD">CRUD</a>, and there was also a lot of inconsistency to the <code class="prettyprint">api</code> as a result of this organic growth.</p>
@@ -80,17 +75,13 @@
 <p>The default port for <code class="prettyprint">jsonapi</code> will remain the same in the example configuration file (3081), but it can be run on whatever port you like.</p>
 
 <p>If you need to talk to Flapjack&rsquo;s API, you should be using <code class="prettyprint">jsonapi</code>.</p>
-
-<h2 id="do-i-need-to-set-up-alerting-in-nagios-or-sensu-for-flapjack-to-work?">Do I need to set up alerting in Nagios or Sensu for Flapjack to work?</h2>
-
+<h2 id='do-i-need-to-set-up-alerting-in-nagios-or-sensu-for-flapjack-to-work'>Do I need to set up alerting in Nagios or Sensu for Flapjack to work?</h2>
 <p>No. Flapjack sends alerts independently of check execution engines like Nagios or Sensu.</p>
 
 <p>There is nothing stopping you from sending alerts from both your upstream check execution engines and Flapjack, but you will receive duplicate alerts.</p>
 
 <p>Flapjack sits downstream of check execution engines like Nagios and processes a stream of events emitted by them. Because Flapjack sees all events from the upstream check execution engines, it can do smart things like alert summarisation (rollup), de-duplication (in cases where you have multiple check executors monitoring the same thing), and alert routing.</p>
-
-<h2 id="why-does-flapjack-use-event-heartbeating-to-decide-whether-to-send-alerts?">Why does Flapjack use event heartbeating to decide whether to send alerts?</h2>
-
+<h2 id='why-does-flapjack-use-event-heartbeating-to-decide-whether-to-send-alerts'>Why does Flapjack use event heartbeating to decide whether to send alerts?</h2>
 <p>Flapjack assumes a constant stream of events from upstream event producers, and this is fundamental to Flapjack&rsquo;s design.</p>
 
 <p><img alt="a beating heart" src="http://media.giphy.com/media/yeUxljCJjH1rW/giphy.gif" /></p>
@@ -116,9 +107,7 @@
 <p><a href="http://en.wikipedia.org/wiki/Control_theory">Control theory</a> gives us a lot of practical tools for modelling scenarios like these, and the answer is never pretty - if you rely on the number of times you&rsquo;ve observed a failure to determine if you need to send an alert, you&rsquo;re alerting effectiveness is limited by any latency in your checkers.</p>
 
 <p>By looking at how long something has been failing for, Flapjack limits the effects of latency in the observation interval, and provides alerts to humans about problems faster.</p>
-
-<h2 id="why-can&#39;t-i-send-a-one-off-event-to-flapjack?">Why can&rsquo;t I send a one-off event to Flapjack?</h2>
-
+<h2 id='why-can39t-i-send-a-one-off-event-to-flapjack'>Why can&rsquo;t I send a one-off event to Flapjack?</h2>
 <p>Technically you can - Flapjack just won&rsquo;t notify anyone until:</p>
 
 <ul>
@@ -138,15 +127,11 @@
 <p>One way to solve this would be to build a bridge that accepts one-off events, and periodically dispatches a cached value for these events to Flapjack.</p>
 
 <p>Flapjack will definitely close this gap in the future.</p>
-
-<h2 id="how-do-i-scale-flapjack?">How do I scale Flapjack?</h2>
-
+<h2 id='how-do-i-scale-flapjack'>How do I scale Flapjack?</h2>
 <p>With ease!</p>
 
 <p>When people talk about monitoring scalability, they tend to be talking about one of two things: performance or scalability.</p>
-
-<h3 id="performance">Performance</h3>
-
+<h3 id='performance'>Performance</h3>
 <p>The first performance bottleneck you will hit with Flapjack is the event processing speed of the processor. As you increase the number of events that you feed Flapjack, the processor eventually won&rsquo;t be able to handle the number of events.</p>
 
 <p>You can observe this very clearly by watching your event queue length increasing and not returning to previous levels quickly:</p>
@@ -199,9 +184,7 @@ number of Flapjack processors count == number of cores - number of redis instanc
 </pre>
 
 <p>Scaling the web + API gateways is just like scaling any web app - just throw up more instances and sit them behind a reverse proxy.</p>
-
-<h3 id="high-availability">High Availability</h3>
-
+<h3 id='high-availability'>High Availability</h3>
 <p>As mentioned in the Performance section above, you can run multiple instances of the Flapjack components (processor, notifier, gateways).</p>
 
 <p>We recommend you also do this for HA.</p>
@@ -209,9 +192,7 @@ number of Flapjack processors count == number of cores - number of redis instanc
 <p>The processor and notifier will easily run in separate instances across multiple machines, provided they can all talk to the same Redis instance.</p>
 
 <p>Flapjack makes this easy by allowing you to specify what components you want to run within the Flapjack config. You can run all the components on a single machine, one component per host, or a mix.</p>
-
-<h2 id="i-remember-flapjack-from-a-few-years-ago.-is-this-the-same-project?">I remember Flapjack from a few years ago. Is this the same project?</h2>
-
+<h2 id='i-remember-flapjack-from-a-few-years-ago--is-this-the-same-project'>I remember Flapjack from a few years ago. Is this the same project?</h2>
 <p>Not quite - it&rsquo;s the same project in spirit, but from a technical perspective it is quite different.</p>
 
 <p>When Flapjack was originally written in 2009 it was focused on being a replacement for Nagios. Once a working prototype of Flapjack was built, it quickly become obvious that the notification and alerting part of Nagios was actually a far trickier problem to solve than anticipated, and <a href="http://fractio.nl">Flapjack&rsquo;s author</a> had bitten off too much to chew.</p>

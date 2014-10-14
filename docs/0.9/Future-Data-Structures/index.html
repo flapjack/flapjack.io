@@ -49,24 +49,18 @@
 <p>The following documentation just lists the data fields at the moment.</p>
 
 <p>NB: The internal flapjack message bus (queues between processor &lt;-&gt; notifier &lt;-&gt; message gateways) now operate by posting and retrieving ids of separately saved records. Instead of allowing for direct insertion onto those queues by internal agents, we could (if required) establish a translation pikelet which will create the relevant object. This decouples the internal representation from the external interface being offered.</p>
-
-<h3 id="todo">TODO</h3>
-
+<h3 id='todo'>TODO</h3>
 <ul>
 <li>notification rule media/blackhole could be moved to 3 child objects, based on state</li>
 </ul>
-
-<h3 id="data-type-definitions">Data type definitions</h3>
-<pre class="highlight plaintext">HASH, SET, ZSET -- corresponding Redis types
+<h3 id='data-type-definitions'>Data type definitions</h3><pre class="highlight plaintext">HASH, SET, ZSET -- corresponding Redis types
 BOOLEAN -- string, either 'true' or 'false'
 TIMESTAMP -- string, number of seconds since the Unix epoch
 ID -- string representing a RedisRecord id
 STRING
 INTEGER
 </pre>
-
-<h3 id="entities">Entities</h3>
-<pre class="highlight plaintext"># global
+<h3 id='entities'>Entities</h3><pre class="highlight plaintext"># global
 entity::ids                -&gt; SET of IDs
 entity::by_name            -&gt; HASH of STRING -&gt; ID
 entity::by_enabled:ENABLED -&gt; two SETs of IDs, as enabled is a BOOLEAN
@@ -78,9 +72,7 @@ entity:ID:attrs:tags           -&gt; SET of STRINGs
 entity:ID:attrs:contacts_ids   -&gt; SET of IDs of Contact records
 entity:ID:attrs:checks_ids     -&gt; SET of IDs of Check records
 </pre>
-
-<h3 id="checks">Checks</h3>
-<pre class="highlight plaintext"># global
+<h3 id='checks'>Checks</h3><pre class="highlight plaintext"># global
 check::ids                         -&gt; SET of IDs
 check::by_entity_name:ENTITY_NAME  -&gt; multiple SETs of IDs
 check::by_name:NAME                -&gt; multiple SETs of IDs
@@ -109,9 +101,7 @@ check:ID:notifications_ids                     -&gt; SET of Notification ids
 check:ID:alerts_ids                            -&gt; SET of Alert ids
 check:ID:rollup_alerts_ids                     -&gt; SET of RollupAlert ids
 </pre>
-
-<h3 id="check-state-changes-&amp;-notifications">Check state changes &amp; notifications</h3>
-<pre class="highlight plaintext"># global
+<h3 id='check-state-changes-amp-notifications'>Check state changes &amp; notifications</h3><pre class="highlight plaintext"># global
 check_state::ids            -&gt; SET of IDs
 check_state::by_state       -&gt; four SETs of IDs
 check_state::by_notified    -&gt; two SETs of IDS, as notified is a BOOLEAN
@@ -130,9 +120,7 @@ check_state:ID:belongs_to         -&gt; HASH {'check_id' =&gt; ID}
 check_state:ID:current_notifications_ids         -&gt; SET of Notification ids
 check_state:ID:previous_notifications_ids        -&gt; SET of Notification ids
 </pre>
-
-<h3 id="unscheduled-maintenance-periods-&amp;-notifications">Unscheduled maintenance periods &amp; notifications</h3>
-<pre class="highlight plaintext"># global
+<h3 id='unscheduled-maintenance-periods-amp-notifications'>Unscheduled maintenance periods &amp; notifications</h3><pre class="highlight plaintext"># global
 unscheduled_maintenance::ids            -&gt; SET of IDs
 # single record
 unscheduled_maintenance:ID:attrs        -&gt; HASH
@@ -144,9 +132,7 @@ unscheduled_maintenance:ID:attrs        -&gt; HASH
 unscheduled_maintenance:ID:belongs_to   -&gt; HASH {'check_by_start_id' =&gt; ID,
                                                  'check_by_end_id' =&gt; ID}
 </pre>
-
-<h3 id="scheduled-maintenance-periods">Scheduled maintenance periods</h3>
-<pre class="highlight plaintext"># global
+<h3 id='scheduled-maintenance-periods'>Scheduled maintenance periods</h3><pre class="highlight plaintext"># global
 scheduled_maintenance::ids              -&gt; SET of IDs
 # single record
 scheduled_maintenance:ID:attrs          -&gt; HASH
@@ -156,9 +142,7 @@ scheduled_maintenance:ID:attrs          -&gt; HASH
 scheduled_maintenance:ID:belongs_to     -&gt; HASH {'check_by_start_id' =&gt; ID,
                                                  'check_by_end_id' =&gt; ID}
 </pre>
-
-<h3 id="contacts">Contacts</h3>
-<pre class="highlight plaintext"># global
+<h3 id='contacts'>Contacts</h3><pre class="highlight plaintext"># global
 contact::ids                           -&gt; SET of IDs
 # single record
 contact:ID:attrs                       -&gt; HASH
@@ -172,9 +156,7 @@ contact:ID:entities_ids                -&gt; SET of IDs of Entity records
 contact:ID:media_ids                   -&gt; SET of IDs of Medium records
 contact:ID:notification_rules_ids      -&gt; SET of IDs of NotificationRule records
 </pre>
-
-<h3 id="message-media">Message media</h3>
-<pre class="highlight plaintext"># global
+<h3 id='message-media'>Message media</h3><pre class="highlight plaintext"># global
 medium::ids            -&gt; SET of IDs
 medium::by_type        -&gt; four SETs of IDs
 # single record
@@ -189,9 +171,7 @@ medium:ID:alerting_checks_ids       -&gt; SET of IDs of Check records
 medium:ID:alerts_ids                -&gt; SET of IDs of Alert records
 medium:ID:notification_blocks_ids   -&gt; ZSET of IDs of NotificationBlock records, expire_at key
 </pre>
-
-<h3 id="notification-rules">Notification rules</h3>
-
+<h3 id='notification-rules'>Notification rules</h3>
 <p># global
     notification_rule::ids                      -&gt; SET of IDs</p>
 
@@ -207,11 +187,7 @@ medium:ID:notification_blocks_ids   -&gt; ZSET of IDs of NotificationBlock recor
     notification_rule:ID:attrs:warning_media    -&gt; SET of STRINGs (media types)
     notification_rule:ID:attrs:critical_media   -&gt; SET of STRINGs (media types)
     notification_rule:ID:belongs_to             -&gt; HASH {&lsquo;contact_id&rsquo; =&gt; ID}</p>
-
-<h3 id="nb:-notifications,-notification-blocks,-alerts-and-rollup-alerts-are-internal-flapjack-data-structures">NB: Notifications, notification blocks, alerts and rollup alerts are internal Flapjack data structures</h3>
-
-<h3 id="notifications">Notifications</h3>
-<pre class="highlight plaintext"># global
+<h3 id='nb-notifications-notification-blocks-alerts-and-rollup-alerts-are-internal-flapjack-data-structures'>NB: Notifications, notification blocks, alerts and rollup alerts are internal Flapjack data structures</h3><h3 id='notifications'>Notifications</h3><pre class="highlight plaintext"># global
 notification::ids           -&gt; SET of IDs
 # single record
 notification:ID:attrs       -&gt; HASH
@@ -225,9 +201,7 @@ notification:ID:belongs_to  -&gt; HASH {'check_id' =&gt; ID,
                                      'state_id' =&gt; ID,
                                      'previous_state_id' =&gt; ID}
 </pre>
-
-<h3 id="notification-blocks">Notification blocks</h3>
-<pre class="highlight plaintext"># global
+<h3 id='notification-blocks'>Notification blocks</h3><pre class="highlight plaintext"># global
 notification_block::ids                  -&gt; SET of IDs
 notification_block::by_rollup            -&gt; two SETs of IDs
 notification_block::by_state             -&gt; four SETs of IDs
@@ -240,9 +214,7 @@ notification_block:ID:belongs_to        -&gt; HASH {'medium_id' =&gt; ID, 'check
 
 * Rollup notification blocks are per-media, and won't have a related entity check or state.
 </pre>
-
-<h3 id="alerts-&amp;-rollup-alerts">Alerts &amp; rollup alerts</h3>
-<pre class="highlight plaintext"># global
+<h3 id='alerts-amp-rollup-alerts'>Alerts &amp; rollup alerts</h3><pre class="highlight plaintext"># global
 alert::ids                    -&gt; SET of IDs
 # single record
 alert:ID:attrs                -&gt; HASH

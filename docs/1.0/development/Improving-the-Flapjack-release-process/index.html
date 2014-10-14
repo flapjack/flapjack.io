@@ -40,30 +40,23 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h2 id="improving-the-flapjack-release-process">Improving the Flapjack release process</h2>
-
+        <h2 id='improving-the-flapjack-release-process'>Improving the Flapjack release process</h2>
 <p><strong>These are notes from a brainstorming session done in July 2013 on how to improve the build engineering + release management of Flapjack.</strong></p>
-
-<h2 id="how-is-flapjack-currently-distributed?">How is Flapjack currently distributed?</h2>
-
+<h2 id='how-is-flapjack-currently-distributed'>How is Flapjack currently distributed?</h2>
 <ul>
 <li>As a <a href="https://rubygems.org/gems/flapjack">gem on rubygems.org</a></li>
 <li>We have a Rake task to <a href="../DEVELOPING#releasing">build the gem</a></li>
 <li>There is a single gem for <a href="https://rubygems.org/gems/flapjack">flapjack</a></li>
 <li>There is a single gem for <a href="https://rubygems.org/gems/flapjack-diner">flapjack-diner</a></li>
 </ul>
-
-<h2 id="how-does-a-user-currently-install-flapjack?">How does a user currently install Flapjack?</h2>
-
+<h2 id='how-does-a-user-currently-install-flapjack'>How does a user currently install Flapjack?</h2>
 <ul>
 <li>Users install Redis</li>
 <li>Users install the gem, then they need to mess with the config file</li>
 <li>We are currently managing the config files with Puppet under <code class="prettyprint">/etc/flapjack</code></li>
 <li>We create a log directory under <code class="prettyprint">/var/log/flapjack</code></li>
 </ul>
-
-<h2 id="how-does-flapjack-run?">How does Flapjack run?</h2>
-
+<h2 id='how-does-flapjack-run'>How does Flapjack run?</h2>
 <ul>
 <li>Internally, Flapjack functionality is contained in Pikelets (term coined by <a href="https://github.com/ali-graham">@ali-graham</a>)</li>
 <li>We can run many Pikelets in a single process</li>
@@ -72,9 +65,7 @@
 <li>The config file controls which Pikelets are booted</li>
 <li>The config file controls the logging levels</li>
 </ul>
-
-<h2 id="are-we-happy-with-how-flapjack-is-packaged-and-distributed?">Are we happy with how Flapjack is packaged and distributed?</h2>
-
+<h2 id='are-we-happy-with-how-flapjack-is-packaged-and-distributed'>Are we happy with how Flapjack is packaged and distributed?</h2>
 <ul>
 <li>We have problems when we want to easily deploy a branch to a development/QA environment</li>
 <li>There are two targets: development releases, and public releases</li>
@@ -82,18 +73,14 @@
 <li>They&rsquo;ve called this <a href="https://github.com/opscode/omnibus">Omnibus</a></li>
 <li>It statically compiles Ruby, and pulls in all the dependencies under a single directory</li>
 </ul>
-
-<h3 id="problems-we-have-right-now:">Problems we have right now:</h3>
-
+<h3 id='problems-we-have-right-now'>Problems we have right now:</h3>
 <ul>
 <li>The install instructions aren&rsquo;t that great</li>
 <li>We don&rsquo;t provide info on where the configs should be placed</li>
 <li>We don&rsquo;t ship a default config (are there sensible defaults?)</li>
 <li>Should we create an example config file on boot, if none is supplied?</li>
 </ul>
-
-<h3 id="are-rubygems-a-good-distribution-mechanism?">Are RubyGems a good distribution mechanism?</h3>
-
+<h3 id='are-rubygems-a-good-distribution-mechanism'>Are RubyGems a good distribution mechanism?</h3>
 <ul>
 <li>When the project gets large enough, we should consider splitting the gem up</li>
 <li>One issue with Omnibus is that it only produces RPMs and debs</li>
@@ -101,9 +88,7 @@
 <li>This isn&rsquo;t necessarily a bad thing, as long as we make it possible to install Flapjack via RubyGems</li>
 <li>A lot of early adopters are running Arch Linux, so we should target that platform</li>
 </ul>
-
-<h3 id="are-there-alternative-ways-of-releasing-flapjack?">Are there alternative ways of releasing Flapjack?</h3>
-
+<h3 id='are-there-alternative-ways-of-releasing-flapjack'>Are there alternative ways of releasing Flapjack?</h3>
 <ul>
 <li><a href="http://logstash.net">logstash</a> takes a different approach
 
@@ -113,9 +98,7 @@
 <li>This would allow Flapjack to be run easily on Windows, Linux, OS X</li>
 </ul></li>
 </ul>
-
-<h2 id="what-do-we-want-flapjack-releases-to-look-like?">What do we want Flapjack releases to look like?</h2>
-
+<h2 id='what-do-we-want-flapjack-releases-to-look-like'>What do we want Flapjack releases to look like?</h2>
 <ol>
 <li>We want to create a great user experience for people running Flapjack the first time
 

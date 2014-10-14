@@ -44,8 +44,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h2 id="contents">Contents</h2>
-
+        <h2 id='contents'>Contents</h2>
 <ul>
 <li><a href="#installing">Installing</a></li>
 <li><a href="#dependencies">Dependencies</a></li>
@@ -58,9 +57,7 @@
 </ul>
 
 <p><a id="installing">&nbsp;</a></p>
-
-<h2 id="installing">Installing</h2>
-
+<h2 id='installing'>Installing</h2>
 <p>The recommended platform to run Flapjack on (other than development) is Ubuntu Precise 64 (Ubuntu 12.04, amd64).
 We provide a package for this platform on our <a href="http://packages.flapjack.io">package repository</a>.
 The package includes all runtime dependencies, so you shouldn&rsquo;t need to install anything else to get flapjack up and running with a vanilla configuration.</p>
@@ -82,17 +79,13 @@ EOF
 </pre>
 
 <p>You should now find that flapjack and redis have started up. Try visiting the <a href="http://localhost:3080">flapjack web interface</a>.</p>
-
-<h2 id="installing-as-a-gem">Installing as a gem</h2>
-
+<h2 id='installing-as-a-gem'>Installing as a gem</h2>
 <p>If you&rsquo;re determined to run Flapjack on an unsupported platform, you can install the Flapjack ruby gem as follows:</p>
 <pre class="highlight shell">gem install flapjack
 </pre>
 
 <p><a id="dependencies">&nbsp;</a></p>
-
-<h3 id="dependencies">Dependencies</h3>
-
+<h3 id='dependencies'>Dependencies</h3>
 <p>The Flapjack ruby gem has the following dependencies:</p>
 
 <ul>
@@ -125,9 +118,7 @@ EOF
 <p>We want to lower the number of gems that Flapjack relies on &ndash; any pull requests will be gratefully received.</p>
 
 <p><a id="architecture">&nbsp;</a></p>
-
-<h2 id="architecture">Architecture</h2>
-
+<h2 id='architecture'>Architecture</h2>
 <p><img alt="Flapjack architecture diagram as of 2013-09-27" src="../../../images/architecture.png" /></p>
 <pre class="highlight plaintext">Check Receivers ---&gt; Executive ---&gt; Gateways
 </pre>
@@ -137,9 +128,7 @@ EOF
 <p>The Flapjack <strong>Executive</strong> reads events from the events queue and determines which contacts should be notified for them. It runs filters to prevent notifications being fired too often for the same check.</p>
 
 <p>Flapjack <strong>Gateways</strong> serve as the public interface to Flapjack. There are <em>unidirectional</em> notifiers (e.g. <code class="prettyprint">email</code> and <code class="prettyprint">sms</code>, which read notifications from a queue and send them out to registered contacts, there are <em>bidirectional</em> notifiers (e.g. <code class="prettyprint">jabber</code>, <code class="prettyprint">pagerduty</code>) which do the above and also offer a back-channel for acknowledgements etc., and there are also <code class="prettyprint">web</code> and <code class="prettyprint">api</code> gateways for retrieving reporting data, creating maintenance periods, acknowledging checks, etc.</p>
-
-<h3 id="processor-and-notifier">Processor and Notifier</h3>
-
+<h3 id='processor-and-notifier'>Processor and Notifier</h3>
 <p>In the beginning, there was Executive. This has been split into two separte components, <em>processor</em> and <em>notifier</em>.</p>
 
 <p>Flapjack processor processes events from the <em>events</em> list in redis. It does a blocking read on redis so new events are picked off the events list and processed as soon as they created.</p>
@@ -149,9 +138,7 @@ EOF
 <p>Notifier picks up jobs from the <em>notificaitons</em> queue, looks up contact information, applies notification rules and per-media intervals and rollup logic, and then creates notification jobs for the appropriate notification gateways.</p>
 
 <p><a id="components">&nbsp;</a></p>
-
-<h2 id="components">Components</h2>
-
+<h2 id='components'>Components</h2>
 <p>Executables:</p>
 
 <ul>
@@ -194,9 +181,7 @@ to be used for generating heartbeat events for end to end monitoring of flapjack
 <p>The simplest configuration will have one <code class="prettyprint">flapjack</code> process running processor, notifier, web, and some notification gateways, and one <code class="prettyprint">flapjack-nagios-receiver</code> process receiving events from Nagios and placing them on the events queue for processing.</p>
 
 <p><a id="configuring_components">&nbsp;</a></p>
-
-<h2 id="configuring-components">Configuring Components</h2>
-
+<h2 id='configuring-components'>Configuring Components</h2>
 <p>Copy the example config file into place:</p>
 <pre class="highlight plaintext">cp etc/flapjack-config.yaml.example etc/flapjack-config.yaml
 </pre>
@@ -355,11 +340,7 @@ to be used for generating heartbeat events for end to end monitoring of flapjack
       <span class="s">logger</span><span class="pi">:</span>
         <span class="s">level</span><span class="pi">:</span> <span class="s">INFO</span>
 </pre>
-
-<h4 id="details">Details</h4>
-
-<h5 id="processor:-new_check_scheduled_maintenance_duration">processor: <code class="prettyprint">new_check_scheduled_maintenance_duration</code></h5>
-
+<h4 id='details'>Details</h4><h5 id='processor-code-classprettyprintnew_check_scheduled_maintenance_durationcode'>processor: <code class="prettyprint">new_check_scheduled_maintenance_duration</code></h5>
 <p>This setting controls how long we set scheduled maintenance for new check results.</p>
 
 <p>Flapjack sets scheduled maintenance on new check results so contacts aren&rsquo;t notified as soon as Flapjack becomes aware of an entity to notify on. This is useful is cases where your monitoring starts checking something before it is completely provisioned,</p>
@@ -385,9 +366,7 @@ to be used for generating heartbeat events for end to end monitoring of flapjack
 <p>The default value for this setting is <code class="prettyprint">100 years</code>.</p>
 
 <p><a id="configuring_nagios">&nbsp;</a></p>
-
-<h3 id="configuring-nagios">Configuring Nagios</h3>
-
+<h3 id='configuring-nagios'>Configuring Nagios</h3>
 <p>You need a Nagios prior to version 3.3 as it introduced <a href="http://tracker.nagios.org/view.php?id=247">a bug that breaks perfdata output</a> for checks which don&rsquo;t generate performance data (stuff after a | in the check output).</p>
 
 <p>Because this output is omitted, <code class="prettyprint">flapjack-nagios-receiver</code> is unable to parse event information from Nagios and send it to Flapjack.</p>
@@ -423,21 +402,15 @@ service_perfdata_file_mode=p
 - the first word (object type) must contain either <code class="prettyprint">[HOSTPERFDATA]</code> or <code class="prettyprint">[SERVICEPERFDATA]</code>.</p>
 
 <p>Currently any error messages about lines that are unable to be read are written to STDOUT.</p>
-
-<h4 id="limitations-with-the-flapjack-nagios-receiver-approach">Limitations with the flapjack-nagios-receiver approach</h4>
-
+<h4 id='limitations-with-the-flapjack-nagios-receiver-approach'>Limitations with the flapjack-nagios-receiver approach</h4>
 <p>We have seen loss of events with this event transport when the number of events being generated between dumps to the named pipe goes above some threshold. It would appear as though Nagios is overflowing an internal buffer for the performance data between each 10 or 20 second perfdata output flush. This was of the order of thousands of events per flush. It could also have been some other aspect of this transport causing events to be lost.</p>
 
 <p>For this reason, a nagios event broker module - <a href="https://github.com/flapjack/flapjackfeeder">flapjackfeeder</a> - is being developed to offer an alternative to flapjack-nagios-receiver for high check throughput environments, or potentially a full replacement.</p>
 
 <p><a id="running">&nbsp;</a></p>
-
-<h2 id="running">Running</h2>
-
+<h2 id='running'>Running</h2>
 <p>There&rsquo;s a collection of executables included. Here&rsquo;s their usage information.</p>
-
-<h3 id="flapjack">flapjack</h3>
-<pre class="highlight plaintext">Usage: flapjack COMMAND [OPTIONS]
+<h3 id='flapjack'>flapjack</h3><pre class="highlight plaintext">Usage: flapjack COMMAND [OPTIONS]
 
 Commands
      start                           start flapjack
@@ -455,9 +428,7 @@ Options
     -l, --logfile [PATH]             PATH to the logfile to write to
     -v, --version                    display flapjack version
 </pre>
-
-<h3 id="flapjack-nagios-receiver">flapjack-nagios-receiver</h3>
-<pre class="highlight plaintext">Usage: flapjack-nagios-receiver COMMAND [OPTIONS]
+<h3 id='flapjack-nagios-receiver'>flapjack-nagios-receiver</h3><pre class="highlight plaintext">Usage: flapjack-nagios-receiver COMMAND [OPTIONS]
 
 Commands
      start                           start flapjack-nagios-receiver
@@ -473,9 +444,7 @@ Options
     -l, --logfile [PATH]             PATH to the logfile to write to
     -h, --help                       Show this usage message
 </pre>
-
-<h2 id="required-nagios-configuration-changes">Required Nagios Configuration Changes</h2>
-
+<h2 id='required-nagios-configuration-changes'>Required Nagios Configuration Changes</h2>
 <p>flapjack-nagios-receiver reads events from a named pipe written to by Nagios..                                                              The named pipe needs creating, and Nagios needs to be told to write performance.
 data output to it.</p>
 
@@ -506,9 +475,7 @@ flapjack-nagios-receiver stop
 <p>The redis database connection information is read out of the specified flapjack configuration file, for the current FLAPJACK_ENV environment.</p>
 
 <p>See the <a href="#configuring_nagios">Configuring Nagios</a> section above for more information.</p>
-
-<h3 id="flapper">flapper</h3>
-<pre class="highlight plaintext">Usage: flapper COMMAND [OPTIONS]
+<h3 id='flapper'>flapper</h3><pre class="highlight plaintext">Usage: flapper COMMAND [OPTIONS]
 
 Commands
      start                           start flapper
@@ -522,9 +489,7 @@ Options
     -l, --logfile [PATH]             PATH to the logfile to write to
     -b, --bind-ip [ADDRESS]          ADDRESS (IPv4 or IPv6) for flapper to bind to
 </pre>
-
-<h3 id="flapjack-populator">flapjack-populator</h3>
-<pre class="highlight plaintext">Usage: flapjack-populator COMMAND [OPTIONS]
+<h3 id='flapjack-populator'>flapjack-populator</h3><pre class="highlight plaintext">Usage: flapjack-populator COMMAND [OPTIONS]
 
 Commands:
      import-entities
@@ -535,9 +500,7 @@ Options
     -c, --config [PATH]              PATH to the config file to use
     -f, --from [FILE]                path to the FILE to import
 </pre>
-
-<h3 id="receive-events">receive-events</h3>
-<pre class="highlight plaintext">Usage: receive-events COMMAND [OPTIONS]
+<h3 id='receive-events'>receive-events</h3><pre class="highlight plaintext">Usage: receive-events COMMAND [OPTIONS]
 
 Commands
      help
@@ -550,9 +513,7 @@ Options
     -l, --last COUNT                 replay the last COUNT events from the source
     -t, --time TIME                  replay all events archived on the source since TIME
 </pre>
-
-<h3 id="simulate-failed-check">simulate-failed-check</h3>
-<pre class="highlight plaintext">Usage: simulate-failed-check COMMAND [OPTIONS]
+<h3 id='simulate-failed-check'>simulate-failed-check</h3><pre class="highlight plaintext">Usage: simulate-failed-check COMMAND [OPTIONS]
 
 Commands
      fail-and-recover
@@ -568,11 +529,7 @@ Options
 </pre>
 
 <p><a id="resque">&nbsp;</a></p>
-
-<h2 id="resque">Resque</h2>
-
-<h3 id="resque-workers">Resque Workers</h3>
-
+<h2 id='resque'>Resque</h2><h3 id='resque-workers'>Resque Workers</h3>
 <p>We&rsquo;re using <a href="https://github.com/resque/resque">Resque</a> to queue email and sms notifications generated by flapjack-executive. The queues are named as follows:
 - email_notifications
 - sms_notifications</p>
@@ -586,9 +543,7 @@ Options
 <p>resque sets the command name so grep&#39;ing ps output for <code class="prettyprint">rake</code> or <code class="prettyprint">ruby</code> will NOT find resque processes. Search instead for <code class="prettyprint">resque</code>. (and remember the &lsquo;q&rsquo;).</p>
 
 <p>To background it you can add <code class="prettyprint">BACKGROUND=yes</code>. Useful documentation is available in <a href="https://github.com/resque/resque/blob/master/README.md">Resque&rsquo;s README</a></p>
-
-<h3 id="resque-queue-management-with-resque-web">Resque Queue Management with resque-web</h3>
-
+<h3 id='resque-queue-management-with-resque-web'>Resque Queue Management with resque-web</h3>
 <p>If you need to inspect or purge the queues managed by resque you&rsquo;ll want to start up an instance of resque-web. This will by default connect to redis database 0 which is fine for production but in development you&rsquo;ll need to specify database id 13 (or whatever you have it set to in the flapjack config) eg:</p>
 <pre class="highlight shell">resque-web -p 4082 -r localhost:6379:13
 </pre>
@@ -596,9 +551,7 @@ Options
 <p>This will start a resque-web instance listening on port 4082, connecting to the redis server on localhost port 6379, and selecting database 13.</p>
 
 <p><a id="redis_database_instances">&nbsp;</a></p>
-
-<h2 id="redis-database-instances">Redis Database Instances</h2>
-
+<h2 id='redis-database-instances'>Redis Database Instances</h2>
 <p>We use the following redis database numbers by convention:</p>
 
 <ul>

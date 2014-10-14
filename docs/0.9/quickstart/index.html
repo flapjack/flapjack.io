@@ -44,8 +44,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h1 id="quickstart">Quickstart</h1>
-
+        <h1 id='quickstart'>Quickstart</h1>
 <p>This quickstart guide will get you <a href="http://flapjack.io/">Flapjack</a> running in a VM locally using Vagrant and VirtualBox.</p>
 
 <p>You&rsquo;ll also learn the basics of how to:</p>
@@ -57,20 +56,14 @@
 </ul>
 
 <p>To skip this tutorial and jump straight to the code, view the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.</p>
-
-<h2 id="getting-flapjack-running">Getting Flapjack running</h2>
-
-<h3 id="dependencies">Dependencies</h3>
-
+<h2 id='getting-flapjack-running'>Getting Flapjack running</h2><h3 id='dependencies'>Dependencies</h3>
 <ul>
 <li><a href="http://vagrantup.com/">Vagrant</a> 1.2+</li>
 <li><a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> 4.2+
 (or an alternative provider such as <a href="http://www.vmware.com/au/products/fusion/">VMware Fusion</a>
 and the <a href="http://www.vagrantup.com/vmware">Vagrant plugin</a>)</li>
 </ul>
-
-<h3 id="setup">Setup</h3>
-
+<h3 id='setup'>Setup</h3>
 <p>Get the repo, and build your Vagrant box:</p>
 <pre class="highlight plaintext">git clone https://github.com/flapjack/vagrant-flapjack.git
 cd vagrant-flapjack
@@ -85,9 +78,7 @@ vagrant up
 <strong>More information:</strong>
 Check out the <a class="alert-link" href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a> project on GitHub.
 </div>
-
-<h3 id="verify">Verify</h3>
-
+<h3 id='verify'>Verify</h3>
 <p>Visit <a href="http://localhost:3080">http://localhost:3080</a> from your host workstation.
 You should see the Flapjack Web UI:</p>
 
@@ -120,9 +111,7 @@ You should see the Flapjack Web UI:</p>
     <td>icinga</td>
   </tr>
 </table>
-
-<h2 id="get-comfortable-with-the-flapjack-cli">Get comfortable with the Flapjack CLI</h2>
-
+<h2 id='get-comfortable-with-the-flapjack-cli'>Get comfortable with the Flapjack CLI</h2>
 <p>SSH into the VM:</p>
 <pre class="highlight shell">vagrant ssh
 </pre>
@@ -141,9 +130,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 </div>
 
 <p><img alt="CLI" src="../../../images/0.9/quickstart/term-flapjack-help.png" /></p>
-
-<h2 id="simulate-a-check-failure">Simulate a check failure</h2>
-
+<h2 id='simulate-a-check-failure'>Simulate a check failure</h2>
 <p>Run something like:</p>
 <pre class="highlight shell">simulate-failed-check fail-and-recover <span class="se">\</span>
   --entity foo-app-01.example.com <span class="se">\</span>
@@ -152,17 +139,13 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 </pre>
 
 <p>This will send a stream of critical events for 3 minutes, and send one ok event at the end. If you want the last event to be a failure as well, use the <code class="prettyprint">fail</code> command instead of <code class="prettyprint">fail-and-recover</code>.</p>
-
-<h3 id="verify">Verify</h3>
-
+<h3 id='verify'>Verify</h3>
 <p>Reload the Flapjack Web UI and you should now be able to see the status of the check you&rsquo;re simulating, e.g. at:</p>
 
 <pre>
 <a href="http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage">http://localhost:3080/check?entity=foo-app-01.example.com&check=Sausage</a>
 </pre>
-
-<h2 id="integrate-flapjack-with-nagios-(and-icinga)">Integrate Flapjack with Nagios (and Icinga)</h2>
-
+<h2 id='integrate-flapjack-with-nagios-and-icinga'>Integrate Flapjack with Nagios (and Icinga)</h2>
 <p>Both Nagios and Icinga are configured already to append check output data to the following named pipe: <code class="prettyprint">/var/cache/icinga/event_stream.fifo</code>.</p>
 
 <p><code class="prettyprint">flapjack-nagios receiver</code> takes check output data from Nagios and turns it into events that Flapjack understands:</p>
@@ -180,21 +163,15 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 </pre>
 
 <p>More details on configuration are available <a href="../USING#configuring-components">on the wiki</a>.</p>
-
-<h3 id="verify">Verify</h3>
-
+<h3 id='verify'>Verify</h3>
 <p>Reload the Flapjack web interface and you should now see the checks from Icinga and/or Nagios appearing there.</p>
 
 <p><img alt="Checks" src="../../../images/0.9/quickstart/checks-from-nagios.png" /></p>
-
-<h2 id="create-some-contacts-and-entities">Create some contacts and Entities</h2>
-
+<h2 id='create-some-contacts-and-entities'>Create some contacts and Entities</h2>
 <p>Currently Flapjack does not include a friendly web interface for managing contacts and entities, so for now we use json, curl, and the <a href="../API">Flapjack API</a>.</p>
 
 <p>The vagrant-flapjack project ships with <a href="https://github.com/flapjack/vagrant-flapjack/tree/master/examples">example json files</a> that you can use in this tutorial, or you can copy and paste the longform curl commands below that include the json.</p>
-
-<h3 id="create-contacts-ada-and-charles">Create Contacts Ada and Charles</h3>
-
+<h3 id='create-contacts-ada-and-charles'>Create Contacts Ada and Charles</h3>
 <p>We&rsquo;ll be using the <a href="../API#wiki-post_contacts">POST /contacts</a> API call to create two contacts.</p>
 
 <p>Run the following from your workstation, cd&rsquo;d into the vagrant-flapjack directory:</p>
@@ -263,9 +240,7 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
 <p>Selecting <a href="http://localhost:3080/contacts/21">Ada</a> should give you something like:</p>
 
 <p><img alt="Contact - Ada Lovelace" src="../../../images/0.9/quickstart/contact-ada.png" /></p>
-
-<h3 id="create-entities-foo-app-01-and-foo-db-01-(.example.com)">Create entities foo-app-01 and foo-db-01 (.example.com)</h3>
-
+<h3 id='create-entities-foo-app-01-and-foo-db-01--example-com'>Create entities foo-app-01 and foo-db-01 (.example.com)</h3>
 <p>We&rsquo;ll be using the <a href="../API#wiki-post_entities">POST /entities</a> api call to create two entities.</p>
 
 <p>We&rsquo;re going to assign both Ada and Charles to foo-app-01, and just Ada to foo-db-01.</p>
@@ -306,23 +281,17 @@ Details of these commands are available <a class="alert-link" href="USING#runnin
   }' \
  http://localhost:3081/entities
 </pre>
-
-<h4 id="verify">Verify</h4>
-
+<h4 id='verify'>Verify</h4>
 <p>Visit <a href="http://localhost:3080/entity/my-app-01.example.com">my-app-01</a> in the web UI and you should see something like:</p>
 
 <p><img alt="Entity - my-app-01.example.com" src="../../../images/0.9/quickstart/entity-my-app-01-no-checks.png" /></p>
-
-<h2 id="feedback?">Feedback?</h2>
-
+<h2 id='feedback'>Feedback?</h2>
 <p>Found an error in the above? Please <a href="https://github.com/flapjack/flapjack/issues/new">submit a bug report</a> and/or a pull request against the <a href="https://github.com/flapjack/flapjack/tree/gh-pages">gh-pages branch</a> with the fix.</p>
 
 <p>Something not clear? That&rsquo;s a bug too!</p>
 
 <p>Got questions? Suggestions? Talk to us via irc, mailing list, or twitter. See <a href="/support">Support</a> for details.</p>
-
-<h2 id="coming-soon">Coming soon</h2>
-
+<h2 id='coming-soon'>Coming soon</h2>
 <p>Stay tuned for more info on how to configure:</p>
 
 <ul>

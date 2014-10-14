@@ -44,19 +44,16 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h3 id="core-features">Core features</h3>
-
+        <h3 id='core-features'>Core features</h3>
 <ul>
 <li>Do as little development for 1.0 as possible</li>
 <li><a href="https://github.com/ali-graham/sandstorm">Sandstorm</a> will make development easier post-1.0</li>
-<li>~~**ACTION:** List what we are going to do and not do for 1.0~~</li>
-<li>~~**ACTION:** Get everything we&rsquo;re going to do for 1.0 tagged in gh issues~~</li>
+<li>~~<strong>ACTION:</strong> List what we are going to do and not do for 1.0~~</li>
+<li>~~<strong>ACTION:</strong> Get everything we&rsquo;re going to do for 1.0 tagged in gh issues~~</li>
 </ul>
 
-<p><a href="https://github.com/flapjack/flapjack/issues?direction=asc&amp;amp;milestone=1&amp;amp;page=1&amp;amp;sort=created&amp;amp;state=open"><code class="prettyprint">flapjack</code> issues</a> for the 1.0 milestone.</p>
-
-<h3 id="building-+-packaging">Building + packaging</h3>
-
+<p><a href="https://github.com/flapjack/flapjack/issues?direction=asc&amp;milestone=1&amp;page=1&amp;sort=created&amp;state=open"><code class="prettyprint">flapjack</code> issues</a> for the 1.0 milestone.</p>
+<h3 id='building--packaging'>Building + packaging</h3>
 <ul>
 <li>Vagrant box needs to be in a good state for 1.0</li>
 <li>A working vagrant box is useful for testing omnibus-built packages</li>
@@ -71,13 +68,11 @@
 <li><strong>ACTION:</strong> <a href="https://github.com/flapjack/omnibus-flapjack/issues/9">Change omnibus-flapjack to use shipped init script</a></li>
 </ul>
 
-<p><a href="https://github.com/flapjack/flapjack/issues?direction=asc&amp;amp;milestone=1&amp;amp;page=1&amp;amp;sort=created&amp;amp;state=open"><code class="prettyprint">flapjack</code> issues</a> for the 1.0 milestone.<br>
-<a href="https://github.com/flapjack/omnibus-flapjack/issues?direction=asc&amp;amp;milestone=1&amp;amp;page=1&amp;amp;sort=created&amp;amp;state=open"><code class="prettyprint">omnibus-flapjack</code> issues</a> for the 1.0 milestone.<br>
-<a href="https://github.com/flapjack/packages.flapjack.io/issues?milestone=2&amp;amp;page=1&amp;amp;state=open"><code class="prettyprint">packages.flapjack.io</code> issues</a> for the 1.0 milestone.<br>
+<p><a href="https://github.com/flapjack/flapjack/issues?direction=asc&amp;milestone=1&amp;page=1&amp;sort=created&amp;state=open"><code class="prettyprint">flapjack</code> issues</a> for the 1.0 milestone.<br>
+<a href="https://github.com/flapjack/omnibus-flapjack/issues?direction=asc&amp;milestone=1&amp;page=1&amp;sort=created&amp;state=open"><code class="prettyprint">omnibus-flapjack</code> issues</a> for the 1.0 milestone.<br>
+<a href="https://github.com/flapjack/packages.flapjack.io/issues?milestone=2&amp;page=1&amp;state=open"><code class="prettyprint">packages.flapjack.io</code> issues</a> for the 1.0 milestone.<br>
 There are no <code class="prettyprint">vagrant-flapjack</code> issues for the 1.0 milestone.</p>
-
-<h3 id="documentation-+-branding">Documentation + branding</h3>
-
+<h3 id='documentation--branding'>Documentation + branding</h3>
 <ul>
 <li>Install documentation is good</li>
 <li>Running documentation is non-existent</li>
@@ -91,11 +86,11 @@ There are no <code class="prettyprint">vagrant-flapjack</code> issues for the 1.
 <li><strong>ACTION:</strong> <a href="https://github.com/flapjack/flapjack/issues/351">Determine a list of HOWTO topics to deliver for 1.0 release</a></li>
 <li><strong>ACTION:</strong> <a href="https://github.com/flapjack/flapjack/issues/352">Expand README. provide basics for installing + configuring + running, with pointers to wiki</a></li>
 <li><strong>ACTION:</strong> <a href="https://github.com/flapjack/flapjack/issues/353">Add some alphanumerical contact id examples in API documentation</a></li>
-<li><strong>ACTION:</strong> <a href="http://99designs.com.au/logo-design/contests/logo-wanted-flapjack-260396/entries?filter=allactive&amp;amp;sorting=rating">Select new logo</a></li>
+<li><strong>ACTION:</strong> <a href="http://99designs.com.au/logo-design/contests/logo-wanted-flapjack-260396/entries?filter=allactive&amp;sorting=rating">Select new logo</a></li>
 <li><strong>ACTION:</strong> <a href="https://github.com/flapjack/flapjack/issues/354">Update visual theme on website to dark-on-light</a></li>
 </ul>
 
-<p><a href="https://github.com/flapjack/flapjack/issues?direction=asc&amp;amp;milestone=1&amp;amp;page=1&amp;amp;sort=created&amp;amp;state=open"><code class="prettyprint">flapjack</code> issues</a> for the 1.0 milestone.</p>
+<p><a href="https://github.com/flapjack/flapjack/issues?direction=asc&amp;milestone=1&amp;page=1&amp;sort=created&amp;state=open"><code class="prettyprint">flapjack</code> issues</a> for the 1.0 milestone.</p>
 
       </div>
     </div>

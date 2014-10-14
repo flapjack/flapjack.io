@@ -40,10 +40,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1 id="reports">Reports</h1>
-
-<h2 id="status-of-entities-or-checks">Status of entities or checks</h2>
-<pre class="highlight shell">curl http://localhost:3081/status_report/entities
+        <h1 id='reports'>Reports</h1><h2 id='status-of-entities-or-checks'>Status of entities or checks</h2><pre class="highlight shell">curl http://localhost:3081/status_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/status_report/entities/76
@@ -85,9 +82,7 @@ curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /status_report/entities</code></p>
 
 <p>or</p>
@@ -101,13 +96,9 @@ curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example
 <p>or</p>
 
 <p><code class="prettyprint">GET /status_report/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <p>None.</p>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -119,9 +110,7 @@ curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example
 <td>OK</td>
 </tr>
 </tbody></table>
-
-<h2 id="unscheduled-maintenance-periods-of-entities-or-checks">Unscheduled maintenance periods of entities or checks</h2>
-<pre class="highlight shell">curl http://localhost:3081/unscheduled_maintenance_report/entities
+<h2 id='unscheduled-maintenance-periods-of-entities-or-checks'>Unscheduled maintenance periods of entities or checks</h2><pre class="highlight shell">curl http://localhost:3081/unscheduled_maintenance_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/unscheduled_maintenance_report/entities/76
@@ -163,9 +152,7 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /unscheduled_maintenance_report/entities</code></p>
 
 <p>or</p>
@@ -179,9 +166,7 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
 <p>or</p>
 
 <p><code class="prettyprint">GET /unscheduled_maintenance_report/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -200,9 +185,7 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
 <td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -214,9 +197,7 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
 <td>OK</td>
 </tr>
 </tbody></table>
-
-<h2 id="scheduled-maintenance-periods-of-entities-or-checks">Scheduled maintenance periods of entities or checks</h2>
-<pre class="highlight shell">curl http://localhost:3081/scheduled_maintenance_report/entities
+<h2 id='scheduled-maintenance-periods-of-entities-or-checks'>Scheduled maintenance periods of entities or checks</h2><pre class="highlight shell">curl http://localhost:3081/scheduled_maintenance_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/scheduled_maintenance_report/entities/76
@@ -258,9 +239,7 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /scheduled_maintenance_report/entities</code></p>
 
 <p>or</p>
@@ -274,9 +253,7 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
 <p>or</p>
 
 <p><code class="prettyprint">GET /scheduled_maintenance_report/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -295,9 +272,7 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
 <td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -309,9 +284,7 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
 <td>OK</td>
 </tr>
 </tbody></table>
-
-<h2 id="outages-of-entities-or-checks">Outages of entities or checks</h2>
-
+<h2 id='outages-of-entities-or-checks'>Outages of entities or checks</h2>
 <p>An outage on a check is a period of time for which the check was failing.</p>
 <pre class="highlight shell">curl http://localhost:3081/outage_report/entities
 
@@ -355,9 +328,7 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /outage_report/entities</code></p>
 
 <p>or</p>
@@ -371,9 +342,7 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example
 <p>or</p>
 
 <p><code class="prettyprint">GET /outage_report/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -392,9 +361,7 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example
 <td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>
@@ -406,9 +373,7 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example
 <td>OK</td>
 </tr>
 </tbody></table>
-
-<h2 id="downtime-of-entities-or-checks">Downtime of entities or checks</h2>
-
+<h2 id='downtime-of-entities-or-checks'>Downtime of entities or checks</h2>
 <p>A downtime on a check is a period of time when the check is failing and there&rsquo;s no scheduled maintenance.</p>
 <pre class="highlight shell">curl http://localhost:3081/downtime_report/entities
 
@@ -452,9 +417,7 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
 </pre>
-
-<h3 id="http-request">HTTP Request</h3>
-
+<h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /downtime_report/entities</code></p>
 
 <p>or</p>
@@ -468,9 +431,7 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
 <p>or</p>
 
 <p><code class="prettyprint">GET /downtime_report/checks/ID[,ID,ID...]</code></p>
-
-<h3 id="query-parameters">Query Parameters</h3>
-
+<h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -489,9 +450,7 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
 <td>A date &amp; time in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)</td>
 </tr>
 </tbody></table>
-
-<h3 id="http-return-codes">HTTP Return Codes</h3>
-
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
 <table><thead>
 <tr>
 <th>Return code</th>

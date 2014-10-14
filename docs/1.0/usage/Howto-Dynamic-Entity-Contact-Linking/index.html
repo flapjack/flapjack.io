@@ -40,17 +40,14 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1 id="howto:-dynamic-linking-of-contacts-using-the-&#39;all&#39;-entity-hack">Howto: Dynamic linking of Contacts using the &lsquo;ALL&rsquo; entity hack</h1>
-
+        <h1 id='howto-dynamic-linking-of-contacts-using-the-39all39-entity-hack'>Howto: Dynamic linking of Contacts using the &lsquo;ALL&rsquo; entity hack</h1>
 <p>Flapjack 0.x and 1.x have a requirement that contacts must be explicity linked to entities in order for any notifications about checks on the entity to go to the contact. This is too restrictive for some sites and means it&rsquo;s much harder to use Flapjack for alerting of environments where hosts come and go without configuration management ceremony, eg in autoscaling groups.</p>
 
 <p>Sean Porter contributed a neat workaround for this situation which involves creation of a special entity with an ID of &lsquo;ALL&rsquo;.
 This entity doesn&rsquo;t correspond to any one entity but rather collects together all entities for the purposes of assigning contacts. Contacts can then be linked to this entity, and they&rsquo;ll then be able to receive notifications for any entity.</p>
 
 <p>Notification rules are then used to refine which notifications are sent to each contact.</p>
-
-<h2 id="example-using-flapjack-diner-and-the-json-api">Example using flapjack-diner and the JSON API</h2>
-
+<h2 id='example-using-flapjack-diner-and-the-json-api'>Example using flapjack-diner and the JSON API</h2>
 <p>Ensure the ALL entity exists:</p>
 <pre class="highlight ruby"><span class="c1">#!/usr/bin/env ruby</span>
 

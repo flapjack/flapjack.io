@@ -51,9 +51,7 @@
 <p>If the oobetet does not observe state changes within a certain timeframe, it fires an alert, via Jabber or PagerDuty.</p>
 
 <p>This helps you identify when your upstream event producers have gotten stuck, e.g. Nagios has hung, the node has gone away, etc.</p>
-
-<h2 id="how-it-works">How it works</h2>
-
+<h2 id='how-it-works'>How it works</h2>
 <p>Oobetet works like this:</p>
 
 <p><img alt="oobetet high level" src="../../../images/oobetet-high-level.png" /></p>
@@ -97,9 +95,7 @@
 <li><code class="prettyprint">server</code>, <code class="prettyprint">port</code>, <code class="prettyprint">jabberid</code>, <code class="prettyprint">password</code> - Jabber server connection and authentication credentials</li>
 <li><code class="prettyprint">rooms</code> - Jabber rooms to join</li>
 </ul>
-
-<h3 id="event-producers">Event producers</h3>
-
+<h3 id='event-producers'>Event producers</h3>
 <p>The upstream monitoring check is expected to switch between states within that time period. If it does not, an alert will fire.</p>
 
 <p>Assuming you&rsquo;re running Nagios as your check execution engine, and your Nagios is hooked up to Flapjack with <code class="prettyprint">flapjack-nagios-receiver</code>, here&rsquo;s an example Nagios config to setup a flapping service:</p>
@@ -130,9 +126,7 @@ define command {
 <p>You start it like this:</p>
 <pre class="highlight shell">flapper start
 </pre>
-
-<h2 id="stringing-it-all-together">Stringing it all together</h2>
-
+<h2 id='stringing-it-all-together'>Stringing it all together</h2>
 <p>With the above configuration:</p>
 
 <ul>

@@ -44,8 +44,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h2 id="developing-flapjack">Developing Flapjack</h2>
-
+        <h2 id='developing-flapjack'>Developing Flapjack</h2>
 <p>Clone the repository:</p>
 <pre class="highlight shell">git clone https://github.com/flapjack/flapjack.git
 </pre>
@@ -104,9 +103,7 @@ integration for production apps, so why shouldn&rsquo;t your monitoring system h
 </pre>
 
 <p>You can use whatever adjective you like in there, so tune it to suit the mood of the moment.</p>
-
-<h2 id="code-coverage-reporting">Code Coverage Reporting</h2>
-
+<h2 id='code-coverage-reporting'>Code Coverage Reporting</h2>
 <p>To engage <a href="https://github.com/colszowka/simplecov">SimpleCov</a> for a code coverage report, set the COVERAGE environment variable before running one (or both) of the test suites:</p>
 <pre class="highlight shell"><span class="nv">COVERAGE</span><span class="o">=</span>x rake spec
 <span class="nv">COVERAGE</span><span class="o">=</span>x rake features
@@ -114,9 +111,7 @@ open coverage/index.html
 </pre>
 
 <p>Note that SimpleCov will merge the results of the two test suite&rsquo;s measured code coverage if you run them both within a 10 minute timeout.</p>
-
-<h2 id="startup-and-shutdown">Startup and Shutdown</h2>
-
+<h2 id='startup-and-shutdown'>Startup and Shutdown</h2>
 <p>Copy the example configuration file into place:</p>
 <pre class="highlight shell"><span class="k">if</span> <span class="o">[</span> ! -e etc/flapjack_config.yaml <span class="o">]</span> ; <span class="k">then
   </span>cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml
@@ -144,9 +139,7 @@ open coverage/index.html
 <p>When running, check you can access the web interface at <a href="http://localhost:4081/">localhost:4081</a>. The port for development can be modified in etc/flapjack_config.yaml under <code class="prettyprint">development</code> - <code class="prettyprint">gateways</code> - <code class="prettyprint">web</code> - <code class="prettyprint">port</code>.</p>
 
 <p>See <a href="../USING">Using</a> for more information.</p>
-
-<h2 id="releasing">Releasing</h2>
-
+<h2 id='releasing'>Releasing</h2>
 <p>Gem releases are handled with <a href="http://gembundler.com/rubygems.html">Bundler</a>.</p>
 
 <p>Before building the gem for release, you need to do a bit of housekeeping:</p>
@@ -184,21 +177,13 @@ vagrant up ubuntu-precise64
 <pre class="highlight shell">git clone https://github.com/flapjack/vagrant-flapjack.git <span class="o">&amp;&amp;</span> <span class="nb">cd </span>vagrant-flapjack
 vagrant up
 </pre>
-
-<h2 id="data-structures">Data Structures</h2>
-
+<h2 id='data-structures'>Data Structures</h2>
 <p>See <a href="../DATA_STRUCTURES">Data Structures</a></p>
-
-<h2 id="restful-api-for-input,-output-and-actions">RESTful API for input, output and actions</h2>
-
+<h2 id='restful-api-for-input-output-and-actions'>RESTful API for input, output and actions</h2>
 <p>See <a href="../API">API</a></p>
-
-<h2 id="importing-via-the-command-line">Importing via the command line</h2>
-
+<h2 id='importing-via-the-command-line'>Importing via the command line</h2>
 <p>See <a href="../IMPORTING">Importing</a></p>
-
-<h2 id="architecture">Architecture</h2>
-
+<h2 id='architecture'>Architecture</h2>
 <p>TODO &ndash; more detailed than in USING.md</p>
 
 <p>FIXME document check data format, for writing new check receivers</p>

@@ -44,33 +44,26 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h1 id="importing-data-into-flapjack">Importing data into Flapjack</h1>
-
+        <h1 id='importing-data-into-flapjack'>Importing data into Flapjack</h1>
 <p>Flapjack provides a RESTful HTTP API for all data import / export functions, and triggering actions. See the <a href="../API">API docs</a> for full details.</p>
 
 <p>Flapjack also provides a simple command line utility, <code class="prettyprint">flapjack-populator</code>, which can also be used for importing to some of the data structures.</p>
 
 <p>See also the <a href="../DATA_STRUCTURES">data structures</a> documentation.</p>
-
-<h2 id="importing-contacts-and-entities-using-flapjack-populator">Importing contacts and entities using flapjack-populator</h2>
-
+<h2 id='importing-contacts-and-entities-using-flapjack-populator'>Importing contacts and entities using flapjack-populator</h2>
 <p>The <code class="prettyprint">flapjack-populator</code> script provides a mechanism for importing contacts and entities in JSON format. Here are some command line examples for <code class="prettyprint">flapjack-populator</code>:</p>
 
 <p>bin/flapjack-populator import-contacts &ndash;from tmp/dummy_contacts.json &ndash;config /etc/flapjack/flapjack-config.yml
     bin/flapjack-populator import-entities &ndash;from tmp/dummy_entities.json &ndash;config /etc/flapjack/flapjack-config.yml</p>
 
 <p>There are example JSON files, and example ruby scripts which generate the examples, in the tmp/ directory.</p>
-
-<h3 id="format-of-json-contact-+-entity-data">Format of JSON contact + entity data</h3>
-
+<h3 id='format-of-json-contact--entity-data'>Format of JSON contact + entity data</h3>
 <p>The format of these files is identical to the format required by the API functions <a href="../API#wiki-post_contacts">POST /contacts</a> and <a href="../API#wiki-post_entities">POST /entities</a>, consult the API documentation for the data specification. There are also some examples below.</p>
 
 <p>The <code class="prettyprint">flapjack-populator</code> script populates the event processing/notification database with entities and contacts. This initialises the entities for which checks will be monitored, which contacts are interested in which entities, and the notification details for these contacts (email address, mobile number for SMS, etc.).</p>
 
 <p>The import process will delete any existing matching object (matching on ID) before importing the new details, so if an object is being updated, the whole object must be exported. In this way we can handle the removal of an email address in the media hash for example. The operation on Redis is wrapped in a transaction, so the update is atomic.</p>
-
-<h3 id="contacts-example">Contacts Example</h3>
-
+<h3 id='contacts-example'>Contacts Example</h3>
 <p>Example - three contacts with varying media</p>
 <pre class="highlight json"><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -141,9 +134,7 @@
 
 <span class="nb">puts</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">contacts</span><span class="p">)</span>
 </pre>
-
-<h3 id="entities-example">Entities Example</h3>
-
+<h3 id='entities-example'>Entities Example</h3>
 <p>Example - three entities with a different selection of contacts interested in each</p>
 <pre class="highlight json"><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">

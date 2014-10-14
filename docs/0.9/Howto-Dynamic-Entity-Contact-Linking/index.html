@@ -44,8 +44,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h1 id="howto:-dynamic-linking-of-contacts-using-the-&#39;all&#39;-entity-hack">Howto: Dynamic linking of Contacts using the &lsquo;ALL&rsquo; entity hack</h1>
-
+        <h1 id='howto-dynamic-linking-of-contacts-using-the-39all39-entity-hack'>Howto: Dynamic linking of Contacts using the &lsquo;ALL&rsquo; entity hack</h1>
 <p>Flapjack 0.x and 1.x have a requirement that contacts must be explicity linked to entities in order for any notifications about checks on the entity to go to the contact. This is too restrictive for some sites and means it&rsquo;s much harder to use Flapjack for alerting of environments where hosts come and go without configuration management ceremony, eg in autoscaling groups.</p>
 
 <p>Sean Porter contributed a neat ~~hack~~ workaround for this situation which involves creation of a special entity named &lsquo;ALL&rsquo;. This entity doesn&rsquo;t correspond to any one entity but rather collects together all entities. Contacts can then be linked to this entity, and they&rsquo;ll then be able to receive notifications for any entity.</p>
