@@ -137,6 +137,89 @@
 </tr>
 </tbody></table>
 
+<h2 id="get-checks">Get checks</h2>
+
+<p>If no check ids are provided then all entities will be returned; if check ids
+are provided then only the checks matching those ids will be returned. (Check
+ids are composed by joining together the check&rsquo;s entity&rsquo;s name, the character
+&lsquo;:&rsquo; and the check&rsquo;s name.)</p>
+<pre class="highlight shell">curl http://localhost:3081/checks
+
+<span class="c"># or</span>
+curl <span class="s1">'http://localhost:3081/checks/example.com:HOST'</span>
+
+<span class="c"># or</span>
+curl <span class="s1">'http://localhost:3081/checks/example.com:PING,example.com:SSH'</span>
+</pre>
+<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">checks</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">checks</span><span class="p">(</span><span class="s1">'example.com:HOST'</span><span class="p">)</span>
+
+<span class="c1"># or</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">checks</span><span class="p">(</span><span class="s1">'example.com:PING'</span><span class="p">,</span> <span class="s1">'example.com:SSH'</span><span class="p">)</span>
+</pre>
+
+<blockquote>
+<p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
+</blockquote>
+<pre class="highlight json"><span class="p">{</span><span class="w">
+  </span><span class="s2">"checks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"www.example.com:PING"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PING"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"entity_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"www.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"production"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"57"</span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"www.example.com::SSH"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SSH"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"entity_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"www.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="s2">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"57"</span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre>
+
+<h3 id="http-request">HTTP Request</h3>
+
+<p><code class="prettyprint">GET /checks</code></p>
+
+<p><strong>or</strong></p>
+
+<p><code class="prettyprint">GET /checks/ID[,ID,ID...]</code></p>
+
+<h3 id="query-parameters">Query Parameters</h3>
+
+<p>None.</p>
+
+<h3 id="http-return-codes">HTTP Return Codes</h3>
+
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+
 <h2 id="update-checks">Update checks</h2>
 
 <p>Update one or more checks.</p>
