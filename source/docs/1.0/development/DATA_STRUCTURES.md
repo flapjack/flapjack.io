@@ -118,8 +118,19 @@ Any time an event is received from the check execution system for a check, the c
 Related to this is the current_entities sorted set, which contains all entities that have current checks, ordered by the timestamp of the latest check event received for each entity.
 
 ```text
-current_checks:ENTITY (sorted set) => ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
-current_entities (sorted set) => ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
+current_checks:ENTITY (sorted set) -> ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+current_entities      (sorted set) -> ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
+```
+
+### All checks and entities, checks of entities
+
+These are all new in Flapjack 1.2:
+
+```
+all_checks             (sorted set) -> ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+all_checks:ENTITY      (sorted set) -> ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+all_entity_names_by_id (hash)       -> { ID => ENTITY_NAME, ID => ENTITY_NAME, ... }
+all_entity_ids_by_name (hash)       -> { ENTITY_NAME => ID, ENTITY_NAME => ID, ... }
 ```
 
 ### Unscheduled Maintenance
@@ -331,20 +342,33 @@ Notes:
   jabber_id should also be included in the flapjack configuration file so that flapjack jabber gateway joins
   the group chat
 
-### Entity and Check Contacts
-
-Which contacts are interested in which entities and/or which checks?
+### Entites and Checks
 
 ```text
 contacts_for:ENTITY_ID       (set) -> ( CONTACT_ID, CONTACT_ID, ... )
 contacts_for:ENTITY_ID:CHECK (set) -> ( CONTACT_ID, CONTACT_ID, ... )
+entity_tag:TAG               (set) -> ( ENTITY_ID, ENTITY_ID, ... )
+known_tag:entity_tag         (set) -> ( TAG, TAG, ... )
+
+
+
+ENTITY_ID   - a unique, immutable identifier given to each entity. 
+              This allows the name of the entity to change (eg a 
+              host gets renamed) and synchronisation to not go out of whack.
+ENTITY_NAME - the name of the entity, eg foo-app-01.example
+TAG       - arbitrary string
+```
+
+The known_tag:entity_tag key caches the set of tags on entities.
+
+The following structures were added in Flapjack 1.2:
+- `known_tag:entity_tag`
+
+Removed in Flapjack 1.2:
+
+```text
 entity:ENTITY_ID            (hash) -> { 'name' => ENTITY }
 entity_id:ENTITY          (string) -> ENTITY_ID
-entity_tag:TAG               (set) -> ( ENTITY_ID, ENTITY_ID, ... )
-
-ENTITY_ID - a unique, immutable identifier given to each entity. This allows the name of the entity
-            to change (eg a host gets renamed) and synchronisation to not go out of whack.
-TAG       - arbitrary tag
 ```
 
 ### Notification Rules
