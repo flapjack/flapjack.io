@@ -1515,7 +1515,7 @@ curl http://localhost:3081/entities/17,25
 <pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "add",
-   "path"  : "/entities/0/linked/contacts",
+   "path"  : "/entities/0/links/contacts",
    "value" : '</span>352<span class="s1">'}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/entities/157'</span>
