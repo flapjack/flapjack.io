@@ -28,6 +28,7 @@ You'll be able to get help from other participants during the tutorial (and afte
 
 # Tutorial Sessions
 
+- [DevOpsDays Berlin 2014](http://devopsdays.org/events/2014-berlin/proposals/Birger%20Schmidt%20-%20Use%20flapjack%20as%20bridge%20between%20ops%20and%20dev,%20and%20bridge%20from%20nagios%20towards%20more%20freedom/) 24 October 2014, Berlin, Germany
 - [Velocity New York 2014](http://velocityconf.com/velocityny2014/public/schedule/detail/35835) 15 September 2014, New York, NY, USA
 - [Monitorama PDX 2014](http://monitorama.com/) 7 May 2014, Portland, OR, USA
 - [Linux.conf.au 2014](http://lca2014.linux.org.au/schedule/30261/view_talk?day=wednesday) 8 January 2014, Perth, Australia
