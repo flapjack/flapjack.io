@@ -75,7 +75,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='create-entities'>Create entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-entities'>Create entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "entities": [
       {
@@ -88,18 +88,18 @@
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/entities
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_entities</span><span class="p">(</span><span class="o">[</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_entities</span><span class="p">([</span>
   <span class="p">{</span>
     <span class="s1">'id'</span>   <span class="o">=&gt;</span> <span class="s1">'825'</span><span class="p">,</span>
     <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'foo.example.com'</span><span class="p">,</span>
-    <span class="s1">'tags'</span> <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'foo'</span> <span class="o">]</span>
+    <span class="s1">'tags'</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'foo'</span> <span class="p">]</span>
   <span class="p">}</span>
-<span class="o">]</span><span class="p">)</span>
-</pre>
+<span class="p">])</span>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /entities</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -143,15 +143,15 @@
 <h2 id='get-entities'>Get entities</h2>
 <p>If no entity ids are provided then all entities will be returned; if entity ids
 are provided then only the entities matching those ids will be returned.</p>
-<pre class="highlight shell">curl http://localhost:3081/entities
+<pre><code class="highlight shell">curl http://localhost:3081/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/entities/17
 
 <span class="c"># or</span>
 curl http://localhost:3081/entities/17,25
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">entities</span>
@@ -161,12 +161,12 @@ curl http://localhost:3081/entities/17,25
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">entities</span><span class="p">(</span><span class="s1">'17'</span><span class="p">,</span> <span class="s1">'25'</span><span class="p">)</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">{</span><span class="w">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"301"</span><span class="p">,</span><span class="w">
@@ -190,7 +190,7 @@ curl http://localhost:3081/entities/17,25
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /entities</code></p>
 
@@ -215,23 +215,23 @@ curl http://localhost:3081/entities/17,25
 <p>Update one or more attributes for one or more entity resources.</p>
 
 <p>NB: The entity name cannot be changed in Flapjack v1.x due to limitations in the underlying data storage model. This will be addressed in future Flapjack releases.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "add",
    "path"  : "/entities/0/links/contacts",
    "value" : '</span>352<span class="s1">'}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/entities/157'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_entities</span><span class="p">(</span>
-  <span class="o">[</span> <span class="s1">'157'</span> <span class="o">]</span><span class="p">,</span>
+  <span class="p">[</span> <span class="s1">'157'</span> <span class="p">],</span>
   <span class="ss">:name</span>         <span class="o">=&gt;</span> <span class="s1">'www.example_com'</span><span class="p">,</span>
-  <span class="ss">:add_contacts</span> <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'352'</span> <span class="o">]</span>
+  <span class="ss">:add_contacts</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'352'</span> <span class="p">]</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -284,7 +284,7 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> The submitted entity data did not conform to the provided specification.</td>
 </tr>
 </tbody></table>
-<h2 id='create-scheduled-maintenance-periods-on-entities'>Create scheduled maintenance periods on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-scheduled-maintenance-periods-on-entities'>Create scheduled maintenance periods on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "scheduled_maintenances": [
       {
@@ -295,8 +295,8 @@ curl http://localhost:3081/entities/17,25
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/scheduled_maintenances/entities/825
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_scheduled_maintenances_entities</span><span class="p">(</span>
@@ -305,7 +305,7 @@ curl http://localhost:3081/entities/17,25
   <span class="ss">:duration</span>   <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>    <span class="o">=&gt;</span> <span class="s1">'memory replacement'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /scheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -356,17 +356,17 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='delete-scheduled-maintenance-periods-on-entities'>Delete scheduled maintenance periods on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<h2 id='delete-scheduled-maintenance-periods-on-entities'>Delete scheduled maintenance periods on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/scheduled_maintenances/entities/34?start_time=2014-05-09T16:12:16+09:30'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_scheduled_maintenances_entities</span><span class="p">(</span>
   <span class="mi">34</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-05-09T16:12:16+09:30'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /scheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -403,7 +403,7 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> No matching entities were found.</td>
 </tr>
 </tbody></table>
-<h2 id='create-unscheduled-maintenance-periods-on-entities'>Create unscheduled maintenance periods on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-unscheduled-maintenance-periods-on-entities'>Create unscheduled maintenance periods on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "unscheduled_maintenances": [
       {
@@ -413,8 +413,8 @@ curl http://localhost:3081/entities/17,25
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/unscheduled_maintenances/entities/825
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_unscheduled_maintenances_entities</span><span class="p">(</span>
@@ -422,7 +422,7 @@ curl http://localhost:3081/entities/17,25
   <span class="ss">:duration</span> <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>  <span class="o">=&gt;</span> <span class="s1">'fixing now'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /unscheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -464,22 +464,22 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='update-unscheduled-maintenance-periods-on-entities'>Update unscheduled maintenance periods on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<h2 id='update-unscheduled-maintenance-periods-on-entities'>Update unscheduled maintenance periods on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/unscheduled_maintenances/0/end_time",
    "value" : "2014-04-09T16:12:16+09:30"},
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/unscheduled_maintenances/entities/34'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_unscheduled_maintenances_entities</span><span class="p">(</span>
   <span class="s1">'34'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-04-09T16:12:16+09:30'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /unscheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -528,7 +528,7 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> The submitted data was not sent with the JSON-Patch MIME type <code class="prettyprint">application/json-patch+json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='create-test-notifications-on-entities'>Create test notifications on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-test-notifications-on-entities'>Create test notifications on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
   <span class="s1">'{
     "test_notifications": [
       {
@@ -537,15 +537,15 @@ curl http://localhost:3081/entities/17,25
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/test_notifications/entities/825
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_test_notifications_entities</span><span class="p">(</span>
   <span class="s1">'825'</span><span class="p">,</span>
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">'testing, testing, 1, 2, 3'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /test_notifications/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>

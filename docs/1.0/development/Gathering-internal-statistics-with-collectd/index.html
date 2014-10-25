@@ -42,7 +42,7 @@
         <div class="col-md-offset-1 col-md-10 markdown-body">
         <h2 id='gathering-internal-statistics-with-collectd'>Gathering internal statistics with collectd</h2>
 <p>Here is an example collectd configuration file:</p>
-<pre class="highlight plaintext">LoadPlugin "curl_json"
+<pre><code class="highlight plaintext">LoadPlugin "curl_json"
 
 &lt;Plugin curl_json&gt;
   &lt;URL "http://localhost:3080/self_stats.json"&gt;
@@ -83,7 +83,7 @@
     &lt;/Key&gt;
   &lt;/URL&gt;
 &lt;/Plugin&gt;
-</pre>
+</code></pre>
 
 <p>An example graph:</p>
 

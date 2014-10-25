@@ -49,7 +49,7 @@
 <p>The following command reports every five seconds the number of connections to Redis (as reported by <code class="prettyprint">lsof</code>) and the total number of EventMachine external protocol connections currently in place:</p>
 
 <p>Production paths:</p>
-<pre class="highlight shell"><span class="k">while </span><span class="nb">true</span> ; <span class="k">do
+<pre><code class="highlight shell"><span class="k">while </span><span class="nb">true</span> ; <span class="k">do
   </span><span class="nb">echo</span> -n <span class="s2">"EM connection count: "</span>
   tail -50000 /var/log/flapjack/flapjack.log | grep -i <span class="s2">"connection count"</span> <span class="se">\</span>
     | tail -1 | awk <span class="s1">'{ print $5 }'</span>
@@ -57,10 +57,10 @@
   sudo lsof -p <span class="sb">`</span>cat /var/run/flapjack/flapjack.pid<span class="sb">`</span> | grep :6379 | wc -l
   sleep 5
 <span class="k">done</span>
-</pre>
+</code></pre>
 
 <p>Development paths:</p>
-<pre class="highlight shell"><span class="k">while </span><span class="nb">true</span> ; <span class="k">do
+<pre><code class="highlight shell"><span class="k">while </span><span class="nb">true</span> ; <span class="k">do
   </span><span class="nb">echo</span> -n <span class="s2">"EM connection count: "</span>
   tail -50000 log/flapjack.log | grep -i <span class="s2">"connection count"</span> <span class="se">\</span>
     | tail -1 | awk <span class="s1">'{ print $5 }'</span>
@@ -68,7 +68,7 @@
   sudo lsof -p <span class="sb">`</span>cat tmp/pids/flapjack.pid<span class="sb">`</span> | grep localhost:6379 | wc -l
   sleep 5
 <span class="k">done</span>
-</pre>
+</code></pre>
 
       </div>
     </div>

@@ -91,7 +91,7 @@
 <p>Contact ids may optionally be supplied. If it is omitted, then a UUID will be created.</p>
 
 <p>If an id is supplied in any of the included contacts, and any of them clash with an existing contact, the whole request will be rejected and no changes will be written.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "contacts": [
       {
@@ -107,8 +107,8 @@
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/contacts
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contacts</span><span class="p">({</span>
@@ -116,13 +116,13 @@
   <span class="ss">:last_name</span>  <span class="o">=&gt;</span> <span class="s2">"Lovelace"</span><span class="p">,</span>
   <span class="ss">:email</span>      <span class="o">=&gt;</span> <span class="s2">"ada@example.com"</span>
 <span class="p">})</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">[</span><span class="s2">"cd40283b-023e-43e2-a79c-1910415afdc2"</span><span class="p">]</span><span class="w">
-</span></pre>
+<pre><code class="highlight json"><span class="p">[</span><span class="s2">"cd40283b-023e-43e2-a79c-1910415afdc2"</span><span class="p">]</span><span class="w">
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /contacts</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -166,15 +166,15 @@
 <h2 id='get-contacts'>Get contacts</h2>
 <p>If no contact ids are provided then all contacts will be returned; if contact ids
 are provided then only the contacts matching those ids will be returned.</p>
-<pre class="highlight shell">curl http://localhost:3081/contacts
+<pre><code class="highlight shell">curl http://localhost:3081/contacts
 
 <span class="c"># or</span>
 curl http://localhost:3081/contacts/1
 
 <span class="c"># or</span>
 curl http://localhost:3081/contacts/21,22
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">contacts</span>
@@ -184,12 +184,12 @@ curl http://localhost:3081/contacts/21,22
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">contacts</span><span class="p">(</span><span class="s1">'21'</span><span class="p">,</span> <span class="s1">'22'</span><span class="p">)</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">{</span><span class="w">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">"contacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21"</span><span class="p">,</span><span class="w">
@@ -224,7 +224,7 @@ curl http://localhost:3081/contacts/21,22
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /contacts</code></p>
 
@@ -247,7 +247,7 @@ curl http://localhost:3081/contacts/21,22
 </tbody></table>
 <h2 id='update-contacts'>Update contacts</h2>
 <p>Update one or more attributes for one or more contact resources.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/contacts/0/first_name",
@@ -257,8 +257,8 @@ curl http://localhost:3081/contacts/21,22
    "value" : '</span>Smith<span class="s1">'}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/contacts/23'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_contacts</span><span class="p">(</span>
@@ -266,7 +266,7 @@ curl http://localhost:3081/contacts/21,22
   <span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s1">'John'</span><span class="p">,</span>
   <span class="ss">:last_name</span>  <span class="o">=&gt;</span> <span class="s1">'Smith'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /contacts/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -317,21 +317,21 @@ curl http://localhost:3081/contacts/21,22
 </tbody></table>
 <h2 id='delete-contacts'>Delete contacts</h2>
 <p>Delete one or more contacts.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/contacts/21'</span>
 
 <span class="c"># or</span>
 curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/contacts/21,22'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_contacts</span><span class="p">(</span><span class="s1">'21'</span><span class="p">)</span>
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_contacts</span><span class="p">(</span><span class="s1">'21'</span><span class="p">,</span> <span class="s1">'22'</span><span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /contacts/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>

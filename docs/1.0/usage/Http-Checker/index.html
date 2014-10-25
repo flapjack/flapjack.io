@@ -47,15 +47,15 @@ Failures and successes are reported to Flapjack as heartbeats - just like any ot
 <p>With this, you can start using Flapjack straight away.  </p>
 <h3 id='setting-up-a-http-check'>Setting up a http check</h3>
 <p>The http checker runs as a Flapjack subcommand:</p>
-<pre class="highlight plaintext">flapjack receiver httpchecker -c ~/http-checker-config.json
-</pre>
+<pre><code class="highlight plaintext">flapjack receiver httpchecker -c ~/http-checker-config.json
+</code></pre>
 
 <p>This will load the specified config file and run as many checks as it has been told to.
 Each check will result in a stream of heartbeat events to Flapjack - OK or CRITICAL
 depending on the check result.</p>
 <h3 id='configuration'>Configuration</h3>
 <p>This is a sample http-checker-config.json file:</p>
-<pre class="highlight json"><span class="p">{</span><span class="w">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
 
   </span><span class="s2">"monitors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
@@ -85,7 +85,7 @@ depending on the check result.</p>
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
+</span></code></pre>
 <h4 id='monitors'>Monitors</h4>
 <p>Monitors are the HTTP URLs to check - the name will appear as part of the
 entity and check information in Flapjack (as will the URL).</p>

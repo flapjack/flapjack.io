@@ -75,7 +75,7 @@
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='create-media-for-a-contact'>Create media for a contact</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-media-for-a-contact'>Create media for a contact</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "media": [
       {
@@ -87,8 +87,8 @@
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/contacts/5/media
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contact_media</span><span class="p">(</span>
@@ -100,7 +100,7 @@
     <span class="s1">'rollup_threshold'</span> <span class="o">=&gt;</span> <span class="mi">5</span>
   <span class="p">}</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /contacts/CONTACT_ID/media</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -150,15 +150,15 @@ containing the id of the associated contact, an underscore and then the type
 of the medium in question. This is for backwards compatibility, and is due to
 some historical design decisions, but is likely to change when the data
 handling code is reworked.</p>
-<pre class="highlight shell">curl http://localhost:3081/media
+<pre><code class="highlight shell">curl http://localhost:3081/media
 
 <span class="c"># or</span>
 curl http://localhost:3081/media/1_email
 
 <span class="c"># or</span>
 curl http://localhost:3081/media/21_jabber,22_jabber
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">media</span>
@@ -168,12 +168,12 @@ curl http://localhost:3081/media/21_jabber,22_jabber
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">media</span><span class="p">(</span><span class="s1">'21_jabber'</span><span class="p">,</span> <span class="s1">'22_jabber'</span><span class="p">)</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">{</span><span class="w">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">"media"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21_sms"</span><span class="p">,</span><span class="w">
@@ -197,7 +197,7 @@ curl http://localhost:3081/media/21_jabber,22_jabber
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /media</code></p>
 
@@ -220,7 +220,7 @@ curl http://localhost:3081/media/21_jabber,22_jabber
 </tbody></table>
 <h2 id='update-media'>Update media</h2>
 <p>Update one or more attributes for one or more media resources.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/media/0/address",
@@ -230,8 +230,8 @@ curl http://localhost:3081/media/21_jabber,22_jabber
    "value" : 10}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/media/21_sms'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_media</span><span class="p">(</span>
@@ -239,7 +239,7 @@ curl http://localhost:3081/media/21_jabber,22_jabber
   <span class="ss">:address</span>  <span class="o">=&gt;</span> <span class="s1">'0123456789'</span><span class="p">,</span>
   <span class="ss">:interval</span> <span class="o">=&gt;</span> <span class="mi">10</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /media/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -290,21 +290,21 @@ curl http://localhost:3081/media/21_jabber,22_jabber
 </tbody></table>
 <h2 id='delete-media'>Delete media</h2>
 <p>Delete one or more media resources.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/media/11_email'</span>
 
 <span class="c"># or</span>
 curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/media/31_jabber,32_jabber'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_media</span><span class="p">(</span><span class="s1">'11_email'</span><span class="p">)</span>
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_media</span><span class="p">(</span><span class="s1">'31_jabber'</span><span class="p">,</span> <span class="s1">'32_jabber'</span><span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /media/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>

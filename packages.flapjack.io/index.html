@@ -42,30 +42,30 @@
 <p>Packages for the 0.9.x and 1.x series are currently available for Ubuntu.</p>
 <h2 id='add-repository'>Add Repository</h2>
 <p>Add the <a href="http://packages.flapjack.io/deb">deb repo</a> to your apt sources:</p>
-<h3 id='1-x-series'>1.x Series</h3><h4 id='trusty'>Trusty</h4><pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/v1 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
-</pre>
-<h4 id='precise'>Precise</h4><pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/v1 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
-</pre>
-<h3 id='0-9-x-series'>0.9.x Series</h3><h4 id='trusty'>Trusty</h4><pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/0.9 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
-</pre>
-<h4 id='precise'>Precise</h4><pre class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/0.9 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
-</pre>
+<h3 id='1-x-series'>1.x Series</h3><h4 id='trusty'>Trusty</h4><pre><code class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/v1 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+</code></pre>
+<h4 id='precise'>Precise</h4><pre><code class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/v1 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+</code></pre>
+<h3 id='0-9-x-series'>0.9.x Series</h3><h4 id='trusty'>Trusty</h4><pre><code class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/0.9 trusty main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+</code></pre>
+<h4 id='precise'>Precise</h4><pre><code class="highlight plaintext">echo "deb http://packages.flapjack.io/deb/0.9 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+</code></pre>
 <h2 id='installation'>Installation</h2>
 <p>After adding the relevant entry to your apt sources list, run:</p>
-<pre class="highlight plaintext">gpg --keyserver keys.gnupg.net --recv-keys 803709B6
+<pre><code class="highlight plaintext">gpg --keyserver keys.gnupg.net --recv-keys 803709B6
 gpg -a --export 803709B6 | sudo apt-key add -
 sudo apt-get update &amp;&amp; sudo apt-get install flapjack
-</pre>
+</code></pre>
 <h2 id='experimental-releases'>Experimental releases</h2>
 <p>An experimental component is used for pre-release builds.  This is for testing purposes, and we would not recommend running packages from experimental in production.</p>
-<pre class="highlight plaintext"># trusty:
+<pre><code class="highlight plaintext"># trusty:
 
 echo "deb http://packages.flapjack.io/deb/v1 trusty experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 
 # precise:
 
 echo "deb http://packages.flapjack.io/deb/v1 precise experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
-</pre>
+</code></pre>
 
       </div>
     </div>

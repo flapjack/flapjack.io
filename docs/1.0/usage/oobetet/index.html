@@ -66,7 +66,7 @@
 <p>The upstream monitoring check is expected to switch between states within that time period. If it does not, an alert will fire.</p>
 
 <p>Assuming you&rsquo;re running Nagios as your check execution engine, and your Nagios is hooked up to Flapjack with <code class="prettyprint">flapjack receiver nagios</code>, here&rsquo;s an example Nagios config to setup a flapping service:</p>
-<pre class="highlight plaintext">define host {
+<pre><code class="highlight plaintext">define host {
   use            base
   host_name      flapper-on-nagios-01.example.org
   alias          flapper-on-nagios-01
@@ -86,13 +86,13 @@ define command {
   command_name check_tcp
   command_line $USER1$/check_tcp -H $HOSTADDRESS$ -p $ARG1$
 }
-</pre>
+</code></pre>
 
 <p>Flapjack ships a Flapper service that the above <code class="prettyprint">check_tcp</code> check queries. The Flapper service oscillates between opening and closing TCP port 12345, at a user-specified frequency (the default is 120 seconds).</p>
 
 <p>You start it like this:</p>
-<pre class="highlight shell">flapjack flapper start
-</pre>
+<pre><code class="highlight shell">flapjack flapper start
+</code></pre>
 <h3 id='stringing-it-all-together'>Stringing it all together</h3>
 <p>With the above configuration:</p>
 

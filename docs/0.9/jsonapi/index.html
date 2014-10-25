@@ -115,7 +115,7 @@
 <p>Contact ids may optionally be supplied. If it is omitted, then a UUID will be created.</p>
 
 <p>If an id is supplied in any of the included contacts, and any of them clash with an existing contact, the whole request will be rejected and no changes will be written.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "contacts": [
       {
@@ -131,8 +131,8 @@
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/contacts
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contacts</span><span class="p">({</span>
@@ -140,13 +140,13 @@
   <span class="ss">:last_name</span>  <span class="o">=&gt;</span> <span class="s2">"Lovelace"</span><span class="p">,</span>
   <span class="ss">:email</span>      <span class="o">=&gt;</span> <span class="s2">"ada@example.com"</span>
 <span class="p">})</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">[</span><span class="s2">"cd40283b-023e-43e2-a79c-1910415afdc2"</span><span class="p">]</span><span class="w">
-</span></pre>
+<pre><code class="highlight json"><span class="p">[</span><span class="s2">"cd40283b-023e-43e2-a79c-1910415afdc2"</span><span class="p">]</span><span class="w">
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /contacts</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -190,15 +190,15 @@
 <h2 id='get-contacts'>Get contacts</h2>
 <p>If no contact ids are provided then all contacts will be returned; if contact ids
 are provided then only the contacts matching those ids will be returned.</p>
-<pre class="highlight shell">curl http://localhost:3081/contacts
+<pre><code class="highlight shell">curl http://localhost:3081/contacts
 
 <span class="c"># or</span>
 curl http://localhost:3081/contacts/1
 
 <span class="c"># or</span>
 curl http://localhost:3081/contacts/21,22
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">contacts</span>
@@ -208,12 +208,12 @@ curl http://localhost:3081/contacts/21,22
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">contacts</span><span class="p">(</span><span class="s1">'21'</span><span class="p">,</span> <span class="s1">'22'</span><span class="p">)</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">{</span><span class="w">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">"contacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21"</span><span class="p">,</span><span class="w">
@@ -248,7 +248,7 @@ curl http://localhost:3081/contacts/21,22
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /contacts</code></p>
 
@@ -271,7 +271,7 @@ curl http://localhost:3081/contacts/21,22
 </tbody></table>
 <h2 id='update-contacts'>Update contacts</h2>
 <p>Update one or more attributes for one or more contact resources.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/contacts/0/first_name",
@@ -281,8 +281,8 @@ curl http://localhost:3081/contacts/21,22
    "value" : '</span>Smith<span class="s1">'}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/contacts/23'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_contacts</span><span class="p">(</span>
@@ -290,7 +290,7 @@ curl http://localhost:3081/contacts/21,22
   <span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s1">'John'</span><span class="p">,</span>
   <span class="ss">:last_name</span>  <span class="o">=&gt;</span> <span class="s1">'Smith'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /contacts/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -341,21 +341,21 @@ curl http://localhost:3081/contacts/21,22
 </tbody></table>
 <h2 id='delete-contacts'>Delete contacts</h2>
 <p>Delete one or more contacts.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/contacts/21'</span>
 
 <span class="c"># or</span>
 curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/contacts/21,22'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_contacts</span><span class="p">(</span><span class="s1">'21'</span><span class="p">)</span>
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_contacts</span><span class="p">(</span><span class="s1">'21'</span><span class="p">,</span> <span class="s1">'22'</span><span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /contacts/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -408,7 +408,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='create-media-for-a-contact'>Create media for a contact</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-media-for-a-contact'>Create media for a contact</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "media": [
       {
@@ -420,8 +420,8 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/contacts/5/media
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contact_media</span><span class="p">(</span>
@@ -433,7 +433,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
     <span class="s1">'rollup_threshold'</span> <span class="o">=&gt;</span> <span class="mi">5</span>
   <span class="p">}</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /contacts/CONTACT_ID/media</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -483,15 +483,15 @@ containing the id of the associated contact, an underscore and then the type
 of the medium in question. This is for backwards compatibility, and is due to
 some historical design decisions, but is likely to change when the data
 handling code is reworked.</p>
-<pre class="highlight shell">curl http://localhost:3081/media
+<pre><code class="highlight shell">curl http://localhost:3081/media
 
 <span class="c"># or</span>
 curl http://localhost:3081/media/1_email
 
 <span class="c"># or</span>
 curl http://localhost:3081/media/21_jabber,22_jabber
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">media</span>
@@ -501,12 +501,12 @@ curl http://localhost:3081/media/21_jabber,22_jabber
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">media</span><span class="p">(</span><span class="s1">'21_jabber'</span><span class="p">,</span> <span class="s1">'22_jabber'</span><span class="p">)</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">{</span><span class="w">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">"media"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21_sms"</span><span class="p">,</span><span class="w">
@@ -530,7 +530,7 @@ curl http://localhost:3081/media/21_jabber,22_jabber
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /media</code></p>
 
@@ -553,7 +553,7 @@ curl http://localhost:3081/media/21_jabber,22_jabber
 </tbody></table>
 <h2 id='update-media'>Update media</h2>
 <p>Update one or more attributes for one or more media resources.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/media/0/address",
@@ -563,8 +563,8 @@ curl http://localhost:3081/media/21_jabber,22_jabber
    "value" : 10}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/media/21_sms'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_media</span><span class="p">(</span>
@@ -572,7 +572,7 @@ curl http://localhost:3081/media/21_jabber,22_jabber
   <span class="ss">:address</span>  <span class="o">=&gt;</span> <span class="s1">'0123456789'</span><span class="p">,</span>
   <span class="ss">:interval</span> <span class="o">=&gt;</span> <span class="mi">10</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /media/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -623,21 +623,21 @@ curl http://localhost:3081/media/21_jabber,22_jabber
 </tbody></table>
 <h2 id='delete-media'>Delete media</h2>
 <p>Delete one or more media resources.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/media/11_email'</span>
 
 <span class="c"># or</span>
 curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/media/31_jabber,32_jabber'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_media</span><span class="p">(</span><span class="s1">'11_email'</span><span class="p">)</span>
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_media</span><span class="p">(</span><span class="s1">'31_jabber'</span><span class="p">,</span> <span class="s1">'32_jabber'</span><span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /media/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -690,7 +690,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='create-pagerduty-credentials-for-a-contact'>Create PagerDuty credentials for a contact</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-pagerduty-credentials-for-a-contact'>Create PagerDuty credentials for a contact</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "pagerduty_credentials": [
       {
@@ -702,8 +702,8 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/contacts/5/pagerduty_credentials
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contact_pagerduty_credentials</span><span class="p">(</span>
@@ -715,7 +715,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
     <span class="s1">'password'</span>    <span class="o">=&gt;</span> <span class="s1">'tomato'</span>
   <span class="p">}</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /contacts/CONTACT_ID/pagerduty_credentials</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -755,15 +755,15 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
 <h2 id='get-pagerduty-credentials'>Get PagerDuty credentials</h2>
 <p>If no contact ids are provided then all PagerDuty credentials resources will be returned; if contact ids
 are provided then only the PagerDuty credentials resources matching those ids will be returned.</p>
-<pre class="highlight shell">curl http://localhost:3081/pagerduty_credentials
+<pre><code class="highlight shell">curl http://localhost:3081/pagerduty_credentials
 
 <span class="c"># or</span>
 curl http://localhost:3081/pagerduty_credentials/1
 
 <span class="c"># or</span>
 curl http://localhost:3081/pagerduty_credentials/21,22
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">pagerduty_credentials</span>
@@ -773,12 +773,12 @@ curl http://localhost:3081/pagerduty_credentials/21,22
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">pagerduty_credentials</span><span class="p">(</span><span class="s1">'21'</span><span class="p">,</span> <span class="s1">'22'</span><span class="p">)</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">{</span><span class="w">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">"pagerduty_credentials"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"service_key"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"567890123456789012345678"</span><span class="p">,</span><span class="w">
@@ -800,7 +800,7 @@ curl http://localhost:3081/pagerduty_credentials/21,22
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /pagerduty_credentials</code></p>
 
@@ -823,7 +823,7 @@ curl http://localhost:3081/pagerduty_credentials/21,22
 </tbody></table>
 <h2 id='update-pagerduty-credentials'>Update PagerDuty credentials</h2>
 <p>Update one or more attributes for one or more PagerDuty credentials resources.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/pagerduty_credentials/0/username",
@@ -833,8 +833,8 @@ curl http://localhost:3081/pagerduty_credentials/21,22
    "value" : "ideas"}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/pagerduty_credentials/21s'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_pagerduty_credentials</span><span class="p">(</span>
@@ -842,7 +842,7 @@ curl http://localhost:3081/pagerduty_credentials/21,22
   <span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s1">'genius'</span><span class="p">,</span>
   <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s1">'ideas'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /pagerduty_credentials/CONTACT_ID[,CONTACT_ID,CONTACT_ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -893,21 +893,21 @@ curl http://localhost:3081/pagerduty_credentials/21,22
 </tbody></table>
 <h2 id='delete-pagerduty-credentials'>Delete PagerDuty credentials</h2>
 <p>Delete one or more PagerDuty credentials resources.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/pagerduty_credentials/11'</span>
 
 <span class="c"># or</span>
 curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/pagerduty_credentials/31,32'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_pagerduty_credentials</span><span class="p">(</span><span class="s1">'11'</span><span class="p">)</span>
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_pagerduty_credentials</span><span class="p">(</span><span class="s1">'31'</span><span class="p">,</span> <span class="s1">'32'</span><span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /pagerduty_credentials/CONTACT_ID[,CONTACT_ID,CONTACT_ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1005,7 +1005,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='create-notification-rules-for-a-contact'>Create notification rules for a contact</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-notification-rules-for-a-contact'>Create notification rules for a contact</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "notification_rules": [
       {
@@ -1054,45 +1054,45 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
     ]
   }'</span> <span class="se">\</span>
 http://localhost:3081/contacts/5/notification_rules
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contact_notification_rules</span><span class="p">(</span>
   <span class="s1">'5'</span><span class="p">,</span>
   <span class="p">{</span>
-    <span class="s1">'entities'</span>           <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'foo-app-01.example.com'</span> <span class="o">]</span><span class="p">,</span>
-    <span class="s1">'regex_entities'</span>     <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'^foo-\S{3}-\d{2}.example.com$'</span> <span class="o">]</span><span class="p">,</span>
-    <span class="s1">'tags'</span>               <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'database'</span><span class="p">,</span> <span class="s1">'physical'</span> <span class="o">]</span><span class="p">,</span>
+    <span class="s1">'entities'</span>           <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'foo-app-01.example.com'</span> <span class="p">],</span>
+    <span class="s1">'regex_entities'</span>     <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'^foo-\S{3}-\d{2}.example.com$'</span> <span class="p">],</span>
+    <span class="s1">'tags'</span>               <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'database'</span><span class="p">,</span> <span class="s1">'physical'</span> <span class="p">],</span>
     <span class="s1">'regex_tags'</span>         <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>
-    <span class="s1">'time_restrictions'</span>  <span class="o">=&gt;</span> <span class="o">[</span>
+    <span class="s1">'time_restrictions'</span>  <span class="o">=&gt;</span> <span class="p">[</span>
       <span class="p">{</span>
         <span class="s1">'start_time'</span> <span class="o">=&gt;</span> <span class="s1">'2013-01-28 08:00:00'</span><span class="p">,</span>
         <span class="s1">'end_time'</span>   <span class="o">=&gt;</span> <span class="s1">'2013-01-28 18:00:00'</span><span class="p">,</span>
-        <span class="s1">'rrules'</span>     <span class="o">=&gt;</span> <span class="o">[</span>
+        <span class="s1">'rrules'</span>     <span class="o">=&gt;</span> <span class="p">[</span>
           <span class="p">{</span>
             <span class="s1">'validations'</span> <span class="o">=&gt;</span> <span class="p">{</span>
-              <span class="s1">'day'</span> <span class="o">=&gt;</span> <span class="o">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span> <span class="o">]</span>
+              <span class="s1">'day'</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span> <span class="p">]</span>
               <span class="p">},</span>
             <span class="s1">'rule_type'</span>   <span class="o">=&gt;</span> <span class="s1">'Weekly'</span><span class="p">,</span>
             <span class="s1">'interval'</span>    <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
             <span class="s1">'week_start'</span>  <span class="o">=&gt;</span> <span class="mi">0</span>
           <span class="p">}</span>
-        <span class="o">]</span><span class="p">,</span>
-      <span class="s1">'exrules'</span>       <span class="o">=&gt;</span> <span class="o">[]</span><span class="p">,</span>
-      <span class="s1">'rtimes'</span>        <span class="o">=&gt;</span> <span class="o">[]</span><span class="p">,</span>
-      <span class="s1">'extimes'</span>       <span class="o">=&gt;</span> <span class="o">[]</span>
+        <span class="p">],</span>
+      <span class="s1">'exrules'</span>       <span class="o">=&gt;</span> <span class="p">[],</span>
+      <span class="s1">'rtimes'</span>        <span class="o">=&gt;</span> <span class="p">[],</span>
+      <span class="s1">'extimes'</span>       <span class="o">=&gt;</span> <span class="p">[]</span>
       <span class="p">}</span>
-    <span class="o">]</span><span class="p">,</span>
-    <span class="s1">'unknown_media'</span>      <span class="o">=&gt;</span> <span class="o">[]</span><span class="p">,</span>
-    <span class="s1">'warning_media'</span>      <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'email'</span> <span class="o">]</span><span class="p">,</span>
-    <span class="s1">'critical_media'</span>     <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'sms'</span><span class="p">,</span> <span class="s1">'email'</span> <span class="o">]</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s1">'unknown_media'</span>      <span class="o">=&gt;</span> <span class="p">[],</span>
+    <span class="s1">'warning_media'</span>      <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'email'</span> <span class="p">],</span>
+    <span class="s1">'critical_media'</span>     <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'sms'</span><span class="p">,</span> <span class="s1">'email'</span> <span class="p">],</span>
     <span class="s1">'unknown_blackhole'</span>  <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
     <span class="s1">'warning_blackhole'</span>  <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
     <span class="s1">'critical_blackhole'</span> <span class="o">=&gt;</span> <span class="kp">false</span>
   <span class="p">}</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /contacts/CONTACT_ID/notification_rules</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1133,15 +1133,15 @@ http://localhost:3081/contacts/5/notification_rules
 <td><strong>Error</strong> The submitted notification rule data did not conform to the provided specification.</td>
 </tr>
 </tbody></table>
-<h2 id='get-notification-rules'>Get notification rules</h2><pre class="highlight shell">curl http://localhost:3081/notification_rules
+<h2 id='get-notification-rules'>Get notification rules</h2><pre><code class="highlight shell">curl http://localhost:3081/notification_rules
 
 <span class="c"># or</span>
 curl http://localhost:3081/notification_rules/30fd36ae-3922-4957-ae3e-c8f6dd27e543
 
 <span class="c"># or</span>
 curl http://localhost:3081/notification_rules/30fd36ae-3922-4957-ae3e-c8f6dd27e543,bfd8be61-3d80-4b95-94df-6e77183ce4e3
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">notification_rules</span>
@@ -1156,12 +1156,12 @@ curl http://localhost:3081/notification_rules/30fd36ae-3922-4957-ae3e-c8f6dd27e5
   <span class="s1">'30fd36ae-3922-4957-ae3e-c8f6dd27e543'</span><span class="p">,</span>
   <span class="s1">'bfd8be61-3d80-4b95-94df-6e77183ce4e3'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">{</span><span class="w">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">"notification_rules"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -1211,7 +1211,7 @@ curl http://localhost:3081/notification_rules/30fd36ae-3922-4957-ae3e-c8f6dd27e5
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /notification_rules</code></p>
 
@@ -1234,22 +1234,22 @@ curl http://localhost:3081/notification_rules/30fd36ae-3922-4957-ae3e-c8f6dd27e5
 </tbody></table>
 <h2 id='update-notification-rules'>Update notification rules</h2>
 <p>Update one or more attributes for one or more notification rules.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/notification_rules/0/tags",
    "value" : ["leased", "small"]}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/notification_rules/a82fe0ec-1972-4c12-9732-6ebec9dcf479'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_notification_rules</span><span class="p">(</span>
   <span class="s1">'a82fe0ec-1972-4c12-9732-6ebec9dcf479'</span><span class="p">,</span>
-  <span class="ss">:tags</span> <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'leased'</span><span class="p">,</span> <span class="s1">'small'</span> <span class="o">]</span>
+  <span class="ss">:tags</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'leased'</span><span class="p">,</span> <span class="s1">'small'</span> <span class="p">]</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /notification_rules/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1300,14 +1300,14 @@ curl http://localhost:3081/notification_rules/30fd36ae-3922-4957-ae3e-c8f6dd27e5
 </tbody></table>
 <h2 id='delete-notification-rules'>Delete notification rules</h2>
 <p>Delete one or more notification rules.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/notification_rules/2caf75f4-0043-4884-b2e9-dfb418e275ba'</span>
 
 <span class="c"># or</span>
 curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/notification_rules/2caf75f4-0043-4884-b2e9-dfb418e275ba,bd0dd8b6-2c72-49da-9b83-e0b283ec1931'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_notification_rules</span><span class="p">(</span>
@@ -1319,7 +1319,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
   <span class="s1">'2caf75f4-0043-4884-b2e9-dfb418e275ba'</span><span class="p">,</span>
   <span class="s1">'bd0dd8b6-2c72-49da-9b83-e0b283ec1931'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /notification_rules/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1372,7 +1372,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
 <td></td>
 </tr>
 </tbody></table>
-<h2 id='create-entities'>Create entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-entities'>Create entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "entities": [
       {
@@ -1385,18 +1385,18 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/entities
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
-<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_entities</span><span class="p">(</span><span class="o">[</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_entities</span><span class="p">([</span>
   <span class="p">{</span>
     <span class="s1">'id'</span>   <span class="o">=&gt;</span> <span class="s1">'825'</span><span class="p">,</span>
     <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'foo.example.com'</span><span class="p">,</span>
-    <span class="s1">'tags'</span> <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'foo'</span> <span class="o">]</span>
+    <span class="s1">'tags'</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'foo'</span> <span class="p">]</span>
   <span class="p">}</span>
-<span class="o">]</span><span class="p">)</span>
-</pre>
+<span class="p">])</span>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /entities</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1440,15 +1440,15 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
 <h2 id='get-entities'>Get entities</h2>
 <p>If no entity ids are provided then all entities will be returned; if entity ids
 are provided then only the entities matching those ids will be returned.</p>
-<pre class="highlight shell">curl http://localhost:3081/entities
+<pre><code class="highlight shell">curl http://localhost:3081/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/entities/17
 
 <span class="c"># or</span>
 curl http://localhost:3081/entities/17,25
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">entities</span>
@@ -1458,12 +1458,12 @@ curl http://localhost:3081/entities/17,25
 
 <span class="c1"># or</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">entities</span><span class="p">(</span><span class="s1">'17'</span><span class="p">,</span> <span class="s1">'25'</span><span class="p">)</span>
-</pre>
+</code></pre>
 
 <blockquote>
 <p>The commands return JSON structured like this, which is broken up by Flapjack::Diner into its constituent hashes:</p>
 </blockquote>
-<pre class="highlight json"><span class="p">{</span><span class="w">
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
   </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"301"</span><span class="p">,</span><span class="w">
@@ -1487,7 +1487,7 @@ curl http://localhost:3081/entities/17,25
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></pre>
+</span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /entities</code></p>
 
@@ -1512,23 +1512,23 @@ curl http://localhost:3081/entities/17,25
 <p>Update one or more attributes for one or more entity resources.</p>
 
 <p>NB: The entity name cannot be changed in Flapjack v1.x due to limitations in the underlying data storage model. This will be addressed in future Flapjack releases.</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "add",
    "path"  : "/entities/0/links/contacts",
    "value" : '</span>352<span class="s1">'}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/entities/157'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_entities</span><span class="p">(</span>
-  <span class="o">[</span> <span class="s1">'157'</span> <span class="o">]</span><span class="p">,</span>
+  <span class="p">[</span> <span class="s1">'157'</span> <span class="p">],</span>
   <span class="ss">:name</span>         <span class="o">=&gt;</span> <span class="s1">'www.example_com'</span><span class="p">,</span>
-  <span class="ss">:add_contacts</span> <span class="o">=&gt;</span> <span class="o">[</span> <span class="s1">'352'</span> <span class="o">]</span>
+  <span class="ss">:add_contacts</span> <span class="o">=&gt;</span> <span class="p">[</span> <span class="s1">'352'</span> <span class="p">]</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1581,7 +1581,7 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> The submitted entity data did not conform to the provided specification.</td>
 </tr>
 </tbody></table>
-<h2 id='create-scheduled-maintenance-periods-on-entities'>Create scheduled maintenance periods on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-scheduled-maintenance-periods-on-entities'>Create scheduled maintenance periods on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "scheduled_maintenances": [
       {
@@ -1592,8 +1592,8 @@ curl http://localhost:3081/entities/17,25
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/scheduled_maintenances/entities/825
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_scheduled_maintenances_entities</span><span class="p">(</span>
@@ -1602,7 +1602,7 @@ curl http://localhost:3081/entities/17,25
   <span class="ss">:duration</span>   <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>    <span class="o">=&gt;</span> <span class="s1">'memory replacement'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /scheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1653,17 +1653,17 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='delete-scheduled-maintenance-periods-on-entities'>Delete scheduled maintenance periods on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<h2 id='delete-scheduled-maintenance-periods-on-entities'>Delete scheduled maintenance periods on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/scheduled_maintenances/entities/34?start_time=2014-05-09T16:12:16+09:30'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_scheduled_maintenances_entities</span><span class="p">(</span>
   <span class="mi">34</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-05-09T16:12:16+09:30'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /scheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1700,7 +1700,7 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> No matching entities were found.</td>
 </tr>
 </tbody></table>
-<h2 id='create-unscheduled-maintenance-periods-on-entities'>Create unscheduled maintenance periods on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-unscheduled-maintenance-periods-on-entities'>Create unscheduled maintenance periods on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "unscheduled_maintenances": [
       {
@@ -1710,8 +1710,8 @@ curl http://localhost:3081/entities/17,25
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/unscheduled_maintenances/entities/825
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_unscheduled_maintenances_entities</span><span class="p">(</span>
@@ -1719,7 +1719,7 @@ curl http://localhost:3081/entities/17,25
   <span class="ss">:duration</span> <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>  <span class="o">=&gt;</span> <span class="s1">'fixing now'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /unscheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1761,22 +1761,22 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='update-unscheduled-maintenance-periods-on-entities'>Update unscheduled maintenance periods on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<h2 id='update-unscheduled-maintenance-periods-on-entities'>Update unscheduled maintenance periods on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/unscheduled_maintenances/0/end_time",
    "value" : "2014-04-09T16:12:16+09:30"},
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/unscheduled_maintenances/entities/34'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_unscheduled_maintenances_entities</span><span class="p">(</span>
   <span class="s1">'34'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-04-09T16:12:16+09:30'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /unscheduled_maintenances/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1825,7 +1825,7 @@ curl http://localhost:3081/entities/17,25
 <td><strong>Error</strong> The submitted data was not sent with the JSON-Patch MIME type <code class="prettyprint">application/json-patch+json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='create-test-notifications-on-entities'>Create test notifications on entities</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-test-notifications-on-entities'>Create test notifications on entities</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
   <span class="s1">'{
     "test_notifications": [
       {
@@ -1834,15 +1834,15 @@ curl http://localhost:3081/entities/17,25
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/test_notifications/entities/825
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_test_notifications_entities</span><span class="p">(</span>
   <span class="s1">'825'</span><span class="p">,</span>
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">'testing, testing, 1, 2, 3'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /test_notifications/entities/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1887,22 +1887,22 @@ limitations in the underlying data storage model. This will be addressed in
 future Flapjack releases.</p>
 
 <p>(Checks are re-enabled when new events are generated for them.)</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/checks/0/enabled",
    "value" : false}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/checks/www.example.com%3APING'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_checks</span><span class="p">(</span>
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">false</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -1955,7 +1955,7 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> The submitted check data did not conform to the provided specification.</td>
 </tr>
 </tbody></table>
-<h2 id='create-scheduled-maintenance-periods-on-checks'>Create scheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-scheduled-maintenance-periods-on-checks'>Create scheduled maintenance periods on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "scheduled_maintenances": [
       {
@@ -1966,8 +1966,8 @@ future Flapjack releases.</p>
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/scheduled_maintenances/checks/example.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_scheduled_maintenances_checks</span><span class="p">(</span>
@@ -1976,7 +1976,7 @@ future Flapjack releases.</p>
   <span class="ss">:duration</span>   <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>    <span class="o">=&gt;</span> <span class="s1">'memory replacement'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /scheduled_maintenances/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -2027,17 +2027,17 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='delete-scheduled-maintenance-periods-on-checks'>Delete scheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<h2 id='delete-scheduled-maintenance-periods-on-checks'>Delete scheduled maintenance periods on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/scheduled_maintenances/checks/example.com:PING?start_time=2014-05-09T16:12:16+09:30'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_scheduled_maintenances_checks</span><span class="p">(</span>
   <span class="s1">'example.com:PING'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-05-09T16:12:16+09:30'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /scheduled_maintenances/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -2074,7 +2074,7 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> No matching checks were found.</td>
 </tr>
 </tbody></table>
-<h2 id='create-unscheduled-maintenance-periods-on-checks'>Create unscheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-unscheduled-maintenance-periods-on-checks'>Create unscheduled maintenance periods on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "unscheduled_maintenances": [
       {
@@ -2084,8 +2084,8 @@ future Flapjack releases.</p>
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/unscheduled_maintenances/checks/example.com:HOST
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_unscheduled_maintenances_checks</span><span class="p">(</span>
@@ -2093,7 +2093,7 @@ future Flapjack releases.</p>
   <span class="ss">:duration</span> <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>  <span class="o">=&gt;</span> <span class="s1">'fixing now'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /unscheduled_maintenances/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -2135,22 +2135,22 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='update-unscheduled-maintenance-periods-on-checks'>Update unscheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<h2 id='update-unscheduled-maintenance-periods-on-checks'>Update unscheduled maintenance periods on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/unscheduled_maintenances/0/end_time",
    "value" : "2014-04-09T16:12:16+09:30"},
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/unscheduled_maintenances/checks/example.com:PING'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_unscheduled_maintenances_checks</span><span class="p">(</span>
   <span class="s1">'example.com:PING'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-04-09T16:12:16+09:30'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /unscheduled_maintenances/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -2199,7 +2199,7 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> The submitted data was not sent with the JSON-Patch MIME type <code class="prettyprint">application/json-patch+json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='create-test-notifications-on-checks'>Create test notifications on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-test-notifications-on-checks'>Create test notifications on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "test_notifications": [
       {
@@ -2208,15 +2208,15 @@ future Flapjack releases.</p>
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/test_notifications/checks/example.com:HOST
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_test_notifications_checks</span><span class="p">(</span>
   <span class="s1">'example.com:HOST'</span><span class="p">,</span>
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">'testing, testing, 1, 2, 3'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /test_notifications/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -2254,7 +2254,7 @@ future Flapjack releases.</p>
 </tr>
 </tbody></table>
 
-  <h1 id='reports'>Reports</h1><h2 id='status-of-entities-or-checks'>Status of entities or checks</h2><pre class="highlight shell">curl http://localhost:3081/status_report/entities
+  <h1 id='reports'>Reports</h1><h2 id='status-of-entities-or-checks'>Status of entities or checks</h2><pre><code class="highlight shell">curl http://localhost:3081/status_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/status_report/entities/76
@@ -2270,8 +2270,8 @@ curl http://localhost:3081/status_report/checks/www.example.com:PING
 
 <span class="c"># or</span>
 curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">status_report_entities</span>
@@ -2295,7 +2295,7 @@ curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /status_report/entities</code></p>
 
@@ -2324,7 +2324,7 @@ curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example
 <td>OK</td>
 </tr>
 </tbody></table>
-<h2 id='unscheduled-maintenance-periods-of-entities-or-checks'>Unscheduled maintenance periods of entities or checks</h2><pre class="highlight shell">curl http://localhost:3081/unscheduled_maintenance_report/entities
+<h2 id='unscheduled-maintenance-periods-of-entities-or-checks'>Unscheduled maintenance periods of entities or checks</h2><pre><code class="highlight shell">curl http://localhost:3081/unscheduled_maintenance_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/unscheduled_maintenance_report/entities/76
@@ -2340,8 +2340,8 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
 
 <span class="c"># or</span>
 curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">unscheduled_maintenance_report_entities</span>
@@ -2365,7 +2365,7 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /unscheduled_maintenance_report/entities</code></p>
 
@@ -2411,7 +2411,7 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
 <td>OK</td>
 </tr>
 </tbody></table>
-<h2 id='scheduled-maintenance-periods-of-entities-or-checks'>Scheduled maintenance periods of entities or checks</h2><pre class="highlight shell">curl http://localhost:3081/scheduled_maintenance_report/entities
+<h2 id='scheduled-maintenance-periods-of-entities-or-checks'>Scheduled maintenance periods of entities or checks</h2><pre><code class="highlight shell">curl http://localhost:3081/scheduled_maintenance_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/scheduled_maintenance_report/entities/76
@@ -2427,8 +2427,8 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
 
 <span class="c"># or</span>
 curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">scheduled_maintenance_report_entities</span>
@@ -2452,7 +2452,7 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /scheduled_maintenance_report/entities</code></p>
 
@@ -2500,7 +2500,7 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
 </tbody></table>
 <h2 id='outages-of-entities-or-checks'>Outages of entities or checks</h2>
 <p>An outage on a check is a period of time for which the check was failing.</p>
-<pre class="highlight shell">curl http://localhost:3081/outage_report/entities
+<pre><code class="highlight shell">curl http://localhost:3081/outage_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/outage_report/entities/76
@@ -2516,8 +2516,8 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING
 
 <span class="c"># or</span>
 curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">outage_report_entities</span>
@@ -2541,7 +2541,7 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /outage_report/entities</code></p>
 
@@ -2589,7 +2589,7 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example
 </tbody></table>
 <h2 id='downtime-of-entities-or-checks'>Downtime of entities or checks</h2>
 <p>A downtime on a check is a period of time when the check is failing and there&rsquo;s no scheduled maintenance.</p>
-<pre class="highlight shell">curl http://localhost:3081/downtime_report/entities
+<pre><code class="highlight shell">curl http://localhost:3081/downtime_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/downtime_report/entities/76
@@ -2605,8 +2605,8 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING
 
 <span class="c"># or</span>
 curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">downtime_report_entities</span>
@@ -2630,7 +2630,7 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /downtime_report/entities</code></p>
 

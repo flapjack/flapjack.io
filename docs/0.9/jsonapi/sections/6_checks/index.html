@@ -51,22 +51,22 @@ limitations in the underlying data storage model. This will be addressed in
 future Flapjack releases.</p>
 
 <p>(Checks are re-enabled when new events are generated for them.)</p>
-<pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/checks/0/enabled",
    "value" : false}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/checks/www.example.com%3APING'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_checks</span><span class="p">(</span>
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">false</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -119,7 +119,7 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> The submitted check data did not conform to the provided specification.</td>
 </tr>
 </tbody></table>
-<h2 id='create-scheduled-maintenance-periods-on-checks'>Create scheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-scheduled-maintenance-periods-on-checks'>Create scheduled maintenance periods on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "scheduled_maintenances": [
       {
@@ -130,8 +130,8 @@ future Flapjack releases.</p>
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/scheduled_maintenances/checks/example.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_scheduled_maintenances_checks</span><span class="p">(</span>
@@ -140,7 +140,7 @@ future Flapjack releases.</p>
   <span class="ss">:duration</span>   <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>    <span class="o">=&gt;</span> <span class="s1">'memory replacement'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /scheduled_maintenances/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -191,17 +191,17 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='delete-scheduled-maintenance-periods-on-checks'>Delete scheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
+<h2 id='delete-scheduled-maintenance-periods-on-checks'>Delete scheduled maintenance periods on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span class="se">\</span>
   <span class="s1">'http://localhost:3081/scheduled_maintenances/checks/example.com:PING?start_time=2014-05-09T16:12:16+09:30'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_scheduled_maintenances_checks</span><span class="p">(</span>
   <span class="s1">'example.com:PING'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-05-09T16:12:16+09:30'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">DELETE /scheduled_maintenances/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -238,7 +238,7 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> No matching checks were found.</td>
 </tr>
 </tbody></table>
-<h2 id='create-unscheduled-maintenance-periods-on-checks'>Create unscheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-unscheduled-maintenance-periods-on-checks'>Create unscheduled maintenance periods on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "unscheduled_maintenances": [
       {
@@ -248,8 +248,8 @@ future Flapjack releases.</p>
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/unscheduled_maintenances/checks/example.com:HOST
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_unscheduled_maintenances_checks</span><span class="p">(</span>
@@ -257,7 +257,7 @@ future Flapjack releases.</p>
   <span class="ss">:duration</span> <span class="o">=&gt;</span> <span class="mi">3600</span><span class="p">,</span>
   <span class="ss">:summary</span>  <span class="o">=&gt;</span> <span class="s1">'fixing now'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /unscheduled_maintenances/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -299,22 +299,22 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> The submitted parameters were not sent with the JSONAPI MIME type <code class="prettyprint">application/json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='update-unscheduled-maintenance-periods-on-checks'>Update unscheduled maintenance periods on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
+<h2 id='update-unscheduled-maintenance-periods-on-checks'>Update unscheduled maintenance periods on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
    "path"  : "/unscheduled_maintenances/0/end_time",
    "value" : "2014-04-09T16:12:16+09:30"},
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/unscheduled_maintenances/checks/example.com:PING'</span>
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_unscheduled_maintenances_checks</span><span class="p">(</span>
   <span class="s1">'example.com:PING'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="s1">'2014-04-09T16:12:16+09:30'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">PATCH /unscheduled_maintenances/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
@@ -363,7 +363,7 @@ future Flapjack releases.</p>
 <td><strong>Error</strong> The submitted data was not sent with the JSON-Patch MIME type <code class="prettyprint">application/json-patch+json</code>.</td>
 </tr>
 </tbody></table>
-<h2 id='create-test-notifications-on-checks'>Create test notifications on checks</h2><pre class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
+<h2 id='create-test-notifications-on-checks'>Create test notifications on checks</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-type: application/vnd.api+json"</span> -d <span class="se">\</span>
  <span class="s1">'{
     "test_notifications": [
       {
@@ -372,15 +372,15 @@ future Flapjack releases.</p>
     ]
   }'</span> <span class="se">\</span>
  http://localhost:3081/test_notifications/checks/example.com:HOST
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_test_notifications_checks</span><span class="p">(</span>
   <span class="s1">'example.com:HOST'</span><span class="p">,</span>
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">'testing, testing, 1, 2, 3'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">POST /test_notifications/checks/ID[,ID,ID...]</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>

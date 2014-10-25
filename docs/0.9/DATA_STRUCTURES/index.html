@@ -46,7 +46,7 @@
         <div class="col-md-offset-1 col-md-10">
         <h2 id='flapjack-data-structures-in-redis'>Flapjack Data Structures in Redis</h2>
 <p>Flapjack is using redis as its data store. Here are the data structures in use.</p>
-<h3 id='event-queue'>Event queue</h3><pre class="highlight plaintext">events (list) -&gt; [ EVENT, EVENT, ... ]
+<h3 id='event-queue'>Event queue</h3><pre><code class="highlight plaintext">events (list) -&gt; [ EVENT, EVENT, ... ]
 
 EVENT      (string) - A Ruby hash serialised in JSON:
 
@@ -72,7 +72,7 @@ SUMMARY    (string)   - The check output in the case of a service event, otherwi
 DETAILS    (string)   - Long check output for a Nagios service event
 PERFDATA   (string)   - Performance data for a Nagios service event
 TAGS       (string[]) - Array of tags pertaining to the event
-</pre>
+</code></pre>
 <h3 id='event-archive-sliding-window'>Event Archive (sliding window)</h3>
 <p>Version 0.7.1 +</p>
 
@@ -80,66 +80,66 @@ TAGS       (string[]) - Array of tags pertaining to the event
 will save a copy of events as they are being processed into this data structure. The
 keys used for the archive are changed every hour and an expiry placed on the keys
 taken from the configuration (environment / executive / events_archive_maxage - seconds).</p>
-<pre class="highlight plaintext">events_archive:YYYYMMDDHH (list, with expiry) -&gt; [ EVENT, EVENT, ...]
+<pre><code class="highlight plaintext">events_archive:YYYYMMDDHH (list, with expiry) -&gt; [ EVENT, EVENT, ...]
 
 EVENT - see the Event queue documentation above
-</pre>
-<h3 id='jabber-notification-queue'>Jabber notification queue</h3><pre class="highlight plaintext">jabber_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
+</code></pre>
+<h3 id='jabber-notification-queue'>Jabber notification queue</h3><pre><code class="highlight plaintext">jabber_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
 
 NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
-</pre>
-<h3 id='pagerduty-notification-queue'>PagerDuty notification queue</h3><pre class="highlight plaintext">pagerduty_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
+</code></pre>
+<h3 id='pagerduty-notification-queue'>PagerDuty notification queue</h3><pre><code class="highlight plaintext">pagerduty_notifications (list) -&gt; [ NOTIFICATION, NOTIFICATION, ... ]
 
 NOTIFICATION (string) - ruby hash representing the notification object, serialised in JSON
-</pre>
+</code></pre>
 <h3 id='storing-all-check-state-changes'>Storing all check state changes</h3>
 <p><em>Current state</em></p>
-<pre class="highlight plaintext">check:ENTITY:CHECK (hash) -&gt; { 'state' =&gt; STATE, 'last_change' =&gt; TIMESTAMP, 'last_update' =&gt; TIMESTAMP }
-</pre>
+<pre><code class="highlight plaintext">check:ENTITY:CHECK (hash) -&gt; { 'state' =&gt; STATE, 'last_change' =&gt; TIMESTAMP, 'last_update' =&gt; TIMESTAMP }
+</code></pre>
 
 <p>The current state hash above is redundant given the All state changes structures below, but may provide a speed improvement.</p>
 
 <p>The <code class="prettyprint">last_update</code> timestamp is updated for every service event received for the service.</p>
 
 <p><em>All state changes</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:states                    (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+<pre><code class="highlight plaintext">ENTITY:CHECK:states                    (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:TIMESTAMP:state         (string) -&gt; STATE
 ENTITY:CHECK:TIMESTAMP:summary       (string) -&gt; SUMMARY
 ENTITY:CHECK:TIMESTAMP:count         (string) -&gt; COUNT
 ENTITY:CHECK:TIMESTAMP:check_latency (string) -&gt; LATENCY
-</pre>
+</code></pre>
 
 <p>In order to query against this data while filtering by timestamp range, the following mirror of the list is being maintained:</p>
 
 <p><em>Sorted state timestamps</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:sorted_state_timestamps (sorted set) -&gt; (TIMESTAMP, TIMESTAMP; TIMESTAP, TIMESTAMP; ...)
-</pre>
-<h3 id='storing-all-action-events'>Storing all action events</h3><pre class="highlight plaintext">ENTITY:CHECK:actions (hash) -&gt; { TIMESTAMP =&gt; STATE }
+<pre><code class="highlight plaintext">ENTITY:CHECK:sorted_state_timestamps (sorted set) -&gt; (TIMESTAMP, TIMESTAMP; TIMESTAP, TIMESTAMP; ...)
+</code></pre>
+<h3 id='storing-all-action-events'>Storing all action events</h3><pre><code class="highlight plaintext">ENTITY:CHECK:actions (hash) -&gt; { TIMESTAMP =&gt; STATE }
 
 STATE (string) - eg 'acknowledgement'
-</pre>
+</code></pre>
 <h3 id='failed-checks'>Failed checks</h3>
 <p><em>All failing checks</em></p>
-<pre class="highlight plaintext">failed_checks (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
-</pre>
+<pre><code class="highlight plaintext">failed_checks (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; TIMESTAMP, ENTITY:CHECK ; ... )
+</code></pre>
 <h3 id='current-checks-and-entities'>Current checks and entities</h3>
 <p>Any time an event is received from the check execution system for a check, the check&rsquo;s timestamp (rank) is updated in the sorted set for the entity. If a check isn&rsquo;t in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.</p>
 
 <p>Related to this is the current_entities sorted set, which contains all entities that have current checks, ordered by the timestamp of the latest check event received for each entity.</p>
-<pre class="highlight plaintext">current_checks:ENTITY (sorted set) =&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+<pre><code class="highlight plaintext">current_checks:ENTITY (sorted set) =&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
 current_entities (sorted set) =&gt; ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
-</pre>
+</code></pre>
 <h3 id='unscheduled-maintenance'>Unscheduled Maintenance</h3>
 <p>This key will only be present during the unschedule maintenance period for quick lookup of whether a service is in unschedule maintenance. An expiry TTL will be put on the key so it automatically goes away (default 4 hrs expiry time).</p>
 
 <p><em>Current state</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:unscheduled_maintenance (string with expiry) -&gt; TIMESTAMP
+<pre><code class="highlight plaintext">ENTITY:CHECK:unscheduled_maintenance (string with expiry) -&gt; TIMESTAMP
 
 TIMESTAMP - the time the unscheduled maintenance begun
-</pre>
+</code></pre>
 
 <p><em>Collect all unscheduled outages for reporting etc</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:unscheduled_maintenances             (ordered set) -&gt; ( DURATION, TIMESTAMP;
+<pre><code class="highlight plaintext">ENTITY:CHECK:unscheduled_maintenances             (ordered set) -&gt; ( DURATION, TIMESTAMP;
                                                                      DURATION, TIMESTAMP; ... )
 ENTITY:CHECK:TIMESTAMP:unscheduled_maintenance:summary (string) -&gt; SUMMARY
 
@@ -147,25 +147,25 @@ TIMESTAMP - start of the unscheduled maintenance period
 DURATION  - the elapsed time of the unscheduled maintenance (including any extensions to the original period)
 SUMMARY   - populated from the summary of the acknowledgement(s) (summaries to be glued together if there are
             multiple during an unscheduled outage)
-</pre>
+</code></pre>
 
 <p>In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:</p>
 
 <p><em>Sorted unscheduled maintenance timestamps</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
+<pre><code class="highlight plaintext">ENTITY:CHECK:sorted_unscheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
                                                                           TIMESTAMP, TIMESTAMP; ... )
-</pre>
+</code></pre>
 <h3 id='scheduled-maintenance'>Scheduled Maintenance</h3>
 <p>This key will only be present during the scheduled maintenance period for quick lookup of whether a check is in scheduled maintenance. An expiry TTL (4 hours by default) will be put on the key so it destroys itself after this time.</p>
 
 <p><em>Current state</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:scheduled_maintenance (string with expiry) -&gt; TIMESTAMP
+<pre><code class="highlight plaintext">ENTITY:CHECK:scheduled_maintenance (string with expiry) -&gt; TIMESTAMP
 
 TIMESTAMP - the time the scheduled maintenance begun
-</pre>
+</code></pre>
 
 <p><em>All future scheduled outages, and left for reporting purposes</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:scheduled_maintenances (ordered set)             -&gt; ( DURATION, TIMESTAMP;
+<pre><code class="highlight plaintext">ENTITY:CHECK:scheduled_maintenances (ordered set)             -&gt; ( DURATION, TIMESTAMP;
                                                                    DURATION, TIMESTAMP; ... )
 ENTITY:CHECK:TIMESTAMP:scheduled_maintenance:summary (string) -&gt; SUMMARY
 
@@ -173,22 +173,22 @@ TIMESTAMP - start of the scheduled maintenance period
 DURATION  - the elapsed time of the scheduled maintenance window (including any extensions to the original period)
 SUMMARY   - populated from the summary of the scheduled maintenance creation event(s) (summaries to be glued
             together if there are multiple)
-</pre>
+</code></pre>
 
 <p>In order to query against this data while filtering by timestamp range, the following mirror of the above sorted set is being maintained:</p>
 
 <p><em>Sorted scheduled maintenance timestamps</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:sorted_scheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
+<pre><code class="highlight plaintext">ENTITY:CHECK:sorted_scheduled_maintenance_timestamps (ordered set) -&gt; ( TIMESTAMP, TIMESTAMP;
                                                                         TIMESTAMP, TIMESTAMP; ... )
 
 TIMESTAMP - start of the scheduled maintenance period (duplicated, in both the score and value of each
             item in the ordered set)
-</pre>
+</code></pre>
 <h3 id='notifications'>Notifications</h3>
 <p>We need to store notifications that have been generated (not necessarily sent out, see Alerts), for problems, recoveries, and acknowledgements.</p>
 
 <p><em>Last alert of each type (problem, recovery, acknowledgement)</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:last_problem_notification         (string) -&gt; TIMESTAMP
+<pre><code class="highlight plaintext">ENTITY:CHECK:last_problem_notification         (string) -&gt; TIMESTAMP
 ENTITY:CHECK:last_unknown_notification         (string) -&gt; TIMESTAMP
 ENTITY:CHECK:last_warning_notification         (string) -&gt; TIMESTAMP
 ENTITY:CHECK:last_critical_notification        (string) -&gt; TIMESTAMP
@@ -196,19 +196,19 @@ ENTITY:CHECK:last_recovery_notification        (string) -&gt; TIMESTAMP
 ENTITY:CHECK:last_acknowledgement_notification (string) -&gt; TIMESTAMP
 
 TIMESTAMP - the time of the last notification sent of the corresponding type (problem, recovery, acknowledgement)
-</pre>
+</code></pre>
 
 <p><em>Retention of all notifications</em></p>
-<pre class="highlight plaintext">ENTITY:CHECK:problem_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
+<pre><code class="highlight plaintext">ENTITY:CHECK:problem_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:unknown_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:warning_notifications         (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:critical_notifications        (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:recovery_notifications        (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
 ENTITY:CHECK:acknowledgement_notifications (list) -&gt; [ TIMESTAMP, TIMESTAMP, ... ]
-</pre>
+</code></pre>
 <h3 id='alerts'>Alerts</h3>
 <p>Alerts correspond to messages that get emitted by Flapjack. A &lsquo;notification&rsquo; may result in 0 or more alerts being sent out, depending on notification rules and intervals configured on the contacts for the check in question.</p>
-<pre class="highlight plaintext">drop_alerts_for_contact:CONTACT_ID                          (string with expiry) -&gt; DURATION
+<pre><code class="highlight plaintext">drop_alerts_for_contact:CONTACT_ID                          (string with expiry) -&gt; DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA                    (string with expiry) -&gt; DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK       (string with expiry) -&gt; DURATION
 drop_alerts_for_contact:CONTACT_ID:MEDIA:ENTITY:CHECK:STATE (string with expiry) -&gt; DURATION
@@ -255,10 +255,10 @@ BODY        - for email alerts, the body of the email message. for sms, pagerdut
 ROLLUP_TYPE - one of nil, 'problem' or 'recovery'. A recovery rollup alert is where the rollup is ending due to
               the number of alerting events falling below the rollup threshold
 
-</pre>
+</code></pre>
 <h3 id='contacts'>Contacts</h3>
 <p>Contacts are populated from an external system via REST API or the <code class="prettyprint">flapjack import</code> command line utility. See IMPORTING.</p>
-<pre class="highlight plaintext">contact:CONTACT_ID           (hash) -&gt; { 'first_name' =&gt; FIRST_NAME,
+<pre><code class="highlight plaintext">contact:CONTACT_ID           (hash) -&gt; { 'first_name' =&gt; FIRST_NAME,
                                          'last_name'  =&gt; LAST_NAME,
                                          'email'      =&gt; EMAIL }
 contact_media:CONTACT_ID     (hash) -&gt; { 'email'     =&gt; EMAIL,
@@ -297,7 +297,7 @@ TIMEZONE              (string) - a timezone string representing the user's local
                                  see: http://www.twinsun.com/tz/tz-link.htm, http://tzinfo.rubyforge.org/doc/,
                                  http://api.rubyonrails.org/classes/ActiveSupport/TimeZone.html
 FAILURE_COUNT         (string) - the number of failing checks this contact has before rollup kicks in, 0 means never
-</pre>
+</code></pre>
 
 <p>Notes:</p>
 
@@ -312,7 +312,7 @@ the group chat</li>
 </ul>
 <h3 id='entity-and-check-contacts'>Entity and Check Contacts</h3>
 <p>Which contacts are interested in which entities and/or which checks?</p>
-<pre class="highlight plaintext">contacts_for:ENTITY_ID       (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
+<pre><code class="highlight plaintext">contacts_for:ENTITY_ID       (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
 contacts_for:ENTITY_ID:CHECK (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
 entity:ENTITY_ID            (hash) -&gt; { 'name' =&gt; ENTITY }
 entity_id:ENTITY          (string) -&gt; ENTITY_ID
@@ -321,10 +321,10 @@ entity_tag:TAG               (set) -&gt; ( ENTITY_ID, ENTITY_ID, ... )
 ENTITY_ID - a unique, immutable identifier given to each entity. This allows the name of the entity
             to change (eg a host gets renamed) and synchronisation to not go out of whack.
 TAG       - arbitrary tag
-</pre>
+</code></pre>
 <h3 id='notification-rules'>Notification Rules</h3>
 <p>A contact may have a set of notification rules to fine tune when, and by what means, they are notified.</p>
-<pre class="highlight plaintext">contact_notification_rules:CONTACT_ID (set) -&gt; { RULE_ID }
+<pre><code class="highlight plaintext">contact_notification_rules:CONTACT_ID (set) -&gt; { RULE_ID }
 notification_rule:RULE_ID (hash) -&gt; {
                                       'contact_id'         =&gt; CONTACT_ID,
                                       'entity_tags'        =&gt; TAG_LIST,
@@ -368,7 +368,7 @@ RRULE - See the ice_cube documentation and the iCal specification for details. H
             "week_start": 0
           }
 EXRULE, RTIME, EXTIME - See the ice_cube documentation and the iCal specification for details.
-</pre>
+</code></pre>
 
 <p>Notes</p>
 
@@ -377,22 +377,22 @@ EXRULE, RTIME, EXTIME - See the ice_cube documentation and the iCal specificatio
 </ul>
 <h3 id='alerting-checks-per-contact-media'>Alerting Checks per Contact Media</h3>
 <p>We keep track of which failing checks are alerting for each contact&rsquo;s media, for rollup initially but should provide a useful and fast view for users into which failing checks they are being alerted for.</p>
-<pre class="highlight plaintext">contact_alerting_checks:CONTACT_ID:media:MEDIA (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; ... )
-</pre>
+<pre><code class="highlight plaintext">contact_alerting_checks:CONTACT_ID:media:MEDIA (sorted set) -&gt; ( TIMESTAMP, ENTITY:CHECK ; ... )
+</code></pre>
 <h3 id='event-processor-statistics'>Event processor statistics</h3>
 <p>The following counters are incremented during event processing so we can see how many events flapjack is processing, and of which types.</p>
-<pre class="highlight plaintext">event_counters (hash) -&gt; { all =&gt; COUNTER, ok =&gt; COUNTER, failure =&gt; COUNTER, action =&gt; COUNTER }
+<pre><code class="highlight plaintext">event_counters (hash) -&gt; { all =&gt; COUNTER, ok =&gt; COUNTER, failure =&gt; COUNTER, action =&gt; COUNTER }
 
 COUNTER - incrementing integer counter, reset to zero when the event processor boots
-</pre>
+</code></pre>
 
 <p>&ldquo;The range of values supported by HINCRBY is limited to 64 bit signed integers.&rdquo; So up to 9,223,372,036,854,775,807. I guess we&rsquo;ll need to reset it on occasion - at midnight perhaps. But if we&rsquo;re getting that many events during a run of flapjack-executive then we probably have other problems&hellip;</p>
 
 <p>To support multiple concurrent executive instances:</p>
-<pre class="highlight plaintext">executive_instance:HOSTIDENT:PID (hash) -&gt; { boot_time =&gt; BOOTTIME }
+<pre><code class="highlight plaintext">executive_instance:HOSTIDENT:PID (hash) -&gt; { boot_time =&gt; BOOTTIME }
 event_counters:HOSTIDENT:PID     (hash) -&gt; { all =&gt; COUNTER, ok =&gt; COUNTER, failure =&gt; COUNTER,
                                                     action =&gt; COUNTER }
-</pre>
+</code></pre>
 
       </div>
     </div>

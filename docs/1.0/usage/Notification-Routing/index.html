@@ -49,9 +49,9 @@
 <li>Export <a href="../../../../images/FlapjackArchitecture.key">architecture diagrams</a> to PNG</li>
 <li>Run this shell:</li>
 </ol>
-<pre class="highlight shell"><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.png ; <span class="k">do </span>convert <span class="nv">$f</span> <span class="k">$(</span>basename <span class="nv">$f</span> .png<span class="k">)</span>.gif ; <span class="k">done
+<pre><code class="highlight shell"><span class="k">for </span>f <span class="k">in</span> <span class="k">*</span>.png ; <span class="k">do </span>convert <span class="nv">$f</span> <span class="k">$(</span>basename <span class="nv">$f</span> .png<span class="k">)</span>.gif ; <span class="k">done
 </span>gifsicle --delay<span class="o">=</span>200 --loop <span class="k">*</span>.gif &gt; anim.gif
-</pre>
+</code></pre>
 
       </div>
     </div>

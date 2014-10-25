@@ -145,7 +145,7 @@
 <p>You can work around this by adding more Flapjack processors and/or notifiers. These can either run on a single host, or across multiple hosts.</p>
 
 <p>Here&rsquo;s an example configuration file for a standalone processor:</p>
-<pre class="highlight plaintext"># flapjack-processor-1.yaml
+<pre><code class="highlight plaintext"># flapjack-processor-1.yaml
 production:
   pid_file: /var/run/flapjack/flapjack-processor-1.pid
   log_file: /var/log/flapjack/flapjack-processor-1.log
@@ -166,7 +166,7 @@ production:
       syslog_errors: yes
   notifier:
     enabled: no
-</pre>
+</code></pre>
 
 <p>You should have a separate config file per-Flapjack processor (only so logs + pids don&rsquo;t conflict).</p>
 
@@ -180,8 +180,8 @@ number of Flapjack processors count == number of cores - number of redis instanc
 </div>
 
 <p>To test out the limits of Flapjack&rsquo;s event processing speed in your environment, you can use the <code class="prettyprint">flapjack simulate fail</code> tool to create lots of events quickly:</p>
-<pre class="highlight plaintext">flapjack simulate fail -i 0.001 -e foo-app-01 -k http --time 60 -c etc/flapjack_config.yaml
-</pre>
+<pre><code class="highlight plaintext">flapjack simulate fail -i 0.001 -e foo-app-01 -k http --time 60 -c etc/flapjack_config.yaml
+</code></pre>
 
 <p>Scaling the web + API gateways is just like scaling any web app - just throw up more instances and sit them behind a reverse proxy.</p>
 <h3 id='high-availability'>High Availability</h3>

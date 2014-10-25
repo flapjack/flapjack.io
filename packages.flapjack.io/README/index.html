@@ -54,28 +54,28 @@ and pushed to S3 as part of that project.</p>
 </ul>
 
 <p>Configure awscli if you haven&rsquo;t already:</p>
-<pre class="highlight shell">aws configure --profile default
-</pre>
+<pre><code class="highlight shell">aws configure --profile default
+</code></pre>
 
 <p>(or use a separate profile for this repo)</p>
 <h2 id='push-to-s3'>Push to S3:</h2>
 <p>From within the root directory of the flapjack.io repo run:</p>
-<pre class="highlight shell">bin/publish-packages-flapjack-io
-</pre>
+<pre><code class="highlight shell">bin/publish-packages-flapjack-io
+</code></pre>
 <h2 id='adding-or-revoking-other-aws-users39-permissions'>Adding or revoking other AWS users&#39; permissions</h2>
 <p>There is a select group of people who can push packages to the official repositories at <a href="http://packages.flapjack.io">packages.flapjack.io</a>, which is hosted on S3.</p>
 
 <p>To view who has access:</p>
-<pre class="highlight plaintext">aws s3api get-bucket-acl --bucket packages.flapjack.io
-</pre>
+<pre><code class="highlight plaintext">aws s3api get-bucket-acl --bucket packages.flapjack.io
+</code></pre>
 
 <p>To grant another AWS user to have write access to the packages.flapjack.io S3 bucket:</p>
 
 <div class="alert alert-info">
 Warning: this replaces all existing ACLs - you can find the existing IDs of the existing users using the view command above.
 </div>
-<pre class="highlight plaintext">aws s3api put-bucket-acl --bucket  packages.flapjack.io --grant-full-control 'id="EXISTINGID1",id="EXISTINGID2",...,emailaddress="YOUREMAILHERE"' --grant-read 'uri="http://acs.amazonaws.com/groups/global/AllUsers"'
-</pre>
+<pre><code class="highlight plaintext">aws s3api put-bucket-acl --bucket  packages.flapjack.io --grant-full-control 'id="EXISTINGID1",id="EXISTINGID2",...,emailaddress="YOUREMAILHERE"' --grant-read 'uri="http://acs.amazonaws.com/groups/global/AllUsers"'
+</code></pre>
 
 <p>To revoke access you need to run the above grant command, but without the ID of the person you wish to remove.</p>
 
@@ -90,18 +90,18 @@ Warning: this replaces all existing ACLs - you can find the existing IDs of the 
 <p>We&rsquo;re using DNSimple for the flapjack.io domain name hosting, Amazon Route 53 for domain name hosting of packages.flapjack.io, and Amazon S3 to host the files and directories.</p>
 
 <p>Here are the nameservers <code class="prettyprint">flapjack.io</code> is delegated to:</p>
-<pre class="highlight plaintext">flapjack.io name server ns4.dnsimple.com.
+<pre><code class="highlight plaintext">flapjack.io name server ns4.dnsimple.com.
 flapjack.io name server ns2.dnsimple.com.
 flapjack.io name server ns3.dnsimple.com.
 flapjack.io name server ns1.dnsimple.com.
-</pre>
+</code></pre>
 
 <p>Here are the nameservers <code class="prettyprint">packages.flapjack.io</code> is delegated to:</p>
-<pre class="highlight plaintext">packages.flapjack.io name server ns-1478.awsdns-56.org.
+<pre><code class="highlight plaintext">packages.flapjack.io name server ns-1478.awsdns-56.org.
 packages.flapjack.io name server ns-1565.awsdns-03.co.uk.
 packages.flapjack.io name server ns-782.awsdns-33.net.
 packages.flapjack.io name server ns-206.awsdns-25.com.
-</pre>
+</code></pre>
 
 <p>Route 53 has the following records for the <code class="prettyprint">packages.flapjack.io</code> domain:</p>
 

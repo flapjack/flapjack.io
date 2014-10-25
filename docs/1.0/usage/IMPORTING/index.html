@@ -48,9 +48,9 @@
 <p>See also the <a href="../../development/DATA_STRUCTURES">data structures</a> documentation.</p>
 <h2 id='importing-contacts-and-entities-using-flapjack-import'>Importing contacts and entities using flapjack import</h2>
 <p>The <code class="prettyprint">flapjack import</code> script provides a mechanism for importing contacts and entities in JSON format. Here are some command line examples for <code class="prettyprint">flapjack import</code>:</p>
-<pre class="highlight plaintext">bin/flapjack --config etc/flapjack_config.yaml import contacts  --from tmp/dummy_contacts.json
+<pre><code class="highlight plaintext">bin/flapjack --config etc/flapjack_config.yaml import contacts  --from tmp/dummy_contacts.json
 bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_entities.json
-</pre>
+</code></pre>
 
 <p>There are example JSON files, and example ruby scripts which generate the examples, in the tmp/ directory.</p>
 <h3 id='format-of-json-contact--entity-data'>Format of JSON contact + entity data</h3>
@@ -61,7 +61,7 @@ bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_
 <p>The import process will delete any existing matching object (matching on ID) before importing the new details, so if an object is being updated, the whole object must be exported. In this way we can handle the removal of an email address in the media hash for example. The operation on Redis is wrapped in a transaction, so the update is atomic.</p>
 <h3 id='contacts-example'>Contacts Example</h3>
 <p>Example - three contacts with varying media</p>
-<pre class="highlight json"><span class="p">[</span><span class="w">
+<pre><code class="highlight json"><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"362"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
@@ -104,16 +104,16 @@ bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></pre>
+</span></code></pre>
 
 <p>Example ruby code to construct this format:</p>
-<pre class="highlight ruby"><span class="c1">#!/usr/bin/env ruby</span>
+<pre><code class="highlight ruby"><span class="c1">#!/usr/bin/env ruby</span>
 
 <span class="nb">require</span> <span class="s1">'json'</span>
 
-<span class="n">contacts</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="n">contacts</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="n">tags</span> <span class="o">=</span> <span class="o">[</span> <span class="s1">'source:titanium'</span><span class="p">,</span> <span class="s1">'foo'</span><span class="o">]</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">'source:titanium'</span><span class="p">,</span> <span class="s1">'foo'</span><span class="p">]</span>
 
 <span class="n">media</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:sms</span>   <span class="o">=&gt;</span> <span class="s1">'+61412345678'</span><span class="p">,</span>
           <span class="ss">:email</span> <span class="o">=&gt;</span> <span class="s1">'johnj@example.com'</span> <span class="p">}</span>
@@ -128,10 +128,10 @@ bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_
 <span class="n">contacts</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">contact</span><span class="p">)</span>
 
 <span class="nb">puts</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">contacts</span><span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='entities-example'>Entities Example</h3>
 <p>Example - three entities with a different selection of contacts interested in each</p>
-<pre class="highlight json"><span class="p">[</span><span class="w">
+<pre><code class="highlight json"><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10001"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"clientx-app-01"</span><span class="p">,</span><span class="w">
@@ -168,33 +168,33 @@ bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_
     </span><span class="p">]</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></pre>
+</span></code></pre>
 
 <p>Example code to construct this format:</p>
-<pre class="highlight ruby"><span class="c1">#!/usr/bin/env ruby</span>
+<pre><code class="highlight ruby"><span class="c1">#!/usr/bin/env ruby</span>
 
 <span class="nb">require</span> <span class="s1">'json'</span>
 
-<span class="n">entities</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="n">entities</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="n">contacts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'362'</span><span class="p">,</span> <span class="s1">'363'</span><span class="p">,</span> <span class="s1">'364'</span><span class="o">]</span>
-<span class="n">tags</span>     <span class="o">=</span> <span class="o">[</span><span class="s2">"source:titanium"</span><span class="p">,</span> <span class="s2">"foo"</span><span class="o">]</span>
+<span class="n">contacts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'362'</span><span class="p">,</span> <span class="s1">'363'</span><span class="p">,</span> <span class="s1">'364'</span><span class="p">]</span>
+<span class="n">tags</span>     <span class="o">=</span> <span class="p">[</span><span class="s2">"source:titanium"</span><span class="p">,</span> <span class="s2">"foo"</span><span class="p">]</span>
 <span class="n">entity</span>   <span class="o">=</span> <span class="p">{</span> <span class="ss">:id</span>          <span class="o">=&gt;</span> <span class="s1">'10001'</span><span class="p">,</span>
              <span class="ss">:name</span>        <span class="o">=&gt;</span> <span class="s1">'clientx-app-01'</span><span class="p">,</span>
              <span class="ss">:contacts</span>    <span class="o">=&gt;</span> <span class="n">contacts</span><span class="p">,</span>
              <span class="ss">:tags</span>        <span class="o">=&gt;</span> <span class="n">tags</span> <span class="p">}</span>
 <span class="n">entities</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
-<span class="n">contacts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'362'</span><span class="o">]</span>
-<span class="n">tags</span>     <span class="o">=</span> <span class="o">[</span><span class="s2">"source:titanium"</span><span class="p">,</span> <span class="s2">"bar"</span><span class="o">]</span>
+<span class="n">contacts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'362'</span><span class="p">]</span>
+<span class="n">tags</span>     <span class="o">=</span> <span class="p">[</span><span class="s2">"source:titanium"</span><span class="p">,</span> <span class="s2">"bar"</span><span class="p">]</span>
 <span class="n">entity</span>   <span class="o">=</span> <span class="p">{</span> <span class="ss">:id</span>          <span class="o">=&gt;</span> <span class="s1">'10002'</span><span class="p">,</span>
              <span class="ss">:name</span>        <span class="o">=&gt;</span> <span class="s1">'clientx-app-02'</span><span class="p">,</span>
              <span class="ss">:contacts</span>    <span class="o">=&gt;</span> <span class="n">contacts</span><span class="p">,</span>
              <span class="ss">:tags</span>        <span class="o">=&gt;</span> <span class="n">tags</span> <span class="p">}</span>
 <span class="n">entities</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
-<span class="n">contacts</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'363'</span><span class="p">,</span> <span class="s1">'364'</span><span class="o">]</span>
-<span class="n">tags</span>     <span class="o">=</span> <span class="o">[</span><span class="s2">"source:titanium"</span><span class="o">]</span>
+<span class="n">contacts</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'363'</span><span class="p">,</span> <span class="s1">'364'</span><span class="p">]</span>
+<span class="n">tags</span>     <span class="o">=</span> <span class="p">[</span><span class="s2">"source:titanium"</span><span class="p">]</span>
 <span class="n">entity</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:id</span>          <span class="o">=&gt;</span> <span class="s1">'10003'</span><span class="p">,</span>
            <span class="ss">:name</span>        <span class="o">=&gt;</span> <span class="s1">'clienty-app-01'</span><span class="p">,</span>
            <span class="ss">:contacts</span>    <span class="o">=&gt;</span> <span class="n">contacts</span><span class="p">,</span>
@@ -202,7 +202,7 @@ bin/flapjack --config etc/flapjack_config.yaml import entities --from tmp/dummy_
 <span class="n">entities</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
 
 <span class="nb">puts</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">generate</span><span class="p">(</span><span class="n">entities</span><span class="p">,</span> <span class="ss">:pretty</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
-</pre>
+</code></pre>
 
       </div>
     </div>

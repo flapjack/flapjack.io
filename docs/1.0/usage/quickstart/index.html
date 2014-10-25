@@ -61,14 +61,14 @@ and the <a href="http://www.vagrantup.com/vmware">Vagrant plugin</a></li>
 </ul>
 <h3 id='setup'>Setup</h3>
 <p>Get the repo, and build your Vagrant box:</p>
-<pre class="highlight shell">git clone https://github.com/flapjack/vagrant-flapjack.git
+<pre><code class="highlight shell">git clone https://github.com/flapjack/vagrant-flapjack.git
 <span class="nb">cd </span>vagrant-flapjack
 vagrant up
-</pre>
+</code></pre>
 
 <p>For an alternative provider to VirtualBox (e.g. VMware Fusion), you can specify the provider when running <code class="prettyprint">vagrant up</code>:</p>
-<pre class="highlight shell">vagrant up --provider<span class="o">=</span>vmware_fusion
-</pre>
+<pre><code class="highlight shell">vagrant up --provider<span class="o">=</span>vmware_fusion
+</code></pre>
 
 <div class="alert alert-info">
 <strong>More information:</strong>
@@ -81,18 +81,18 @@ You should see the Flapjack Web UI:</p>
 <p><img alt="Screenshot of the Flapjack Web UI" src="../../../../images/1.0/quickstart/web-ui.png" /></p>
 
 <p>To continue with this guide, SSH into the vagrant box:</p>
-<pre class="highlight shell">vagrant ssh
-</pre>
+<pre><code class="highlight shell">vagrant ssh
+</code></pre>
 
 <p>You&rsquo;ll find the commands under <code class="prettyprint">/opt/flapjack/bin</code> and in <code class="prettyprint">PATH</code>:</p>
-<pre class="highlight shell">flapjack <span class="nb">help
+<pre><code class="highlight shell">flapjack <span class="nb">help
 </span>flapjack simulate <span class="nb">help</span>
-</pre>
+</code></pre>
 <h3 id='the-checks'>The checks</h3>
 <p>Flapjack can receive check execution results from a number of different systems.  When it does, Flapjack creates the check, and its entity, and starts retaining history of state changes etc.</p>
 
 <p>For now, we&rsquo;ll create our own  using Flapjack&rsquo;s simulate command:</p>
-<pre class="highlight shell">flapjack simulate fail <span class="se">\</span>
+<pre><code class="highlight shell">flapjack simulate fail <span class="se">\</span>
   --entity restaurant1 <span class="se">\</span>
   --check bacon <span class="se">\</span>
   --interval 1 <span class="se">\</span>
@@ -109,13 +109,13 @@ flapjack simulate fail_and_recover <span class="se">\</span>
   --check pancakes <span class="se">\</span>
   --interval 1 <span class="se">\</span>
   --time 0.1
-</pre>
+</code></pre>
 
 <p>The definition of these commands are as follows:</p>
-<pre class="highlight plaintext">flapjack simulate fail             - Generate a stream of failure events
+<pre><code class="highlight plaintext">flapjack simulate fail             - Generate a stream of failure events
 flapjack simulate fail_and_recover - Generate a stream of failure events, and one final recovery
 flapjack simulate ok               - Generate a stream of ok events
-</pre>
+</code></pre>
 
 <p>You can now see these under the <a href="http://localhost:3080/entities">list of entities</a> and <a href="http://localhost:3080/checks_all">list of checks</a>.</p>
 
@@ -134,10 +134,10 @@ flapjack simulate ok               - Generate a stream of ok events
 <p>If you want to add scheduled maintenance (lets say we know bacan will be off the menu next Saturday), fill out the &lsquo;Add Scheduled Maintenance&rsquo; box further down the page.</p>
 <h4 id='maintenance-cli'>Maintenance CLI</h4>
 <p>You can also add, list and remove maintenance by using the CLI tool <code class="prettyprint">flapjack maintenance</code>:</p>
-<pre class="highlight shell">flapjack maintenance show   - Show maintenance windows according to criteria <span class="o">(</span>default: all ongoing maintenance<span class="o">)</span>
+<pre><code class="highlight shell">flapjack maintenance show   - Show maintenance windows according to criteria <span class="o">(</span>default: all ongoing maintenance<span class="o">)</span>
 flapjack maintenance delete - Delete maintenance windows according to criteria <span class="o">(</span>default: all ongoing maintenance<span class="o">)</span>
 flapjack maintenance create - Create a maintenance window
-</pre>
+</code></pre>
 <h3 id='the-people'>The people</h3>
 <p>Contacts can be created using the &lsquo;edit contacts&rsquo; button on the <a href="http://localhost:3080/contacts">contacts page</a>.</p>
 
@@ -156,11 +156,11 @@ flapjack maintenance create - Create a maintenance window
 <p>The bottom of the <a href="http://localhost:3080/check?entity=restaurant1&amp;check=bacon">check page</a> lists which contacts will be notified of events.</p>
 <h3 id='the-outputs'>The outputs</h3>
 <p>To enable gateways, edit /etc/flapjack/flapjack_config.yaml and update the enabled flag for the given gateways:</p>
-<pre class="highlight plaintext">gateways:
+<pre><code class="highlight plaintext">gateways:
   # Generates email notifications
   email:
     enabled: yes
-</pre>
+</code></pre>
 
 <p>Further configuration options are available in each of the gateway blocks.</p>
 <h3 id='getting-real-data-into-flapjack'>Getting real data into Flapjack</h3>

@@ -44,7 +44,7 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10">
-        <h1 id='reports'>Reports</h1><h2 id='status-of-entities-or-checks'>Status of entities or checks</h2><pre class="highlight shell">curl http://localhost:3081/status_report/entities
+        <h1 id='reports'>Reports</h1><h2 id='status-of-entities-or-checks'>Status of entities or checks</h2><pre><code class="highlight shell">curl http://localhost:3081/status_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/status_report/entities/76
@@ -60,8 +60,8 @@ curl http://localhost:3081/status_report/checks/www.example.com:PING
 
 <span class="c"># or</span>
 curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">status_report_entities</span>
@@ -85,7 +85,7 @@ curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /status_report/entities</code></p>
 
@@ -114,7 +114,7 @@ curl http://localhost:3081/status_report/checks/www.example.com:PING,www.example
 <td>OK</td>
 </tr>
 </tbody></table>
-<h2 id='unscheduled-maintenance-periods-of-entities-or-checks'>Unscheduled maintenance periods of entities or checks</h2><pre class="highlight shell">curl http://localhost:3081/unscheduled_maintenance_report/entities
+<h2 id='unscheduled-maintenance-periods-of-entities-or-checks'>Unscheduled maintenance periods of entities or checks</h2><pre><code class="highlight shell">curl http://localhost:3081/unscheduled_maintenance_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/unscheduled_maintenance_report/entities/76
@@ -130,8 +130,8 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
 
 <span class="c"># or</span>
 curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">unscheduled_maintenance_report_entities</span>
@@ -155,7 +155,7 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /unscheduled_maintenance_report/entities</code></p>
 
@@ -201,7 +201,7 @@ curl http://localhost:3081/unscheduled_maintenance_report/checks/www.example.com
 <td>OK</td>
 </tr>
 </tbody></table>
-<h2 id='scheduled-maintenance-periods-of-entities-or-checks'>Scheduled maintenance periods of entities or checks</h2><pre class="highlight shell">curl http://localhost:3081/scheduled_maintenance_report/entities
+<h2 id='scheduled-maintenance-periods-of-entities-or-checks'>Scheduled maintenance periods of entities or checks</h2><pre><code class="highlight shell">curl http://localhost:3081/scheduled_maintenance_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/scheduled_maintenance_report/entities/76
@@ -217,8 +217,8 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
 
 <span class="c"># or</span>
 curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">scheduled_maintenance_report_entities</span>
@@ -242,7 +242,7 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /scheduled_maintenance_report/entities</code></p>
 
@@ -290,7 +290,7 @@ curl http://localhost:3081/scheduled_maintenance_report/checks/www.example.com:P
 </tbody></table>
 <h2 id='outages-of-entities-or-checks'>Outages of entities or checks</h2>
 <p>An outage on a check is a period of time for which the check was failing.</p>
-<pre class="highlight shell">curl http://localhost:3081/outage_report/entities
+<pre><code class="highlight shell">curl http://localhost:3081/outage_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/outage_report/entities/76
@@ -306,8 +306,8 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING
 
 <span class="c"># or</span>
 curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">outage_report_entities</span>
@@ -331,7 +331,7 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /outage_report/entities</code></p>
 
@@ -379,7 +379,7 @@ curl http://localhost:3081/outage_report/checks/www.example.com:PING,www.example
 </tbody></table>
 <h2 id='downtime-of-entities-or-checks'>Downtime of entities or checks</h2>
 <p>A downtime on a check is a period of time when the check is failing and there&rsquo;s no scheduled maintenance.</p>
-<pre class="highlight shell">curl http://localhost:3081/downtime_report/entities
+<pre><code class="highlight shell">curl http://localhost:3081/downtime_report/entities
 
 <span class="c"># or</span>
 curl http://localhost:3081/downtime_report/entities/76
@@ -395,8 +395,8 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING
 
 <span class="c"># or</span>
 curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.example2.com:SSH
-</pre>
-<pre class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">downtime_report_entities</span>
@@ -420,7 +420,7 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
   <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="s1">'www.example2.com:SSH'</span>
 <span class="p">)</span>
-</pre>
+</code></pre>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code class="prettyprint">GET /downtime_report/entities</code></p>
 

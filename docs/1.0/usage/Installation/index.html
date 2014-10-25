@@ -41,41 +41,44 @@
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
         <h1 id='installation'>Installation</h1><h2 id='debian-packages'>Debian packages</h2>
-<p>The recommended platform to run Flapjack on (other than development) is Ubuntu Precise 64 (Ubuntu 12.04, amd64).
-We provide a package for this platform on our <a href="http://packages.flapjack.io">package repository</a>.
-The package includes all runtime dependencies, so you shouldn&rsquo;t need to install anything else to get flapjack up and running with a vanilla configuration.</p>
+<p>The recommended platform to run Flapjack on (other than development) is Ubuntu Precise 64 (Ubuntu 12.04, amd64) or Ubuntu Trusty (Ubuntu 14.04).</p>
+
+<p>We provide packages for these platforms on our <a href="http://packages.flapjack.io">package repository</a>.
+The packages include all runtime dependencies, so you shouldn&rsquo;t need to install anything else to get flapjack up and running with a vanilla configuration.</p>
 
 <p>If you just want to have a quick play with Flapjack, use <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>, as this will also take care of creating and setting up an Ubuntu virtual machine and installing flapjack for you.</p>
 
 <p>To install the package on Ubuntu Precise 64, add the Flapjack repository to your apt sources, and install the flapjack package:</p>
-<pre class="highlight plaintext">deb http://packages.flapjack.io/deb precise main
-</pre>
+<pre><code class="highlight plaintext">deb http://packages.flapjack.io/deb/v1 precise main
+</code></pre>
 
 <p>eg:</p>
-<pre class="highlight shell"><span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb precise main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+<pre><code class="highlight shell"><span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb precise main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
 sudo apt-get update
 sudo apt-get install flapjack
-</pre>
+</code></pre>
 
 <p>You should now find that flapjack and redis have started up. Try visiting the <a href="http://localhost:3080">flapjack web interface</a>.</p>
+
+<p>To install on Trusty, replace &lsquo;precise&rsquo; with &lsquo;trusty&rsquo; in the deb repo URL above.</p>
 <h2 id='installing-as-a-gem'>Installing as a gem</h2>
 <p>If you&rsquo;re determined to run Flapjack on an unsupported platform, you can install the Flapjack ruby gem as follows:</p>
 
 <p>Install build-essential, and Ruby 2.1.1 using <a href="https://github.com/sstephenson/rbenv">rbenv</a>, and then run:</p>
-<pre class="highlight shell">gem install flapjack
-</pre>
+<pre><code class="highlight shell">gem install flapjack
+</code></pre>
 <h1 id='configuration'>Configuration</h1>
 <p>The default configuration file is located at /etc/flapjack/flapjack_config.yaml.</p>
 <h1 id='running'>Running</h1>
 <p>Flapjack is made of a number of components, all accessible via the Flapjack executable.</p>
 
 <p>Information on each command can be accessed by running <code class="prettyprint">flapjack command help</code></p>
-<pre class="highlight plaintext">    flapper  - Artificial service that oscillates up and down, for use in http://flapjack.io/docs/1.0/usage/oobetet
+<pre><code class="highlight plaintext">    flapper  - Artificial service that oscillates up and down, for use in http://flapjack.io/docs/1.0/usage/oobetet
     import   - Bulk import data from an external source, reading from JSON formatted data files
     receiver - Receive events from external systems and sends them to Flapjack
     server   - Server for running components (e.g. processor, notifier, gateways)
     simulate - Simulates a check by creating a stream of events for Flapjack to process
-</pre>
+</code></pre>
 
       </div>
     </div>
