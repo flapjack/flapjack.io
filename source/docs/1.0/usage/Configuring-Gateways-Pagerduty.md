@@ -1,6 +1,6 @@
 # Configuring the Pagerduty gateway
 
-[Pagerduty](https://www.pagerduey.com/) is a provider of alert delivery via SMS, phone calls, and push notifications. They also provide escalation and oncall rotation scheduling. Flapjack's Pagerduty gateway is bidirectional, in that it:
+[Pagerduty](https://www.pagerduty.com/) is a provider of alert delivery via SMS, phone calls, and push notifications. They also provide escalation and oncall rotation scheduling. Flapjack's Pagerduty gateway is bidirectional, in that it:
 
 - sends alerts to pagerduty
 - receives acknowledgements from pagerduty
