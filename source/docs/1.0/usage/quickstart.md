@@ -114,7 +114,7 @@ Our bacon check is now critical, and sending out alerts.  To acknowledge this ch
 
 #### Scheduled maintenance
 
-If you want to add scheduled maintenance (lets say we know bacan will be off the menu next Saturday), fill out the 'Add Scheduled Maintenance' box further down the page.
+If you want to add scheduled maintenance (lets say we know bacon will be off the menu next Saturday), fill out the 'Add Scheduled Maintenance' box further down the page.
 
 #### Maintenance CLI
 
