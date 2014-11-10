@@ -1,31 +1,37 @@
 # Installation
 
-## Debian packages
+## Distribution packages (Ubuntu, Debian, Centos)
 
-The recommended platform to run Flapjack on (other than development) is Ubuntu Precise 64 (Ubuntu 12.04, amd64) or Ubuntu Trusty (Ubuntu 14.04).
+The recommended platform to run Flapjack on (other than development) is one of the following:
+ - Ubuntu Precise 64 (Ubuntu 12.04)
+ - Ubuntu Trusty (Ubuntu 14.04)
+ - Debian Wheezy (Debian 7)
+ - Centos 6
 
 We provide packages for these platforms on our [package repository](http://packages.flapjack.io).
 The packages include all runtime dependencies, so you shouldn't need to install anything else to get flapjack up and running with a vanilla configuration.
 
-If you just want to have a quick play with Flapjack, use [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack), as this will also take care of creating and setting up an Ubuntu virtual machine and installing flapjack for you.
+If you just want to have a quick play with Flapjack, use [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack), as this will also take care of creating and setting up a virtual machine using one of the above platforms, and installing flapjack for you.
 
-To install the package on Ubuntu Precise 64, add the Flapjack repository to your apt sources, and install the flapjack package:
+To install the package on one of the platforms above, add the Flapjack repository to your sources, and install the flapjack package:
+
+### Debian and Ubuntu:
 
 ```
 deb http://packages.flapjack.io/deb/v1 precise main
+deb http://packages.flapjack.io/deb/v1 trusty main
+deb http://packages.flapjack.io/deb/v1 wheezy main
 ```
 
-eg:
+### Centos
 
-```bash
-echo 'deb http://packages.flapjack.io/deb precise main' | sudo tee  /etc/apt/sources.list.d/flapjack.list
-sudo apt-get update
-sudo apt-get install flapjack
 ```
+http://packages.flapjack.io/rpm/v1/flapjack/centos/6/x86_64
+```
+
+Full instructions are at http://packages.flapjack.io/
 
 You should now find that flapjack and redis have started up. Try visiting the [flapjack web interface](http://localhost:3080).
-
-To install on Trusty, replace 'precise' with 'trusty' in the deb repo URL above.
 
 ## Installing as a gem
 

@@ -21,18 +21,18 @@ To skip this tutorial and jump straight to the code, view the project on [GitHub
 
 ### Setup
 
-Get the repo, and build your Vagrant box:
+Get the repo, and build your Vagrant box, using your preferred distro_release.  Supported distro releases are 'precise', 'trusty', 'wheezy', and 'centos-6'.
 
 ```bash
 git clone https://github.com/flapjack/vagrant-flapjack.git
 cd vagrant-flapjack
-vagrant up
+distro_release=trusty vagrant up
 ```
 
 For an alternative provider to VirtualBox (e.g. VMware Fusion), you can specify the provider when running `vagrant up`:
 
 ```bash
-vagrant up --provider=vmware_fusion
+distro_release=trusty vagrant up --provider=vmware_fusion
 ```
 
 <div class="alert alert-info">

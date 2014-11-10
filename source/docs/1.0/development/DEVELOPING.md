@@ -155,19 +155,12 @@ To push the gem to rubygems.org run:
 bundle exec rake release
 ```
 
-Once the gem has been released, you'll most likely be wanting to build the [omnibus package](https://github.com/flapjack/omnibus-flapjack/):
-
-```
-git clone https://github.com/flapjack/omnibus-flapjack.git && cd omnibus-flapjack
-vagrant up ubuntu-precise64
-```
-
-... and [push it up](https://github.com/flapjack/omnibus-flapjack/#updating-the-debian-package-repo-ubuntu-precise-only-at-present) to [packages.flapjack.io](http://packages.flapjack.io).
+Once the gem has been released, you'll most likely be wanting to build and upload the [omnibus package](https://github.com/flapjack/omnibus-flapjack/) using the instructions [here](https://github.com/flapjack/omnibus-flapjack/blob/master/README.md)
 
 You can then test the latest package with [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack):
 ```bash
 git clone https://github.com/flapjack/vagrant-flapjack.git && cd vagrant-flapjack
-vagrant up
+flapjack_component=experimental distro_release=trusty vagrant up
 ```
 
 Data Structures

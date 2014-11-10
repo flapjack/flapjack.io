@@ -60,18 +60,27 @@ This shows that there are no docker containers running.
 
 More better [doco on boot2docker](https://github.com/boot2docker/boot2docker) is available.
 
-## Download omnibus-ubuntu images
+## Download omnibus-ubuntu / omnibus-debian / omnibus-centos images
 
-Pull down the latest flapjack/omnibus-ubuntu images from the docker registry:
+Pull down the latest flapjack/omnibus-distro images from the docker registry for your preferred distribution:
 
 ```
 docker pull flapjack/omnibus-ubuntu
+docker pull flapjack/omnibus-debian
+docker pull flapjack/omnibus-centos
 ```
 
-This will pull down several images. If you just want an image for a particular Ubuntu release, supply either the `trusty` or `precise` tags to the above `docker pull` command, eg:
+This will pull down several images each. If you just want an image for a particular Ubuntu release, supply either the `trusty` or `precise` tags to the above `docker pull` command, eg:
 
 ```
 docker pull flapjack/omnibus-ubuntu:trusty
+```
+
+The same applies to Debian and Centos:
+
+```
+docker pull flapjack/omnibus-debian:wheezy
+docker pull flapjack/omnibus-centos:6
 ```
 
 Details of the build history and so on for omnibus-ubuntu are visible on the [Docker Hub](https://registry.hub.docker.com/u/flapjack/omnibus-ubuntu).
@@ -81,5 +90,3 @@ The image is rebuilt automatically when the [omnibus-ubuntu repo](https://github
 ## Build
 
 Now you should be good to [build packages](https://github.com/flapjack/omnibus-flapjack/blob/master/README.md#build) with the [omnibus-flapjack](https://github.com/flapjack/omnibus-flapjack/blob/master/README.md#build) project.
-
-
