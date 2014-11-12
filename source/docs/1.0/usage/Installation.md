@@ -1,10 +1,11 @@
 # Installation
 
-## Distribution packages (Ubuntu, Centos)
+## Distribution packages (Ubuntu, Debian, Centos)
 
 The recommended platform to run Flapjack on (other than development) is one of the following:
  - Ubuntu Precise 64 (Ubuntu 12.04)
  - Ubuntu Trusty (Ubuntu 14.04)
+ - Debian Wheezy (Debian 7)
  - Centos 6
 
 We provide packages for these platforms on our [package repository](http://packages.flapjack.io).
@@ -14,11 +15,12 @@ If you just want to have a quick play with Flapjack, use [vagrant-flapjack](http
 
 To install the package on one of the platforms above, add the Flapjack repository to your sources, and install the flapjack package:
 
-### Ubuntu:
+### Debian and Ubuntu:
 
 ```
 deb http://packages.flapjack.io/deb/v1 precise main
 deb http://packages.flapjack.io/deb/v1 trusty main
+deb http://packages.flapjack.io/deb/v1 wheezy main
 ```
 
 ### Centos

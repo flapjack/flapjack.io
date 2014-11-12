@@ -19,6 +19,12 @@ echo "deb http://packages.flapjack.io/deb/v1 trusty main" | sudo tee /etc/apt/so
 echo "deb http://packages.flapjack.io/deb/v1 precise main" | sudo tee /etc/apt/sources.list.d/flapjack.list
 ```
 
+#### Debian Wheezy
+
+```
+echo "deb http://packages.flapjack.io/deb/v1 wheezy main" | sudo tee /etc/apt/sources.list.d/flapjack.list
+```
+
 #### Centos 6
 
 ```
@@ -45,7 +51,7 @@ echo "deb http://packages.flapjack.io/deb/0.9 precise main" | sudo tee /etc/apt/
 
 ## Installation
 
-### Ubuntu
+### Ubuntu, Debian
 
 After adding the relevant entry to your apt sources list, run:
 
@@ -75,6 +81,9 @@ echo "deb http://packages.flapjack.io/deb/v1 trusty experimental" | sudo tee /et
 
 # Ubuntu Precise:
 echo "deb http://packages.flapjack.io/deb/v1 precise experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
+
+# Debian Wheezy:
+echo "deb http://packages.flapjack.io/deb/v1 wheezy experimental" | sudo tee /etc/apt/sources.list.d/flapjack.list
 
 # Centos 6:
 cat >/etc/yum.repos.d/flapjack.repo << EOL

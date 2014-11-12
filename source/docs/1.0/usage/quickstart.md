@@ -21,7 +21,7 @@ To skip this tutorial and jump straight to the code, view the project on [GitHub
 
 ### Setup
 
-Get the repo, and build your Vagrant box, using your preferred distro_release.  Supported distro releases are 'precise', 'trusty' and 'centos-6'.
+Get the repo, and build your Vagrant box, using your preferred distro_release.  Supported distro releases are 'precise', 'trusty', 'wheezy', and 'centos-6'.
 
 ```bash
 git clone https://github.com/flapjack/vagrant-flapjack.git
