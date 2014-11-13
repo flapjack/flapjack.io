@@ -40,27 +40,29 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1 id='installation'>Installation</h1><h2 id='debian-packages'>Debian packages</h2>
-<p>The recommended platform to run Flapjack on (other than development) is Ubuntu Precise 64 (Ubuntu 12.04, amd64) or Ubuntu Trusty (Ubuntu 14.04).</p>
+        <h1 id='installation'>Installation</h1><h2 id='distribution-packages-ubuntu-debian-centos'>Distribution packages (Ubuntu, Debian, Centos)</h2>
+<p>The recommended platform to run Flapjack on (other than development) is one of the following:
+ - Ubuntu Precise 64 (Ubuntu 12.04)
+ - Ubuntu Trusty (Ubuntu 14.04)
+ - Debian Wheezy (Debian 7)
+ - Centos 6</p>
 
 <p>We provide packages for these platforms on our <a href="http://packages.flapjack.io">package repository</a>.
 The packages include all runtime dependencies, so you shouldn&rsquo;t need to install anything else to get flapjack up and running with a vanilla configuration.</p>
 
-<p>If you just want to have a quick play with Flapjack, use <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>, as this will also take care of creating and setting up an Ubuntu virtual machine and installing flapjack for you.</p>
+<p>If you just want to have a quick play with Flapjack, use <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>, as this will also take care of creating and setting up a virtual machine using one of the above platforms, and installing flapjack for you.</p>
 
-<p>To install the package on Ubuntu Precise 64, add the Flapjack repository to your apt sources, and install the flapjack package:</p>
-<pre><code class="highlight plaintext">deb http://packages.flapjack.io/deb/v1 precise main
+<p>To install the package on one of the platforms above, add the Flapjack repository to your sources, and install the flapjack package:</p>
+<h3 id='debian-and-ubuntu'>Debian and Ubuntu:</h3><pre><code class="highlight plaintext">deb http://packages.flapjack.io/deb/v1 precise main
+deb http://packages.flapjack.io/deb/v1 trusty main
+deb http://packages.flapjack.io/deb/v1 wheezy main
+</code></pre>
+<h3 id='centos'>Centos</h3><pre><code class="highlight plaintext">http://packages.flapjack.io/rpm/v1/flapjack/centos/6/x86_64
 </code></pre>
 
-<p>eg:</p>
-<pre><code class="highlight shell"><span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb precise main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
-sudo apt-get update
-sudo apt-get install flapjack
-</code></pre>
+<p>Full instructions are at http://packages.flapjack.io/</p>
 
 <p>You should now find that flapjack and redis have started up. Try visiting the <a href="http://localhost:3080">flapjack web interface</a>.</p>
-
-<p>To install on Trusty, replace &lsquo;precise&rsquo; with &lsquo;trusty&rsquo; in the deb repo URL above.</p>
 <h2 id='installing-as-a-gem'>Installing as a gem</h2>
 <p>If you&rsquo;re determined to run Flapjack on an unsupported platform, you can install the Flapjack ruby gem as follows:</p>
 

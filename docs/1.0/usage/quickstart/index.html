@@ -60,14 +60,14 @@
 and the <a href="http://www.vagrantup.com/vmware">Vagrant plugin</a></li>
 </ul>
 <h3 id='setup'>Setup</h3>
-<p>Get the repo, and build your Vagrant box:</p>
+<p>Get the repo, and build your Vagrant box, using your preferred distro_release.  Supported distro releases are &lsquo;precise&rsquo;, &lsquo;trusty&rsquo;, &lsquo;wheezy&rsquo;, and &lsquo;centos-6&rsquo;.</p>
 <pre><code class="highlight shell">git clone https://github.com/flapjack/vagrant-flapjack.git
 <span class="nb">cd </span>vagrant-flapjack
-vagrant up
+<span class="nv">distro_release</span><span class="o">=</span>trusty vagrant up
 </code></pre>
 
 <p>For an alternative provider to VirtualBox (e.g. VMware Fusion), you can specify the provider when running <code class="prettyprint">vagrant up</code>:</p>
-<pre><code class="highlight shell">vagrant up --provider<span class="o">=</span>vmware_fusion
+<pre><code class="highlight shell"><span class="nv">distro_release</span><span class="o">=</span>trusty vagrant up --provider<span class="o">=</span>vmware_fusion
 </code></pre>
 
 <div class="alert alert-info">

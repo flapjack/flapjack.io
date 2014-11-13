@@ -163,17 +163,12 @@ RBENV_VERSION=2.1.3 BUNDLE_GEMFILE=Gemfile bundle
 <pre><code class="highlight shell">bundle <span class="nb">exec </span>rake release
 </code></pre>
 
-<p>Once the gem has been released, you&rsquo;ll most likely be wanting to build the <a href="https://github.com/flapjack/omnibus-flapjack/">omnibus package</a>:</p>
-<pre><code class="highlight plaintext">git clone https://github.com/flapjack/omnibus-flapjack.git &amp;&amp; cd omnibus-flapjack
-vagrant up ubuntu-precise64
-</code></pre>
-
-<p>&hellip; and <a href="https://github.com/flapjack/omnibus-flapjack/#updating-the-debian-package-repo-ubuntu-precise-only-at-present">push it up</a> to <a href="http://packages.flapjack.io">packages.flapjack.io</a>.</p>
+<p>Once the gem has been released, you&rsquo;ll most likely be wanting to build and upload the <a href="https://github.com/flapjack/omnibus-flapjack/">omnibus package</a> using the instructions <a href="https://github.com/flapjack/omnibus-flapjack/blob/master/README.md">here</a></p>
 
 <p>You can then test the latest package with <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>:
 <code class="prettyprint">bash
 git clone https://github.com/flapjack/vagrant-flapjack.git &amp;&amp; cd vagrant-flapjack
-vagrant up
+flapjack_component=experimental distro_release=trusty vagrant up
 </code></p>
 <h2 id='data-structures'>Data Structures</h2>
 <p>See <a href="../DATA_STRUCTURES">Data Structures</a></p>

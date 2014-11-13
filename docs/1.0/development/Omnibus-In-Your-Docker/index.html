@@ -86,13 +86,20 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 <p>This shows that there are no docker containers running.</p>
 
 <p>More better <a href="https://github.com/boot2docker/boot2docker">doco on boot2docker</a> is available.</p>
-<h2 id='download-omnibus-ubuntu-images'>Download omnibus-ubuntu images</h2>
-<p>Pull down the latest flapjack/omnibus-ubuntu images from the docker registry:</p>
+<h2 id='download-omnibus-ubuntu--omnibus-debian--omnibus-centos-images'>Download omnibus-ubuntu / omnibus-debian / omnibus-centos images</h2>
+<p>Pull down the latest flapjack/omnibus-distro images from the docker registry for your preferred distribution:</p>
 <pre><code class="highlight plaintext">docker pull flapjack/omnibus-ubuntu
+docker pull flapjack/omnibus-debian
+docker pull flapjack/omnibus-centos
 </code></pre>
 
-<p>This will pull down several images. If you just want an image for a particular Ubuntu release, supply either the <code class="prettyprint">trusty</code> or <code class="prettyprint">precise</code> tags to the above <code class="prettyprint">docker pull</code> command, eg:</p>
+<p>This will pull down several images each. If you just want an image for a particular Ubuntu release, supply either the <code class="prettyprint">trusty</code> or <code class="prettyprint">precise</code> tags to the above <code class="prettyprint">docker pull</code> command, eg:</p>
 <pre><code class="highlight plaintext">docker pull flapjack/omnibus-ubuntu:trusty
+</code></pre>
+
+<p>The same applies to Debian and Centos:</p>
+<pre><code class="highlight plaintext">docker pull flapjack/omnibus-debian:wheezy
+docker pull flapjack/omnibus-centos:6
 </code></pre>
 
 <p>Details of the build history and so on for omnibus-ubuntu are visible on the <a href="https://registry.hub.docker.com/u/flapjack/omnibus-ubuntu">Docker Hub</a>.</p>
