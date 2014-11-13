@@ -66,7 +66,7 @@ sudo apt-get update && sudo apt-get install flapjack
 After adding the relevant entry to your yum repository list, run:
 
 ```
-yum install flapjack
+yum install --nogpgcheck flapjack
 ```
 
 These packages are currently unsigned.  In future, they will be signed with the Flapjack Package Signing Key (803709B6).
