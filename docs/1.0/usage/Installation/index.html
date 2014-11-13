@@ -42,10 +42,10 @@
         <div class="col-md-offset-1 col-md-10 markdown-body">
         <h1 id='installation'>Installation</h1><h2 id='distribution-packages-ubuntu-debian-centos'>Distribution packages (Ubuntu, Debian, Centos)</h2>
 <p>The recommended platform to run Flapjack on (other than development) is one of the following:
- - Ubuntu Precise 64 (Ubuntu 12.04)
- - Ubuntu Trusty (Ubuntu 14.04)
- - Debian Wheezy (Debian 7)
- - Centos 6</p>
+- Ubuntu Precise 64 (Ubuntu 12.04)
+- Ubuntu Trusty (Ubuntu 14.04)
+- Debian Wheezy (Debian 7)
+- Centos 6</p>
 
 <p>We provide packages for these platforms on our <a href="http://packages.flapjack.io">package repository</a>.
 The packages include all runtime dependencies, so you shouldn&rsquo;t need to install anything else to get flapjack up and running with a vanilla configuration.</p>
@@ -60,7 +60,9 @@ deb http://packages.flapjack.io/deb/v1 wheezy main
 <h3 id='centos'>Centos</h3><pre><code class="highlight plaintext">http://packages.flapjack.io/rpm/v1/flapjack/centos/6/x86_64
 </code></pre>
 
-<p>Full instructions are at http://packages.flapjack.io/</p>
+<p>Nb: You&rsquo;ll need to start up redis-flapjack and then flapjack on CentOS, instructions forthcoming. TODO</p>
+
+<p>Full instructions are at <a href="http://packages.flapjack.io/">packages.flapjack.io</a></p>
 
 <p>You should now find that flapjack and redis have started up. Try visiting the <a href="http://localhost:3080">flapjack web interface</a>.</p>
 <h2 id='installing-as-a-gem'>Installing as a gem</h2>
