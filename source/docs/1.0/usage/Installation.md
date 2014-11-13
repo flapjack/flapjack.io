@@ -3,10 +3,10 @@
 ## Distribution packages (Ubuntu, Debian, Centos)
 
 The recommended platform to run Flapjack on (other than development) is one of the following:
- - Ubuntu Precise 64 (Ubuntu 12.04)
- - Ubuntu Trusty (Ubuntu 14.04)
- - Debian Wheezy (Debian 7)
- - Centos 6
+- Ubuntu Precise 64 (Ubuntu 12.04)
+- Ubuntu Trusty (Ubuntu 14.04)
+- Debian Wheezy (Debian 7)
+- Centos 6
 
 We provide packages for these platforms on our [package repository](http://packages.flapjack.io).
 The packages include all runtime dependencies, so you shouldn't need to install anything else to get flapjack up and running with a vanilla configuration.
@@ -29,7 +29,9 @@ deb http://packages.flapjack.io/deb/v1 wheezy main
 http://packages.flapjack.io/rpm/v1/flapjack/centos/6/x86_64
 ```
 
-Full instructions are at http://packages.flapjack.io/
+Nb: You'll need to start up redis-flapjack and then flapjack on CentOS, instructions forthcoming. TODO
+
+Full instructions are at [packages.flapjack.io](http://packages.flapjack.io/)
 
 You should now find that flapjack and redis have started up. Try visiting the [flapjack web interface](http://localhost:3080).
 
