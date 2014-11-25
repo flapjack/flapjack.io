@@ -71,6 +71,12 @@ If you have a failing scenario and would like to see the log leading up to the e
 
 You can use whatever adjective you like in there, so tune it to suit the mood of the moment.
 
+API client integration tests are done with pact. To verify:
+
+```bash
+rake pact:verify
+```
+
 Code Coverage Reporting
 -----------------------
 
