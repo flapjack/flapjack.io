@@ -99,6 +99,10 @@ integration for production apps, so why shouldn&rsquo;t your monitoring system h
 </code></pre>
 
 <p>You can use whatever adjective you like in there, so tune it to suit the mood of the moment.</p>
+
+<p>API client integration tests are done with pact. To verify:</p>
+<pre><code class="highlight shell">rake pact:verify
+</code></pre>
 <h2 id='code-coverage-reporting'>Code Coverage Reporting</h2>
 <p>To engage <a href="https://github.com/colszowka/simplecov">SimpleCov</a> for a code coverage report, set the COVERAGE environment variable before running one (or both) of the test suites:</p>
 <pre><code class="highlight shell"><span class="nv">COVERAGE</span><span class="o">=</span>x rake spec
