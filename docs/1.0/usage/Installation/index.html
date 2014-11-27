@@ -53,16 +53,43 @@ The packages include all runtime dependencies, so you shouldn&rsquo;t need to in
 <p>If you just want to have a quick play with Flapjack, use <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>, as this will also take care of creating and setting up a virtual machine using one of the above platforms, and installing flapjack for you.</p>
 
 <p>To install the package on one of the platforms above, add the Flapjack repository to your sources, and install the flapjack package:</p>
-<h3 id='debian-and-ubuntu'>Debian and Ubuntu:</h3><pre><code class="highlight plaintext">deb http://packages.flapjack.io/deb/v1 precise main
-deb http://packages.flapjack.io/deb/v1 trusty main
-deb http://packages.flapjack.io/deb/v1 wheezy main
+<h3 id='debian-and-ubuntu'>Debian and Ubuntu:</h3>
+<p>Add the Flapjack package signing key:</p>
+<pre><code class="highlight shell">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 8406B0E3803709B6
 </code></pre>
-<h3 id='centos'>Centos</h3><pre><code class="highlight plaintext">http://packages.flapjack.io/rpm/v1/flapjack/centos/6/x86_64
+
+<p>Add the Flapjack package repository corresponding to your distro and release (pick one of the following to run):</p>
+<pre><code class="highlight shell"><span class="c"># Ubuntu Trusty</span>
+<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb precise main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+
+<span class="c"># Ubuntu Precise</span>
+<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb trusty main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+
+<span class="c"># Debian Wheezy</span>
+<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb wheezy main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+</code></pre>
+
+<p>Go forth and install:</p>
+<pre><code class="highlight shell">sudo apt-get update
+sudo apt-get install flapjack
+</code></pre>
+<h3 id='centos'>Centos</h3>
+<p>Copy and paste the following lines in one go to add the Flapjack package repository to your yum repository list:</p>
+<pre><code class="highlight plaintext">cat &gt;/etc/yum.repos.d/flapjack.repo &lt;&lt; EOL
+[flapjack-v1]
+name=Flapjack v1
+baseurl=http://packages.flapjack.io/rpm/v1/flapjack/centos/6/x86_64/
+enabled=1
+EOL
+</code></pre>
+
+<p>Install the package:</p>
+<pre><code class="highlight shell">yum install --nogpgcheck flapjack
 </code></pre>
 
 <p>Nb: You&rsquo;ll need to start up redis-flapjack and then flapjack on CentOS, instructions forthcoming. TODO</p>
 
-<p>Full instructions are at <a href="http://packages.flapjack.io/">packages.flapjack.io</a></p>
+<p>More details are available at <a href="http://packages.flapjack.io/">packages.flapjack.io</a></p>
 
 <p>You should now find that flapjack and redis have started up. Try visiting the <a href="http://localhost:3080">flapjack web interface</a>.</p>
 <h2 id='installing-as-a-gem'>Installing as a gem</h2>
