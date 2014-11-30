@@ -122,8 +122,15 @@ STATE (string) - eg 'acknowledgement'
 <p>Any time an event is received from the check execution system for a check, the check&rsquo;s timestamp (rank) is updated in the sorted set for the entity. If a check isn&rsquo;t in this list, then it should be considered as old and irrelevant and a candidate for deletion, so hidden from general view in the API and Web UI, etc.</p>
 
 <p>Related to this is the current_entities sorted set, which contains all entities that have current checks, ordered by the timestamp of the latest check event received for each entity.</p>
-<pre><code class="highlight plaintext">current_checks:ENTITY (sorted set) =&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
-current_entities (sorted set) =&gt; ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
+<pre><code class="highlight plaintext">current_checks:ENTITY (sorted set) -&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+current_entities      (sorted set) -&gt; ( TIMESTAMP, ENTITY ; TIMESTAMP, ENTITY ; ... )
+</code></pre>
+<h3 id='all-checks-and-entities-checks-of-entities'>All checks and entities, checks of entities</h3>
+<p>These are all new in Flapjack 1.2:</p>
+<pre><code class="highlight plaintext">all_checks             (sorted set) -&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+all_checks:ENTITY      (sorted set) -&gt; ( TIMESTAMP, CHECK ; TIMESTAMP, CHECK ; ... )
+all_entity_names_by_id (hash)       -&gt; { ID =&gt; ENTITY_NAME, ID =&gt; ENTITY_NAME, ... }
+all_entity_ids_by_name (hash)       -&gt; { ENTITY_NAME =&gt; ID, ENTITY_NAME =&gt; ID, ... }
 </code></pre>
 <h3 id='unscheduled-maintenance'>Unscheduled Maintenance</h3>
 <p>This key will only be present during the unschedule maintenance period for quick lookup of whether a service is in unschedule maintenance. An expiry TTL will be put on the key so it automatically goes away (default 4 hrs expiry time).</p>
@@ -306,22 +313,26 @@ just for matching up users and is not used as a contact media</li>
 jabber_id should also be included in the flapjack configuration file so that flapjack jabber gateway joins
 the group chat</li>
 </ul>
-<h3 id='entity-and-check-contacts'>Entity and Check Contacts</h3>
-<p>Which contacts are interested in which entities and/or which checks?</p>
-<pre><code class="highlight plaintext">contacts_for:ENTITY_ID       (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
+<h3 id='entites-and-checks'>Entites and Checks</h3><pre><code class="highlight plaintext">contacts_for:ENTITY_ID       (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
 contacts_for:ENTITY_ID:CHECK (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
 entity_tag:TAG               (set) -&gt; ( ENTITY_ID, ENTITY_ID, ... )
+known_tag:entity_tag         (set) -&gt; ( TAG, TAG, ... )
 
-# 1.2.0 +:
-all_entity_names_by_id      (hash) -&gt; { ID =&gt; ENTITY, ...}
+ENTITY_ID   - a unique, immutable identifier given to each entity.
+              This allows the name of the entity to change (eg a
+              host gets renamed) and synchronisation to not go out of whack.
+ENTITY_NAME - the name of the entity, eg foo-app-01.example
+TAG       - arbitrary string
+</code></pre>
 
-# Pre 1.2.0:
-entity:ENTITY_ID            (hash) -&gt; { 'name' =&gt; ENTITY }
+<p>The known_tag:entity_tag key caches the set of tags on entities.</p>
+
+<p>The following structures were added in Flapjack 1.2:
+- <code class="prettyprint">known_tag:entity_tag</code></p>
+
+<p>Removed in Flapjack 1.2:</p>
+<pre><code class="highlight plaintext">entity:ENTITY_ID            (hash) -&gt; { 'name' =&gt; ENTITY }
 entity_id:ENTITY          (string) -&gt; ENTITY_ID
-
-ENTITY_ID - a unique, immutable identifier given to each entity. This allows the name of the entity
-            to change (eg a host gets renamed) and synchronisation to not go out of whack.
-TAG       - arbitrary tag
 </code></pre>
 <h3 id='notification-rules'>Notification Rules</h3>
 <p>A contact may have a set of notification rules to fine tune when, and by what means, they are notified.</p>
