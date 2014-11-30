@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ ! -d "source" ] ; then
+  echo "You must be in the root directory of the flapjack.io repository to run this."
+  exit 1
+else
+  rm -rf build && bundle exec rake publish
+fi
+

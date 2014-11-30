@@ -147,10 +147,10 @@ NB: Currently the entity name cannot be modified via this interface, but this wi
 curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
 '[
   {"op"    : "add",
-   "path"  : "/entities/0/linked/contacts",
+   "path"  : "/entities/0/links/contacts",
    "value" : '352'},
   {"op"    : "remove",
-   "path"  : "/entities/0/linked/tags/database"
+   "path"  : "/entities/0/links/tags/database"
 ]' \
  'http://localhost:3081/entities/157'
 ```

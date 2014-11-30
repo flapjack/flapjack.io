@@ -17,7 +17,7 @@ You'll need Vagrant 1.5 or higher. A recent VirtualBox is recommended. `vagrant-
 
 There's a bit to download with that, so it's best to do this in your own time before the conference.
 
-You don't need to have done the rest of the quickstart, though it can't hurt. The main thing is to have Flapjack running locally and to have Icinga or Nagios sending it check execution results. This is all taken care of by the `vagrant up` within [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack).
+You don't need to have done the rest of the quickstart, though it can't hurt. The main thing is to have Flapjack running locally and to have Icinga or Nagios sending it check execution results. This is all taken care of by the `distro_release=trusty vagrant up` within [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack).
 
 We are updating the vagrant-flapjack repo regularly so please ensure you go a `git pull` and `vagrant provision` in your vagrant-flapjack directory just before coming to the tutorial.
 
@@ -28,7 +28,7 @@ You'll be able to get help from other participants during the tutorial (and afte
 
 # Tutorial Sessions
 
+- [DevOpsDays Berlin 2014](http://devopsdays.org/events/2014-berlin/proposals/Birger%20Schmidt%20-%20Use%20flapjack%20as%20bridge%20between%20ops%20and%20dev,%20and%20bridge%20from%20nagios%20towards%20more%20freedom/) 24 October 2014, Berlin, Germany
 - [Velocity New York 2014](http://velocityconf.com/velocityny2014/public/schedule/detail/35835) 15 September 2014, New York, NY, USA
 - [Monitorama PDX 2014](http://monitorama.com/) 7 May 2014, Portland, OR, USA
 - [Linux.conf.au 2014](http://lca2014.linux.org.au/schedule/30261/view_talk?day=wednesday) 8 January 2014, Perth, Australia
-

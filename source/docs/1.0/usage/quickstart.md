@@ -21,18 +21,18 @@ To skip this tutorial and jump straight to the code, view the project on [GitHub
 
 ### Setup
 
-Get the repo, and build your Vagrant box:
+Get the repo, and build your Vagrant box, using your preferred distro_release.  Supported distro releases are 'precise', 'trusty', 'wheezy', and 'centos-6'.
 
 ```bash
 git clone https://github.com/flapjack/vagrant-flapjack.git
 cd vagrant-flapjack
-vagrant up
+distro_release=trusty vagrant up
 ```
 
 For an alternative provider to VirtualBox (e.g. VMware Fusion), you can specify the provider when running `vagrant up`:
 
 ```bash
-vagrant up --provider=vmware_fusion
+distro_release=trusty vagrant up --provider=vmware_fusion
 ```
 
 <div class="alert alert-info">
@@ -112,9 +112,9 @@ Our bacon check is now critical, and sending out alerts.  To acknowledge this ch
 
 ![Screenshot of adding unscheduled maintenance](/images/1.0/quickstart/add-unscheduled-maintenance.png)
 
-#### Secheduled maintenance
+#### Scheduled maintenance
 
-If you want to add scheduled maintenance (lets say we know bacan will be off the menu next Saturday), fill out the 'Add Scheduled Maintenance' box further down the page.
+If you want to add scheduled maintenance (lets say we know bacon will be off the menu next Saturday), fill out the 'Add Scheduled Maintenance' box further down the page.
 
 #### Maintenance CLI
 

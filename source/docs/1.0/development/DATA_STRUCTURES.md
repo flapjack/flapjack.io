@@ -350,10 +350,8 @@ contacts_for:ENTITY_ID:CHECK (set) -> ( CONTACT_ID, CONTACT_ID, ... )
 entity_tag:TAG               (set) -> ( ENTITY_ID, ENTITY_ID, ... )
 known_tag:entity_tag         (set) -> ( TAG, TAG, ... )
 
-
-
-ENTITY_ID   - a unique, immutable identifier given to each entity. 
-              This allows the name of the entity to change (eg a 
+ENTITY_ID   - a unique, immutable identifier given to each entity.
+              This allows the name of the entity to change (eg a
               host gets renamed) and synchronisation to not go out of whack.
 ENTITY_NAME - the name of the entity, eg foo-app-01.example
 TAG       - arbitrary string

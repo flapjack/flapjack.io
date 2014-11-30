@@ -71,6 +71,12 @@ If you have a failing scenario and would like to see the log leading up to the e
 
 You can use whatever adjective you like in there, so tune it to suit the mood of the moment.
 
+API client integration tests are done with pact. To verify:
+
+```bash
+rake pact:verify
+```
+
 Code Coverage Reporting
 -----------------------
 
@@ -132,11 +138,11 @@ Before building the gem for release, you need to do a bit of housekeeping:
   `vi lib/flapjack/version.rb`
 - Update the changelog - add the new version and list each issue it addresses. The [Releases](https://github.com/flapjack/flapjack/releases) github page will help you discover which commits have been pushed to master since the last release.
   `vi CHANGELOG.md`
-- Update the bundle
-  `bundle`
-- Update the bundle for ruby 1.9 also
-  `rbenv shell 1.9.3-p484 && BUNDLE_GEMFILE=Gemfile-ruby1.9 bundle`
-- (start a new shell to clear the `rbenv shell ...`)
+- Update the bundles for 1.9 and 2.x (travis (among others) will get upset if you don't):
+```shell
+RBENV_VERSION=1.9.3-p125 BUNDLE_GEMFILE=Gemfile-ruby1.9 bundle && \
+RBENV_VERSION=2.1.3 BUNDLE_GEMFILE=Gemfile bundle
+```
 - Run the tests (to be sure, to be sure)
   `bundle exec rake spec && bundle exec rake features && bundle exec rake pact:verify`
 - Fix the tests, or abort the release mission, if any tests are failing.
@@ -155,19 +161,12 @@ To push the gem to rubygems.org run:
 bundle exec rake release
 ```
 
-Once the gem has been released, you'll most likely be wanting to build the [omnibus package](https://github.com/flapjack/omnibus-flapjack/):
-
-```
-git clone https://github.com/flapjack/omnibus-flapjack.git && cd omnibus-flapjack
-vagrant up ubuntu-precise64
-```
-
-... and [push it up](https://github.com/flapjack/omnibus-flapjack/#updating-the-debian-package-repo-ubuntu-precise-only-at-present) to [packages.flapjack.io](http://packages.flapjack.io).
+Once the gem has been released, you'll most likely be wanting to build and upload the [omnibus package](https://github.com/flapjack/omnibus-flapjack/) using the instructions [here](https://github.com/flapjack/omnibus-flapjack/blob/master/README.md)
 
 You can then test the latest package with [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack):
 ```bash
 git clone https://github.com/flapjack/vagrant-flapjack.git && cd vagrant-flapjack
-vagrant up
+flapjack_component=experimental distro_release=trusty vagrant up
 ```
 
 Data Structures

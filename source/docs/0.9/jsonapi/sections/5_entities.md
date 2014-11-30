@@ -147,7 +147,7 @@ NB: The entity name cannot be changed in Flapjack v1.x due to limitations in the
 curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
 '[
   {"op"    : "add",
-   "path"  : "/entities/0/linked/contacts",
+   "path"  : "/entities/0/links/contacts",
    "value" : '352'}
 ]' \
  'http://localhost:3081/entities/157'

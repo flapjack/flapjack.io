@@ -24,8 +24,7 @@ When you want to push updated documentation to [flapjack.io](http://flapjack.io/
 
 git commit
 git push
-rm -rf build
-bundle exec rake publish
+rm -rf build && bundle exec rake publish
 ```
 
 This will build the content from source/ and copy the files to the gh-pages branch on GitHub.
