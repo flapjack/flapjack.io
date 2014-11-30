@@ -338,9 +338,14 @@ Which contacts are interested in which entities and/or which checks?
 ```text
 contacts_for:ENTITY_ID       (set) -> ( CONTACT_ID, CONTACT_ID, ... )
 contacts_for:ENTITY_ID:CHECK (set) -> ( CONTACT_ID, CONTACT_ID, ... )
+entity_tag:TAG               (set) -> ( ENTITY_ID, ENTITY_ID, ... )
+
+# 1.2.0 +:
+all_entity_names_by_id      (hash) -> { ID => ENTITY, ...}
+
+# Pre 1.2.0:
 entity:ENTITY_ID            (hash) -> { 'name' => ENTITY }
 entity_id:ENTITY          (string) -> ENTITY_ID
-entity_tag:TAG               (set) -> ( ENTITY_ID, ENTITY_ID, ... )
 
 ENTITY_ID - a unique, immutable identifier given to each entity. This allows the name of the entity
             to change (eg a host gets renamed) and synchronisation to not go out of whack.
