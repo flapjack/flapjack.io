@@ -310,9 +310,14 @@ the group chat</li>
 <p>Which contacts are interested in which entities and/or which checks?</p>
 <pre><code class="highlight plaintext">contacts_for:ENTITY_ID       (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
 contacts_for:ENTITY_ID:CHECK (set) -&gt; ( CONTACT_ID, CONTACT_ID, ... )
+entity_tag:TAG               (set) -&gt; ( ENTITY_ID, ENTITY_ID, ... )
+
+# 1.2.0 +:
+all_entity_names_by_id      (hash) -&gt; { ID =&gt; ENTITY, ...}
+
+# Pre 1.2.0:
 entity:ENTITY_ID            (hash) -&gt; { 'name' =&gt; ENTITY }
 entity_id:ENTITY          (string) -&gt; ENTITY_ID
-entity_tag:TAG               (set) -&gt; ( ENTITY_ID, ENTITY_ID, ... )
 
 ENTITY_ID - a unique, immutable identifier given to each entity. This allows the name of the entity
             to change (eg a host gets renamed) and synchronisation to not go out of whack.
