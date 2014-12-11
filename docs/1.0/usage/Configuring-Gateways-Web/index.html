@@ -40,52 +40,76 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1> Documentation </h1>
+        <h1 id='configuring-the-web-gateway'>Configuring the Web gateway</h1>
+<p>The Flapjack web interface runs out of the web gateway. Here&rsquo;s how you configure it.</p>
+<h2 id='config-options'>Config Options</h2><h2 id='gatewaysweb'>gateways/web</h2>
+<table><thead>
+<tr>
+<th>Config</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>enabled</td>
+<td>yes/no</td>
+<td>Enable this gateway?</td>
+</tr>
+<tr>
+<td>port</td>
+<td>Integer</td>
+<td>The TCP port to listen on</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>Integer</td>
+<td>Read timeout in Seconds</td>
+</tr>
+<tr>
+<td>auto_refresh</td>
+<td>Integer</td>
+<td>Seconds between auto_refresh of entities/checks pages.  Set to 0 to disable</td>
+</tr>
+<tr>
+<td>access_log</td>
+<td>String</td>
+<td>Path to the access log (log of all http requests)</td>
+</tr>
+<tr>
+<td>base_url</td>
+<td>String</td>
+<td>URL your Flapjack web UI is available at, used for generating internal links eg <code class="prettyprint">http://flapjack.example/</code> Default: <code class="prettyprint">/</code></td>
+</tr>
+<tr>
+<td>api_url</td>
+<td>String</td>
+<td>Url the javascript in the Web UI will use to access the API (JSONAPI)</td>
+</tr>
+<tr>
+<td>logo_image_path</td>
+<td>String</td>
+<td>Full path to the location of an alternate logo file, e.g. /etc/flapjack/custom_logo.png</td>
+</tr>
+<tr>
+<td>show_exceptions</td>
+<td>yes/no</td>
+<td>Show exceptions (sinatra style) Default: no</td>
+</tr>
+<tr>
+<td>logger/level</td>
+<td>FATAL/ERROR/WARN/INFO/DEBUG</td>
+<td>The logging verbosity of the gateway. Set to DEBUG, reload flapjack, and consult flapjack.log if you&rsquo;re having trouble.</td>
+</tr>
+<tr>
+<td>logger/syslog_errors</td>
+<td>yes/no</td>
+<td>Send logging messages at ERROR or FATAL to the syslog</td>
+</tr>
+</tbody></table>
+<h2 id='edit-contacts-interface'>edit contacts interface</h2>
+<p>Most of the web interface is pretty plain HTML, and read only save for some forms. The /edit_contacts interface departs from this and uses backbone.js and jquery to acces the JSONAPI in order to make changes to contacts.</p>
 
-<ul>
-<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
-<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
-<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
-</ul>
-
-
-  <h4> Usage </h4>
-
-  <ul>
-      <li><a href=usage/Architecture>Architecture</a></li>
-      <li><a href=usage/Configuring-Gateways-Jsonapi>Configuring gateways jsonapi</a></li>
-      <li><a href=usage/Configuring-Gateways-Pagerduty>Configuring gateways pagerduty</a></li>
-      <li><a href=usage/Configuring-Gateways-SMS-Twilio>Configuring gateways sms twilio</a></li>
-      <li><a href=usage/Configuring-Gateways-Web>Configuring gateways web</a></li>
-      <li><a href=usage/Configuring-Nagios>Configuring nagios</a></li>
-      <li><a href=usage/GLOSSARY>Glossary</a></li>
-      <li><a href=usage/Howto-Dynamic-Entity-Contact-Linking>Howto dynamic entity contact linking</a></li>
-      <li><a href=usage/Http-Checker>Http checker</a></li>
-      <li><a href=usage/IMPORTING>Importing</a></li>
-      <li><a href=usage/Installation>Installation</a></li>
-      <li><a href=usage/Notification-Routing>Notification routing</a></li>
-      <li><a href=usage/Promoting>Promoting</a></li>
-      <li><a href=usage/Tutorial>Tutorial</a></li>
-      <li><a href=usage/faq>Faq</a></li>
-      <li><a href=usage/oobetet>Oobetet</a></li>
-      <li><a href=usage/quickstart>Quickstart</a></li>
-  </ul>
-
-
-  <h4> Development </h4>
-
-  <ul>
-      <li><a href=development/DATA_STRUCTURES>Data structures</a></li>
-      <li><a href=development/DEBUGGING>Debugging</a></li>
-      <li><a href=development/DEVELOPING>Developing</a></li>
-      <li><a href=development/Future-Data-Structures>Future data structures</a></li>
-      <li><a href=development/Gathering-internal-statistics-with-collectd>Gathering internal statistics with collectd</a></li>
-      <li><a href=development/Improving-the-Flapjack-release-process>Improving the flapjack release process</a></li>
-      <li><a href=development/Omnibus-In-Your-Docker>Omnibus in your docker</a></li>
-      <li><a href=development/Package-Building>Package building</a></li>
-      <li><a href=development/Release-Planning>Release planning</a></li>
-  </ul>
-
+<p>For this to work for your users, you need to set the api_url of the web gateway to be a URL for the JSONAPI that is accessable from your user&rsquo;s browsers. The example config file has a 127.0.0.1 (localhost) URL in here, which will only work if you&rsquo;re browsing to the Flapjack web interface from the same computer that&rsquo;s running Flapjack. You will want to change this to point to a fqdn of your Flapjack server, eg <code class="prettyprint">http://flapjack-api.example:3081/</code></p>
 
       </div>
     </div>

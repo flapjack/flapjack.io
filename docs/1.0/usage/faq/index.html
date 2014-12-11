@@ -61,18 +61,14 @@
 
 <p>So, are we going to keep two API&rsquo;s around? Short answer is &ldquo;no&rdquo;.</p>
 
-<p>Here&rsquo;s the plan:</p>
-
 <ul>
-<li><code class="prettyprint">0.9.x</code> will ship both <code class="prettyprint">api</code> and <code class="prettyprint">jsonapi</code></li>
-<li><code class="prettyprint">1.0.x</code> will ship <code class="prettyprint">jsonapi</code> and drop <code class="prettyprint">api</code></li>
+<li><code class="prettyprint">0.9.x</code> shipped with both <code class="prettyprint">api</code> and <code class="prettyprint">jsonapi</code></li>
+<li><code class="prettyprint">1.x</code> ships <code class="prettyprint">jsonapi</code> only</li>
 </ul>
 
-<p>Functionality for the old <code class="prettyprint">api</code> is effectively frozen, however bugs or security issues with it will be able to be made to the <code class="prettyprint">0.9.x</code> branch and we&rsquo;ll release gems as required.</p>
+<p>As for naming, we&rsquo;ve decided to leave <code class="prettyprint">jsonapi</code> called <code class="prettyprint">jsonapi</code> so it&rsquo;s clear what&rsquo;s happening.</p>
 
-<p>As for naming, we&rsquo;re going to leave <code class="prettyprint">jsonapi</code> called <code class="prettyprint">jsonapi</code> so it&rsquo;s clear what&rsquo;s happening.</p>
-
-<p>The default port for <code class="prettyprint">jsonapi</code> will remain the same in the example configuration file (3081), but it can be run on whatever port you like.</p>
+<p>The default port for <code class="prettyprint">jsonapi</code> remains the same in the example configuration file (3081), but it can be run on whatever port you like.</p>
 
 <p>If you need to talk to Flapjack&rsquo;s API, you should be using <code class="prettyprint">jsonapi</code>.</p>
 <h2 id='do-i-need-to-set-up-alerting-in-nagios-or-sensu-for-flapjack-to-work'>Do I need to set up alerting in Nagios or Sensu for Flapjack to work?</h2>
@@ -202,6 +198,8 @@ number of Flapjack processors count == number of cores - number of redis instanc
 <p>Flapjack was rebooted in 2012 to focus exclusively on the alert routing and notification problem. Flapjack&rsquo;s core developers are sponsored to work on Flapjack close to full-time.</p>
 
 <p>All of the code is completely new, and the only commonality between the two code bases is the name.</p>
+<h2 id='why-does-the-edit-contacts-page-on-the-web-inteface-not-work'>Why does the Edit Contacts page on the web inteface not work?</h2>
+<p>The common cause for this is the api_url in the web gateway config needs to work in your browser to access the api. See the <a href="../Configuring-Gateways-Web/">web gateway configuration docs</a> for more details.</p>
 
       </div>
     </div>
