@@ -24,16 +24,12 @@ We also invested a lot of time into building [quality documentation](../../jsona
 
 So, are we going to keep two API's around? Short answer is "no".
 
-Here's the plan:
+- `0.9.x` shipped with both `api` and `jsonapi`
+- `1.x` ships `jsonapi` only
 
-- `0.9.x` will ship both `api` and `jsonapi`
-- `1.0.x` will ship `jsonapi` and drop `api`
+As for naming, we've decided to leave `jsonapi` called `jsonapi` so it's clear what's happening.
 
-Functionality for the old `api` is effectively frozen, however bugs or security issues with it will be able to be made to the `0.9.x` branch and we'll release gems as required.
-
-As for naming, we're going to leave `jsonapi` called `jsonapi` so it's clear what's happening.
-
-The default port for `jsonapi` will remain the same in the example configuration file (3081), but it can be run on whatever port you like.
+The default port for `jsonapi` remains the same in the example configuration file (3081), but it can be run on whatever port you like.
 
 If you need to talk to Flapjack's API, you should be using `jsonapi`.
 
@@ -173,3 +169,9 @@ The Flapjack project languished, and other tools like Sensu came along and built
 Flapjack was rebooted in 2012 to focus exclusively on the alert routing and notification problem. Flapjack's core developers are sponsored to work on Flapjack close to full-time.
 
 All of the code is completely new, and the only commonality between the two code bases is the name.
+
+## Why does the Edit Contacts page on the web inteface not work?
+
+The common cause for this is the api_url in the web gateway config needs to work in your browser to access the api. See the [web gateway configuration docs](../Configuring-Gateways-Web/) for more details.
+
+
