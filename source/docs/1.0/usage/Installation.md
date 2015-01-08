@@ -27,13 +27,13 @@ Add the Flapjack package repository corresponding to your distro and release (pi
 
 ```bash
 # Ubuntu Precise
-echo 'deb http://packages.flapjack.io/deb precise main' | sudo tee  /etc/apt/sources.list.d/flapjack.list
+echo 'deb http://packages.flapjack.io/deb/v1 precise main' | sudo tee  /etc/apt/sources.list.d/flapjack.list
 
 # Ubuntu Trusty
-echo 'deb http://packages.flapjack.io/deb trusty main' | sudo tee  /etc/apt/sources.list.d/flapjack.list
+echo 'deb http://packages.flapjack.io/deb/v1 trusty main' | sudo tee  /etc/apt/sources.list.d/flapjack.list
 
 # Debian Wheezy
-echo 'deb http://packages.flapjack.io/deb wheezy main' | sudo tee  /etc/apt/sources.list.d/flapjack.list
+echo 'deb http://packages.flapjack.io/deb/v1 wheezy main' | sudo tee  /etc/apt/sources.list.d/flapjack.list
 ```
 
 Go forth and install:
