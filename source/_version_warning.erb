@@ -1,6 +1,6 @@
-<% if version && default_version != version %>
+<% if version && default_version.to_s != version.to_s %>
   <div class="alert alert-info" style="padding-top: 10px; padding-bottom: 0px; margin-bottom: 0px; height: 40px">
-      <strong>This is documentation for Flapjack version <%= version %>:</strong>
-      If you're looking for version <%= default_version %> documentation, click <a class="alert-link" href="http://flapjack.io/docs/<%= default_version %>">here.</a>
+    <strong>This is documentation for Flapjack version <%= version %>:</strong>
+    If you're looking for version <%= default_version %> documentation, click <a class="alert-link" href="http://flapjack.io/docs/<%= default_version %>">here.</a>
   </div>
 <% end %>
