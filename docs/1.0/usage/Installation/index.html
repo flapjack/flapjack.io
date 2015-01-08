@@ -59,14 +59,14 @@ The packages include all runtime dependencies, so you shouldn&rsquo;t need to in
 </code></pre>
 
 <p>Add the Flapjack package repository corresponding to your distro and release (pick one of the following to run):</p>
-<pre><code class="highlight shell"><span class="c"># Ubuntu Trusty</span>
-<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb precise main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+<pre><code class="highlight shell"><span class="c"># Ubuntu Precise</span>
+<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb/v1 precise main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
 
-<span class="c"># Ubuntu Precise</span>
-<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb trusty main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+<span class="c"># Ubuntu Trusty</span>
+<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb/v1 trusty main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
 
 <span class="c"># Debian Wheezy</span>
-<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb wheezy main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb/v1 wheezy main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
 </code></pre>
 
 <p>Go forth and install:</p>
