@@ -26,10 +26,10 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 8406B0E3803709
 Add the Flapjack package repository corresponding to your distro and release (pick one of the following to run):
 
 ```bash
-# Ubuntu Trusty
+# Ubuntu Precise
 echo 'deb http://packages.flapjack.io/deb precise main' | sudo tee  /etc/apt/sources.list.d/flapjack.list
 
-# Ubuntu Precise
+# Ubuntu Trusty
 echo 'deb http://packages.flapjack.io/deb trusty main' | sudo tee  /etc/apt/sources.list.d/flapjack.list
 
 # Debian Wheezy
