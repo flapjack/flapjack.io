@@ -25,4 +25,3 @@ The Flapjack web interface runs out of the web gateway. Here's how you configure
 Most of the web interface is pretty plain HTML, and read only save for some forms. The /edit_contacts interface departs from this and uses backbone.js and jquery to acces the JSONAPI in order to make changes to contacts.
 
 For this to work for your users, you need to set the api_url of the web gateway to be a URL for the JSONAPI that is accessable from your user's browsers. The example config file has a 127.0.0.1 (localhost) URL in here, which will only work if you're browsing to the Flapjack web interface from the same computer that's running Flapjack. You will want to change this to point to a fqdn of your Flapjack server, eg `http://flapjack-api.example:3081/`
-
