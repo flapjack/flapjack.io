@@ -147,15 +147,14 @@ open coverage/index.html
 <code class="prettyprint">vi lib/flapjack/version.rb</code></li>
 <li>Update the changelog - add the new version and list each issue it addresses. The <a href="https://github.com/flapjack/flapjack/releases">Releases</a> github page will help you discover which commits have been pushed to master since the last release.
 <code class="prettyprint">vi CHANGELOG.md</code></li>
-<li>Update the bundles for 1.9 and 2.x (travis (among others) will get upset if you don&rsquo;t):</li>
+<li>Update the bundle (travis (among others) will get upset if you don&rsquo;t):</li>
 </ul>
-<pre><code class="highlight shell"><span class="nv">RBENV_VERSION</span><span class="o">=</span>1.9.3-p125 <span class="nv">BUNDLE_GEMFILE</span><span class="o">=</span>Gemfile-ruby1.9 bundle <span class="o">&amp;&amp;</span> <span class="se">\</span>
-<span class="nv">RBENV_VERSION</span><span class="o">=</span>2.1.3 <span class="nv">BUNDLE_GEMFILE</span><span class="o">=</span>Gemfile bundle
+<pre><code class="highlight shell">bundle
 </code></pre>
 
 <ul>
 <li>Run the tests (to be sure, to be sure)
-<code class="prettyprint">bundle exec rake spec &amp;&amp; bundle exec rake features &amp;&amp; bundle exec rake pact:verify</code></li>
+<code class="prettyprint">bundle exec rake spec &amp;&amp; bundle exec rake features &amp;&amp; bundle exec rake pact:verify &amp;&amp; cd src/flapjack &amp;&amp; go test -v</code></li>
 <li>Fix the tests, or abort the release mission, if any tests are failing.</li>
 <li>Commit (use the actual new version string in the commit message below)
 <code class="prettyprint">git commit -a -m &#39;prepare v0.0.0 release&#39;</code></li>
