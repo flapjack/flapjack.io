@@ -138,15 +138,14 @@ Before building the gem for release, you need to do a bit of housekeeping:
   `vi lib/flapjack/version.rb`
 - Update the changelog - add the new version and list each issue it addresses. The [Releases](https://github.com/flapjack/flapjack/releases) github page will help you discover which commits have been pushed to master since the last release.
   `vi CHANGELOG.md`
-- Update the bundles for 1.9 and 2.x (travis (among others) will get upset if you don't):
+- Update the bundle (travis (among others) will get upset if you don't):
 
 ```shell
-RBENV_VERSION=1.9.3-p125 BUNDLE_GEMFILE=Gemfile-ruby1.9 bundle && \
-RBENV_VERSION=2.1.3 BUNDLE_GEMFILE=Gemfile bundle
+bundle
 ```
 
 - Run the tests (to be sure, to be sure)
-  `bundle exec rake spec && bundle exec rake features && bundle exec rake pact:verify`
+  `bundle exec rake spec && bundle exec rake features && bundle exec rake pact:verify && cd src/flapjack && go test -v`
 - Fix the tests, or abort the release mission, if any tests are failing.
 - Commit (use the actual new version string in the commit message below)
   `git commit -a -m 'prepare v0.0.0 release'`
