@@ -135,20 +135,33 @@ Gem releases are handled with [Bundler](http://gembundler.com/rubygems.html).
 Before building the gem for release, you need to do a bit of housekeeping:
 
 - Update the flapjack version string
-  `vi lib/flapjack/version.rb`
-- Update the changelog - add the new version and list each issue it addresses. The [Releases](https://github.com/flapjack/flapjack/releases) github page will help you discover which commits have been pushed to master since the last release.
-  `vi CHANGELOG.md`
-- Update the bundle (travis (among others) will get upset if you don't):
+```bash
+vi lib/flapjack/version.rb
+```
 
+- Update the changelog - add the new version and list each issue it addresses. The [Releases](https://github.com/flapjack/flapjack/releases) github page will help you discover which commits have been pushed to master since the last release.
+```bash
+vi CHANGELOG.md
+```
+
+- Update the bundle (travis (among others) will get upset if you don't):
 ```shell
 bundle
 ```
 
 - Run the tests (to be sure, to be sure)
-  `bundle exec rake spec && bundle exec rake features && bundle exec rake pact:verify && cd src/flapjack && go test -v`
+```bash
+bundle exec rake spec && \
+bundle exec rake features && \
+bundle exec rake pact:verify && \
+cd src/flapjack && go test -v
+```
+
 - Fix the tests, or abort the release mission, if any tests are failing.
 - Commit (use the actual new version string in the commit message below)
-  `git commit -a -m 'prepare v0.0.0 release'`
+```bash
+git commit -a -m 'prepare v0.0.0 release'
+```
 
 To build the gem, run:
 
