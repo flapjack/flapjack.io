@@ -143,31 +143,38 @@ fi
 <p>Before building the gem for release, you need to do a bit of housekeeping:</p>
 
 <ul>
-<li><p>Update the flapjack version string
-<code class="prettyprint">
-vi lib/flapjack/version.rb
-</code></p></li>
-<li><p>Update the changelog - add the new version and list each issue it addresses. The <a href="https://github.com/flapjack/flapjack/releases">Releases</a> github page will help you discover which commits have been pushed to master since the last release.
-<code class="prettyprint">
-vi CHANGELOG.md
-</code></p></li>
-<li><p>Update the bundle (travis (among others) will get upset if you don&rsquo;t):
-<code class="prettyprint">shell
-bundle
-</code></p></li>
-<li><p>Run the tests (to be sure, to be sure)
-<code class="prettyprint">
-bundle exec rake spec &amp;&amp; \
+<li>Update the flapjack version string</li>
+</ul>
+<pre><code class="highlight plaintext">vi lib/flapjack/version.rb
+</code></pre>
+
+<ul>
+<li>Update the changelog - add the new version and list each issue it addresses. The <a href="https://github.com/flapjack/flapjack/releases">Releases</a> github page will help you discover which commits have been pushed to master since the last release.</li>
+</ul>
+<pre><code class="highlight plaintext">vi CHANGELOG.md
+</code></pre>
+
+<ul>
+<li>Update the bundle (travis (among others) will get upset if you don&rsquo;t):</li>
+</ul>
+<pre><code class="highlight shell">bundle
+</code></pre>
+
+<ul>
+<li>Run the tests (to be sure, to be sure)</li>
+</ul>
+<pre><code class="highlight plaintext">bundle exec rake spec &amp;&amp; \
 bundle exec rake features &amp;&amp; \
 bundle exec rake pact:verify &amp;&amp; \
 cd src/flapjack &amp;&amp; go test -v
-</code></p></li>
-<li><p>Fix the tests, or abort the release mission, if any tests are failing.</p></li>
-<li><p>Commit (use the actual new version string in the commit message below)
-<code class="prettyprint">
-git commit -a -m &#39;prepare v0.0.0 release&#39;
-</code></p></li>
+</code></pre>
+
+<ul>
+<li>Fix the tests, or abort the release mission, if any tests are failing.</li>
+<li>Commit (use the actual new version string in the commit message below)</li>
 </ul>
+<pre><code class="highlight plaintext">git commit -a -m 'prepare v0.0.0 release'
+</code></pre>
 
 <p>To build the gem, run:</p>
 <pre><code class="highlight plaintext">bundle exec rake build
@@ -179,11 +186,10 @@ git commit -a -m &#39;prepare v0.0.0 release&#39;
 
 <p>Once the gem has been released, you&rsquo;ll most likely be wanting to build and upload the <a href="https://github.com/flapjack/omnibus-flapjack/">omnibus package</a> using the instructions <a href="https://github.com/flapjack/omnibus-flapjack/blob/master/README.md">here</a></p>
 
-<p>You can then test the latest package with <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>:
-<code class="prettyprint">
-git clone https://github.com/flapjack/vagrant-flapjack.git &amp;&amp; cd vagrant-flapjack
+<p>You can then test the latest package with <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>:</p>
+<pre><code class="highlight plaintext">git clone https://github.com/flapjack/vagrant-flapjack.git &amp;&amp; cd vagrant-flapjack
 flapjack_component=experimental distro_release=trusty vagrant up
-</code></p>
+</code></pre>
 <h2 id='data-structures'>Data Structures</h2>
 <p>See <a href="../DATA_STRUCTURES">Data Structures</a></p>
 <h2 id='restful-api-for-input-output-and-actions'>RESTful API for input, output and actions</h2>
