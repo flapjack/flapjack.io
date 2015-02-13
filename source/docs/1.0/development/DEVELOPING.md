@@ -135,21 +135,25 @@ Gem releases are handled with [Bundler](http://gembundler.com/rubygems.html).
 Before building the gem for release, you need to do a bit of housekeeping:
 
 - Update the flapjack version string
+
 ```
 vi lib/flapjack/version.rb
 ```
 
 - Update the changelog - add the new version and list each issue it addresses. The [Releases](https://github.com/flapjack/flapjack/releases) github page will help you discover which commits have been pushed to master since the last release.
+
 ```
 vi CHANGELOG.md
 ```
 
 - Update the bundle (travis (among others) will get upset if you don't):
+
 ```shell
 bundle
 ```
 
 - Run the tests (to be sure, to be sure)
+
 ```
 bundle exec rake spec && \
 bundle exec rake features && \
@@ -159,6 +163,7 @@ cd src/flapjack && go test -v
 
 - Fix the tests, or abort the release mission, if any tests are failing.
 - Commit (use the actual new version string in the commit message below)
+
 ```
 git commit -a -m 'prepare v0.0.0 release'
 ```
@@ -178,6 +183,7 @@ bundle exec rake release
 Once the gem has been released, you'll most likely be wanting to build and upload the [omnibus package](https://github.com/flapjack/omnibus-flapjack/) using the instructions [here](https://github.com/flapjack/omnibus-flapjack/blob/master/README.md)
 
 You can then test the latest package with [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack):
+
 ```
 git clone https://github.com/flapjack/vagrant-flapjack.git && cd vagrant-flapjack
 flapjack_component=experimental distro_release=trusty vagrant up
