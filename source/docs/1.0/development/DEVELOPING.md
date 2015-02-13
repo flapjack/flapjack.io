@@ -2,13 +2,13 @@
 
 Clone the repository:
 
-```bash
+```
 git clone https://github.com/flapjack/flapjack.git
 ```
 
 Install development dependencies:
 
-```bash
+```
 # Install Ruby dependencies
 gem install bundler
 bundle install
@@ -18,7 +18,7 @@ bundle install
 
 You'll also need Redis installed:
 
-```bash
+```
 # Mac OS X with Homebrew:
 
 brew update
@@ -39,7 +39,7 @@ Unit testing is done with RSpec, and unit tests live in `spec/`.
 
 To run the unit tests, check out the code and run:
 
-```bash
+```
 rake spec
 ```
 
@@ -53,13 +53,13 @@ Integration testing is done with Cucumber, and integration tests live in `featur
 
 To run the integration tests, check out the code and run:
 
-```bash
+```
 rake features
 ```
 
 NB, if the cucumber tests fail with a [spurious lexing error](https://github.com/cucumber/gherkin/issues/182) then try this:
 
-```bash
+```
 cucumber -f fuubar features
 ```
 
@@ -73,7 +73,7 @@ You can use whatever adjective you like in there, so tune it to suit the mood of
 
 API client integration tests are done with pact. To verify:
 
-```bash
+```
 rake pact:verify
 ```
 
@@ -82,7 +82,7 @@ Code Coverage Reporting
 
 To engage [SimpleCov](https://github.com/colszowka/simplecov) for a code coverage report, set the COVERAGE environment variable before running one (or both) of the test suites:
 
-```bash
+```
 COVERAGE=x rake spec
 COVERAGE=x rake features
 open coverage/index.html
@@ -94,7 +94,7 @@ Startup and Shutdown
 --------------------
 Copy the example configuration file into place:
 
-```bash
+```
 if [ ! -e etc/flapjack_config.yaml ] ; then
   cp etc/flapjack_config.yaml.example etc/flapjack_config.yaml
 else
@@ -104,24 +104,24 @@ fi
 
 Ensure your local Redis server is running, and then to start:
 
-```bash
+```
 FLAPJACK_ENV=development bundle exec bin/flapjack --config etc/flapjack_config.yaml server start
 ```
 Stop:
 
-```bash
+```
 FLAPJACK_ENV=development bundle exec bin/flapjack --config etc/flapjack_config.yaml
 ```
 
 Get the status:
 
-```bash
+```
 FLAPJACK_ENV=development  bundle exec bin/flapjack --config etc/flapjack_config.yaml server status
 ```
 
 Flapjack can also be started in the foreground (non-daemonized) by adding `--no-daemonize` to the start command, eg:
 
-```bash
+```
 FLAPJACK_ENV=development bundle exec bin/flapjack --config etc/flapjack_config.yaml server start --no-daemonize
 ```
 
@@ -135,12 +135,12 @@ Gem releases are handled with [Bundler](http://gembundler.com/rubygems.html).
 Before building the gem for release, you need to do a bit of housekeeping:
 
 - Update the flapjack version string
-```bash
+```
 vi lib/flapjack/version.rb
 ```
 
 - Update the changelog - add the new version and list each issue it addresses. The [Releases](https://github.com/flapjack/flapjack/releases) github page will help you discover which commits have been pushed to master since the last release.
-```bash
+```
 vi CHANGELOG.md
 ```
 
@@ -150,7 +150,7 @@ bundle
 ```
 
 - Run the tests (to be sure, to be sure)
-```bash
+```
 bundle exec rake spec && \
 bundle exec rake features && \
 bundle exec rake pact:verify && \
@@ -159,26 +159,26 @@ cd src/flapjack && go test -v
 
 - Fix the tests, or abort the release mission, if any tests are failing.
 - Commit (use the actual new version string in the commit message below)
-```bash
+```
 git commit -a -m 'prepare v0.0.0 release'
 ```
 
 To build the gem, run:
 
-```bash
+```
 bundle exec rake build
 ```
 
 To push the gem to rubygems.org run:
 
-```bash
+```
 bundle exec rake release
 ```
 
 Once the gem has been released, you'll most likely be wanting to build and upload the [omnibus package](https://github.com/flapjack/omnibus-flapjack/) using the instructions [here](https://github.com/flapjack/omnibus-flapjack/blob/master/README.md)
 
 You can then test the latest package with [vagrant-flapjack](https://github.com/flapjack/vagrant-flapjack):
-```bash
+```
 git clone https://github.com/flapjack/vagrant-flapjack.git && cd vagrant-flapjack
 flapjack_component=experimental distro_release=trusty vagrant up
 ```
