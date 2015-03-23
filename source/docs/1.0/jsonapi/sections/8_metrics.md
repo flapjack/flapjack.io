@@ -1,6 +1,6 @@
 # Metrics
 
-These endpoints are all new in Flapjack 1.5.0 with the exception of `GET /metrics` which appeared a good long time ago. 
+These endpoints are all new in Flapjack 1.5.0 with the exception of `GET /metrics` which appeared a good long time ago.
 
 ## Check Freshness
 
@@ -12,7 +12,6 @@ Returns the freshness distribution of all active checks in flapjack. This is the
 * between 15 minutes and 1 hour
 * greater than 1 hour
 
-*
 ```shell
 curl http://localhost:3081/metrics/check_freshness
 ```
@@ -25,12 +24,14 @@ Flapjack::Diner.metrics_check_freshness
 ```
 
 ```json
-"check_freshness": {
-  "0": 0,
-  "60": 0,
-  "300": 0,
-  "900": 0,
-  "3600": 9
+{
+  "check_freshness": {
+    "0": 0,
+    "60": 0,
+    "300": 0,
+    "900": 0,
+    "3600": 9
+  }
 }
 ```
 
@@ -67,9 +68,11 @@ Flapjack::Diner.metrics_checks
 ```
 
 ```json
-"checks": {
-  "all": 9,
-  "failing": 3
+{
+  "checks": {
+    "all": 9,
+    "failing": 3
+  }
 }
 ```
 
@@ -106,10 +109,12 @@ Flapjack::Diner.metrics_entities
 ```
 
 ```json
-"entities": {
-  "all": 10,
-  "enabled": 7,
-  "failing": 3
+{
+  "entities": {
+    "all": 10,
+    "enabled": 7,
+    "failing": 3
+  }
 }
 ```
 
@@ -143,8 +148,10 @@ Flapjack::Diner.metrics_event_queue
 ```
 
 ```json
-"event_queue": {
-  "length": 0
+{
+  "event_queue": {
+    "length": 0
+  }
 }
 ```
 
@@ -184,12 +191,14 @@ Flapjack::Diner.metrics_processed_events
 ```
 
 ```json
-"processed_events": {
-  "all": 153,
-  "failure": 104,
-  "ok": 12,
-  "invalid": 29,
-  "action": 8
+{
+  "processed_events": {
+    "all": 153,
+    "failure": 104,
+    "ok": 12,
+    "invalid": 29,
+    "action": 8
+  }
 }
 ```
 
