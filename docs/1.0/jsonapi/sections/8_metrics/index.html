@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/github-markdown.css" type="text/css">
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .markdown-body {
+        min-width: 200px;
+        max-width: 790px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+        <span class="name">Flapjack</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+        <li><a href="/docs">Documentation</a></li>
+        <li><a href="/support">Support</a></li>
+      </ul>
+    </div>
+  </nav>
+
+    <center>
+      
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 markdown-body">
+        <h1 id='metrics'>Metrics</h1>
+<p>These endpoints are all new in Flapjack 1.5.0 with the exception of <code class="prettyprint">GET /metrics</code> which appeared a good long time ago. </p>
+<h2 id='check-freshness'>Check Freshness</h2>
+<p>Returns the freshness distribution of all active checks in flapjack. This is the count of checks in defined age bands as follows:</p>
+
+<ul>
+<li>between 0 and 1 minutes</li>
+<li>between 1 and 5 minutes</li>
+<li>between 5 and 15 minutes</li>
+<li>between 15 minutes and 1 hour</li>
+<li>greater than 1 hour</li>
+</ul>
+
+<p>*
+<code class="prettyprint">shell
+curl http://localhost:3081/metrics/check_freshness
+</code></p>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_check_freshness</span>
+</code></pre>
+<pre><code class="highlight json"><span class="s2">"check_freshness"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"0"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"60"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"300"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"900"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"3600"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code class="prettyprint">GET /metrics/check_freshness</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<p>None.</p>
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+<h2 id='checks-summary'>Checks Summary</h2>
+<p>Returns some statistics about checks:</p>
+
+<ul>
+<li>total number of checks</li>
+<li>number of failing checks</li>
+</ul>
+<pre><code class="highlight shell">curl http://localhost:3081/metrics/checks
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_checks</span>
+</code></pre>
+<pre><code class="highlight json"><span class="s2">"checks"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"all"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"failing"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code class="prettyprint">GET /metrics/checks</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<p>None.</p>
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+<h2 id='entities-summary'>Entities Summary</h2>
+<p>Returns some statistics about entities:</p>
+
+<ul>
+<li>total number of entities</li>
+<li>number of entities with at least one failing check</li>
+</ul>
+<pre><code class="highlight shell">curl http://localhost:3081/metrics/entities
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_entities</span>
+</code></pre>
+<pre><code class="highlight json"><span class="s2">"entities"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"all"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"failing"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code class="prettyprint">GET /metrics/entities</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<p>None.</p>
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+<h2 id='event-queue'>Event Queue</h2>
+<p>Returns the size (length) of the event queue. This number should often be zero otherwise Flapjack is not keeping up with the events being fed in from the check executors for processing.</p>
+<pre><code class="highlight shell">curl http://localhost:3081/metrics/event_queue
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_event_queue</span>
+</code></pre>
+<pre><code class="highlight json"><span class="s2">"event_queue"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"length"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code class="prettyprint">GET /metrics/event_queue</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<p>None.</p>
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+<h2 id='processed-events'>Processed Events</h2>
+<p>Returns some counters about the events that have been processed to date:</p>
+
+<ul>
+<li>number of events processed in total</li>
+<li>number of events processed that had a failure state (eg &lsquo;warning&rsquo;, &lsquo;critical&rsquo;, &lsquo;unknown&rsquo;)</li>
+<li>number of events processed that had an ok state</li>
+<li>number of events that could not be processed as they were invalid</li>
+<li>number of events processed that were action events (eg &lsquo;acknowledgement&rsquo;)</li>
+</ul>
+<pre><code class="highlight shell">curl http://localhost:3081/metrics/processed_events
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_processed_events</span>
+</code></pre>
+<pre><code class="highlight json"><span class="s2">"processed_events"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"all"</span><span class="p">:</span><span class="w"> </span><span class="mi">153</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"failure"</span><span class="p">:</span><span class="w"> </span><span class="mi">104</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"ok"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"invalid"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"action"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code class="prettyprint">GET /metrics/processed_events</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<p>None.</p>
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+<h2 id='all-metrics'>All Metrics</h2>
+<p>Returns all of the above metrics in one http transaction. It also includes the PID of the API process, and the FQDN of the server hosting the Flapjack API. ¯_(ツ)_/¯</p>
+
+<p>Note, this endpoint was written a while back and doesn&rsquo;t conform to JSONAPI. It will change in the next major release of Flapjack (2.0).</p>
+<pre><code class="highlight shell">curl http://localhost:3081/metrics
+</code></pre>
+<pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
+
+<span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics</span>
+</code></pre>
+<pre><code class="highlight json"><span class="p">{</span><span class="w">
+   </span><span class="s2">"checks"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"all"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"failing"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"check_freshness"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"3600"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"60"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"900"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"0"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"300"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"event_queue_length"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"pid"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">3908</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"entities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"all"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"failing"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"total_keys"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">246</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"processed_events_all_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"all_time"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+         </span><span class="s2">"invalid"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"ok"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"all"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">158</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"failure"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">104</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">},</span><span class="w">
+   </span><span class="s2">"fqdn"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Limiting-Factor.local"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code class="prettyprint">GET /metrics</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<p>None.</p>
+<h3 id='http-return-codes'>HTTP Return Codes</h3>
+<table><thead>
+<tr>
+<th>Return code</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+</tbody></table>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>
