@@ -9,6 +9,6 @@ language_tabs:
 
 ---
 
-<% Dir[File.dirname(__FILE__) + '/sections/*'].map {|f| File.basename(f, '.md') }.sort.each do |filename| %>
+<% Dir[File.dirname(__FILE__) + '/sections/*'].map { |f| File.basename(f, '.md') }.sort.each do |filename| %>
   <%= render_partial "sections/#{filename}" %>
 <% end %>
