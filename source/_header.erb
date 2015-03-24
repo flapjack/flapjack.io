@@ -5,6 +5,8 @@
   <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
   <link rel="stylesheet" href="/stylesheets/github-markdown.css" type="text/css">
   <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     .markdown-body {
@@ -17,17 +19,25 @@
 </head>
 <body>
   <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">
-        <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
-        <span class="name">Flapjack</span>
-      </a>
-    </div>
-    <div class="collapse navbar-collapse navbar-ex1-collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="/docs/<%= default_version %>/usage/quickstart">Quickstart</a></li>
-        <li><a href="/docs">Documentation</a></li>
-        <li><a href="/support">Support</a></li>
-      </ul>
-    </div>
+    <div class="container-fluid" id="navfluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+          <span class="name">Flapjack</span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navigationbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/docs/<%= default_version %>/usage/quickstart">Quickstart</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/support">Support</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
   </nav>
