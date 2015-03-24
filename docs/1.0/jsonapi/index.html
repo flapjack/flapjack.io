@@ -2835,7 +2835,7 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
 </tbody></table>
 
   <h1 id='metrics'>Metrics</h1>
-<p>These endpoints are all new in Flapjack 1.5.0 with the exception of <code class="prettyprint">GET /metrics</code> which appeared a good long time ago.</p>
+<p>These endpoints are all new in Flapjack 1.5.0 with the exception of <code class="prettyprint">GET /metrics</code> which appeared a good long time ago. </p>
 <h2 id='check-freshness'>Check Freshness</h2>
 <p>Returns the freshness distribution of all active checks in flapjack. This is the count of checks in defined age bands as follows:</p>
 
@@ -2846,21 +2846,22 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
 <li>between 15 minutes and 1 hour</li>
 <li>greater than 1 hour</li>
 </ul>
-<pre><code class="highlight shell">curl http://localhost:3081/metrics/check_freshness
-</code></pre>
+
+<p>*
+<code class="prettyprint">shell
+curl http://localhost:3081/metrics/check_freshness
+</code></p>
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_check_freshness</span>
 </code></pre>
-<pre><code class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">"check_freshness"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"0"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"60"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"300"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"900"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"3600"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+<pre><code class="highlight json"><span class="s2">"check_freshness"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"0"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"60"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"300"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"900"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"3600"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
@@ -2893,11 +2894,9 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_checks</span>
 </code></pre>
-<pre><code class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">"checks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"all"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"failing"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+<pre><code class="highlight json"><span class="s2">"checks"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"all"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"failing"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
@@ -2930,12 +2929,10 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_entities</span>
 </code></pre>
-<pre><code class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">"entities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"all"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"failing"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+<pre><code class="highlight json"><span class="s2">"entities"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"all"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"failing"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
@@ -2963,10 +2960,8 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_event_queue</span>
 </code></pre>
-<pre><code class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">"event_queue"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"length"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+<pre><code class="highlight json"><span class="s2">"event_queue"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"length"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
@@ -3002,14 +2997,12 @@ curl http://localhost:3081/downtime_report/checks/www.example.com:PING,www.examp
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">metrics_processed_events</span>
 </code></pre>
-<pre><code class="highlight json"><span class="p">{</span><span class="w">
-  </span><span class="s2">"processed_events"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"all"</span><span class="p">:</span><span class="w"> </span><span class="mi">153</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"failure"</span><span class="p">:</span><span class="w"> </span><span class="mi">104</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"ok"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"invalid"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"action"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+<pre><code class="highlight json"><span class="s2">"processed_events"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="s2">"all"</span><span class="p">:</span><span class="w"> </span><span class="mi">153</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"failure"</span><span class="p">:</span><span class="w"> </span><span class="mi">104</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"ok"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"invalid"</span><span class="p">:</span><span class="w"> </span><span class="mi">29</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"action"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3 id='http-request'>HTTP Request</h3>
