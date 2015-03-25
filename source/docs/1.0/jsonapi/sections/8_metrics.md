@@ -132,32 +132,53 @@ Return code | Description
 --------- | -----------
 200 | OK
 
-## Event Queue
 
-Returns the size (length) of the event queue. This number should often be zero otherwise Flapjack is not keeping up with the events being fed in from the check executors for processing.
+## Events
+
+Returns statistics about the processing of events (check execution results) received by Flapjack as follows:
+
+* The number of events processed:
+
+  * in total
+  * that had a failure state (eg 'warning', 'critical', 'unknown')
+  * that had an ok state
+  * that were action events (eg 'acknowledgement')
+  * that were discarded due to being invalid
+
+* The size (length) of the event queue. This number should often be zero otherwise Flapjack is not keeping up with the events being fed in from the check executors for processing.
 
 ```shell
-curl http://localhost:3081/metrics/event_queue
+curl http://localhost:3081/metrics/events
 ```
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-Flapjack::Diner.metrics_event_queue
+Flapjack::Diner.metrics_events
 ```
 
 ```json
 {
-  "event_queue": {
-    "length": 0
+  "events":
+  {
+    "processed": {
+      "all": 153,
+      "failure": 104,
+      "ok": 12,
+      "invalid": 29,
+      "action": 8
+    },
+    "queue": {
+      "length": 0
+    }
   }
 }
 ```
 
 ### HTTP Request
 
-`GET /metrics/event_queue`
+`GET /metrics/events`
 
 ### Query Parameters
 
@@ -169,56 +190,10 @@ Return code | Description
 --------- | -----------
 200 | OK
 
-## Processed Events
-
-Returns some counters about the events that have been processed to date:
-
-* number of events processed in total
-* number of events processed that had a failure state (eg 'warning', 'critical', 'unknown')
-* number of events processed that had an ok state
-* number of events that could not be processed as they were invalid
-* number of events processed that were action events (eg 'acknowledgement')
-
-```shell
-curl http://localhost:3081/metrics/processed_events
-```
-
-```ruby
-require 'flapjack-diner'
-Flapjack::Diner.base_uri('localhost:3081')
-
-Flapjack::Diner.metrics_processed_events
-```
-
-```json
-{
-  "processed_events": {
-    "all": 153,
-    "failure": 104,
-    "ok": 12,
-    "invalid": 29,
-    "action": 8
-  }
-}
-```
-
-### HTTP Request
-
-`GET /metrics/processed_events`
-
-### Query Parameters
-
-None.
-
-### HTTP Return Codes
-
-Return code | Description
---------- | -----------
-200 | OK
 
 ## All Metrics
 
-Returns all of the above metrics in one http transaction. It also includes the PID of the API process, and the FQDN of the server hosting the Flapjack API. ¯\_(ツ)_/¯
+Returns all of the above metrics in one http transaction, although the data structure is not exactly a straight composite. It also includes the PID of the API process, and the FQDN of the server hosting the Flapjack API. ¯\\_(ツ)_/¯
 
 Note, this endpoint was written a while back and doesn't conform to JSONAPI. It will change in the next major release of Flapjack (2.0).
 
