@@ -64,20 +64,35 @@ EVENT      (string) - A Ruby hash serialised in JSON:
                        'time'     =&gt; TIMESTAMP,
                        'summary'  =&gt; SUMMARY,
                        'details'  =&gt; DETAILS,
+                       'acknowledgement_id' =&gt; ACKID,
+                       'duration' =&gt; DURATION,
                        'tags'     =&gt; TAGS,
-                       'perfdata' =&gt; PERFDATA
+                       'perfdata' =&gt; PERFDATA,
+                       'initial_failure_delay' =&gt; IFD,
+                       'repeat_failure_delay'  =&gt; RFD
                      }
+
+REQUIRED_KEYS = ['type', 'state', 'entity', 'check']
+OPTIONAL_KEYS = ['time', 'summary', 'details', 'acknowledgement_id',
+                 'duration', 'tags', 'perfdata', 'initial_failure_delay',
+                 'repeat_failure_delay']
 
 ENTITY     (string)   - Name of the relevant entity (e.g. FQDN)
 CHECK      (string)   - The check name ('service description' in Nagios terminology)
 EVENT_TYPE (string)   - One of 'service' or 'action'
 STATE      (string)   - One of 'ok', 'warning', 'critical', 'unknown', 'acknowledgement'
-TIMESTAMP  (string)   - UNIX timestamp of the event's creation
+TIMESTAMP  (integer)  - UNIX timestamp of the event's creation
 SUMMARY    (string)   - The check output in the case of a service event, otherwise a
                         message created for an acknowledgement or similar
 DETAILS    (string)   - Long check output for a Nagios service event
+ACKID      (string)   - Acknowledgement ID for the check being ack'd (only for events
+                        of type 'action' and state 'acknowledgement')
+DURATION   (integer)  - For acknowledgements, the number of seconds to create unscheduled
+                        maintenance for
 PERFDATA   (string)   - Performance data for a Nagios service event
 TAGS       (string[]) - Array of tags pertaining to the event
+IFD        (integer)  - Initial Failure Delay, seconds
+RFD        (integer)  - Repeat Failure Delay, seconds
 </code></pre>
 <h3 id='event-archive-sliding-window'>Event Archive (sliding window)</h3>
 <p>Version 0.7.1 +</p>
