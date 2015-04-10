@@ -1,0 +1,53 @@
+<h1></h1>
+
+<p><%= operation.description %></p>
+
+<%- parameters = @operation.parameters %>
+
+<table>
+<thead>
+<td>Name</td>
+<td>In</td>
+<td>Required?</td>
+<td>Description</td>
+</thead>
+
+<tbody>
+<% parameters.each do |parameter| %>
+<tr>
+<td><% parameter.name %></td>
+<td><% parameter.in   %></td>
+<td><% parameter.required.is_a?(TrueClass) ? 'yes' : 'no' %></td>
+<td><% parameter.description %> </td>
+</tr>
+<% end %>
+</tbody>
+</table>
+
+<%#
+
+# TITLE
+
+# DESCRIPTION
+
+# * parameters
+
+# * examples (shell, ruby)
+
+# * accepted mime types
+
+# * submitted data schema (if present)
+
+# * HTTP return codes
+
+# * returned mime types
+
+# * return data schema (if present)
+
+
+
+
+
+# - Need to resolve schema definitions from elsewhere in the structure
+
+%>
