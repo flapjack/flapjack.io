@@ -28,3 +28,5 @@ gem "rake", "~> 10.3.0"
 gem 'therubyracer', :platforms => :ruby
 
 gem 'nokogiri'
+
+gem 'swagger-core'
