@@ -22,14 +22,28 @@
 <td>
 
 <% if 'body'.eql?(parameter.in) %>
-  <% definition_name = parameter['schema']['$ref'].sub(%r{^#/definitions/}, '') %>
-  <% definition = definitions[definition_name] %>
-  <%# required = definition.has_key?('required') ? definition.required : [] %>
-  <%# ref_container = is_array ? property.items : property %>
 
-<% schema_template = Schema.new %>
-<%= schema_template.result(:definitions => definitions,
-  :definition => definition) %>
+  <% schema = parameter['schema'] %>
+
+  <% if 'array'.eql?(schema.type) %>
+
+    <% definition_name = schema['items']['$ref'].sub(%r{^#/definitions/}, '') %>
+    <% definition = definitions[definition_name] %>
+
+    <% schema_template = Schema.new %>
+[
+    <%= schema_template.result(:definitions => definitions,
+      :definition => definition) %>
+]
+  <% else %>
+
+    <% definition_name = schema['$ref'].sub(%r{^#/definitions/}, '') %>
+    <% definition = definitions[definition_name] %>
+
+    <% schema_template = Schema.new %>
+    <%= schema_template.result(:definitions => definitions,
+      :definition => definition) %>
+  <% end %>
 
 <% elsif 'query'.eql?(parameter.in) && 'multi'.eql?(parameter['collectionFormat']) %>
 
