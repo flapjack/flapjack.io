@@ -1,0 +1,4861 @@
+{
+   "produces" : [
+      "application/vnd.api+json"
+   ],
+   "host" : "localhost",
+   "basePath" : "/doc",
+   "schemes" : [
+      "http"
+   ],
+   "swagger" : "2.0",
+   "info" : {
+      "version" : "2.0.0",
+      "license" : {
+         "name" : "MIT"
+      },
+      "description" : "",
+      "title" : "Flapjack API",
+      "contact" : {
+         "name" : ""
+      }
+   },
+   "consumes" : [
+      "application/vnd.api+json"
+   ],
+   "paths" : {
+      "/unscheduled_maintenances" : {
+         "get" : {
+            "parameters" : [
+               {
+                  "description" : "Comma-separated list of fields to return",
+                  "required" : false,
+                  "in" : "query",
+                  "name" : "fields",
+                  "type" : "string"
+               },
+               {
+                  "name" : "sort",
+                  "type" : "string",
+                  "required" : false,
+                  "description" : "",
+                  "in" : "query"
+               },
+               {
+                  "collectionFormat" : "multi",
+                  "in" : "query",
+                  "description" : "",
+                  "required" : false,
+                  "type" : "array",
+                  "name" : "filter",
+                  "items" : {
+                     "type" : "string",
+                     "format" : "filter"
+                  }
+               },
+               {
+                  "type" : "string",
+                  "name" : "include",
+                  "in" : "query",
+                  "required" : false,
+                  "description" : ""
+               },
+               {
+                  "name" : "page",
+                  "type" : "integer",
+                  "description" : "Page number",
+                  "required" : false,
+                  "in" : "query"
+               },
+               {
+                  "type" : "integer",
+                  "name" : "per_page",
+                  "in" : "query",
+                  "description" : "Number of unscheduled_maintenances per page",
+                  "required" : false
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "responses" : {
+               "200" : {
+                  "description" : "GET unscheduled_maintenances response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_UnscheduledMaintenances"
+                  }
+               }
+            },
+            "operationId" : "get_all_unscheduled_maintenances",
+            "description" : "Get all unscheduled_maintenances"
+         },
+         "patch" : {
+            "operationId" : "update_unscheduled_maintenances",
+            "description" : "Update multiple unscheduled_maintenances",
+            "responses" : {
+               "204" : {
+                  "description" : "UnscheduledMaintenance update response"
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_UnscheduledMaintenancesUpdate"
+                  },
+                  "description" : "unscheduled_maintenances to update",
+                  "required" : true,
+                  "in" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ]
+         },
+         "delete" : {
+            "parameters" : [
+               {
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_UnscheduledMaintenancesReference"
+                  },
+                  "required" : true,
+                  "description" : "unscheduled_maintenances to delete",
+                  "in" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ],
+            "operationId" : "delete_unscheduled_maintenances",
+            "description" : "Delete unscheduled_maintenances",
+            "responses" : {
+               "204" : {
+                  "description" : "unscheduled_maintenances deletion response"
+               }
+            }
+         },
+         "post" : {
+            "description" : "Create a unscheduled_maintenance",
+            "operationId" : "create_unscheduled_maintenance",
+            "responses" : {
+               "200" : {
+                  "description" : "unscheduled_maintenance creation response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_UnscheduledMaintenance"
+                  }
+               }
+            },
+            "parameters" : [
+               {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_UnscheduledMaintenanceCreate"
+                  },
+                  "name" : "body",
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "unscheduled_maintenance to create"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         }
+      },
+      "/contacts/{contact_id}/links/rules" : {
+         "get" : {
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     }
+                  },
+                  "description" : "GET contacts response"
+               }
+            },
+            "operationId" : "get_contact_links_rules",
+            "description" : "Get the rules of a contact",
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "description" : "Id of a contact",
+                  "required" : true,
+                  "type" : "string",
+                  "name" : "contact_id"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         },
+         "delete" : {
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "contact_id",
+                  "in" : "path",
+                  "description" : "Id of a contact",
+                  "required" : true
+               },
+               {
+                  "description" : "rules to remove from the contact",
+                  "required" : true,
+                  "in" : "body",
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "description" : "Remove one or more rules from a contact",
+            "operationId" : "remove_contact_rules",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            }
+         },
+         "post" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "name" : "contact_id",
+                  "type" : "string",
+                  "required" : true,
+                  "description" : "Id of a contact",
+                  "in" : "path"
+               },
+               {
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     },
+                     "type" : "array"
+                  },
+                  "name" : "data",
+                  "in" : "body",
+                  "description" : "rules to associate with the contact",
+                  "required" : true
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "operationId" : "add_contact_rules",
+            "description" : "Associate one or more rules to a contact"
+         },
+         "patch" : {
+            "parameters" : [
+               {
+                  "name" : "contact_id",
+                  "type" : "string",
+                  "description" : "Id of a contact",
+                  "required" : true,
+                  "in" : "path"
+               },
+               {
+                  "in" : "body",
+                  "description" : "rules associations to replace for the contact",
+                  "required" : true,
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     },
+                     "type" : "array"
+                  },
+                  "name" : "data"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "operationId" : "replace_contact_rules",
+            "description" : "Replace associated rules for a contact",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            }
+         }
+      },
+      "/tags" : {
+         "get" : {
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Tags"
+                  },
+                  "description" : "GET tags response"
+               }
+            },
+            "description" : "Get all tags",
+            "operationId" : "get_all_tags",
+            "parameters" : [
+               {
+                  "required" : false,
+                  "description" : "Comma-separated list of fields to return",
+                  "in" : "query",
+                  "name" : "fields",
+                  "type" : "string"
+               },
+               {
+                  "in" : "query",
+                  "description" : "",
+                  "required" : false,
+                  "type" : "string",
+                  "name" : "sort"
+               },
+               {
+                  "description" : "",
+                  "required" : false,
+                  "collectionFormat" : "multi",
+                  "in" : "query",
+                  "name" : "filter",
+                  "items" : {
+                     "type" : "string",
+                     "format" : "filter"
+                  },
+                  "type" : "array"
+               },
+               {
+                  "name" : "include",
+                  "type" : "string",
+                  "required" : false,
+                  "description" : "",
+                  "in" : "query"
+               },
+               {
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "Page number",
+                  "type" : "integer",
+                  "name" : "page"
+               },
+               {
+                  "type" : "integer",
+                  "name" : "per_page",
+                  "in" : "query",
+                  "description" : "Number of tags per page",
+                  "required" : false
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         },
+         "post" : {
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Tag"
+                  },
+                  "description" : "tag creation response"
+               }
+            },
+            "description" : "Create a tag",
+            "operationId" : "create_tag",
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_TagCreate"
+                  },
+                  "name" : "body",
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "tag to create"
+               }
+            ]
+         },
+         "delete" : {
+            "responses" : {
+               "204" : {
+                  "description" : "tags deletion response"
+               }
+            },
+            "description" : "Delete tags",
+            "operationId" : "delete_tags",
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_TagsReference"
+                  },
+                  "required" : true,
+                  "description" : "tags to delete",
+                  "in" : "body"
+               }
+            ]
+         },
+         "patch" : {
+            "operationId" : "update_tags",
+            "description" : "Update multiple tags",
+            "responses" : {
+               "204" : {
+                  "description" : "Tag update response"
+               }
+            },
+            "parameters" : [
+               {
+                  "in" : "body",
+                  "description" : "tags to update",
+                  "required" : true,
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_TagsUpdate"
+                  },
+                  "name" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ]
+         }
+      },
+      "/rules/{rule_id}/contact" : {
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "Id of a rule",
+                  "in" : "path",
+                  "name" : "rule_id",
+                  "type" : "string"
+               }
+            ],
+            "description" : "Get the contact of a rule",
+            "operationId" : "get_rule_contact",
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/ContactReference"
+                  },
+                  "description" : "GET rules response"
+               }
+            }
+         }
+      },
+      "/media/{medium_id}/rules" : {
+         "get" : {
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "Id of a medium",
+                  "in" : "path",
+                  "name" : "medium_id",
+                  "type" : "string"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "description" : "Get the rules of a medium",
+            "operationId" : "get_medium_rules",
+            "responses" : {
+               "200" : {
+                  "description" : "GET media response",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            }
+         }
+      },
+      "/scheduled_maintenances/{scheduled_maintenance_id}/links/check" : {
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a scheduled_maintenance",
+                  "type" : "string",
+                  "name" : "scheduled_maintenance_id"
+               }
+            ],
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/CheckReference"
+                  },
+                  "description" : "GET scheduled_maintenances response"
+               }
+            },
+            "operationId" : "get_scheduled_maintenance_check",
+            "description" : "Get the check of a scheduled_maintenance"
+         },
+         "patch" : {
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "description" : "Replace associated check for a scheduled_maintenance",
+            "operationId" : "replace_scheduled_maintenance_check",
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "description" : "Id of a scheduled_maintenance",
+                  "required" : true,
+                  "type" : "string",
+                  "name" : "scheduled_maintenance_id"
+               },
+               {
+                  "schema" : {
+                     "$ref" : "#/definitions/CheckReference"
+                  },
+                  "name" : "data",
+                  "in" : "body",
+                  "description" : "check association to replace for the scheduled_maintenance",
+                  "required" : true
+               }
+            ]
+         }
+      },
+      "/rules/{rule_id}" : {
+         "patch" : {
+            "parameters" : [
+               {
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a rule",
+                  "type" : "string",
+                  "name" : "rule_id"
+               },
+               {
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "Rule to update",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_RuleUpdate"
+                  },
+                  "name" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "operationId" : "update_rule",
+            "description" : "Update a rule",
+            "responses" : {
+               "204" : {
+                  "description" : "Rule update response"
+               }
+            }
+         },
+         "delete" : {
+            "operationId" : "delete_rule",
+            "description" : "Delete a rule",
+            "responses" : {
+               "204" : {
+                  "description" : "Rule deletion response"
+               }
+            },
+            "parameters" : [
+               {
+                  "description" : "Id of a rule",
+                  "required" : true,
+                  "in" : "path",
+                  "format" : "uuid",
+                  "name" : "rule_id",
+                  "type" : "string"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "get" : {
+            "responses" : {
+               "200" : {
+                  "description" : "GET rule response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Rule"
+                  }
+               }
+            },
+            "description" : "Get a rule",
+            "operationId" : "get_rule",
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a rule",
+                  "type" : "string",
+                  "name" : "rule_id"
+               },
+               {
+                  "required" : false,
+                  "description" : "Comma-separated list of fields to return",
+                  "in" : "query",
+                  "name" : "fields",
+                  "type" : "string"
+               }
+            ]
+         }
+      },
+      "/checks/{check_id}/tags" : {
+         "get" : {
+            "description" : "Get the tags of a check",
+            "operationId" : "get_check_tags",
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     },
+                     "type" : "array"
+                  },
+                  "description" : "GET checks response"
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "check_id",
+                  "type" : "string",
+                  "description" : "Id of a check",
+                  "required" : true,
+                  "in" : "path"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         }
+      },
+      "/media" : {
+         "post" : {
+            "operationId" : "create_medium",
+            "description" : "Create a medium",
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Medium"
+                  },
+                  "description" : "medium creation response"
+               }
+            },
+            "parameters" : [
+               {
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "medium to create",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_MediumCreate"
+                  },
+                  "name" : "body"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "delete" : {
+            "responses" : {
+               "204" : {
+                  "description" : "media deletion response"
+               }
+            },
+            "description" : "Delete media",
+            "operationId" : "delete_media",
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "in" : "body",
+                  "description" : "media to delete",
+                  "required" : true,
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_MediaReference"
+                  },
+                  "name" : "body"
+               }
+            ]
+         },
+         "patch" : {
+            "responses" : {
+               "204" : {
+                  "description" : "Medium update response"
+               }
+            },
+            "operationId" : "update_media",
+            "description" : "Update multiple media",
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "media to update",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_MediaUpdate"
+                  },
+                  "name" : "body"
+               }
+            ]
+         },
+         "get" : {
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "fields",
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "Comma-separated list of fields to return"
+               },
+               {
+                  "name" : "sort",
+                  "type" : "string",
+                  "description" : "",
+                  "required" : false,
+                  "in" : "query"
+               },
+               {
+                  "in" : "query",
+                  "collectionFormat" : "multi",
+                  "description" : "",
+                  "required" : false,
+                  "type" : "array",
+                  "name" : "filter",
+                  "items" : {
+                     "type" : "string",
+                     "format" : "filter"
+                  }
+               },
+               {
+                  "name" : "include",
+                  "type" : "string",
+                  "required" : false,
+                  "description" : "",
+                  "in" : "query"
+               },
+               {
+                  "description" : "Page number",
+                  "required" : false,
+                  "in" : "query",
+                  "name" : "page",
+                  "type" : "integer"
+               },
+               {
+                  "type" : "integer",
+                  "name" : "per_page",
+                  "in" : "query",
+                  "description" : "Number of media per page",
+                  "required" : false
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Media"
+                  },
+                  "description" : "GET media response"
+               }
+            },
+            "description" : "Get all media",
+            "operationId" : "get_all_media"
+         }
+      },
+      "/unscheduled_maintenances/{unscheduled_maintenance_id}/links/check" : {
+         "get" : {
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a unscheduled_maintenance",
+                  "type" : "string",
+                  "name" : "unscheduled_maintenance_id"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json"
+            ],
+            "operationId" : "get_unscheduled_maintenance_check",
+            "description" : "Get the check of a unscheduled_maintenance",
+            "responses" : {
+               "200" : {
+                  "description" : "GET unscheduled_maintenances response",
+                  "schema" : {
+                     "$ref" : "#/definitions/CheckReference"
+                  }
+               }
+            }
+         },
+         "patch" : {
+            "operationId" : "replace_unscheduled_maintenance_check",
+            "description" : "Replace associated check for a unscheduled_maintenance",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "unscheduled_maintenance_id",
+                  "type" : "string",
+                  "required" : true,
+                  "description" : "Id of a unscheduled_maintenance",
+                  "in" : "path"
+               },
+               {
+                  "required" : true,
+                  "description" : "check association to replace for the unscheduled_maintenance",
+                  "in" : "body",
+                  "name" : "data",
+                  "schema" : {
+                     "$ref" : "#/definitions/CheckReference"
+                  }
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         }
+      },
+      "/tags/{tag_id}/links/checks" : {
+         "get" : {
+            "description" : "Get the checks of a tag",
+            "operationId" : "get_tag_links_checks",
+            "responses" : {
+               "200" : {
+                  "description" : "GET tags response",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/CheckReference"
+                     }
+                  }
+               }
+            },
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "tag_id",
+                  "in" : "path",
+                  "description" : "Id of a tag",
+                  "required" : true
+               }
+            ]
+         },
+         "patch" : {
+            "operationId" : "replace_tag_checks",
+            "description" : "Replace associated checks for a tag",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "tag_id",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a tag"
+               },
+               {
+                  "in" : "body",
+                  "description" : "checks associations to replace for the tag",
+                  "required" : true,
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/CheckReference"
+                     }
+                  },
+                  "name" : "data"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "post" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "name" : "tag_id",
+                  "type" : "string",
+                  "required" : true,
+                  "description" : "Id of a tag",
+                  "in" : "path"
+               },
+               {
+                  "description" : "checks to associate with the tag",
+                  "required" : true,
+                  "in" : "body",
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/CheckReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "description" : "Associate one or more checks to a tag",
+            "operationId" : "add_tag_checks"
+         },
+         "delete" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a tag",
+                  "type" : "string",
+                  "name" : "tag_id"
+               },
+               {
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/CheckReference"
+                     },
+                     "type" : "array"
+                  },
+                  "name" : "data",
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "checks to remove from the tag"
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "description" : "Remove one or more checks from a tag",
+            "operationId" : "remove_tag_checks"
+         }
+      },
+      "/rules/{rule_id}/media" : {
+         "get" : {
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     }
+                  },
+                  "description" : "GET rules response"
+               }
+            },
+            "description" : "Get the media of a rule",
+            "operationId" : "get_rule_media",
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "Id of a rule",
+                  "in" : "path",
+                  "name" : "rule_id",
+                  "type" : "string"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         }
+      },
+      "/scheduled_maintenances" : {
+         "get" : {
+            "parameters" : [
+               {
+                  "name" : "fields",
+                  "type" : "string",
+                  "description" : "Comma-separated list of fields to return",
+                  "required" : false,
+                  "in" : "query"
+               },
+               {
+                  "name" : "sort",
+                  "type" : "string",
+                  "description" : "",
+                  "required" : false,
+                  "in" : "query"
+               },
+               {
+                  "collectionFormat" : "multi",
+                  "in" : "query",
+                  "description" : "",
+                  "required" : false,
+                  "type" : "array",
+                  "name" : "filter",
+                  "items" : {
+                     "type" : "string",
+                     "format" : "filter"
+                  }
+               },
+               {
+                  "required" : false,
+                  "description" : "",
+                  "in" : "query",
+                  "name" : "include",
+                  "type" : "string"
+               },
+               {
+                  "name" : "page",
+                  "type" : "integer",
+                  "required" : false,
+                  "description" : "Page number",
+                  "in" : "query"
+               },
+               {
+                  "in" : "query",
+                  "description" : "Number of scheduled_maintenances per page",
+                  "required" : false,
+                  "type" : "integer",
+                  "name" : "per_page"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "description" : "Get all scheduled_maintenances",
+            "operationId" : "get_all_scheduled_maintenances",
+            "responses" : {
+               "200" : {
+                  "description" : "GET scheduled_maintenances response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ScheduledMaintenances"
+                  }
+               }
+            }
+         },
+         "patch" : {
+            "description" : "Update multiple scheduled_maintenances",
+            "operationId" : "update_scheduled_maintenances",
+            "responses" : {
+               "204" : {
+                  "description" : "ScheduledMaintenance update response"
+               }
+            },
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "scheduled_maintenances to update",
+                  "in" : "body",
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ScheduledMaintenancesUpdate"
+                  }
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ]
+         },
+         "delete" : {
+            "description" : "Delete scheduled_maintenances",
+            "operationId" : "delete_scheduled_maintenances",
+            "responses" : {
+               "204" : {
+                  "description" : "scheduled_maintenances deletion response"
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ScheduledMaintenancesReference"
+                  },
+                  "required" : true,
+                  "description" : "scheduled_maintenances to delete",
+                  "in" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ]
+         },
+         "post" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "in" : "body",
+                  "description" : "scheduled_maintenance to create",
+                  "required" : true,
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ScheduledMaintenanceCreate"
+                  },
+                  "name" : "body"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "responses" : {
+               "200" : {
+                  "description" : "scheduled_maintenance creation response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ScheduledMaintenance"
+                  }
+               }
+            },
+            "operationId" : "create_scheduled_maintenance",
+            "description" : "Create a scheduled_maintenance"
+         }
+      },
+      "/scheduled_maintenances/{scheduled_maintenance_id}" : {
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "scheduled_maintenance_id",
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a scheduled_maintenance"
+               },
+               {
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "Comma-separated list of fields to return",
+                  "type" : "string",
+                  "name" : "fields"
+               }
+            ],
+            "description" : "Get a scheduled_maintenance",
+            "operationId" : "get_scheduled_maintenance",
+            "responses" : {
+               "200" : {
+                  "description" : "GET scheduled_maintenance response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ScheduledMaintenance"
+                  }
+               }
+            }
+         },
+         "delete" : {
+            "responses" : {
+               "204" : {
+                  "description" : "ScheduledMaintenance deletion response"
+               }
+            },
+            "description" : "Delete a scheduled_maintenance",
+            "operationId" : "delete_scheduled_maintenance",
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a scheduled_maintenance",
+                  "type" : "string",
+                  "name" : "scheduled_maintenance_id"
+               }
+            ]
+         },
+         "patch" : {
+            "parameters" : [
+               {
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a scheduled_maintenance",
+                  "type" : "string",
+                  "name" : "scheduled_maintenance_id"
+               },
+               {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ScheduledMaintenanceUpdate"
+                  },
+                  "name" : "body",
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "ScheduledMaintenance to update"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "description" : "Update a scheduled_maintenance",
+            "operationId" : "update_scheduled_maintenance",
+            "responses" : {
+               "204" : {
+                  "description" : "ScheduledMaintenance update response"
+               }
+            }
+         }
+      },
+      "/scheduled_maintenances/{scheduled_maintenance_id}/check" : {
+         "get" : {
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/CheckReference"
+                  },
+                  "description" : "GET scheduled_maintenances response"
+               }
+            },
+            "operationId" : "get_scheduled_maintenance_check",
+            "description" : "Get the check of a scheduled_maintenance",
+            "parameters" : [
+               {
+                  "name" : "scheduled_maintenance_id",
+                  "type" : "string",
+                  "required" : true,
+                  "description" : "Id of a scheduled_maintenance",
+                  "in" : "path"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         }
+      },
+      "/rules/{rule_id}/links/media" : {
+         "patch" : {
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a rule",
+                  "type" : "string",
+                  "name" : "rule_id"
+               },
+               {
+                  "required" : true,
+                  "description" : "media associations to replace for the rule",
+                  "in" : "body",
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "description" : "Replace associated media for a rule",
+            "operationId" : "replace_rule_media",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            }
+         },
+         "post" : {
+            "operationId" : "add_rule_media",
+            "description" : "Associate one or more media to a rule",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "rule_id",
+                  "type" : "string",
+                  "required" : true,
+                  "description" : "Id of a rule",
+                  "in" : "path"
+               },
+               {
+                  "description" : "media to associate with the rule",
+                  "required" : true,
+                  "in" : "body",
+                  "name" : "data",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     }
+                  }
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "delete" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "description" : "Id of a rule",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "rule_id",
+                  "type" : "string"
+               },
+               {
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     },
+                     "type" : "array"
+                  },
+                  "name" : "data",
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "media to remove from the rule"
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "operationId" : "remove_rule_media",
+            "description" : "Remove one or more media from a rule"
+         },
+         "get" : {
+            "responses" : {
+               "200" : {
+                  "description" : "GET rules response",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     }
+                  }
+               }
+            },
+            "description" : "Get the media of a rule",
+            "operationId" : "get_rule_links_media",
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a rule",
+                  "type" : "string",
+                  "name" : "rule_id"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         }
+      },
+      "/media/{medium_id}/links/rules" : {
+         "delete" : {
+            "operationId" : "remove_medium_rules",
+            "description" : "Remove one or more rules from a medium",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "description" : "Id of a medium",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "medium_id",
+                  "type" : "string"
+               },
+               {
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     },
+                     "type" : "array"
+                  },
+                  "name" : "data",
+                  "in" : "body",
+                  "description" : "rules to remove from the medium",
+                  "required" : true
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "post" : {
+            "operationId" : "add_medium_rules",
+            "description" : "Associate one or more rules to a medium",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "medium_id",
+                  "in" : "path",
+                  "description" : "Id of a medium",
+                  "required" : true
+               },
+               {
+                  "name" : "data",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     }
+                  },
+                  "description" : "rules to associate with the medium",
+                  "required" : true,
+                  "in" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "patch" : {
+            "description" : "Replace associated rules for a medium",
+            "operationId" : "replace_medium_rules",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "description" : "Id of a medium",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "medium_id",
+                  "type" : "string"
+               },
+               {
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     },
+                     "type" : "array"
+                  },
+                  "description" : "rules associations to replace for the medium",
+                  "required" : true,
+                  "in" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "medium_id",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a medium"
+               }
+            ],
+            "operationId" : "get_medium_links_rules",
+            "description" : "Get the rules of a medium",
+            "responses" : {
+               "200" : {
+                  "description" : "GET media response",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            }
+         }
+      },
+      "/unscheduled_maintenances/{unscheduled_maintenance_id}" : {
+         "delete" : {
+            "parameters" : [
+               {
+                  "name" : "unscheduled_maintenance_id",
+                  "type" : "string",
+                  "required" : true,
+                  "description" : "Id of a unscheduled_maintenance",
+                  "format" : "uuid",
+                  "in" : "path"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "operationId" : "delete_unscheduled_maintenance",
+            "description" : "Delete a unscheduled_maintenance",
+            "responses" : {
+               "204" : {
+                  "description" : "UnscheduledMaintenance deletion response"
+               }
+            }
+         },
+         "patch" : {
+            "operationId" : "update_unscheduled_maintenance",
+            "description" : "Update a unscheduled_maintenance",
+            "responses" : {
+               "204" : {
+                  "description" : "UnscheduledMaintenance update response"
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "unscheduled_maintenance_id",
+                  "type" : "string",
+                  "required" : true,
+                  "description" : "Id of a unscheduled_maintenance",
+                  "format" : "uuid",
+                  "in" : "path"
+               },
+               {
+                  "description" : "UnscheduledMaintenance to update",
+                  "required" : true,
+                  "in" : "body",
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_UnscheduledMaintenanceUpdate"
+                  }
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "get" : {
+            "parameters" : [
+               {
+                  "description" : "Id of a unscheduled_maintenance",
+                  "required" : true,
+                  "in" : "path",
+                  "format" : "uuid",
+                  "name" : "unscheduled_maintenance_id",
+                  "type" : "string"
+               },
+               {
+                  "description" : "Comma-separated list of fields to return",
+                  "required" : false,
+                  "in" : "query",
+                  "name" : "fields",
+                  "type" : "string"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_UnscheduledMaintenance"
+                  },
+                  "description" : "GET unscheduled_maintenance response"
+               }
+            },
+            "description" : "Get a unscheduled_maintenance",
+            "operationId" : "get_unscheduled_maintenance"
+         }
+      },
+      "/rules/{rule_id}/links/contact" : {
+         "patch" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "Id of a rule",
+                  "in" : "path",
+                  "name" : "rule_id",
+                  "type" : "string"
+               },
+               {
+                  "in" : "body",
+                  "description" : "contact association to replace for the rule",
+                  "required" : true,
+                  "schema" : {
+                     "$ref" : "#/definitions/ContactReference"
+                  },
+                  "name" : "data"
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "operationId" : "replace_rule_contact",
+            "description" : "Replace associated contact for a rule"
+         },
+         "get" : {
+            "parameters" : [
+               {
+                  "description" : "Id of a rule",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "rule_id",
+                  "type" : "string"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json"
+            ],
+            "responses" : {
+               "200" : {
+                  "description" : "GET rules response",
+                  "schema" : {
+                     "$ref" : "#/definitions/ContactReference"
+                  }
+               }
+            },
+            "operationId" : "get_rule_contact",
+            "description" : "Get the contact of a rule"
+         }
+      },
+      "/checks/{check_id}" : {
+         "get" : {
+            "operationId" : "get_check",
+            "description" : "Get a check",
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Check"
+                  },
+                  "description" : "GET check response"
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "check_id",
+                  "type" : "string",
+                  "description" : "Id of a check",
+                  "required" : true,
+                  "in" : "path",
+                  "format" : "uuid"
+               },
+               {
+                  "name" : "fields",
+                  "type" : "string",
+                  "description" : "Comma-separated list of fields to return",
+                  "required" : false,
+                  "in" : "query"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         },
+         "delete" : {
+            "responses" : {
+               "204" : {
+                  "description" : "Check deletion response"
+               }
+            },
+            "description" : "Delete a check",
+            "operationId" : "delete_check",
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a check",
+                  "type" : "string",
+                  "name" : "check_id"
+               }
+            ]
+         },
+         "patch" : {
+            "responses" : {
+               "204" : {
+                  "description" : "Check update response"
+               }
+            },
+            "description" : "Update a check",
+            "operationId" : "update_check",
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "check_id",
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a check"
+               },
+               {
+                  "required" : true,
+                  "description" : "Check to update",
+                  "in" : "body",
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_CheckUpdate"
+                  }
+               }
+            ]
+         }
+      },
+      "/contacts" : {
+         "patch" : {
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "description" : "contacts to update",
+                  "required" : true,
+                  "in" : "body",
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ContactsUpdate"
+                  }
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : "Contact update response"
+               }
+            },
+            "operationId" : "update_contacts",
+            "description" : "Update multiple contacts"
+         },
+         "post" : {
+            "description" : "Create a contact",
+            "operationId" : "create_contact",
+            "responses" : {
+               "200" : {
+                  "description" : "contact creation response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Contact"
+                  }
+               }
+            },
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ContactCreate"
+                  },
+                  "name" : "body",
+                  "in" : "body",
+                  "description" : "contact to create",
+                  "required" : true
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "delete" : {
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ContactsReference"
+                  },
+                  "name" : "body",
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "contacts to delete"
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : "contacts deletion response"
+               }
+            },
+            "description" : "Delete contacts",
+            "operationId" : "delete_contacts"
+         },
+         "get" : {
+            "operationId" : "get_all_contacts",
+            "description" : "Get all contacts",
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Contacts"
+                  },
+                  "description" : "GET contacts response"
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "fields",
+                  "type" : "string",
+                  "required" : false,
+                  "description" : "Comma-separated list of fields to return",
+                  "in" : "query"
+               },
+               {
+                  "type" : "string",
+                  "name" : "sort",
+                  "in" : "query",
+                  "description" : "",
+                  "required" : false
+               },
+               {
+                  "type" : "array",
+                  "items" : {
+                     "format" : "filter",
+                     "type" : "string"
+                  },
+                  "name" : "filter",
+                  "collectionFormat" : "multi",
+                  "in" : "query",
+                  "required" : false,
+                  "description" : ""
+               },
+               {
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "",
+                  "type" : "string",
+                  "name" : "include"
+               },
+               {
+                  "description" : "Page number",
+                  "required" : false,
+                  "in" : "query",
+                  "name" : "page",
+                  "type" : "integer"
+               },
+               {
+                  "type" : "integer",
+                  "name" : "per_page",
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "Number of contacts per page"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         }
+      },
+      "/tags/{tag_id}/links/rules" : {
+         "post" : {
+            "description" : "Associate one or more rules to a tag",
+            "operationId" : "add_tag_rules",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "tag_id",
+                  "type" : "string",
+                  "description" : "Id of a tag",
+                  "required" : true,
+                  "in" : "path"
+               },
+               {
+                  "description" : "rules to associate with the tag",
+                  "required" : true,
+                  "in" : "body",
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "delete" : {
+            "operationId" : "remove_tag_rules",
+            "description" : "Remove one or more rules from a tag",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "tag_id",
+                  "type" : "string",
+                  "description" : "Id of a tag",
+                  "required" : true,
+                  "in" : "path"
+               },
+               {
+                  "required" : true,
+                  "description" : "rules to remove from the tag",
+                  "in" : "body",
+                  "name" : "data",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     }
+                  }
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "patch" : {
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "Id of a tag",
+                  "in" : "path",
+                  "name" : "tag_id",
+                  "type" : "string"
+               },
+               {
+                  "name" : "data",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     }
+                  },
+                  "description" : "rules associations to replace for the tag",
+                  "required" : true,
+                  "in" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "description" : "Replace associated rules for a tag",
+            "operationId" : "replace_tag_rules",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            }
+         },
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "Id of a tag",
+                  "in" : "path",
+                  "name" : "tag_id",
+                  "type" : "string"
+               }
+            ],
+            "responses" : {
+               "200" : {
+                  "description" : "GET tags response",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     }
+                  }
+               }
+            },
+            "operationId" : "get_tag_links_rules",
+            "description" : "Get the rules of a tag"
+         }
+      },
+      "/media/{medium_id}" : {
+         "delete" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "Id of a medium",
+                  "format" : "uuid",
+                  "in" : "path",
+                  "name" : "medium_id",
+                  "type" : "string"
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : "Medium deletion response"
+               }
+            },
+            "operationId" : "delete_medium",
+            "description" : "Delete a medium"
+         },
+         "patch" : {
+            "description" : "Update a medium",
+            "operationId" : "update_medium",
+            "responses" : {
+               "204" : {
+                  "description" : "Medium update response"
+               }
+            },
+            "parameters" : [
+               {
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a medium",
+                  "type" : "string",
+                  "name" : "medium_id"
+               },
+               {
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_MediumUpdate"
+                  },
+                  "required" : true,
+                  "description" : "Medium to update",
+                  "in" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "get" : {
+            "operationId" : "get_medium",
+            "description" : "Get a medium",
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Medium"
+                  },
+                  "description" : "GET medium response"
+               }
+            },
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "medium_id",
+                  "in" : "path",
+                  "format" : "uuid",
+                  "description" : "Id of a medium",
+                  "required" : true
+               },
+               {
+                  "type" : "string",
+                  "name" : "fields",
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "Comma-separated list of fields to return"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         }
+      },
+      "/tags/{tag_id}" : {
+         "patch" : {
+            "operationId" : "update_tag",
+            "description" : "Update a tag",
+            "responses" : {
+               "204" : {
+                  "description" : "Tag update response"
+               }
+            },
+            "parameters" : [
+               {
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a tag",
+                  "type" : "string",
+                  "name" : "tag_id"
+               },
+               {
+                  "required" : true,
+                  "description" : "Tag to update",
+                  "in" : "body",
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_TagUpdate"
+                  }
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "delete" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "name" : "tag_id",
+                  "type" : "string",
+                  "description" : "Id of a tag",
+                  "required" : true,
+                  "in" : "path",
+                  "format" : "uuid"
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : "Tag deletion response"
+               }
+            },
+            "operationId" : "delete_tag",
+            "description" : "Delete a tag"
+         },
+         "get" : {
+            "parameters" : [
+               {
+                  "format" : "uuid",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a tag",
+                  "type" : "string",
+                  "name" : "tag_id"
+               },
+               {
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "Comma-separated list of fields to return",
+                  "type" : "string",
+                  "name" : "fields"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "description" : "Get a tag",
+            "operationId" : "get_tag",
+            "responses" : {
+               "200" : {
+                  "description" : "GET tag response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Tag"
+                  }
+               }
+            }
+         }
+      },
+      "/checks" : {
+         "get" : {
+            "parameters" : [
+               {
+                  "name" : "fields",
+                  "type" : "string",
+                  "required" : false,
+                  "description" : "Comma-separated list of fields to return",
+                  "in" : "query"
+               },
+               {
+                  "name" : "sort",
+                  "type" : "string",
+                  "description" : "",
+                  "required" : false,
+                  "in" : "query"
+               },
+               {
+                  "required" : false,
+                  "description" : "",
+                  "in" : "query",
+                  "collectionFormat" : "multi",
+                  "items" : {
+                     "type" : "string",
+                     "format" : "filter"
+                  },
+                  "name" : "filter",
+                  "type" : "array"
+               },
+               {
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "",
+                  "type" : "string",
+                  "name" : "include"
+               },
+               {
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "Page number",
+                  "type" : "integer",
+                  "name" : "page"
+               },
+               {
+                  "description" : "Number of checks per page",
+                  "required" : false,
+                  "in" : "query",
+                  "name" : "per_page",
+                  "type" : "integer"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "description" : "Get all checks",
+            "operationId" : "get_all_checks",
+            "responses" : {
+               "200" : {
+                  "description" : "GET checks response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Checks"
+                  }
+               }
+            }
+         },
+         "patch" : {
+            "responses" : {
+               "204" : {
+                  "description" : "Check update response"
+               }
+            },
+            "description" : "Update multiple checks",
+            "operationId" : "update_checks",
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "checks to update",
+                  "in" : "body",
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ChecksUpdate"
+                  }
+               }
+            ]
+         },
+         "delete" : {
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ChecksReference"
+                  },
+                  "name" : "body",
+                  "in" : "body",
+                  "description" : "checks to delete",
+                  "required" : true
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : "checks deletion response"
+               }
+            },
+            "operationId" : "delete_checks",
+            "description" : "Delete checks"
+         },
+         "post" : {
+            "operationId" : "create_check",
+            "description" : "Create a check",
+            "responses" : {
+               "200" : {
+                  "description" : "check creation response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Check"
+                  }
+               }
+            },
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_CheckCreate"
+                  },
+                  "description" : "check to create",
+                  "required" : true,
+                  "in" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         }
+      },
+      "/tags/{tag_id}/checks" : {
+         "get" : {
+            "operationId" : "get_tag_checks",
+            "description" : "Get the checks of a tag",
+            "responses" : {
+               "200" : {
+                  "description" : "GET tags response",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/CheckReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            },
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "name" : "tag_id",
+                  "type" : "string",
+                  "required" : true,
+                  "description" : "Id of a tag",
+                  "in" : "path"
+               }
+            ]
+         }
+      },
+      "/media/{medium_id}/links/contact" : {
+         "patch" : {
+            "description" : "Replace associated contact for a medium",
+            "operationId" : "replace_medium_contact",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "description" : "Id of a medium",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "medium_id",
+                  "type" : "string"
+               },
+               {
+                  "schema" : {
+                     "$ref" : "#/definitions/ContactReference"
+                  },
+                  "name" : "data",
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "contact association to replace for the medium"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "medium_id",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a medium"
+               }
+            ],
+            "operationId" : "get_medium_contact",
+            "description" : "Get the contact of a medium",
+            "responses" : {
+               "200" : {
+                  "description" : "GET media response",
+                  "schema" : {
+                     "$ref" : "#/definitions/ContactReference"
+                  }
+               }
+            }
+         }
+      },
+      "/rules/{rule_id}/tags" : {
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "name" : "rule_id",
+                  "type" : "string",
+                  "description" : "Id of a rule",
+                  "required" : true,
+                  "in" : "path"
+               }
+            ],
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     },
+                     "type" : "array"
+                  },
+                  "description" : "GET rules response"
+               }
+            },
+            "description" : "Get the tags of a rule",
+            "operationId" : "get_rule_tags"
+         }
+      },
+      "/contacts/{contact_id}/rules" : {
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "description" : "Id of a contact",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "contact_id",
+                  "type" : "string"
+               }
+            ],
+            "responses" : {
+               "200" : {
+                  "description" : "GET contacts response",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            },
+            "operationId" : "get_contact_rules",
+            "description" : "Get the rules of a contact"
+         }
+      },
+      "/tags/{tag_id}/rules" : {
+         "get" : {
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/RuleReference"
+                     }
+                  },
+                  "description" : "GET tags response"
+               }
+            },
+            "description" : "Get the rules of a tag",
+            "operationId" : "get_tag_rules",
+            "parameters" : [
+               {
+                  "description" : "Id of a tag",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "tag_id",
+                  "type" : "string"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         }
+      },
+      "/rules/{rule_id}/links/tags" : {
+         "post" : {
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "operationId" : "add_rule_tags",
+            "description" : "Associate one or more tags to a rule",
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "description" : "Id of a rule",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "rule_id",
+                  "type" : "string"
+               },
+               {
+                  "description" : "tags to associate with the rule",
+                  "required" : true,
+                  "in" : "body",
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            ]
+         },
+         "delete" : {
+            "operationId" : "remove_rule_tags",
+            "description" : "Remove one or more tags from a rule",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "description" : "Id of a rule",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "rule_id",
+                  "type" : "string"
+               },
+               {
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     },
+                     "type" : "array"
+                  },
+                  "name" : "data",
+                  "in" : "body",
+                  "description" : "tags to remove from the rule",
+                  "required" : true
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "patch" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "rule_id",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a rule"
+               },
+               {
+                  "required" : true,
+                  "description" : "tags associations to replace for the rule",
+                  "in" : "body",
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "operationId" : "replace_rule_tags",
+            "description" : "Replace associated tags for a rule"
+         },
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "rule_id",
+                  "in" : "path",
+                  "description" : "Id of a rule",
+                  "required" : true
+               }
+            ],
+            "responses" : {
+               "200" : {
+                  "description" : "GET rules response",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     },
+                     "type" : "array"
+                  }
+               }
+            },
+            "operationId" : "get_rule_links_tags",
+            "description" : "Get the tags of a rule"
+         }
+      },
+      "/contacts/{contact_id}" : {
+         "patch" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "description" : "Id of a contact",
+                  "required" : true,
+                  "in" : "path",
+                  "format" : "uuid",
+                  "name" : "contact_id",
+                  "type" : "string"
+               },
+               {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_ContactUpdate"
+                  },
+                  "name" : "body",
+                  "in" : "body",
+                  "description" : "Contact to update",
+                  "required" : true
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : "Contact update response"
+               }
+            },
+            "operationId" : "update_contact",
+            "description" : "Update a contact"
+         },
+         "delete" : {
+            "responses" : {
+               "204" : {
+                  "description" : "Contact deletion response"
+               }
+            },
+            "operationId" : "delete_contact",
+            "description" : "Delete a contact",
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "Id of a contact",
+                  "format" : "uuid",
+                  "in" : "path",
+                  "name" : "contact_id",
+                  "type" : "string"
+               }
+            ]
+         },
+         "get" : {
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Contact"
+                  },
+                  "description" : "GET contact response"
+               }
+            },
+            "operationId" : "get_contact",
+            "description" : "Get a contact",
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "name" : "contact_id",
+                  "type" : "string",
+                  "description" : "Id of a contact",
+                  "required" : true,
+                  "in" : "path",
+                  "format" : "uuid"
+               },
+               {
+                  "description" : "Comma-separated list of fields to return",
+                  "required" : false,
+                  "in" : "query",
+                  "name" : "fields",
+                  "type" : "string"
+               }
+            ]
+         }
+      },
+      "/unscheduled_maintenances/{unscheduled_maintenance_id}/check" : {
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "description" : "Id of a unscheduled_maintenance",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "unscheduled_maintenance_id",
+                  "type" : "string"
+               }
+            ],
+            "description" : "Get the check of a unscheduled_maintenance",
+            "operationId" : "get_unscheduled_maintenance_check",
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/CheckReference"
+                  },
+                  "description" : "GET unscheduled_maintenances response"
+               }
+            }
+         }
+      },
+      "/checks/{check_id}/links/tags" : {
+         "patch" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "check_id",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a check"
+               },
+               {
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     },
+                     "type" : "array"
+                  },
+                  "required" : true,
+                  "description" : "tags associations to replace for the check",
+                  "in" : "body"
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "operationId" : "replace_check_tags",
+            "description" : "Replace associated tags for a check"
+         },
+         "post" : {
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a check",
+                  "type" : "string",
+                  "name" : "check_id"
+               },
+               {
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     }
+                  },
+                  "name" : "data",
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "tags to associate with the check"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "operationId" : "add_check_tags",
+            "description" : "Associate one or more tags to a check",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            }
+         },
+         "delete" : {
+            "description" : "Remove one or more tags from a check",
+            "operationId" : "remove_check_tags",
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "parameters" : [
+               {
+                  "type" : "string",
+                  "name" : "check_id",
+                  "in" : "path",
+                  "required" : true,
+                  "description" : "Id of a check"
+               },
+               {
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     },
+                     "type" : "array"
+                  },
+                  "required" : true,
+                  "description" : "tags to remove from the check",
+                  "in" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "get" : {
+            "parameters" : [
+               {
+                  "name" : "check_id",
+                  "type" : "string",
+                  "required" : true,
+                  "description" : "Id of a check",
+                  "in" : "path"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "operationId" : "get_check_links_tags",
+            "description" : "Get the tags of a check",
+            "responses" : {
+               "200" : {
+                  "description" : "GET checks response",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/TagReference"
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/contacts/{contact_id}/media" : {
+         "get" : {
+            "parameters" : [
+               {
+                  "description" : "Id of a contact",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "contact_id",
+                  "type" : "string"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "responses" : {
+               "200" : {
+                  "description" : "GET contacts response",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     }
+                  }
+               }
+            },
+            "description" : "Get the media of a contact",
+            "operationId" : "get_contact_media"
+         }
+      },
+      "/contacts/{contact_id}/links/media" : {
+         "delete" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "name" : "contact_id",
+                  "type" : "string",
+                  "description" : "Id of a contact",
+                  "required" : true,
+                  "in" : "path"
+               },
+               {
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     },
+                     "type" : "array"
+                  },
+                  "required" : true,
+                  "description" : "media to remove from the contact",
+                  "in" : "body"
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "operationId" : "remove_contact_media",
+            "description" : "Remove one or more media from a contact"
+         },
+         "post" : {
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "required" : true,
+                  "description" : "Id of a contact",
+                  "in" : "path",
+                  "name" : "contact_id",
+                  "type" : "string"
+               },
+               {
+                  "name" : "data",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     },
+                     "type" : "array"
+                  },
+                  "required" : true,
+                  "description" : "media to associate with the contact",
+                  "in" : "body"
+               }
+            ],
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "operationId" : "add_contact_media",
+            "description" : "Associate one or more media to a contact"
+         },
+         "patch" : {
+            "responses" : {
+               "204" : {
+                  "description" : ""
+               }
+            },
+            "description" : "Replace associated media for a contact",
+            "operationId" : "replace_contact_media",
+            "consumes" : [
+               "application/vnd.api+json"
+            ],
+            "parameters" : [
+               {
+                  "description" : "Id of a contact",
+                  "required" : true,
+                  "in" : "path",
+                  "name" : "contact_id",
+                  "type" : "string"
+               },
+               {
+                  "in" : "body",
+                  "required" : true,
+                  "description" : "media associations to replace for the contact",
+                  "schema" : {
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     },
+                     "type" : "array"
+                  },
+                  "name" : "data"
+               }
+            ]
+         },
+         "get" : {
+            "description" : "Get the media of a contact",
+            "operationId" : "get_contact_links_media",
+            "responses" : {
+               "200" : {
+                  "description" : "GET contacts response",
+                  "schema" : {
+                     "type" : "array",
+                     "items" : {
+                        "$ref" : "#/definitions/MediumReference"
+                     }
+                  }
+               }
+            },
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "description" : "Id of a contact",
+                  "required" : true,
+                  "type" : "string",
+                  "name" : "contact_id"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         }
+      },
+      "/rules" : {
+         "delete" : {
+            "parameters" : [
+               {
+                  "in" : "body",
+                  "description" : "rules to delete",
+                  "required" : true,
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_RulesReference"
+                  },
+                  "name" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ],
+            "description" : "Delete rules",
+            "operationId" : "delete_rules",
+            "responses" : {
+               "204" : {
+                  "description" : "rules deletion response"
+               }
+            }
+         },
+         "post" : {
+            "operationId" : "create_rule",
+            "description" : "Create a rule",
+            "responses" : {
+               "200" : {
+                  "description" : "rule creation response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Rule"
+                  }
+               }
+            },
+            "parameters" : [
+               {
+                  "name" : "body",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_RuleCreate"
+                  },
+                  "required" : true,
+                  "description" : "rule to create",
+                  "in" : "body"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "consumes" : [
+               "application/vnd.api+json"
+            ]
+         },
+         "patch" : {
+            "operationId" : "update_rules",
+            "description" : "Update multiple rules",
+            "responses" : {
+               "204" : {
+                  "description" : "Rule update response"
+               }
+            },
+            "parameters" : [
+               {
+                  "in" : "body",
+                  "description" : "rules to update",
+                  "required" : true,
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_RulesUpdate"
+                  },
+                  "name" : "body"
+               }
+            ],
+            "consumes" : [
+               "application/vnd.api+json; ext=bulk"
+            ]
+         },
+         "get" : {
+            "responses" : {
+               "200" : {
+                  "description" : "GET rules response",
+                  "schema" : {
+                     "$ref" : "#/definitions/jsonapi_data_Rules"
+                  }
+               }
+            },
+            "description" : "Get all rules",
+            "operationId" : "get_all_rules",
+            "parameters" : [
+               {
+                  "required" : false,
+                  "description" : "Comma-separated list of fields to return",
+                  "in" : "query",
+                  "name" : "fields",
+                  "type" : "string"
+               },
+               {
+                  "type" : "string",
+                  "name" : "sort",
+                  "in" : "query",
+                  "required" : false,
+                  "description" : ""
+               },
+               {
+                  "name" : "filter",
+                  "items" : {
+                     "type" : "string",
+                     "format" : "filter"
+                  },
+                  "type" : "array",
+                  "description" : "",
+                  "required" : false,
+                  "collectionFormat" : "multi",
+                  "in" : "query"
+               },
+               {
+                  "name" : "include",
+                  "type" : "string",
+                  "description" : "",
+                  "required" : false,
+                  "in" : "query"
+               },
+               {
+                  "name" : "page",
+                  "type" : "integer",
+                  "required" : false,
+                  "description" : "Page number",
+                  "in" : "query"
+               },
+               {
+                  "in" : "query",
+                  "required" : false,
+                  "description" : "Number of rules per page",
+                  "type" : "integer",
+                  "name" : "per_page"
+               }
+            ],
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ]
+         }
+      },
+      "/media/{medium_id}/contact" : {
+         "get" : {
+            "produces" : [
+               "application/vnd.api+json; supported-ext=bulk"
+            ],
+            "parameters" : [
+               {
+                  "in" : "path",
+                  "description" : "Id of a medium",
+                  "required" : true,
+                  "type" : "string",
+                  "name" : "medium_id"
+               }
+            ],
+            "description" : "Get the contact of a medium",
+            "operationId" : "get_medium_contact",
+            "responses" : {
+               "200" : {
+                  "schema" : {
+                     "$ref" : "#/definitions/ContactReference"
+                  },
+                  "description" : "GET media response"
+               }
+            }
+         }
+      }
+   },
+   "definitions" : {
+      "jsonapi_data_RuleUpdate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/RuleUpdate"
+            }
+         }
+      },
+      "jsonapi_Reference" : {
+         "required" : [
+            "type",
+            "id"
+         ],
+         "properties" : {
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "check",
+                  "contact",
+                  "medium",
+                  "rule",
+                  "scheduled_maintenance",
+                  "tag",
+                  "unscheduled_maintenance"
+               ]
+            }
+         }
+      },
+      "ScheduledMaintenanceReference" : {
+         "required" : [
+            "id",
+            "type"
+         ],
+         "properties" : {
+            "type" : {
+               "enum" : [
+                  "scheduledmaintenance"
+               ],
+               "type" : "string"
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            }
+         }
+      },
+      "TagUpdate" : {
+         "required" : [
+            "id",
+            "type"
+         ],
+         "properties" : {
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            },
+            "type" : {
+               "enum" : [
+                  "tag"
+               ],
+               "type" : "string"
+            },
+            "links" : {
+               "$ref" : "#/definitions/TagUpdateLinks"
+            }
+         }
+      },
+      "TagCreate" : {
+         "properties" : {
+            "name" : {
+               "type" : "string"
+            },
+            "type" : {
+               "enum" : [
+                  "tag"
+               ],
+               "type" : "string"
+            }
+         },
+         "required" : [
+            "type",
+            "name"
+         ]
+      },
+      "jsonapi_data_Check" : {
+         "properties" : {
+            "included" : {
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               },
+               "type" : "array"
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "data" : {
+               "$ref" : "#/definitions/Check"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "Tag" : {
+         "properties" : {
+            "id" : {
+               "type" : "string"
+            },
+            "name" : {
+               "type" : "string"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "tag"
+               ]
+            },
+            "links" : {
+               "$ref" : "#/definitions/TagLinks"
+            }
+         },
+         "required" : [
+            "id",
+            "type",
+            "name"
+         ]
+      },
+      "ScheduledMaintenanceCreate" : {
+         "required" : [
+            "type",
+            "start_time",
+            "end_time"
+         ],
+         "properties" : {
+            "end_time" : {
+               "format" : "date-time",
+               "type" : "string"
+            },
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            },
+            "type" : {
+               "enum" : [
+                  "scheduled_maintenance"
+               ],
+               "type" : "string"
+            },
+            "start_time" : {
+               "type" : "string",
+               "format" : "date-time"
+            }
+         }
+      },
+      "jsonapi_data_UnscheduledMaintenancesUpdate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/UnscheduledMaintenanceUpdate"
+               },
+               "type" : "array"
+            }
+         }
+      },
+      "jsonapi_data_ScheduledMaintenancesUpdate" : {
+         "properties" : {
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/ScheduledMaintenanceUpdate"
+               },
+               "type" : "array"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_Pagination" : {
+         "required" : [
+            "page",
+            "per_page",
+            "total_pages",
+            "total_count"
+         ],
+         "properties" : {
+            "per_page" : {
+               "type" : "integer",
+               "format" : "int64"
+            },
+            "page" : {
+               "type" : "integer",
+               "format" : "int64"
+            },
+            "total_count" : {
+               "format" : "int64",
+               "type" : "integer"
+            },
+            "total_pages" : {
+               "type" : "integer",
+               "format" : "int64"
+            }
+         }
+      },
+      "jsonapi_data_MediumCreate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/MediumCreate"
+            }
+         }
+      },
+      "jsonapi_data_ContactsUpdate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/ContactUpdate"
+               },
+               "type" : "array"
+            }
+         }
+      },
+      "jsonapi_data_UnscheduledMaintenances" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/UnscheduledMaintenance"
+               },
+               "type" : "array"
+            },
+            "meta" : {
+               "$ref" : "#/definitions/jsonapi_Meta"
+            },
+            "included" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               }
+            }
+         }
+      },
+      "UnscheduledMaintenanceUpdateLinks" : {
+         "properties" : {
+            "check" : {
+               "$ref" : "#/definitions/CheckReference"
+            }
+         }
+      },
+      "jsonapi_data_TagsUpdate" : {
+         "properties" : {
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/TagUpdate"
+               },
+               "type" : "array"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_Checks" : {
+         "properties" : {
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/Check"
+               }
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "included" : {
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               },
+               "type" : "array"
+            },
+            "meta" : {
+               "$ref" : "#/definitions/jsonapi_Meta"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "RuleReference" : {
+         "properties" : {
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "rule"
+               ]
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            }
+         },
+         "required" : [
+            "id",
+            "type"
+         ]
+      },
+      "jsonapi_data_TagCreate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/TagCreate"
+            }
+         }
+      },
+      "jsonapi_data_Contacts" : {
+         "properties" : {
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/Contact"
+               },
+               "type" : "array"
+            },
+            "meta" : {
+               "$ref" : "#/definitions/jsonapi_Meta"
+            },
+            "included" : {
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               },
+               "type" : "array"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_ScheduledMaintenanceCreate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/ScheduledMaintenanceCreate"
+            }
+         }
+      },
+      "ContactLinks" : {
+         "required" : [
+            "self",
+            "media",
+            "rules"
+         ],
+         "properties" : {
+            "self" : {
+               "format" : "url",
+               "type" : "string"
+            },
+            "rules" : {
+               "type" : "string",
+               "format" : "url"
+            },
+            "media" : {
+               "format" : "url",
+               "type" : "string"
+            }
+         }
+      },
+      "UnscheduledMaintenanceUpdate" : {
+         "required" : [
+            "id",
+            "type"
+         ],
+         "properties" : {
+            "links" : {
+               "$ref" : "#/definitions/UnscheduledMaintenanceUpdateLinks"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "unscheduled_maintenance"
+               ]
+            },
+            "start_time" : {
+               "format" : "date-time",
+               "type" : "string"
+            },
+            "end_time" : {
+               "format" : "date-time",
+               "type" : "string"
+            },
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            }
+         }
+      },
+      "jsonapi_data_ScheduledMaintenancesReference" : {
+         "properties" : {
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/ScheduledMaintenanceReference"
+               }
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_Rules" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "included" : {
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               },
+               "type" : "array"
+            },
+            "meta" : {
+               "$ref" : "#/definitions/jsonapi_Meta"
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/Rule"
+               }
+            }
+         }
+      },
+      "jsonapi_data_Rule" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "included" : {
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               },
+               "type" : "array"
+            },
+            "data" : {
+               "$ref" : "#/definitions/Rule"
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            }
+         }
+      },
+      "CheckCreate" : {
+         "required" : [
+            "type",
+            "name",
+            "enabled"
+         ],
+         "properties" : {
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "check"
+               ]
+            },
+            "name" : {
+               "type" : "string"
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            },
+            "enabled" : {
+               "type" : "boolean",
+               "enum" : [
+                  true,
+                  false
+               ]
+            }
+         }
+      },
+      "CheckReference" : {
+         "properties" : {
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "check"
+               ]
+            }
+         },
+         "required" : [
+            "id",
+            "type"
+         ]
+      },
+      "ScheduledMaintenance" : {
+         "properties" : {
+            "end_time" : {
+               "format" : "date-time",
+               "type" : "string"
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            },
+            "start_time" : {
+               "type" : "string",
+               "format" : "date-time"
+            },
+            "type" : {
+               "enum" : [
+                  "scheduled_maintenance"
+               ],
+               "type" : "string"
+            },
+            "links" : {
+               "$ref" : "#/definitions/ScheduledMaintenanceLinks"
+            }
+         },
+         "required" : [
+            "id",
+            "type",
+            "start_time",
+            "end_time"
+         ]
+      },
+      "jsonapi_data_Contact" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "included" : {
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               },
+               "type" : "array"
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "data" : {
+               "$ref" : "#/definitions/Contact"
+            }
+         }
+      },
+      "jsonapi_data_Media" : {
+         "properties" : {
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/Medium"
+               },
+               "type" : "array"
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "meta" : {
+               "$ref" : "#/definitions/jsonapi_Meta"
+            },
+            "included" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               }
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_MediumUpdate" : {
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/MediumUpdate"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "MediumLinks" : {
+         "properties" : {
+            "contact" : {
+               "type" : "string",
+               "format" : "url"
+            },
+            "rules" : {
+               "format" : "url",
+               "type" : "string"
+            },
+            "self" : {
+               "format" : "url",
+               "type" : "string"
+            }
+         },
+         "required" : [
+            "self",
+            "contact",
+            "rules"
+         ]
+      },
+      "MediumCreate" : {
+         "properties" : {
+            "interval" : {
+               "minimum" : 0,
+               "type" : "integer"
+            },
+            "transport" : {
+               "type" : "string",
+               "enum" : [
+                  "email",
+                  "sms",
+                  "jabber",
+                  "pagerduty",
+                  "sns",
+                  "sms_twilio"
+               ]
+            },
+            "rollup_threshold" : {
+               "type" : "integer",
+               "minimum" : 1
+            },
+            "type" : {
+               "enum" : [
+                  "medium"
+               ],
+               "type" : "string"
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            },
+            "name" : {
+               "type" : "string"
+            }
+         },
+         "required" : [
+            "type",
+            "transport"
+         ]
+      },
+      "jsonapi_data_Medium" : {
+         "properties" : {
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "data" : {
+               "$ref" : "#/definitions/Medium"
+            },
+            "included" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               }
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "ScheduledMaintenanceLinks" : {
+         "properties" : {
+            "check" : {
+               "format" : "url",
+               "type" : "string"
+            },
+            "self" : {
+               "format" : "url",
+               "type" : "string"
+            }
+         },
+         "required" : [
+            "self",
+            "check"
+         ]
+      },
+      "RuleCreate" : {
+         "properties" : {
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "rule"
+               ]
+            }
+         },
+         "required" : [
+            "type"
+         ]
+      },
+      "jsonapi_data_ChecksReference" : {
+         "properties" : {
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/CheckReference"
+               },
+               "type" : "array"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "MediumUpdateLinks" : {
+         "properties" : {
+            "contact" : {
+               "$ref" : "#/definitions/ContactReference"
+            },
+            "rules" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/RuleReference"
+               }
+            }
+         }
+      },
+      "jsonapi_data_UnscheduledMaintenanceUpdate" : {
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/UnscheduledMaintenanceUpdate"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_UnscheduledMaintenancesReference" : {
+         "properties" : {
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/UnscheduledMaintenanceReference"
+               }
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_RuleCreate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/RuleCreate"
+            }
+         }
+      },
+      "MediumReference" : {
+         "required" : [
+            "id",
+            "type"
+         ],
+         "properties" : {
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "medium"
+               ]
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            }
+         }
+      },
+      "Contact" : {
+         "required" : [
+            "id",
+            "type",
+            "name"
+         ],
+         "properties" : {
+            "type" : {
+               "enum" : [
+                  "contact"
+               ],
+               "type" : "string"
+            },
+            "timezone" : {
+               "type" : "string",
+               "format" : "tzinfo"
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            },
+            "name" : {
+               "type" : "string"
+            },
+            "links" : {
+               "$ref" : "#/definitions/ContactLinks"
+            }
+         }
+      },
+      "jsonapi_data_RulesUpdate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/RuleUpdate"
+               },
+               "type" : "array"
+            }
+         }
+      },
+      "RuleUpdateLinks" : {
+         "properties" : {
+            "tags" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/TagReference"
+               }
+            },
+            "contact" : {
+               "$ref" : "#/definitions/ContactReference"
+            },
+            "media" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/MediumReference"
+               }
+            }
+         }
+      },
+      "UnscheduledMaintenanceReference" : {
+         "properties" : {
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "unscheduledmaintenance"
+               ]
+            },
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            }
+         },
+         "required" : [
+            "id",
+            "type"
+         ]
+      },
+      "ContactCreate" : {
+         "required" : [
+            "type",
+            "name"
+         ],
+         "properties" : {
+            "timezone" : {
+               "type" : "string",
+               "format" : "tzinfo"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "contact"
+               ]
+            },
+            "name" : {
+               "type" : "string"
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            }
+         }
+      },
+      "jsonapi_data_MediaReference" : {
+         "properties" : {
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/MediumReference"
+               }
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_ScheduledMaintenance" : {
+         "properties" : {
+            "included" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               }
+            },
+            "data" : {
+               "$ref" : "#/definitions/ScheduledMaintenance"
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "ContactUpdateLinks" : {
+         "properties" : {
+            "rules" : {
+               "items" : {
+                  "$ref" : "#/definitions/RuleReference"
+               },
+               "type" : "array"
+            },
+            "media" : {
+               "items" : {
+                  "$ref" : "#/definitions/MediumReference"
+               },
+               "type" : "array"
+            }
+         }
+      },
+      "ScheduledMaintenanceUpdate" : {
+         "properties" : {
+            "links" : {
+               "$ref" : "#/definitions/ScheduledMaintenanceUpdateLinks"
+            },
+            "type" : {
+               "enum" : [
+                  "scheduled_maintenance"
+               ],
+               "type" : "string"
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            }
+         },
+         "required" : [
+            "id",
+            "type",
+            "links"
+         ]
+      },
+      "jsonapi_Links" : {
+         "required" : [
+            "self"
+         ],
+         "properties" : {
+            "first" : {
+               "format" : "url",
+               "type" : "string"
+            },
+            "next" : {
+               "type" : "string",
+               "format" : "url"
+            },
+            "last" : {
+               "format" : "url",
+               "type" : "string"
+            },
+            "prev" : {
+               "type" : "string",
+               "format" : "url"
+            },
+            "self" : {
+               "format" : "url",
+               "type" : "string"
+            }
+         }
+      },
+      "TagReference" : {
+         "properties" : {
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "tag"
+               ]
+            }
+         },
+         "required" : [
+            "id",
+            "type"
+         ]
+      },
+      "ScheduledMaintenanceUpdateLinks" : {
+         "required" : [
+            "check"
+         ],
+         "properties" : {
+            "check" : {
+               "$ref" : "#/definitions/CheckReference"
+            }
+         }
+      },
+      "jsonapi_data_TagsReference" : {
+         "properties" : {
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/TagReference"
+               }
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "Medium" : {
+         "properties" : {
+            "transport" : {
+               "type" : "string",
+               "enum" : [
+                  "email",
+                  "sms",
+                  "jabber",
+                  "pagerduty",
+                  "sns",
+                  "sms_twilio"
+               ]
+            },
+            "rollup_threshold" : {
+               "type" : "integer",
+               "minimum" : 1
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "medium"
+               ]
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            },
+            "links" : {
+               "$ref" : "#/definitions/MediumLinks"
+            },
+            "interval" : {
+               "minimum" : 0,
+               "type" : "integer"
+            }
+         },
+         "required" : [
+            "id",
+            "type",
+            "transport"
+         ]
+      },
+      "RuleUpdate" : {
+         "required" : [
+            "id",
+            "type"
+         ],
+         "properties" : {
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "rule"
+               ]
+            },
+            "links" : {
+               "$ref" : "#/definitions/RuleUpdateLinks"
+            }
+         }
+      },
+      "jsonapi_data_CheckUpdate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/CheckUpdate"
+            }
+         }
+      },
+      "jsonapi_Meta" : {
+         "properties" : {
+            "pagination" : {
+               "$ref" : "#/definitions/jsonapi_Pagination"
+            }
+         }
+      },
+      "jsonapi_data_ContactUpdate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/ContactUpdate"
+            }
+         }
+      },
+      "jsonapi_data_Tag" : {
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/Tag"
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "included" : {
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               },
+               "type" : "array"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_MediaUpdate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/MediumUpdate"
+               },
+               "type" : "array"
+            }
+         }
+      },
+      "jsonapi_data_ContactsReference" : {
+         "properties" : {
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/ContactReference"
+               }
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_UnscheduledMaintenance" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "included" : {
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               },
+               "type" : "array"
+            },
+            "data" : {
+               "$ref" : "#/definitions/UnscheduledMaintenance"
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            }
+         }
+      },
+      "MediumUpdate" : {
+         "required" : [
+            "id",
+            "type"
+         ],
+         "properties" : {
+            "links" : {
+               "$ref" : "#/definitions/MediumUpdateLinks"
+            },
+            "interval" : {
+               "minimum" : 0,
+               "type" : "integer"
+            },
+            "type" : {
+               "enum" : [
+                  "medium"
+               ],
+               "type" : "string"
+            },
+            "rollup_threshold" : {
+               "minimum" : 1,
+               "type" : "integer"
+            },
+            "transport" : {
+               "enum" : [
+                  "email",
+                  "sms",
+                  "jabber",
+                  "pagerduty",
+                  "sns",
+                  "sms_twilio"
+               ],
+               "type" : "string"
+            },
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            }
+         }
+      },
+      "ContactReference" : {
+         "properties" : {
+            "type" : {
+               "enum" : [
+                  "contact"
+               ],
+               "type" : "string"
+            },
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            }
+         },
+         "required" : [
+            "id",
+            "type"
+         ]
+      },
+      "jsonapi_data_RulesReference" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/RuleReference"
+               }
+            }
+         }
+      },
+      "jsonapi_data_Tags" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "data" : {
+               "items" : {
+                  "$ref" : "#/definitions/Tag"
+               },
+               "type" : "array"
+            },
+            "included" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               }
+            },
+            "meta" : {
+               "$ref" : "#/definitions/jsonapi_Meta"
+            }
+         }
+      },
+      "TagLinks" : {
+         "properties" : {
+            "self" : {
+               "type" : "string",
+               "format" : "url"
+            },
+            "checks" : {
+               "format" : "url",
+               "type" : "string"
+            },
+            "rules" : {
+               "type" : "string",
+               "format" : "url"
+            }
+         },
+         "required" : [
+            "self",
+            "checks",
+            "rules"
+         ]
+      },
+      "UnscheduledMaintenance" : {
+         "properties" : {
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            },
+            "end_time" : {
+               "format" : "date-time",
+               "type" : "string"
+            },
+            "type" : {
+               "enum" : [
+                  "unscheduled_maintenance"
+               ],
+               "type" : "string"
+            },
+            "start_time" : {
+               "type" : "string",
+               "format" : "date-time"
+            },
+            "links" : {
+               "$ref" : "#/definitions/UnscheduledMaintenanceLinks"
+            }
+         },
+         "required" : [
+            "id",
+            "type",
+            "start_time",
+            "end_time"
+         ]
+      },
+      "jsonapi_data_ContactCreate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/ContactCreate"
+            }
+         }
+      },
+      "jsonapi_data_CheckCreate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/CheckCreate"
+            }
+         }
+      },
+      "TagUpdateLinks" : {
+         "properties" : {
+            "checks" : {
+               "items" : {
+                  "$ref" : "#/definitions/CheckReference"
+               },
+               "type" : "array"
+            },
+            "rules" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/RuleReference"
+               }
+            }
+         }
+      },
+      "jsonapi_data_ScheduledMaintenances" : {
+         "properties" : {
+            "included" : {
+               "items" : {
+                  "$ref" : "#/definitions/jsonapi_Reference"
+               },
+               "type" : "array"
+            },
+            "meta" : {
+               "$ref" : "#/definitions/jsonapi_Meta"
+            },
+            "links" : {
+               "$ref" : "#/definitions/jsonapi_Links"
+            },
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/ScheduledMaintenance"
+               }
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "jsonapi_data_TagUpdate" : {
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/TagUpdate"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "CheckUpdateLinks" : {
+         "properties" : {
+            "tags" : {
+               "items" : {
+                  "$ref" : "#/definitions/TagReference"
+               },
+               "type" : "array"
+            }
+         }
+      },
+      "Check" : {
+         "properties" : {
+            "enabled" : {
+               "type" : "boolean",
+               "enum" : [
+                  true,
+                  false
+               ]
+            },
+            "links" : {
+               "$ref" : "#/definitions/CheckLinks"
+            },
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            },
+            "name" : {
+               "type" : "string"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "check"
+               ]
+            }
+         },
+         "required" : [
+            "id",
+            "type",
+            "name",
+            "enabled"
+         ]
+      },
+      "RuleLinks" : {
+         "properties" : {
+            "tags" : {
+               "format" : "url",
+               "type" : "string"
+            },
+            "self" : {
+               "type" : "string",
+               "format" : "url"
+            },
+            "media" : {
+               "format" : "url",
+               "type" : "string"
+            },
+            "contact" : {
+               "format" : "url",
+               "type" : "string"
+            }
+         },
+         "required" : [
+            "self",
+            "contact",
+            "media",
+            "tags"
+         ]
+      },
+      "jsonapi_data_ChecksUpdate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "type" : "array",
+               "items" : {
+                  "$ref" : "#/definitions/CheckUpdate"
+               }
+            }
+         }
+      },
+      "CheckUpdate" : {
+         "required" : [
+            "id",
+            "type"
+         ],
+         "properties" : {
+            "type" : {
+               "enum" : [
+                  "check"
+               ],
+               "type" : "string"
+            },
+            "id" : {
+               "format" : "uuid",
+               "type" : "string"
+            },
+            "name" : {
+               "type" : "string"
+            },
+            "links" : {
+               "$ref" : "#/definitions/CheckUpdateLinks"
+            },
+            "enabled" : {
+               "enum" : [
+                  true,
+                  false
+               ],
+               "type" : "boolean"
+            }
+         }
+      },
+      "UnscheduledMaintenanceLinks" : {
+         "properties" : {
+            "self" : {
+               "type" : "string",
+               "format" : "url"
+            },
+            "check" : {
+               "type" : "string",
+               "format" : "url"
+            }
+         },
+         "required" : [
+            "self",
+            "check"
+         ]
+      },
+      "Rule" : {
+         "required" : [
+            "id",
+            "type"
+         ],
+         "properties" : {
+            "links" : {
+               "$ref" : "#/definitions/RuleLinks"
+            },
+            "type" : {
+               "enum" : [
+                  "rule"
+               ],
+               "type" : "string"
+            },
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            }
+         }
+      },
+      "jsonapi_data_ScheduledMaintenanceUpdate" : {
+         "required" : [
+            "data"
+         ],
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/ScheduledMaintenanceUpdate"
+            }
+         }
+      },
+      "jsonapi_data_UnscheduledMaintenanceCreate" : {
+         "properties" : {
+            "data" : {
+               "$ref" : "#/definitions/UnscheduledMaintenanceCreate"
+            }
+         },
+         "required" : [
+            "data"
+         ]
+      },
+      "CheckLinks" : {
+         "properties" : {
+            "self" : {
+               "type" : "string",
+               "format" : "url"
+            },
+            "tags" : {
+               "type" : "string",
+               "format" : "url"
+            }
+         },
+         "required" : [
+            "self",
+            "tags"
+         ]
+      },
+      "ContactUpdate" : {
+         "required" : [
+            "id",
+            "type"
+         ],
+         "properties" : {
+            "links" : {
+               "$ref" : "#/definitions/ContactUpdateLinks"
+            },
+            "name" : {
+               "type" : "string"
+            },
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            },
+            "type" : {
+               "type" : "string",
+               "enum" : [
+                  "contact"
+               ]
+            },
+            "timezone" : {
+               "type" : "string",
+               "format" : "tzinfo"
+            }
+         }
+      },
+      "UnscheduledMaintenanceCreate" : {
+         "properties" : {
+            "type" : {
+               "enum" : [
+                  "unscheduled_maintenance"
+               ],
+               "type" : "string"
+            },
+            "start_time" : {
+               "format" : "date-time",
+               "type" : "string"
+            },
+            "id" : {
+               "type" : "string",
+               "format" : "uuid"
+            },
+            "end_time" : {
+               "format" : "date-time",
+               "type" : "string"
+            }
+         },
+         "required" : [
+            "type",
+            "start_time",
+            "end_time"
+         ]
+      }
+   }
+}

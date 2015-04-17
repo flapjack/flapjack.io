@@ -1,0 +1,45 @@
+
+<table>
+<thead>
+<tr>
+<td>Name</td>
+<td>In</td>
+<td>Type</td>
+<td>Required?</td>
+<td>Description</td>
+<td>Format</td>
+</tr>
+</thead>
+
+<tbody>
+<% parameters.each do |parameter| %>
+<tr>
+<td><%= parameter.name %></td>
+<td><%= parameter.in %></td>
+<td><%= parameter.type %></td>
+<td><%= parameter.required.is_a?(TrueClass) ? 'yes' : 'no' %></td>
+<td><%= parameter.description %></td>
+<td>
+
+<% if 'body'.eql?(parameter.in) %>
+  <% definition_name = parameter['schema']['$ref'].sub(%r{^#/definitions/}, '') %>
+  <% definition = definitions[definition_name] %>
+  <%# required = definition.has_key?('required') ? definition.required : [] %>
+  <%# ref_container = is_array ? property.items : property %>
+
+<% schema_template = Schema.new %>
+<%= schema_template.result(:definitions => definitions,
+  :definition => definition) %>
+
+<% elsif 'query'.eql?(parameter.in) && 'multi'.eql?(parameter['collectionFormat']) %>
+
+  <%= "TODO multi #{parameter.name}" %>
+
+<% else %>
+  <%= parameter.format %>
+<% end %>
+</td>
+</tr>
+<% end %>
+</tbody>
+</table>

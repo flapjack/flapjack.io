@@ -1,0 +1,66 @@
+<% title_id = title.gsub(/\w/, '_') %>
+<h2 id="<%= title_id %>"><%= title %></h2>
+
+<h3>Description</h3>
+<p><%= operation.description %></p>
+
+<% body_param = operation.parameters.detect {|param| 'body'.eql?(param.in)} %>
+
+<h3>Parameters</h3>
+
+<% parameters_template = Parameters.new %>
+<%= parameters_template.result(:parameters => operation.parameters,
+  :definitions => definitions) %>
+
+<h3>EXAMPLES</h3>
+
+<% consumes = operation.consumes %>
+<% unless consumes.nil? || consumes.empty? %>
+<h3>Accepted MIME Types</h3>
+
+<table>
+<thead>
+<tr>
+<td>Type</td>
+</tr>
+</thead>
+
+<tbody>
+<% consumes.each do |consume| %>
+<tr>
+<td><%= consume %></td>
+</tr>
+<% end %>
+</tbody>
+</table>
+
+<% end %>
+
+<h3>HTTP Return Codes</h3>
+
+<% produces = operation.produces %>
+<% unless produces.nil? || produces.empty? %>
+
+<h3>Returned MIME Types</h3>
+
+<table>
+<thead>
+<tr>
+<td>Type</td>
+</tr>
+</thead>
+
+<tbody>
+<% produces.each do |produce| %>
+<tr>
+<td><%= produce %></td>
+</tr>
+<% end %>
+</tbody>
+</table>
+
+<% end %>
+
+<% unless (operation.responses.keys & ['200', '201']).empty? %>
+<h3>Returned Data Schema</h3>
+<% end %>

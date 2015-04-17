@@ -1,28 +1,20 @@
----
-title: Flapjack API Reference
-layout: api
-version: 2.0
 
-language_tabs:
-  - shell
-  - ruby
-
----
-
-<%
+# temporary hack -- will be integrated into the slate docs soon
 
 require 'forwardable'
 require 'swagger'
+require 'erb'
 
-swagger_dir = File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'lib', 'swagger')
+require File.join(File.dirname(__FILE__), 'jsonapi_method.rb')
+require File.join(File.dirname(__FILE__), 'parameters.rb')
+require File.join(File.dirname(__FILE__), 'schema.rb')
 
-require File.join(swagger_dir, 'jsonapi_method.rb')
-require File.join(swagger_dir, 'parameters.rb')
-require File.join(swagger_dir, 'schema.rb')
-
+swagger_dir = File.dirname(__FILE__)
 swagger = Swagger.load(File.join(swagger_dir, 'api.json'))
 
 method_template = JsonapiMethod.new
+
+output = ""
 
 resources = {
   'checks'   => 'check',
@@ -34,25 +26,17 @@ resources = {
   'unscheduled_maintenances' => 'unscheduled_maintenances'
 }
 
-%>
+resources.keys.each do |resource|
 
-<% resources.keys.each do |resource| %>
-<h1 id="title_<%= resource %>"><%= resource %></h1>
-
-<%
   path        = "/#{resource}"
   single_path = "/#{resource}/{#{resources[resource]}_id}"
 
-  output = ""
-
   [:post, :get, :patch, :delete].each do |method|
-
     unless :post.eql?(method)
       if swagger.paths.has_key?(single_path)
         swagger_path = swagger.paths[single_path]
         if swagger_path.respond_to?(method)
           output << method_template.result(
-            :title       => "#{method.to_s.upcase} #{single_path}",
             :operation   => swagger_path.send(method),
             :definitions => swagger.definitions
           )
@@ -65,7 +49,6 @@ resources = {
       swagger_path = swagger.paths[path]
       if swagger_path.respond_to?(method)
         output << method_template.result(
-          :title       => "#{method.to_s.upcase} #{path}",
           :operation => swagger_path.send(method),
           :definitions => swagger.definitions
         )
@@ -73,6 +56,7 @@ resources = {
       end
     end
   end
-%>
-<%= output %>
-<% end %>
+
+end
+
+puts output
