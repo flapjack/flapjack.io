@@ -25,7 +25,6 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
     ]
   }' \
  http://localhost:3081/tags/database/links/rules
-
 ```
 
 ```ruby

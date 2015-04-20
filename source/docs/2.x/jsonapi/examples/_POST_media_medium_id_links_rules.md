@@ -25,7 +25,6 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
     ]
   }' \
  http://localhost:3081/media/f323c498-0cb8-43fe-868e-908a5d683c6d/links/rules
-
 ```
 
 ```ruby
