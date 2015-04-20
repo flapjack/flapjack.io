@@ -72,7 +72,7 @@ Flags:
 </code></pre>
 <h3 id='example'>Example</h3>
 <p>Start up the http broker on the default listen port of 3090 with debug verbosity:</p>
-<pre><code class="highlight shell">flapjack1dev receiver httpbroker --debug
+<pre><code class="highlight shell">flapjack receiver httpbroker --debug
 </code></pre>
 
 <p>Submit an event:</p>
@@ -84,7 +84,7 @@ Flags:
     "type": "service",
     "tags": "apps",
     "state": "OK",
-    "summary": "3 ms round trip"
+    "summary": "3 ms round trip",
     "ttl": 30
   }'</span> http://localhost:3090/state
 </code></pre>
