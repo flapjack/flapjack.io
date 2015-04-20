@@ -1,5 +1,13 @@
-<% title_id = title.gsub(/\W/, '_') %>
+<% title_id = title.gsub(/\W+/, '_') %>
 <h2 id="<%= title_id %>"><%= title %></h2>
+
+<% example_file = File.join(File.dirname(__FILE__), '..', 'examples', "_#{title_id}.md") %>
+
+<% if File.exists?(example_file) %>
+<%= render_partial("examples/#{title_id}") %>
+<% else %>
+<% FileUtils.touch(example_file) %>
+<% end %>
 
 <h3>Description</h3>
 <p><%= operation.description %></p>
@@ -8,11 +16,8 @@
 
 <h3>Parameters</h3>
 
-<% parameters_template = Parameters.new %>
-<%= parameters_template.result(:parameters => operation.parameters,
-  :definitions => definitions) %>
-
-<h3>EXAMPLES</h3>
+<%= render_partial('sections/parameters', :locals => {:parameters => operation.parameters,
+  :definitions => definitions}) %>
 
 <% consumes = operation.consumes %>
 <% unless consumes.nil? || consumes.empty? %>

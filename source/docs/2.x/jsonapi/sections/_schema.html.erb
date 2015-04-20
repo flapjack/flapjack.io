@@ -11,17 +11,15 @@
     <% defin_name = property['items']['$ref'].sub(%r{^#/definitions/}, '') -%>
     <% defin = definitions[defin_name] -%>
 
-    <% schema_template = Schema.new -%>
-    <%= schema_template.result(:definitions => definitions,
-      :definition => defin) %>
+    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
+      :definition => defin}) %>
 ]
   <% elsif property.has_key?('$ref') -%>
     <% defin_name = property['$ref'].sub(%r{^#/definitions/}, '') -%>
     <% defin = definitions[defin_name] -%>
 
-    <% schema_template = Schema.new -%>
-    <%= schema_template.result(:definitions => definitions,
-      :definition => defin) %>
+    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
+      :definition => defin}) %>
 
   <% else -%>
 

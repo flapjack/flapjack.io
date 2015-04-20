@@ -4,17 +4,35 @@ layout: api
 version: 2.0
 
 language_tabs:
-  - shell
-  - ruby
+  - shell: cURL
+  - ruby: Ruby
 
 ---
 
 <%
-swagger_dir = File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'lib', 'swagger')
+require 'forwardable'
+require 'swagger'
+require 'erb'
 
-require File.join(swagger_dir, 'swag_html.rb')
+@swagger_dir = File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'lib', 'swagger')
 
-swag_html = SwagHTML.new
+@swagger = Swagger.load(File.join(@swagger_dir, 'api.json'))
+
+def swagger_method(method_type, path)
+  o = ""
+  if @swagger.paths.has_key?(path)
+    swagger_path = @swagger.paths[path]
+    if swagger_path.has_key?(method_type)
+      o << render_partial('sections/jsonapi_method.html.erb', :locals => {
+        :title       => "#{method_type.to_s.upcase} #{path}",
+        :operation   => swagger_path.send(method_type),
+        :definitions => @swagger.definitions
+      })
+      o << "\n\n"
+    end
+  end
+  o
+end
 
 resources = {
   'checks'   => 'check',
@@ -23,7 +41,7 @@ resources = {
   'rules'    => 'rule',
   'scheduled_maintenances' => 'scheduled_maintenance',
   'tags'     => 'tag',
-  'unscheduled_maintenances' => 'unscheduled_maintenances'
+  'unscheduled_maintenances' => 'unscheduled_maintenance'
 }
 resources.each_pair do |resource, single|
 %>
@@ -39,16 +57,16 @@ other_resources = (resources.values - [single]) +
 
 [:post, :get, :patch, :delete].each do |method_type|
   unless :post.eql?(method_type)
-    output << swag_html.swagger_method(method_type, single_path)
+    output << swagger_method(method_type, single_path)
   end
 
-  output << swag_html.swagger_method(method_type, path)
+  output << swagger_method(method_type, path)
 
   other_resources.each do |other_resource|
     link_path = :get.eql?(method_type) ? "/#{resource}/{#{single}_id}/#{other_resource}" :
                                          "/#{resource}/{#{single}_id}/links/#{other_resource}"
 
-    output << swag_html.swagger_method(method_type, link_path)
+    output << swagger_method(method_type, link_path)
   end
 end
 %>

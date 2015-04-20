@@ -30,19 +30,17 @@
     <% definition_name = schema['items']['$ref'].sub(%r{^#/definitions/}, '') %>
     <% definition = definitions[definition_name] %>
 
-    <% schema_template = Schema.new %>
-[
-    <%= schema_template.result(:definitions => definitions,
-      :definition => definition) %>
+    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
+      :definition => definition}) %>
+
 ]
   <% else %>
 
     <% definition_name = schema['$ref'].sub(%r{^#/definitions/}, '') %>
     <% definition = definitions[definition_name] %>
 
-    <% schema_template = Schema.new %>
-    <%= schema_template.result(:definitions => definitions,
-      :definition => definition) %>
+    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
+      :definition => definition}) %>
   <% end %>
 
 <% elsif 'query'.eql?(parameter.in) && 'multi'.eql?(parameter['collectionFormat']) %>
