@@ -27,7 +27,7 @@ Flags:
 Start up the http broker on the default listen port of 3090 with debug verbosity:
 
 ```bash
-flapjack1dev receiver httpbroker --debug
+flapjack receiver httpbroker --debug
 ```
 
 
@@ -42,7 +42,7 @@ curl -w 'response: %{http_code} \n' -X POST \
     "type": "service",
     "tags": "apps",
     "state": "OK",
-    "summary": "3 ms round trip"
+    "summary": "3 ms round trip",
     "ttl": 30
   }' http://localhost:3090/state
 ```
