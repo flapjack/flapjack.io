@@ -10,19 +10,11 @@ language_tabs:
 ---
 
 <%
-
-require 'forwardable'
-require 'swagger'
-
 swagger_dir = File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'lib', 'swagger')
 
-require File.join(swagger_dir, 'jsonapi_method.rb')
-require File.join(swagger_dir, 'parameters.rb')
-require File.join(swagger_dir, 'schema.rb')
+require File.join(swagger_dir, 'swag_html.rb')
 
-swagger = Swagger.load(File.join(swagger_dir, 'api.json'))
-
-method_template = JsonapiMethod.new
+swag_html = SwagHTML.new
 
 resources = {
   'checks'   => 'check',
@@ -33,63 +25,32 @@ resources = {
   'tags'     => 'tag',
   'unscheduled_maintenances' => 'unscheduled_maintenances'
 }
-
+resources.each_pair do |resource, single|
 %>
-
-<% resources.keys.each do |resource| %>
 <h1 id="title_<%= resource %>"><%= resource %></h1>
-
 <%
-  path        = "/#{resource}"
-  single_path = "/#{resource}/{#{resources[resource]}_id}"
+output = ""
 
-  output = ""
+path        = "/#{resource}"
+single_path = "/#{resource}/{#{single}_id}"
 
-  [:post, :get, :patch, :delete].each do |method|
+other_resources = (resources.values - [single]) +
+  (resources.keys - [resource])
 
-    unless :post.eql?(method)
-      if swagger.paths.has_key?(single_path)
-        swagger_path = swagger.paths[single_path]
-        if swagger_path.has_key?(method)
-          output << method_template.result(
-            :title       => "#{method.to_s.upcase} #{single_path}",
-            :operation   => swagger_path.send(method),
-            :definitions => swagger.definitions
-          )
-          output << "\n\n"
-        end
-      end
-    end
-
-    if swagger.paths.has_key?(path)
-      swagger_path = swagger.paths[path]
-      if swagger_path.has_key?(method)
-        output << method_template.result(
-          :title       => "#{method.to_s.upcase} #{path}",
-          :operation   => swagger_path.send(method),
-          :definitions => swagger.definitions
-        )
-        output << "\n\n"
-      end
-    end
-
-    ((resources.values - [resources[resource]]) + (resources.keys - [resource])).each do |other_resource|
-      link_path = :get.eql?(:method) ? "/#{resource}/{#{resources[resource]}_id}/#{other_resource}" :
-                                       "/#{resource}/{#{resources[resource]}_id}/links/#{other_resource}"
-
-      if swagger.paths.has_key?(link_path)
-        swagger_path = swagger.paths[link_path]
-        if swagger_path.has_key?(method)
-          output << method_template.result(
-            :title       => "#{method.to_s.upcase} #{link_path}",
-            :operation   => swagger_path.send(method),
-            :definitions => swagger.definitions
-          )
-          output << "\n\n"
-        end
-      end
-    end
+[:post, :get, :patch, :delete].each do |method_type|
+  unless :post.eql?(method_type)
+    output << swag_html.swagger_method(method_type, single_path)
   end
+
+  output << swag_html.swagger_method(method_type, path)
+
+  other_resources.each do |other_resource|
+    link_path = :get.eql?(method_type) ? "/#{resource}/{#{single}_id}/#{other_resource}" :
+                                         "/#{resource}/{#{single}_id}/links/#{other_resource}"
+
+    output << swag_html.swagger_method(method_type, link_path)
+  end
+end
 %>
 <%= output %>
 <% end %>
