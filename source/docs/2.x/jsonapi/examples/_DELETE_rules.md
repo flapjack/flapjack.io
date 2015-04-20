@@ -15,6 +15,9 @@ curl -w 'response: %{http_code} \n' -X DELETE -H "Content-type: application/vnd.
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
 Flapjack::Diner.delete_rules(
   '46127df9-c858-41b3-a4c3-06549efeadf8',
   'b84351c4-455a-481e-bd50-cd680812ce6a'

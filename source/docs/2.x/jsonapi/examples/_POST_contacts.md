@@ -29,6 +29,9 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
 Flapjack::Diner.create_contacts({
     :name => 'John Smith', :timezone => 'Australia/Darwin'
   })

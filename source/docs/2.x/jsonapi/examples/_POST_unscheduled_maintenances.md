@@ -29,6 +29,9 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
 Flapjack::Diner.create_unscheduled_maintenances({
     :start_time => "2015-01-05T13:50:00+10:00",
     :end_time => "2015-01-06T13:50:00+10:00"

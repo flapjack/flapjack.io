@@ -28,6 +28,9 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-type: application/vnd.ap
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
 Flapjack::Diner.create_checks_link_tags('2d6e8006-e220-4962-ab0f-248978abdc72',
   'database')
 

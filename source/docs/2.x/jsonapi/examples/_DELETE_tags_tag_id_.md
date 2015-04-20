@@ -4,5 +4,8 @@ curl -w 'response: %{http_code} \n' -X DELETE \
 ```
 
 ```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
 Flapjack::Diner.delete_tags('database')
 ```
