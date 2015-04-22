@@ -172,6 +172,6 @@ All of the code is completely new, and the only commonality between the two code
 
 ## Why does the Edit Contacts page on the web inteface not work?
 
-The common cause for this is the api_url in the web gateway config needs to work in your browser to access the api. See the [web gateway configuration docs](../Configuring-Gateways-Web/) for more details.
+The common cause for this is the api_url in the web gateway config needs to work in your browser to access the api. See the [web gateway configuration docs](../../gateway-configuration/Web#edit-contacts-interface) for more details.
 
 
