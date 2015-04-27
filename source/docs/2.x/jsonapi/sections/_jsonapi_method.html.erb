@@ -41,7 +41,56 @@
 
 <% end %>
 
-<h3>HTTP Return Codes</h3>
+<% has_returned_data = (operation.responses.keys & ['200', '201']).size > 0 %>
+
+<h3>HTTP Return Codes<% if has_returned_data %> / Data Schema<% end %></h3>
+
+<table>
+<thead>
+<tr>
+<td>Code</td>
+<td>Description</td>
+<% if has_returned_data %>
+<td>Schema</td>
+<% end %>
+</tr>
+</thead>
+
+<tbody>
+<% operation.responses.each_pair do |status_code, response| %>
+<tr>
+<td><%= status_code %></td>
+<td><%= response.description %></td>
+<% if has_returned_data %>
+<td>
+
+<% schema = response.schema %>
+
+<% if 'array'.eql?(schema.type) %>
+
+    <% definition_name = schema['items']['$ref'].sub(%r{^#/definitions/}, '') %>
+    <% definition = definitions[definition_name] %>
+
+    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
+      :definition => definition}) %>
+
+]
+  <% else %>
+
+    <% definition_name = schema['$ref'].sub(%r{^#/definitions/}, '') %>
+    <% definition = definitions[definition_name] %>
+
+    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
+      :definition => definition}) %>
+  <% end %>
+
+
+</td>
+<% end %>
+</tr>
+<% end %>
+</tbody>
+</table>
 
 <% produces = operation.produces %>
 <% unless produces.nil? || produces.empty? %>
@@ -64,8 +113,4 @@
 </tbody>
 </table>
 
-<% end %>
-
-<% unless (operation.responses.keys & ['200', '201']).empty? %>
-<h3>Returned Data Schema</h3>
 <% end %>
