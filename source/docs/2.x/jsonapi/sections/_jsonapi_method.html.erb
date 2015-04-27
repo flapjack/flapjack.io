@@ -1,4 +1,4 @@
-<% title_id = title.gsub(/\W+/, '_') %>
+<% title_id = title.gsub(/\W+/, '_').gsub(/_+$/, '') %>
 <h2 id="<%= title_id %>"><%= title %></h2>
 
 <% example_file = File.join(File.dirname(__FILE__), '..', 'examples', "_#{title_id}.md") %>
@@ -83,7 +83,6 @@
     <%= render_partial('sections/schema', :locals => {:definitions => definitions,
       :definition => definition}) %>
   <% end %>
-
 
 </td>
 <% end %>
