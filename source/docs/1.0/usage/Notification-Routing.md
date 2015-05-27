@@ -33,7 +33,7 @@ can find a step-by-step description of the process.
         an event has a number of tags created automatically by the processor: the entity name, domain, hostname, and each of the words in the check name. Tags can also be added to incoming events by check execution systems, e.g., [flapjackfeeder](https://github.com/flapjack/flapjackfeeder).
       * If the rule has any `regex_tags`, then they must all match at least one of the event's tags.
       * If the rule has any `entities`, then one of them must be the event's entity.
-      * If the rule has any `regex_entities`, then at least one of them must match the event's entity.
+      * If the rule has any `regex_entities`, then they must all match the event's entity.
       * If the rule has any `time_restrictions`, then at least one of them must match the event's timestamp.
 
   4. **Skip contact based on blackhole notification rules**.
