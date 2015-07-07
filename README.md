@@ -2,6 +2,26 @@ This is the entire site and documentation for [flapjack.io](http://flapjack.io) 
 
 # flapjack.io
 
+## Update the exported swagger documentation
+
+Retrieve the exported swagger documentation from a running instance of Flapjack v2+'s JSONAPI, e.g.:
+
+```
+wget http://localhost:3081/doc -O flapjack_swagger.json
+```
+
+You should probably install [swagger-tools](https://www.npmjs.com/package/swagger-tools) and use that to validate the exported file. (You may also need to use a prettifier like `json_pp` if the file fails validation, as it's not output in a particularly readable format.)
+
+```
+swagger-tools validate flapjack_swagger.json
+```
+
+Move/copy the generated file to `lib/swagger/api.json` in this repo and build/publish as normal.
+
+```
+mv flapjack_swagger.json lib/swagger/api.json
+```
+
 ## Building
 
 From your checkout of the [Flapjack.io repository](https://github.com/flapjack/flapjack.io):
