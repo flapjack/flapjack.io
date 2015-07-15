@@ -668,22 +668,27 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
 <tr>
 <td>service_key</td>
 <td>String</td>
-<td></td>
+<td>A PagerDuty service key.</td>
 </tr>
 <tr>
 <td>subdomain</td>
 <td>String</td>
-<td></td>
+<td>A PagerDuty account subdomain.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>String</td>
+<td>A PagerDuty API key.</td>
 </tr>
 <tr>
 <td>username</td>
 <td>String</td>
-<td></td>
+<td><em>Deprecated</em>. A PagerDuty username.</td>
 </tr>
 <tr>
 <td>password</td>
 <td>String</td>
-<td></td>
+<td><em>Deprecated</em>. The PagerDuty user&rsquo;s password.</td>
 </tr>
 </tbody></table>
 <h2 id='create-pagerduty-credentials-for-a-contact'>Create PagerDuty credentials for a contact</h2><pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST -H <span class="s2">"Content-Type: application/vnd.api+json"</span> -d <span class="se">\</span>
@@ -692,8 +697,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
       {
         "service_key" : "567890123456789012345678",
         "subdomain" : "eggs",
-        "username" : "flapjack",
-        "password" : "tomato"
+        "token" : "AnX4yLUtXkSBxjza7qvv"
       }
     ]
   }'</span> <span class="se">\</span>
@@ -705,10 +709,9 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X DELETE <span clas
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contact_pagerduty_credentials</span><span class="p">(</span>
   <span class="s1">'5'</span><span class="p">,</span>
   <span class="p">{</span>
-    <span class="s1">'service_key'</span> <span class="o">=&gt;</span> <span class="s1">'567890123456789012345678'</span><span class="p">,</span>
-    <span class="s1">'subdomain'</span>   <span class="o">=&gt;</span> <span class="s1">'eggs'</span><span class="p">,</span>
-    <span class="s1">'username'</span>    <span class="o">=&gt;</span> <span class="s1">'flapjack'</span><span class="p">,</span>
-    <span class="s1">'password'</span>    <span class="o">=&gt;</span> <span class="s1">'tomato'</span>
+    <span class="ss">service_key: </span><span class="s1">'567890123456789012345678'</span><span class="p">,</span>
+    <span class="ss">subdomain:   </span><span class="s1">'eggs'</span><span class="p">,</span>
+    <span class="ss">token:       </span><span class="s1">'AnX4yLUtXkSBxjza7qvv'</span>
   <span class="p">}</span>
 <span class="p">)</span>
 </code></pre>
@@ -779,8 +782,9 @@ curl http://localhost:3081/pagerduty_credentials/21,22
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"service_key"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"567890123456789012345678"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"subdomain"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"eggs"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"username"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"flapjack"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"password"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"tomato"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"token"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"AnX4yLUtXkSBxjza7qvv"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"username"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"password"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
       </span><span class="s2">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"contacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"21"</span><span class="p">]</span><span class="w">
       </span><span class="p">}</span><span class="w">
@@ -788,8 +792,9 @@ curl http://localhost:3081/pagerduty_credentials/21,22
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"service_key"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"456789012345678901234567"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"subdomain"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"spam"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"username"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"waffle"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"password"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"eggplant"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"token"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"SHcYRxjpupbVJMqVhoUs"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"username"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"password"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
       </span><span class="s2">"links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="s2">"contacts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"22"</span><span class="p">]</span><span class="w">
       </span><span class="p">}</span><span class="w">
@@ -822,11 +827,11 @@ curl http://localhost:3081/pagerduty_credentials/21,22
 <pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH -H <span class="s2">"Content-Type: application/json-patch+json"</span> -d <span class="se">\</span>
 <span class="s1">'[
   {"op"    : "replace",
-   "path"  : "/pagerduty_credentials/0/username",
-   "value" : "genius"},
+   "path"  : "/pagerduty_credentials/0/service_key",
+   "value" : "f709af238cff46ff87a6da34cd51becb"},
   {"op"    : "replace",
-   "path"  : "/pagerduty_credentials/0/password",
-   "value" : "ideas"}
+   "path"  : "/pagerduty_credentials/0/token",
+   "value" : "ccihxyKqkAk7GnHa6LDC"}
 ]'</span> <span class="se">\</span>
  <span class="s1">'http://localhost:3081/pagerduty_credentials/21s'</span>
 </code></pre>
@@ -835,8 +840,8 @@ curl http://localhost:3081/pagerduty_credentials/21,22
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_pagerduty_credentials</span><span class="p">(</span>
   <span class="s1">'21'</span><span class="p">,</span>
-  <span class="ss">:username</span> <span class="o">=&gt;</span> <span class="s1">'genius'</span><span class="p">,</span>
-  <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s1">'ideas'</span>
+  <span class="ss">service_key: </span><span class="s1">'f709af238cff46ff87a6da34cd51becb'</span><span class="p">,</span>
+  <span class="ss">token: </span><span class="s1">'ccihxyKqkAk7GnHa6LDC'</span>
 <span class="p">)</span>
 </code></pre>
 <h3 id='http-request'>HTTP Request</h3>
