@@ -38,19 +38,20 @@ Flapjack::Diner::Configuration::RESOURCES.each_pair do |resource, res|
 %>
 <h1 id="title_<%= resource %>"><%= resource %></h1>
 <%
-  single = res[:resource]
 
   loc = {
-    :resource_plural   => resource,
-    :resource_singular => single,
-    :uuid_1            => SecureRandom.uuid,
-    :uuid_2            => SecureRandom.uuid
+    :resource_type        => res[:resource],
+    :resource_name        => resource,
+    :resource_linked_type => nil,
+    :resource_linked_name => nil,
+    :uuid_1               => SecureRandom.uuid,
+    :uuid_2               => SecureRandom.uuid
   }
 
   output = ''
 
   path        = "/#{resource}"
-  single_path = "/#{resource}/{#{single}_id}"
+  single_path = "/#{resource}/{#{res[:resource]}_id}"
 
   related = res[:relationships]
 
@@ -67,18 +68,25 @@ Flapjack::Diner::Configuration::RESOURCES.each_pair do |resource, res|
   end
 
   unless rels.nil?
+
     rels.each_pair do |other_resource, other_def|
       next unless other_def.key?(:link) && other_def[:link]
+
+      loc.update(
+        :resource_linked_type => other_def[:resource],
+        :resource_linked_name => other_resource
+      )
 
       [:post, :get, :patch, :delete].each do |method_type|
         next unless other_def.key?(method_type) && other_def[method_type]
         link_path = :get.eql?(method_type) ?
-                      "/#{resource}/{#{single}_id}/#{other_resource}" :
-                      "/#{resource}/{#{single}_id}/relationships/#{other_resource}"
+                      "/#{resource}/{#{res[:resource]}_id}/#{other_resource}" :
+                      "/#{resource}/{#{res[:resource]}_id}/relationships/#{other_resource}"
         output << swagger_method(method_type, link_path, loc)
       end
     end
   end
+
 %>
 <%= output %>
 <%

@@ -15,8 +15,10 @@
 <%=
   render_partial('sections/example_curl', :locals => {
     :method_type => method_type,
-    :resource_singular => resource_singular,
-    :resource_plural => resource_plural,
+    :resource_type => resource_type,
+    :resource_name => resource_name,
+    :resource_linked_type => resource_linked_type,
+    :resource_linked_name => resource_linked_name,
     :path => path,
     :uuid_1 => uuid_1,
     :uuid_2 => uuid_2
@@ -26,8 +28,10 @@
 <%=
   render_partial('sections/example_ruby', :locals => {
     :method_type => method_type,
-    :resource_singular => resource_singular,
-    :resource_plural => resource_plural,
+    :resource_type => resource_type,
+    :resource_name => resource_name,
+    :resource_linked_type => resource_linked_type,
+    :resource_linked_name => resource_linked_name,
     :uuid_1 => uuid_1,
     :uuid_2 => uuid_2
   })

@@ -2,9 +2,10 @@
 curl -w 'response: %{http_code} \n' -X <%= method_type.to_s.upcase -%> \
 -H "Content-type: application/vnd.api+json; ext=bulk" -d \
 <%
-singular_req = !(path =~ /\{#{resource_singular}_id\}/).nil?
+res = resource_linked_type || resource_type
+singular_req = !(path =~ /\{#{resource_type}_id\}$/).nil?
 ext = if singular_req
-  "#{path.sub(/\{#{resource_singular}_id\}/, uuid_1)}"
+  "#{path.sub(/\{#{resource_type}_id\}/, uuid_1)}"
 else
   path
 end
@@ -15,10 +16,10 @@ when :post
   '{
     "data": [
       {
-        "type": "<%= resource_singular %>",
+        "type": "<%= res %>",
         "id": "<%= uuid_1 %>",
       }<% unless singular_req -%>, {
-        "type": "<%= resource_singular %>",
+        "type": "<%= res %>",
         "id": "<%= uuid_2 %>",
       }<% end %>
     ]
@@ -30,10 +31,10 @@ when :patch
   '{
     "data": [
       {
-        "type": "<%= resource_singular %>",
+        "type": "<%= res %>",
         "id": "<%= uuid_1 %>",
       }<% unless singular_req -%>, {
-        "type": "<%= resource_singular %>",
+        "type": "<%= res %>",
         "id": "<%= uuid_2 %>",
       }<% end %>
     ]
@@ -44,10 +45,10 @@ when :delete
   '{
     "data": [
       {
-        "type": "<%= resource_singular %>",
+        "type": "<%= res %>",
         "id": "<%= uuid_1 %>",
       }<% unless singular_req -%>, {
-        "type": "<%= resource_singular %>",
+        "type": "<%= res %>",
         "id": "<%= uuid_2 %>",
       }<% end %>
     ]
