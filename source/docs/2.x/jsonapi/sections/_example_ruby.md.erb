@@ -13,15 +13,15 @@ Flapjack::Diner.base_uri('localhost:3081')
 <% case method_type
    when :post %>
 Flapjack::Diner.create_<%= ext -%>(
-  :id => '<%= uuid_1 -%>'
+  :id => '<%= uuids[0] -%>'
 )
 
 # or
 
 Flapjack::Diner.create_<%= ext -%>({
-  :id => '<%= uuid_1 -%>'
+  :id => '<%= uuids[0] -%>'
 }, {
-  :id => '<%= uuid_2 -%>'
+  :id => '<%= uuids[1] -%>'
 })
 <% when :get %>
 Flapjack::Diner.<%= ext -%>(
@@ -33,26 +33,26 @@ Flapjack::Diner.<%= ext -%>(
 )
 <% when :patch %>
 Flapjack::Diner.update_<%= ext -%>(
-  :id => '<%= uuid_1 -%>'
+  :id => '<%= uuids[0] -%>'
 )
 
 # or
 
 Flapjack::Diner.update_<%= ext -%>({
-  :id => '<%= uuid_1 -%>'
+  :id => '<%= uuids[0] -%>'
 }, {
-  :id => '<%= uuid_2 -%>'
+  :id => '<%= uuids[1] -%>'
 })
 <% when :delete %>
 Flapjack::Diner.delete_<%= ext -%>(
-  '<%= uuid_1 %>'
+  '<%= uuids[0] %>'
 )
 
 # or
 
 Flapjack::Diner.delete_<%= ext -%>(
-  '<%= uuid_1 %>',
-  '<%= uuid_2 %>'
+  '<%= uuids[0] %>',
+  '<%= uuids[1] %>'
 )
 <%
 end -%>

@@ -4,8 +4,10 @@ curl -w 'response: %{http_code} \n' -X <%= method_type.to_s.upcase -%> \
 <%
 res = resource_linked_type || resource_type
 singular_req = !(path =~ /\{#{resource_type}_id\}$/).nil?
-ext = if singular_req
-  "#{path.sub(/\{#{resource_type}_id\}/, uuid_1)}"
+ext = if resource_linked_type && resource_type
+  path.sub(/\{#{resource_type}_id\}/, uuids[2])
+elsif singular_req
+  path.sub(/\{#{resource_type}_id\}/, uuids[0])
 else
   path
 end
@@ -17,10 +19,10 @@ when :post
     "data": [
       {
         "type": "<%= res %>",
-        "id": "<%= uuid_1 %>",
+        "id": "<%= uuids[0] %>",
       }<% unless singular_req -%>, {
         "type": "<%= res %>",
-        "id": "<%= uuid_2 %>",
+        "id": "<%= uuids[1] %>",
       }<% end %>
     ]
   }' \
@@ -32,10 +34,10 @@ when :patch
     "data": [
       {
         "type": "<%= res %>",
-        "id": "<%= uuid_1 %>",
+        "id": "<%= uuids[0] %>",
       }<% unless singular_req -%>, {
         "type": "<%= res %>",
-        "id": "<%= uuid_2 %>",
+        "id": "<%= uuids[1] %>",
       }<% end %>
     ]
   }' \
@@ -46,10 +48,10 @@ when :delete
     "data": [
       {
         "type": "<%= res %>",
-        "id": "<%= uuid_1 %>",
+        "id": "<%= uuids[0] %>",
       }<% unless singular_req -%>, {
         "type": "<%= res %>",
-        "id": "<%= uuid_2 %>",
+        "id": "<%= uuids[1] %>",
       }<% end %>
     ]
   }' \

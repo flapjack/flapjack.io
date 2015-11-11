@@ -36,7 +36,7 @@ resources = Flapjack::Diner::Configuration::RESOURCES.values.map {|r| r[:resourc
 
 Flapjack::Diner::Configuration::RESOURCES.each_pair do |resource, res|
 %>
-<h1 id="title_<%= resource %>"><%= resource %></h1>
+<h1 id="title_<%= resource %>"><%= resource.to_s.humanize %></h1>
 <%
 
   loc = {
@@ -44,8 +44,7 @@ Flapjack::Diner::Configuration::RESOURCES.each_pair do |resource, res|
     :resource_name        => resource,
     :resource_linked_type => nil,
     :resource_linked_name => nil,
-    :uuid_1               => SecureRandom.uuid,
-    :uuid_2               => SecureRandom.uuid
+    :uuids                => (1..3).collect { SecureRandom.uuid }
   }
 
   output = ''
