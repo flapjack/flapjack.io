@@ -52,32 +52,31 @@ Flapjack::Diner::Configuration::RESOURCES.each_pair do |resource, res|
   path        = "/#{resource}"
   single_path = "/#{resource}/{#{single}_id}"
 
-  other_resources = (resources - [single]) +
-    (Flapjack::Diner::Configuration::RESOURCES.keys - [resource])
+  related = res[:relationships]
 
   reqs = res[:requests]
   rels = res[:relationships]
 
   reqs.keys.each do |method_type|
     unless :post.eql?(method_type)
+      # FIXME enable this, munge the swagger req data for POST multiples so docs make sense
       output << swagger_method(method_type, single_path, loc)
     end
 
     output << swagger_method(method_type, path, loc)
   end
 
-  other_resources.each do |other_resource|
-    next unless !rels.nil? && rels.key?(other_resource) &&
-                rels[other_resource].key?(:link) &&
-                rels[other_resource][:link]
+  unless rels.nil?
+    rels.each_pair do |other_resource, other_def|
+      next unless other_def.key?(:link) && other_def[:link]
 
-    [:post, :get, :patch, :delete].each do |method_type|
-      next unless rels[other_resource].key?(method_type) &&
-                  rels[other_resource][method_type]
-      link_path = :get.eql?(method_type) ?
-                    "/#{resource}/{#{single}_id}/#{other_resource}" :
-                    "/#{resource}/{#{single}_id}/relationships/#{other_resource}"
-      output << swagger_method(method_type, link_path, loc)
+      [:post, :get, :patch, :delete].each do |method_type|
+        next unless other_def.key?(method_type) && other_def[method_type]
+        link_path = :get.eql?(method_type) ?
+                      "/#{resource}/{#{single}_id}/#{other_resource}" :
+                      "/#{resource}/{#{single}_id}/relationships/#{other_resource}"
+        output << swagger_method(method_type, link_path, loc)
+      end
     end
   end
 %>

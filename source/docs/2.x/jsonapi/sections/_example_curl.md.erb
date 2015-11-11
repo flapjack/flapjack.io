@@ -2,10 +2,43 @@
 curl -w 'response: %{http_code} \n' -X <%= method_type.to_s.upcase -%> \
 -H "Content-type: application/vnd.api+json; ext=bulk" -d \
 <%
+singular_req = !(path =~ /\{#{resource_singular}_id\}/).nil?
+ext = if singular_req
+  "#{path.sub(/\{#{resource_singular}_id\}/, uuid_1)}"
+else
+  path
+end
+
 case method_type
 when :post
+%>
+  '{
+    "data": [
+      {
+        "type": "<%= resource_singular %>",
+        "id": "<%= uuid_1 %>",
+      }<% unless singular_req -%>, {
+        "type": "<%= resource_singular %>",
+        "id": "<%= uuid_2 %>",
+      }<% end %>
+    ]
+  }' \
+<%
 when :get
 when :patch
+%>
+  '{
+    "data": [
+      {
+        "type": "<%= resource_singular %>",
+        "id": "<%= uuid_1 %>",
+      }<% unless singular_req -%>, {
+        "type": "<%= resource_singular %>",
+        "id": "<%= uuid_2 %>",
+      }<% end %>
+    ]
+  }' \
+<%
 when :delete
 %>
   '{
@@ -13,13 +46,13 @@ when :delete
       {
         "type": "<%= resource_singular %>",
         "id": "<%= uuid_1 %>",
-      }, {
+      }<% unless singular_req -%>, {
         "type": "<%= resource_singular %>",
         "id": "<%= uuid_2 %>",
-      }
+      }<% end %>
     ]
   }' \
 <%
 end -%>
-http://localhost:3081/<%= resource_plural %>
+http://localhost:3081<%= ext %>
 ```
