@@ -1,13 +1,36 @@
+<% title = "#{method_type.to_s.upcase} #{path}" %>
 <% title_id = title.gsub(/\W+/, '_').gsub(/_+$/, '') %>
 <h2 id="<%= title_id %>"><%= title %></h2>
 
-<% example_file = File.join(File.dirname(__FILE__), '..', 'examples', "_#{title_id}.md") %>
+<%# FIXME generate sample data to fit schema defined by Flapjack::Diner %>
 
-<% if File.exists?(example_file) %>
-<%= render_partial("examples/#{title_id}") %>
-<% else %>
-<% FileUtils.touch(example_file) %>
-<% end %>
+<%# example_file = File.join(File.dirname(__FILE__), '..', 'examples', "_#{title_id}.md") %>
+
+<%# if File.exists?(example_file) %>
+<%#= render_partial("examples/#{title_id}") %>
+<%# else %>
+<%# FileUtils.touch(example_file) %>
+<%# end %>
+
+<%=
+  render_partial('sections/example_curl', :locals => {
+    :method_type => method_type,
+    :resource_singular => resource_singular,
+    :resource_plural => resource_plural,
+    :uuid_1 => uuid_1,
+    :uuid_2 => uuid_2
+  })
+%>
+
+<%=
+  render_partial('sections/example_ruby', :locals => {
+    :method_type => method_type,
+    :resource_singular => resource_singular,
+    :resource_plural => resource_plural,
+    :uuid_1 => uuid_1,
+    :uuid_2 => uuid_2
+  })
+%>
 
 <h3>Description</h3>
 <p><%= operation.description %></p>
@@ -70,18 +93,15 @@
 
     <% definition_name = schema['items']['$ref'].sub(%r{^#/definitions/}, '') %>
     <% definition = definitions[definition_name] %>
-
+[
     <%= render_partial('sections/schema', :locals => {:definitions => definitions,
       :definition => definition}) %>
-
 ]
   <% else %>
 
     <% definition_name = schema['$ref'].sub(%r{^#/definitions/}, '') %>
     <% definition = definitions[definition_name] %>
-
-    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
-      :definition => definition}) %>
+    <%= render_partial('sections/schema', :locals => {:definitions => definitions, :definition => definition}) -%>
   <% end %>
 
 </td>

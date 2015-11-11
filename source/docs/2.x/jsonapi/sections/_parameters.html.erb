@@ -30,9 +30,9 @@
     <% definition_name = schema['items']['$ref'].sub(%r{^#/definitions/}, '') %>
     <% definition = definitions[definition_name] %>
 
+[
     <%= render_partial('sections/schema', :locals => {:definitions => definitions,
       :definition => definition}) %>
-
 ]
   <% else %>
 

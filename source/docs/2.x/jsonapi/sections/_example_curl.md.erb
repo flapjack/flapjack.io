@@ -1,0 +1,25 @@
+```shell
+curl -w 'response: %{http_code} \n' -X <%= method_type.to_s.upcase -%> \
+-H "Content-type: application/vnd.api+json; ext=bulk" -d \
+<%
+case method_type
+when :post
+when :get
+when :patch
+when :delete
+%>
+  '{
+    "data": [
+      {
+        "type": "<%= resource_singular %>",
+        "id": "<%= uuid_1 %>",
+      }, {
+        "type": "<%= resource_singular %>",
+        "id": "<%= uuid_2 %>",
+      }
+    ]
+  }' \
+<%
+end -%>
+http://localhost:3081/<%= resource_plural %>
+```

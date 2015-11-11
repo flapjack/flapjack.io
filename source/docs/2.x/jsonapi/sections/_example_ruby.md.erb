@@ -1,0 +1,57 @@
+<%
+# Flapjack::Diner.delete_checks(
+#   '2d6e8006-e220-4962-ab0f-248978abdc72',
+#   '2440cd0f-1b79-4cc4-bed1-8dcdeaf59f81'
+# )
+%>
+
+```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+<% case method_type
+   when :post %>
+Flapjack::Diner.create_<%= resource_plural -%>(
+)
+
+# or
+
+Flapjack::Diner.create_<%= resource_plural -%>({
+
+}, {
+
+})
+<% when :get %>
+Flapjack::Diner.<%= resource_plural -%>(
+  :fields => {},
+  :filter => {},
+  :include => [],
+  :sort => '',
+  :page => 1, :per_page => 20
+)
+<% when :patch %>
+Flapjack::Diner.update_<%= resource_plural -%>(
+
+)
+
+# or
+
+Flapjack::Diner.update_<%= resource_plural -%>({
+
+}, {
+
+})
+<% when :delete %>
+Flapjack::Diner.delete_<%= resource_plural -%>(
+  '<%= uuid_1 %>'
+)
+
+# or
+
+Flapjack::Diner.delete_<%= resource_plural -%>(
+  '<%= uuid_1 %>',
+  '<%= uuid_2 %>'
+)
+<%
+end -%>
+```

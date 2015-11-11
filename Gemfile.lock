@@ -34,6 +34,9 @@ GEM
     eventmachine (1.0.7)
     execjs (2.5.2)
     ffi (1.9.8)
+    flapjack-diner (2.0.0.a4)
+      httparty (= 0.13.5)
+      json (>= 1.7.7)
     haml (4.0.6)
       tilt
     hashie (3.3.2)
@@ -42,6 +45,9 @@ GEM
     hooks (0.4.0)
       uber (~> 0.0.4)
     http_parser.rb (0.6.0)
+    httparty (0.13.5)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     json (1.8.2)
     json-schema (2.5.1)
@@ -93,6 +99,7 @@ GEM
     mini_portile (0.6.0)
     minitest (5.6.0)
     multi_json (1.11.0)
+    multi_xml (0.5.5)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     padrino-helpers (0.12.5)
@@ -149,6 +156,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  flapjack-diner (= 2.0.0a4)
   middleman (~> 3.3.0)
   middleman-gh-pages
   middleman-livereload (~> 3.3.0)
@@ -160,3 +168,6 @@ DEPENDENCIES
   swagger-core
   therubyracer
   wdm (~> 0.1.0)
+
+BUNDLED WITH
+   1.10.6

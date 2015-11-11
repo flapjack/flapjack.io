@@ -18,57 +18,70 @@ require 'erb'
 
 @swagger = Swagger.load(File.join(@swagger_dir, 'api.json'))
 
-def swagger_method(method_type, path)
-  o = ""
-  if @swagger.paths.has_key?(path)
-    swagger_path = @swagger.paths[path]
-    if swagger_path.has_key?(method_type)
-      o << render_partial('sections/jsonapi_method.html.erb', :locals => {
-        :title       => "#{method_type.to_s.upcase} #{path}",
-        :operation   => swagger_path.send(method_type),
-        :definitions => @swagger.definitions
-      })
-      o << "\n\n"
-    end
-  end
+def swagger_method(method_type, path, loc = {})
+  return '' unless @swagger.paths.key?(path) &&
+                   @swagger.paths[path].key?(method_type)
+
+  o = render_partial('sections/jsonapi_method.html.erb', :locals => loc.merge(
+    :method_type => method_type,
+    :path        => path,
+    :operation   => @swagger.paths[path].send(method_type),
+    :definitions => @swagger.definitions
+  ))
+  o << "\n\n"
   o
 end
 
-resources = {
-  'checks'   => 'check',
-  'contacts' => 'contact',
-  'media'    => 'medium',
-  'rules'    => 'rule',
-  'scheduled_maintenances' => 'scheduled_maintenance',
-  'tags'     => 'tag',
-  'unscheduled_maintenances' => 'unscheduled_maintenance'
-}
-resources.each_pair do |resource, single|
+resources = Flapjack::Diner::Configuration::RESOURCES.values.map {|r| r[:resource] }
+
+Flapjack::Diner::Configuration::RESOURCES.each_pair do |resource, res|
 %>
 <h1 id="title_<%= resource %>"><%= resource %></h1>
 <%
-output = ""
+  single = res[:resource]
 
-path        = "/#{resource}"
-single_path = "/#{resource}/{#{single}_id}"
+  loc = {
+    :resource_plural   => resource,
+    :resource_singular => single,
+    :uuid_1            => SecureRandom.uuid,
+    :uuid_2            => SecureRandom.uuid
+  }
 
-other_resources = (resources.values - [single]) +
-  (resources.keys - [resource])
+  output = ''
 
-[:post, :get, :patch, :delete].each do |method_type|
-  unless :post.eql?(method_type)
-    output << swagger_method(method_type, single_path)
+  path        = "/#{resource}"
+  single_path = "/#{resource}/{#{single}_id}"
+
+  other_resources = (resources - [single]) +
+    (Flapjack::Diner::Configuration::RESOURCES.keys - [resource])
+
+  reqs = res[:requests]
+  rels = res[:relationships]
+
+  reqs.keys.each do |method_type|
+    unless :post.eql?(method_type)
+      output << swagger_method(method_type, single_path, loc)
+    end
+
+    output << swagger_method(method_type, path, loc)
   end
-
-  output << swagger_method(method_type, path)
 
   other_resources.each do |other_resource|
-    link_path = :get.eql?(method_type) ? "/#{resource}/{#{single}_id}/#{other_resource}" :
-                                         "/#{resource}/{#{single}_id}/links/#{other_resource}"
+    next unless !rels.nil? && rels.key?(other_resource) &&
+                rels[other_resource].key?(:link) &&
+                rels[other_resource][:link]
 
-    output << swagger_method(method_type, link_path)
+    [:post, :get, :patch, :delete].each do |method_type|
+      next unless rels[other_resource].key?(method_type) &&
+                  rels[other_resource][method_type]
+      link_path = :get.eql?(method_type) ?
+                    "/#{resource}/{#{single}_id}/#{other_resource}" :
+                    "/#{resource}/{#{single}_id}/relationships/#{other_resource}"
+      output << swagger_method(method_type, link_path, loc)
+    end
   end
-end
 %>
 <%= output %>
-<% end %>
+<%
+end
+%>

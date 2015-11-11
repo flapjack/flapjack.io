@@ -30,3 +30,5 @@ gem 'therubyracer', :platforms => :ruby
 gem 'nokogiri'
 
 gem 'swagger-core'
+
+gem 'flapjack-diner', '= 2.0.0a4'
