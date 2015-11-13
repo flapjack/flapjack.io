@@ -1,4 +1,5 @@
 require './lib/redcarpet_header_fix'
+require './lib/extra_lexer_tabs'
 
 set :css_dir, 'stylesheets'
 
