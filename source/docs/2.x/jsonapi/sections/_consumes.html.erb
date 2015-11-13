@@ -1,0 +1,19 @@
+<% unless consumes.nil? || consumes.empty? %>
+<h3>Accepted MIME Types</h3>
+
+<table>
+<thead>
+<tr>
+<td>Type</td>
+</tr>
+</thead>
+
+<tbody>
+<% consumes.each do |consume| %>
+<tr>
+<td><%= consume %></td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<% end %>

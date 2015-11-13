@@ -8,14 +8,14 @@
     <% defin_name = property['items']['$ref'].sub(%r{^#/definitions/}, '') -%>
     <% defin = definitions[defin_name] -%>
 
-    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
+    <%= partial('sections/schema', :locals => {:definitions => definitions,
       :definition => defin}) %>
 ]
   <% elsif property.has_key?('$ref') -%>
     <% defin_name = property['$ref'].sub(%r{^#/definitions/}, '') -%>
     <% defin = definitions[defin_name] -%>
 
-    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
+    <%= partial('sections/schema', :locals => {:definitions => definitions,
       :definition => defin}) %>
 
   <% else -%>

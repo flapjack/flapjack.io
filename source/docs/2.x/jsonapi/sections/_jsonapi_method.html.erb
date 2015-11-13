@@ -2,18 +2,8 @@
 <% title_id = title.gsub(/\W+/, '_').gsub(/_+$/, '') %>
 <h2 id="<%= title_id %>"><%= title %></h2>
 
-<%# FIXME generate sample data to fit schema defined by Flapjack::Diner %>
-
-<%# example_file = File.join(File.dirname(__FILE__), '..', 'examples', "_#{title_id}.md") %>
-
-<%# if File.exists?(example_file) %>
-<%#= render_partial("examples/#{title_id}") %>
-<%# else %>
-<%# FileUtils.touch(example_file) %>
-<%# end %>
-
 <%=
-  render_partial('sections/example_curl', :locals => {
+  partial('sections/example_curl', :locals => {
     :method_type => method_type,
     :resource_type => resource_type,
     :resource_name => resource_name,
@@ -25,7 +15,7 @@
 %>
 
 <%=
-  render_partial('sections/example_ruby', :locals => {
+  partial('sections/example_ruby', :locals => {
     :method_type => method_type,
     :resource_type => resource_type,
     :resource_name => resource_name,
@@ -38,101 +28,20 @@
 <h3>Description</h3>
 <p><%= operation.description %></p>
 
-<% body_param = operation.parameters.detect {|param| 'body'.eql?(param.in)} %>
+<%= partial('sections/parameters', :locals => {
+  :parameters => operation.parameters,
+  :definitions => definitions
+}) %>
 
-<h3>Parameters</h3>
+<%= partial('sections/consumes', :locals => {
+  :consumes => operation.consumes,
+}) %>
 
-<%= render_partial('sections/parameters', :locals => {:parameters => operation.parameters,
-  :definitions => definitions}) %>
+<%= partial('sections/responses', :locals => {
+  :responses => operation.responses,
+  :definitions => definitions
+}) %>
 
-<% consumes = operation.consumes %>
-<% unless consumes.nil? || consumes.empty? %>
-<h3>Accepted MIME Types</h3>
-
-<table>
-<thead>
-<tr>
-<td>Type</td>
-</tr>
-</thead>
-
-<tbody>
-<% consumes.each do |consume| %>
-<tr>
-<td><%= consume %></td>
-</tr>
-<% end %>
-</tbody>
-</table>
-
-<% end %>
-
-<% has_returned_data = (operation.responses.keys & ['200', '201']).size > 0 %>
-
-<h3>HTTP Return Codes<% if has_returned_data %> / Data Schema<% end %></h3>
-
-<table>
-<thead>
-<tr>
-<td>Code</td>
-<td>Description</td>
-<% if has_returned_data %>
-<td>Schema</td>
-<% end %>
-</tr>
-</thead>
-
-<tbody>
-<% operation.responses.each_pair do |status_code, response| %>
-<tr>
-<td><%= status_code %></td>
-<td><%= response.description %></td>
-<% if has_returned_data %>
-<td>
-
-<% schema = response.schema %>
-
-<% if 'array'.eql?(schema.type) %>
-
-    <% definition_name = schema['items']['$ref'].sub(%r{^#/definitions/}, '') %>
-    <% definition = definitions[definition_name] %>
-[
-    <%= render_partial('sections/schema', :locals => {:definitions => definitions,
-      :definition => definition}) %>
-]
-  <% else %>
-
-    <% definition_name = schema['$ref'].sub(%r{^#/definitions/}, '') %>
-    <% definition = definitions[definition_name] %>
-    <%= render_partial('sections/schema', :locals => {:definitions => definitions, :definition => definition}) -%>
-  <% end %>
-
-</td>
-<% end %>
-</tr>
-<% end %>
-</tbody>
-</table>
-
-<% produces = operation.produces %>
-<% unless produces.nil? || produces.empty? %>
-
-<h3>Returned MIME Types</h3>
-
-<table>
-<thead>
-<tr>
-<td>Type</td>
-</tr>
-</thead>
-
-<tbody>
-<% produces.each do |produce| %>
-<tr>
-<td><%= produce %></td>
-</tr>
-<% end %>
-</tbody>
-</table>
-
-<% end %>
+<%= partial('sections/produces', :locals => {
+  :produces => operation.produces,
+}) %>

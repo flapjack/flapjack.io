@@ -1,0 +1,19 @@
+<% unless produces.nil? || produces.empty? %>
+<h3>Returned MIME Types</h3>
+
+<table>
+<thead>
+<tr>
+<td>Type</td>
+</tr>
+</thead>
+
+<tbody>
+<% produces.each do |produce| %>
+<tr>
+<td><%= produce %></td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<% end %>

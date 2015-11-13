@@ -1,0 +1,56 @@
+<% has_returned_data = (responses.keys & ['200', '201']).size > 0 %>
+
+<h3>HTTP Return Codes<% if has_returned_data %> / Data Schema<% end %></h3>
+
+<table>
+<thead>
+<tr>
+<td>Code</td>
+<td>Description</td>
+<% if has_returned_data %>
+<td>Schema</td>
+<% end %>
+</tr>
+</thead>
+
+<%
+responses_with_schema = responses.each_with_object([]) do |(status_code, response), memo|
+  next unless ['200', '201'].include?(status_code)
+  memo << response
+end
+
+unless responses_with_schema.empty?
+%>
+  <%= partial('sections/responses_json', :locals => {
+    :responses => responses_with_schema,
+    :definitions => definitions
+  }) %>
+<%
+end
+%>
+
+<tbody>
+<% responses.each_pair do |status_code, response| %>
+<tr>
+<td><%= status_code %></td>
+<td><%= response.description %></td>
+<% if has_returned_data %>
+<td>
+<%
+case status_code
+when '200', '201'
+-%>
+See <strong>Responses</strong> tab
+<%
+else
+-%>
+&nbsp;
+<%
+end
+-%>
+</td>
+<% end %>
+</tr>
+<% end %>
+</tbody>
+</table>
