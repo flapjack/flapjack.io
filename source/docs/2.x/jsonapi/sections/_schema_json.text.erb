@@ -12,15 +12,36 @@
 }) -%>
   <% else -%>
     <%
-    value = case property.type
-    when "string"
-      '"string"'
-    when "uuid"
-      '"UUID"'
-    when "integer"
-      'integer'
+    value = case property_name
+    when 'id'
+      '"[String(uuid)]"'
+    when 'type'
+      if property.key?(:enum)
+        types = property.enum
+        if types.size == 1
+          "\"#{types.first}\""
+        else
+          "\"[#{types.join('|')}]\""
+        end
+      end
     else
-      property.type
+      case property.type
+      when "string"
+        if property.key?(:format)
+          case property[:format]
+          when 'date-time'
+            '"[String(date-time)]"'
+          else
+            '"[String]"'
+          end
+        else
+          '"[String]"'
+        end
+      when "integer"
+        '1'
+      else
+        property.type
+      end
     end -%>
 <%= value -%>
   <% end -%>
