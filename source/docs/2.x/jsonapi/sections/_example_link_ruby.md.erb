@@ -1,0 +1,76 @@
+<% ext = "#{resource_type}_link_#{resource_linked_name}" %>
+
+```ruby
+require 'flapjack-diner'
+Flapjack::Diner.base_uri('localhost:3081')
+
+<%
+  case method_type
+  when :post
+    case number
+    when :singular_link
+-%>
+Flapjack::Diner.create_<%= ext -%>(
+  '<%= uuids[0] %>', # <%= resource_type %>
+  '<%= uuids[1] %>'  # <%= resource_linked_type %>
+)
+<%
+    when :multiple_link
+-%>
+Flapjack::Diner.create_<%= ext -%>({
+  '<%= uuids[0] %>', # <%= resource_type %>
+  '<%= uuids[1] %>', # <%= resource_linked_type %>
+  '<%= uuids[2] %>'  # <%= resource_linked_type %>
+)
+<%  end -%>
+<%
+  when :get
+%>
+Flapjack::Diner.<%= ext -%>(
+  :fields => [],   # string, or an array of strings
+  :filter => {},   # hash of field values/regexes to match
+  :include => [],  # string, or an array of strings
+  :sort => [],     # string, or an array of strings
+  :page => 1,      # defaults to 1
+  :per_page => 20  # defaults to 20
+)
+<%
+  when :patch
+    case number
+    when :singular_link
+-%>
+Flapjack::Diner.update_<%= ext -%>(
+  '<%= uuids[0] %>', # <%= resource_type %>
+  '<%= uuids[1] %>'  # <%= resource_linked_type %>
+)
+<%
+    when :multiple_link
+-%>
+Flapjack::Diner.update_<%= ext -%>({
+  '<%= uuids[0] %>', # <%= resource_type %>
+  '<%= uuids[1] %>', # <%= resource_linked_type %>
+  '<%= uuids[2] %>'  # <%= resource_linked_type %>
+)
+<%  end -%>
+<%
+  when :delete
+    case number
+    when :singular_link
+-%>
+Flapjack::Diner.delete_<%= ext -%>(
+  '<%= uuids[0] %>', # <%= resource_type %>
+  '<%= uuids[1] %>'  # <%= resource_linked_type %>
+)
+<%
+    when :multiple_link
+-%>
+Flapjack::Diner.delete_<%= ext -%>(
+  '<%= uuids[0] %>', # <%= resource_type %>
+  '<%= uuids[1] %>', # <%= resource_linked_type %>
+  '<%= uuids[2] %>'  # <%= resource_linked_type %>
+)
+<% end -%>
+<%
+end
+-%>
+```

@@ -30,7 +30,8 @@ end
 %>
 
 <tbody>
-<% responses.each_pair do |status_code, response| %>
+<% responses.keys.sort.each do |status_code| %>
+  <% response = responses[status_code] %>
 <tr>
 <td><%= status_code %></td>
 <td><%= response.description %></td>

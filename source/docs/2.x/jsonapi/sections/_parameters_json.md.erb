@@ -1,25 +1,27 @@
-<% body_params = parameters.select {|pa| 'body'.eql?(pa.in) } -%>
-<% unless body_params.empty? -%>
+<% body_param = parameters.detect {|pa| 'body'.eql?(pa.in) } -%>
+<% unless body_param.nil? -%>
 ```json_parameter
-  <% body_params.each do |parameter| -%>
-    <% schema = parameter['schema'] -%>
-    <% if 'array'.eql?(schema.type) -%>
-      <% definition_name = schema['items']['$ref'].sub(%r{^#/definitions/}, '') -%>
-      <% definition = definitions[definition_name] -%>
-[<%= partial('sections/schema_json', :locals => {
-        :definitions => definitions,
-        :definition => definition,
-        :level => 1
-      }) %>]
-    <% else -%>
-      <% definition_name = schema['$ref'].sub(%r{^#/definitions/}, '') -%>
-      <% definition = definitions[definition_name] -%>
-<%= partial('sections/schema_json', :locals => {
+<% schema = body_param.schema -%>
+<% if 'array'.eql?(schema.type) -%>
+  <% definition_name = schema.items['$ref'].sub(%r{^#/definitions/}, '') -%>
+  <% definition = definitions[definition_name] -%>
+{
+  "data": [<%= partial('sections/schema_json', :locals => {
     :definitions => definitions,
     :definition => definition,
-    :level => 1
-  }) %>
-    <% end -%>
-  <% end -%>
+    :level => 2
+  }) %>]
+<% else -%>
+  <% definition_name = schema['$ref'].sub(%r{^#/definitions/}, '') -%>
+  <% definition = definitions[definition_name] -%>
+{
+  "data": <%= partial('sections/schema_json', :locals => {
+  :definitions => definitions,
+  :definition => definition,
+  :level => 2
+}) %>
+}
+<% end -%>
+
 ```
 <% end -%>

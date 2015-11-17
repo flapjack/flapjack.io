@@ -20,13 +20,14 @@ require 'erb'
 
 @swagger = Swagger.load(File.join(@swagger_dir, 'api.json'))
 
-def swagger_method(method_type, path, loc = {})
+def swagger_method(method_type, number, path, loc = {})
   return '' unless @swagger.paths.key?(path) &&
                    @swagger.paths[path].key?(method_type)
 
   o = render_partial('sections/jsonapi_method.html.erb', :locals => loc.merge(
     :method_type => method_type,
     :path        => path,
+    :number      => number,
     :operation   => @swagger.paths[path].send(method_type),
     :definitions => @swagger.definitions
   ))
@@ -62,16 +63,23 @@ Flapjack::Diner::Configuration::RESOURCES.each_pair do |resource, res|
   reqs.keys.each do |method_type|
     unless :post.eql?(method_type)
       # FIXME enable this, munge the swagger req data for POST multiples so docs make sense
-      output << swagger_method(method_type, single_path, loc)
+      output << swagger_method(method_type, :singular, single_path, loc)
     end
 
-    output << swagger_method(method_type, path, loc)
+    output << swagger_method(method_type, :multiple, path, loc)
   end
 
   unless rels.nil?
 
     rels.each_pair do |other_resource, other_def|
       next unless other_def.key?(:link) && other_def[:link]
+
+      number = case other_def[:number]
+      when :multiple
+        :multiple_link
+      when :singular
+        :singular_link
+      end
 
       loc.update(
         :resource_linked_type => other_def[:resource],
@@ -83,7 +91,7 @@ Flapjack::Diner::Configuration::RESOURCES.each_pair do |resource, res|
         link_path = :get.eql?(method_type) ?
                       "/#{resource}/{#{res[:resource]}_id}/#{other_resource}" :
                       "/#{resource}/{#{res[:resource]}_id}/relationships/#{other_resource}"
-        output << swagger_method(method_type, link_path, loc)
+        output << swagger_method(method_type, number, link_path, loc)
       end
     end
   end

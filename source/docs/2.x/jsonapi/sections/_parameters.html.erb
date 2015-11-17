@@ -30,7 +30,7 @@
 <% if 'body'.eql?(parameter.in) %>
   See <strong>Parameters</strong> tab
 <% elsif 'query'.eql?(parameter.in) && 'multi'.eql?(parameter['collectionFormat']) %>
-  <%= "TODO multi #{parameter.name}" %>
+
 <% else %>
   <%= parameter.format %>
 <% end %>

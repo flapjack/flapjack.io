@@ -14,31 +14,33 @@
     <%
     value = case property_name
     when 'id'
-      '"[String(uuid)]"'
-    when 'type'
-      if property.key?(:enum)
-        types = property.enum
-        if types.size == 1
-          "\"#{types.first}\""
-        else
-          "\"[#{types.join('|')}]\""
-        end
-      end
+      '"<String(uuid)>"'
     else
       case property.type
-      when "string"
-        if property.key?(:format)
+      when 'string'
+        if property.key?(:enum)
+          values = property.enum
+          if values.size == 1
+            "\"#{values.first}\""
+          else
+            "\"<#{values.join('|')}>\""
+          end
+        elsif property.key?(:format)
           case property[:format]
           when 'date-time'
-            '"[String(date-time)]"'
+            '"<String(date-time)>"'
+          when 'url'
+            '"<String(url)>"'
           else
-            '"[String]"'
+            '"<String>"'
           end
         else
-          '"[String]"'
+          '"<String>"'
         end
-      when "integer"
+      when 'integer'
         '1'
+      when 'boolean'
+        true
       else
         property.type
       end

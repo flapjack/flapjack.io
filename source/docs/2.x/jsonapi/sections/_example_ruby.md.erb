@@ -1,59 +1,254 @@
 <%
-ext = if resource_linked_type.nil?
-  resource_name
-else
-  "#{resource_type}_link_#{resource_linked_name}"
+
+def example_data(props, prop, num)
+  @sample_data ||= {
+    :acknowledgement => [{
+      :duration => 60 * 20,
+      :summary => "'Fixing manually'"
+    }, {
+      :duration => 60 * 50,
+      :summary => "'Power return expected'"
+    }],
+    :check => [{
+      :name => "'www.example.com:PING'"
+    }, {
+      :name => "'www.example.com:SSH'"
+    }],
+    :contact => [{
+      :name => "'Lucia Moretti'",
+      :timezone => "'Europe/Rome'"
+    }, {
+      :name => "'Vera Дурейко'",
+      :timezone => "'Europe/Paris'"
+    }],
+    :medium => [{
+      :address => "'admin@example.org'",
+      :transport => "'email'",
+      :interval => 120,
+      :pagerduty_ack_duration => 'nil',
+      :pagerduty_subdomain => 'nil',
+      :pagerduty_token => 'nil',
+      :rollup_threshold => 3
+    }, {
+      :address => "'<pd_service_key>'",
+      :transport => "'pagerduty'",
+      :interval => 'nil',
+      :pagerduty_ack_duration => 30,
+      :pagerduty_subdomain => "'<pd_subdomain>'",
+      :pagerduty_token => "'<token>'",
+      :rollup_threshold => 'nil'
+    }],
+    :rule => [{
+      :blackhole => false,
+      :enabled => true,
+      :strategy => "'global'",
+      :conditions_list => "'critical'",
+      :name => "'all critical'",
+      :time_restriction_ical => 'nil'
+    }, {
+      :blackhole => true,
+      :enabled => true,
+      :strategy => "'any_tag'",
+      :conditions_list => 'nil',
+      :name => "'no daytime disk usage'",
+      :time_restriction_ical => '"DTSTART;TZID=CET:20130201T080000\\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\\nDTEND;TZID=CET:20130201T180000"'
+    }],
+    :scheduled_maintenance => [{
+      :start_time => 'DateTime.now',
+      :end_time => 'DateTime.new(2025, 3, 1, 0, 0, 0)',
+    }, {
+      :start_time => 'DateTime.new(2025, 2, 1, 0, 0, 0)',
+      :end_time => 'DateTime.new(2025, 3, 1, 0, 0, 0)',
+    }],
+    :tag => [{
+      :name => "'database'"
+    }, {
+      :name => "'remove_next_january'"
+    }],
+    :test_notification => [{
+      :summary => "''"
+    }, {
+      :summary => "''"
+    }],
+    :unscheduled_maintenance => [{
+      :end_time => 'DateTime.now',
+    }, {
+      :end_time => 'DateTime.new(2050, 1, 1, 0, 0, 0)',
+    }]
+  }
+
+  if props.key?(:type) && @sample_data.key?(props.type.enum.first.to_sym) &&
+    @sample_data[props.type.enum.first.to_sym][num].key?(prop.to_sym)
+
+    @sample_data[props.type.enum.first.to_sym][num][prop.to_sym]
+  else
+    property = props[prop]
+    case property.type
+    when 'string'
+      if property.key?(:format)
+        case property[:format]
+        when 'date-time'
+          "'<String(date-time)>'"
+        # when 'url'
+        #   '"<String(url)>"'
+        else
+          "'<String>'"
+        end
+      else
+        "'<String>'"
+      end
+    when 'integer'
+      '1'
+    when 'boolean'
+      'true'
+    else
+      property.type
+    end
+  end
 end
+
+ext = resource_name
 %>
 
 ```ruby
 require 'flapjack-diner'
 Flapjack::Diner.base_uri('localhost:3081')
 
-<% case method_type
-   when :post %>
+<%
+  case method_type
+  when :post
+    body_param = parameters.detect {|pa| 'body'.eql?(pa.in) }
+
+    props = nil
+    examp = []
+
+    unless body_param.nil?
+      schema = body_param.schema
+
+      definition_name = if 'array'.eql?(schema.type)
+        schema.items['$ref']
+      else
+        schema['$ref']
+      end
+      definition = definitions[definition_name.sub(%r{^#/definitions/}, '')]
+
+      req = (definition.required - ['type']).sort
+      props = definition.properties
+      opt = (props.keys - ((definition.required || []) + ['relationships'])).sort
+      examp = (req + opt) - ['id']
+-%>
+# required: <%= req.join(', ') %>
+# optional: <%= opt.join(', ') %>
+
+<%
+  end
+-%>
+<%
+  case number
+  when :singular
+-%>
 Flapjack::Diner.create_<%= ext -%>(
-  :id => '<%= uuids[0] -%>'
+  :id => '<%= uuids[0] -%>'<% unless examp.empty? %>,
+<%= examp.map {|r| "  :#{r} => #{example_data(props, r, 0)}" }.join(",\n") %>
+<%
+end
+-%>
 )
-
-# or
-
+<%
+  when :multiple
+-%>
 Flapjack::Diner.create_<%= ext -%>({
-  :id => '<%= uuids[0] -%>'
+  :id => '<%= uuids[0] -%>'<% unless examp.empty? %>,
+<%= examp.map {|r| "  :#{r} => #{example_data(props, r, 0)}" }.join(",\n") %>
+<% end -%>
 }, {
-  :id => '<%= uuids[1] -%>'
+  :id => '<%= uuids[1] -%>'<% unless examp.empty? %>,
+<%= examp.map {|r| "  :#{r} => #{example_data(props, r, 1)}" }.join(",\n") %>
+<% end -%>
 })
-<% when :get %>
+<% end -%>
+<% when :get
+     case number
+     when :singular
+%>
 Flapjack::Diner.<%= ext -%>(
-  :fields => {},
-  :filter => {},
-  :include => [],
-  :sort => '',
-  :page => 1, :per_page => 20
+  :filter => {:id => '<%= uuids[0] -%>'}
 )
-<% when :patch %>
+<%   when :multiple %>
+Flapjack::Diner.<%= ext -%>(
+  :fields   => [], # string, or an array of strings
+  :filter   => {}, # hash of field values/regexes to match
+  :include  => [], # string, or an array of strings
+  :sort     => [], # string, or an array of strings
+  :page     => 1,  # defaults to 1
+  :per_page => 20  # defaults to 20
+)
+<% end %>
+<% when :patch
+    body_param = parameters.detect {|pa| 'body'.eql?(pa.in) }
+
+    props = nil
+    examp = []
+
+    unless body_param.nil?
+      schema = body_param.schema
+
+      definition_name = if 'array'.eql?(schema.type)
+        schema.items['$ref']
+      else
+        schema['$ref']
+      end
+      definition = definitions[definition_name.sub(%r{^#/definitions/}, '')]
+
+      req = (definition.required - ['type']).sort
+      props = definition.properties
+      r_id = req - ['id']
+      opt = (props.keys - ((definition.required || []) + ['relationships'])).sort
+      examp = (req + opt) - ['id']
+-%>
+# required: <%= req.sort.join(', ') %>
+# optional: <%= opt.sort.join(', ') %>
+
+<% end -%>
+<%
+  case number
+  when :singular
+-%>
 Flapjack::Diner.update_<%= ext -%>(
-  :id => '<%= uuids[0] -%>'
+  :id => '<%= uuids[0] -%>'<% unless examp.empty? %>,
+<%= examp.map {|r| "  :#{r} => #{example_data(props, r, 0)}" }.join(",\n") %>
+<% end -%>
 )
-
-# or
-
+<%
+  when :multiple
+-%>
 Flapjack::Diner.update_<%= ext -%>({
-  :id => '<%= uuids[0] -%>'
+  :id => '<%= uuids[0] -%>'<% unless examp.empty? %>,
+<%= examp.map {|r| "  :#{r} => #{example_data(props, r, 0)}" }.join(",\n") %>
+<% end -%>
 }, {
-  :id => '<%= uuids[1] -%>'
+  :id => '<%= uuids[1] -%>'<% unless examp.empty? %>,
+<%= examp.map {|r| "  :#{r} => #{example_data(props, r, 1)}" }.join(",\n") %>
+<% end -%>
 })
+<% end -%>
 <% when :delete %>
+<%
+  case number
+  when :singular
+-%>
 Flapjack::Diner.delete_<%= ext -%>(
   '<%= uuids[0] %>'
 )
-
-# or
-
+<%
+  when :multiple
+-%>
 Flapjack::Diner.delete_<%= ext -%>(
   '<%= uuids[0] %>',
   '<%= uuids[1] %>'
 )
+<% end -%>
 <%
-end -%>
+end
+-%>
 ```
