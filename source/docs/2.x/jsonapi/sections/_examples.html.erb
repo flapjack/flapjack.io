@@ -1,0 +1,109 @@
+<%
+
+sample_data ||= {
+  :acknowledgement => [{
+    :duration => 60 * 20,
+    :summary => 'Fixing manually'
+  }, {
+    :duration => 60 * 50,
+    :summary => 'Power return expected'
+  }],
+  :check => [{
+    :name => 'www.example.com:PING'
+  }, {
+    :name => 'www.example.com:SSH'
+  }],
+  :contact => [{
+    :name => 'Lucia Moretti',
+    :timezone => 'Europe/Rome'
+  }, {
+    :name => 'Vera Дурейко',
+    :timezone => 'Europe/Paris'
+  }],
+  :medium => [{
+    :address => 'admin@example.org',
+    :transport => 'email',
+    :interval => 120,
+    :pagerduty_ack_duration => nil,
+    :pagerduty_subdomain => nil,
+    :pagerduty_token => nil,
+    :rollup_threshold => 3
+  }, {
+    :address => '<pd_service_key>',
+    :transport => 'pagerduty',
+    :interval => 'nil',
+    :pagerduty_ack_duration => 30,
+    :pagerduty_subdomain => '<pd_subdomain>',
+    :pagerduty_token => '<token>',
+    :rollup_threshold => 'nil'
+  }],
+  :rule => [{
+    :blackhole => false,
+    :enabled => true,
+    :strategy => 'global',
+    :conditions_list => 'critical',
+    :name => 'all critical',
+    :time_restriction_ical => 'nil'
+  }, {
+    :blackhole => true,
+    :enabled => true,
+    :strategy => 'any_tag',
+    :conditions_list => 'nil',
+    :name => 'no daytime disk usage',
+    :time_restriction_ical => 'DTSTART;TZID=CET:20130201T080000\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR\nDTEND;TZID=CET:20130201T180000'
+  }],
+  :scheduled_maintenance => [{
+    :start_time => DateTime.now,
+    :end_time => DateTime.new(2025, 3, 1, 0, 0, 0),
+  }, {
+    :start_time => DateTime.new(2025, 2, 1, 0, 0, 0),
+    :end_time => DateTime.new(2025, 3, 1, 0, 0, 0),
+  }],
+  :tag => [{
+    :name => 'database'
+  }, {
+    :name => 'remove_next_january'
+  }],
+  :test_notification => [{
+    :summary => ''
+  }, {
+    :summary => ''
+  }],
+  :unscheduled_maintenance => [{
+    :end_time => DateTime.now,
+  }, {
+    :end_time => DateTime.new(2050, 1, 1, 0, 0, 0),
+  }]
+}
+
+%>
+
+<%=
+  partial('sections/example_curl', :locals => {
+    :method_type => method_type,
+    :resource_type => resource_type,
+    :resource_name => resource_name,
+    :resource_linked_type => resource_linked_type,
+    :resource_linked_name => resource_linked_name,
+    :parameters => parameters,
+    :definitions => definitions,
+    :path => path,
+    :number => number,
+    :sample_data => sample_data,
+    :uuids => uuids
+  })
+%>
+<%=
+  partial('sections/example_ruby', :locals => {
+    :method_type => method_type,
+    :resource_type => resource_type,
+    :resource_name => resource_name,
+    :resource_linked_type => resource_linked_type,
+    :resource_linked_name => resource_linked_name,
+    :parameters => parameters,
+    :definitions => definitions,
+    :number => number,
+    :sample_data => sample_data,
+    :uuids => uuids
+  })
+%>

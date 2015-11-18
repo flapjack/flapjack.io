@@ -1,0 +1,28 @@
+<%=
+  partial('sections/example_link_curl', :locals => {
+    :method_type => method_type,
+    :resource_type => resource_type,
+    :resource_name => resource_name,
+    :resource_linked_type => resource_linked_type,
+    :resource_linked_name => resource_linked_name,
+    :parameters => parameters,
+    :definitions => definitions,
+    :path => path,
+    :number => number,
+    :uuids => uuids
+  })
+%>
+
+<%=
+  partial('sections/example_link_ruby', :locals => {
+    :method_type => method_type,
+    :resource_type => resource_type,
+    :resource_name => resource_name,
+    :resource_linked_type => resource_linked_type,
+    :resource_linked_name => resource_linked_name,
+    :parameters => parameters,
+    :definitions => definitions,
+    :number => number,
+    :uuids => uuids
+  })
+%>

@@ -1,4 +1,105 @@
+<%
+
+# NB somewhat duplicated in example_ruby
+def example_data(samp, props, prop, num)
+  if props.key?(:type) && samp.key?(props.type.enum.first.to_sym) &&
+    samp[props.type.enum.first.to_sym][num].key?(prop.to_sym)
+
+    value = samp[props.type.enum.first.to_sym][num][prop.to_sym]
+
+    case value
+    when DateTime
+      value.iso8601.to_json
+    when String
+      value.to_json
+    when nil
+      'null'
+    else
+      value.to_s.to_json
+    end
+  else
+    property = props[prop]
+    case property.type
+    when 'string'
+      if property.key?(:format)
+        case property[:format]
+        when 'date-time'
+          "'<String(date-time)>'"
+        # when 'url'
+        #   '"<String(url)>"'
+        else
+          "'<String>'"
+        end
+      else
+        "'<String>'"
+      end
+    when 'integer'
+      '1'
+    when 'boolean'
+      'true'
+    else
+      property.type
+    end
+  end
+end
+
+%>
 ```shell
+<%
+case method_type
+when :post
+  body_param = parameters.detect {|pa| 'body'.eql?(pa.in) }
+
+  props = nil
+  examp = []
+
+  unless body_param.nil?
+    schema = body_param.schema
+
+    definition_name = if 'array'.eql?(schema.type)
+      schema.items['$ref']
+    else
+      schema['$ref']
+    end
+    definition = definitions[definition_name.sub(%r{^#/definitions/}, '')]
+
+    req = (definition.required - ['type']).sort
+    props = definition.properties
+    opt = (props.keys - ((definition.required || []) + ['relationships'])).sort
+    examp = (req + opt) - ['id']
+%>
+# required: <%= req.join(', ') %>
+# optional: <%= opt.join(', ') %>
+<%
+  end
+when :patch
+  body_param = parameters.detect {|pa| 'body'.eql?(pa.in) }
+
+  props = nil
+  examp = []
+
+  unless body_param.nil?
+    schema = body_param.schema
+
+    definition_name = if 'array'.eql?(schema.type)
+      schema.items['$ref']
+    else
+      schema['$ref']
+    end
+    definition = definitions[definition_name.sub(%r{^#/definitions/}, '')]
+
+    req = (definition.required - ['type']).sort
+    props = definition.properties
+    r_id = req - ['id']
+    opt = (props.keys - ((definition.required || []) + ['relationships'])).sort
+    examp = (req + opt) - ['id']
+%>
+# required: <%= req.sort.join(', ') %>
+# optional: <%= opt.sort.join(', ') %>
+<%
+  end
+end
+-%>
 curl -w 'response: %{http_code} \n' -X <%= method_type.to_s.upcase -%> \
 -H "Content-type: application/vnd.api+json; ext=bulk" -d \
 <%
@@ -19,10 +120,14 @@ when :post
     "data": [
       {
         "type": "<%= res %>",
-        "id": "<%= uuids[0] %>",
+        "id": "<%= uuids[0] %>"<% unless examp.empty? %>,
+<%= examp.map {|r| "        \"#{r}\": #{example_data(sample_data, props, r, 0)}" }.join(",\n") %>
+<% end -%>
       }<% unless singular_req -%>, {
         "type": "<%= res %>",
-        "id": "<%= uuids[1] %>",
+        "id": "<%= uuids[1] %>"<% unless examp.empty? %>,
+<%= examp.map {|r| "        \"#{r}\": #{example_data(sample_data, props, r, 1)}" }.join(",\n") %>
+<% end -%>
       }<% end %>
     ]
   }' \
@@ -34,10 +139,14 @@ when :patch
     "data": [
       {
         "type": "<%= res %>",
-        "id": "<%= uuids[0] %>",
+        "id": "<%= uuids[0] %>"<% unless examp.empty? %>,
+<%= examp.map {|r| "        \"#{r}\": #{example_data(sample_data, props, r, 0)}" }.join(",\n") %>
+<% end -%>
       }<% unless singular_req -%>, {
         "type": "<%= res %>",
-        "id": "<%= uuids[1] %>",
+        "id": "<%= uuids[1] %>"<% unless examp.empty? %>,
+<%= examp.map {|r| "        \"#{r}\": #{example_data(sample_data, props, r, 1)}" }.join(",\n") %>
+<% end -%>
       }<% end %>
     ]
   }' \

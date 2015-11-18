@@ -7,7 +7,7 @@ case number
 when :singular, :multiple
 %>
 <%=
-  partial('sections/example_curl', :locals => {
+  partial('sections/examples', :locals => {
     :method_type => method_type,
     :resource_type => resource_type,
     :resource_name => resource_name,
@@ -16,19 +16,6 @@ when :singular, :multiple
     :parameters => operation.parameters,
     :definitions => definitions,
     :path => path,
-    :number => number,
-    :uuids => uuids
-  })
-%>
-<%=
-  partial('sections/example_ruby', :locals => {
-    :method_type => method_type,
-    :resource_type => resource_type,
-    :resource_name => resource_name,
-    :resource_linked_type => resource_linked_type,
-    :resource_linked_name => resource_linked_name,
-    :parameters => operation.parameters,
-    :definitions => definitions,
     :number => number,
     :uuids => uuids
   })
@@ -37,7 +24,7 @@ when :singular, :multiple
 when :singular_link, :multiple_link
 %>
 <%=
-  partial('sections/example_link_curl', :locals => {
+  partial('sections/examples_link', :locals => {
     :method_type => method_type,
     :resource_type => resource_type,
     :resource_name => resource_name,
@@ -46,20 +33,6 @@ when :singular_link, :multiple_link
     :parameters => operation.parameters,
     :definitions => definitions,
     :path => path,
-    :number => number,
-    :uuids => uuids
-  })
-%>
-
-<%=
-  partial('sections/example_link_ruby', :locals => {
-    :method_type => method_type,
-    :resource_type => resource_type,
-    :resource_name => resource_name,
-    :resource_linked_type => resource_linked_type,
-    :resource_linked_name => resource_linked_name,
-    :parameters => operation.parameters,
-    :definitions => definitions,
     :number => number,
     :uuids => uuids
   })
