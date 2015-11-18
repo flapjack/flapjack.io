@@ -158,7 +158,7 @@ bundle
 bundle exec rake spec && \
 bundle exec rake features && \
 bundle exec rake pact:verify && \
-cd src/flapjack && go test -v
+(cd src/flapjack && go test -v)
 ```
 
 - Fix the tests, or abort the release mission, if any tests are failing.

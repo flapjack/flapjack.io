@@ -5,10 +5,11 @@ The PagerDuty resource has the following attributes:
 
 Attribute | Type | Description
 --- | --- | ---
-service_key | String |
-subdomain | String |
-username | String |
-password | String |
+service_key | String | A PagerDuty service key.
+subdomain | String | A PagerDuty account subdomain.
+token | String | A PagerDuty API key.
+username | String | *Deprecated*. A PagerDuty username.
+password | String | *Deprecated*. The PagerDuty user's password.
 
 
 ## Create PagerDuty credentials for a contact
@@ -20,8 +21,7 @@ curl -w 'response: %{http_code} \n' -X POST -H "Content-Type: application/vnd.ap
       {
         "service_key" : "567890123456789012345678",
         "subdomain" : "eggs",
-        "username" : "flapjack",
-        "password" : "tomato"
+        "token" : "AnX4yLUtXkSBxjza7qvv"
       }
     ]
   }' \
@@ -35,10 +35,9 @@ Flapjack::Diner.base_uri('localhost:3081')
 Flapjack::Diner.create_contact_pagerduty_credentials(
   '5',
   {
-    'service_key' => '567890123456789012345678',
-    'subdomain'   => 'eggs',
-    'username'    => 'flapjack',
-    'password'    => 'tomato'
+    service_key: '567890123456789012345678',
+    subdomain:   'eggs',
+    token:       'AnX4yLUtXkSBxjza7qvv'
   }
 )
 ```
@@ -98,8 +97,9 @@ Flapjack::Diner.pagerduty_credentials('21', '22')
     {
       "service_key" : "567890123456789012345678",
       "subdomain" : "eggs",
-      "username" : "flapjack",
-      "password" : "tomato",
+      "token" : "AnX4yLUtXkSBxjza7qvv",
+      "username" : "",
+      "password" : "",
       "links": {
         "contacts": ["21"]
       }
@@ -107,8 +107,9 @@ Flapjack::Diner.pagerduty_credentials('21', '22')
     {
       "service_key" : "456789012345678901234567",
       "subdomain" : "spam",
-      "username" : "waffle",
-      "password" : "eggplant",
+      "token" : "SHcYRxjpupbVJMqVhoUs",
+      "username" : "",
+      "password" : "",
       "links": {
         "contacts": ["22"]
       }
@@ -144,11 +145,11 @@ Update one or more attributes for one or more PagerDuty credentials resources.
 curl -w 'response: %{http_code} \n' -X PATCH -H "Content-Type: application/json-patch+json" -d \
 '[
   {"op"    : "replace",
-   "path"  : "/pagerduty_credentials/0/username",
-   "value" : "genius"},
+   "path"  : "/pagerduty_credentials/0/service_key",
+   "value" : "f709af238cff46ff87a6da34cd51becb"},
   {"op"    : "replace",
-   "path"  : "/pagerduty_credentials/0/password",
-   "value" : "ideas"}
+   "path"  : "/pagerduty_credentials/0/token",
+   "value" : "ccihxyKqkAk7GnHa6LDC"}
 ]' \
  'http://localhost:3081/pagerduty_credentials/21s'
 ```
@@ -159,8 +160,8 @@ Flapjack::Diner.base_uri('localhost:3081')
 
 Flapjack::Diner.update_pagerduty_credentials(
   '21',
-  :username => 'genius',
-  :password => 'ideas'
+  service_key: 'f709af238cff46ff87a6da34cd51becb',
+  token: 'ccihxyKqkAk7GnHa6LDC'
 )
 ```
 
