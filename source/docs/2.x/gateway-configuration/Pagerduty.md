@@ -25,22 +25,20 @@ The Flapjack Pagerduty gateway does not support rollup, given Pagerduty itself s
 | queue   | String  | The queue name to listen on. Must match the 'pagerduty_queue' defined in the notitifier. |
 | logger/level | FATAL/ERROR/WARN/INFO/DEBUG | The logging verbosity of the gateway. Set to DEBUG, reload flapjack, and consult flapjack.log if you're having trouble. |
 | logger/syslog_errors | yes/no | Send logging messages at ERROR or FATAL to the syslog |
-| templates/alert.text | String | Path to a custom template for alerts about individual checks. Must be an ERB file. See the [default](https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/pagerduty/alert.text.erb)|
+| templates/alert.text | String | Path to a custom template for alerts about individual checks. Must be an ERB file. See the [default](https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/pager_duty/alert.text.erb)|
 
 ## Contact Media Setup
 
-Typically you'll only need one contact in Flapjack that has a Pagerduty contact medium configured. However you can have multiple, if you have several organisations in Pagerduty you wish to create incidents for.
+Typically you'll only need one contact in Flapjack that has a Pagerduty medium configured. However you can have multiple media, if you have several organisations in Pagerduty you wish to create incidents for.
 
-The pagerduty contact medium takes several parameters as follows:
+The medium takes several parameters as follows:
 
 | Name | Description |
 |------|-------------|
-| service_key (string) | the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account |
-| subdomain (string) | the subdomain for this contact's PagerDuty account, eg "foobar" in the case of https://foobar.pagerduty.com/ |
-| username (string) | the username for the PagerDuty REST API (basic http auth) for reading data back out of PagerDuty |
-| password (string) | the password for the PagerDuty REST API |
+| pagerduty_service_key (string) | the API key for PagerDuty's integration API, corresponds to a 'service' within this contact's PagerDuty account |
+| pagerduty_subdomain (string) | the subdomain for this contact's PagerDuty account, eg "foobar" in the case of https://foobar.pagerduty.com/ |
+| pagerduty_token (string) | the API token for the PagerDuty REST API for reading data back out of PagerDuty |
 
-
-Currently the web interface does not support management of pagerduty credentials, it will only display them. Therefore, you need to use the api to do this. See the [jsonapi reference](http://flapjack.io/docs/1.0/jsonapi/#pagerduty-credentials) for details.
+You'll need to use the api to do manage. See the [jsonapi reference](../jsonapi/#media) for details.
 
 
