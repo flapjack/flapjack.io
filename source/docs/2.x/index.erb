@@ -1,8 +1,14 @@
 <h1> Documentation </h1>
 
-2.x is under heavy development... The latest stable release is in the 1.x series.
+v2.0 is not yet released... The latest stable release is in the 1.x series.
 
-<% %w(usage development).each do |section| %>
+<ul style="margin-top: 1.5em">
+<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
+<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
+<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
+</ul>
+
+<% ['usage', 'gateway configuration', 'development'].each do |section| %>
 
   <%="<h4> #{section.capitalize} </h4>"%>
 
