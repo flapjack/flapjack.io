@@ -56,12 +56,12 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
     "data": [
       {
         "type": "acknowledgement",
-        "id": "be96519e-e809-465e-9bd3-ae2fd957cea1",
+        "id": "15086921-2d21-4efa-834b-15a9cd846f09",
         "duration": "1200",
         "summary": "Fixing manually"
       }, {
         "type": "acknowledgement",
-        "id": "cfba2590-136c-4fd9-aedc-f49a7c19fe64",
+        "id": "9c5cad20-3fa8-4dec-97d1-405c9e1eb66d",
         "duration": "3000",
         "summary": "Power return expected"
       }
@@ -77,11 +77,11 @@ http://localhost:3081/acknowledgements
 <span class="c1"># optional: duration, id, summary</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_acknowledgements</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'be96519e-e809-465e-9bd3-ae2fd957cea1'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'15086921-2d21-4efa-834b-15a9cd846f09'</span><span class="p">,</span>
   <span class="ss">:duration</span> <span class="o">=&gt;</span> <span class="mi">1200</span><span class="p">,</span>
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">'Fixing manually'</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'cfba2590-136c-4fd9-aedc-f49a7c19fe64'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'9c5cad20-3fa8-4dec-97d1-405c9e1eb66d'</span><span class="p">,</span>
   <span class="ss">:duration</span> <span class="o">=&gt;</span> <span class="mi">3000</span><span class="p">,</span>
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">'Power return expected'</span>
 <span class="p">})</span>
@@ -271,14 +271,14 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
     "data": [
       {
         "type": "check",
-        "id": "bd49ef0b-02d3-4f17-873c-2e49ec9a771e",
+        "id": "2937ba38-c26b-4ffc-9db1-6a6fb353d7bb",
         "enabled": true,
         "initial_failure_delay": 1,
         "name": "www.example.com:PING",
         "repeat_failure_delay": 1
       }, {
         "type": "check",
-        "id": "e840b2e7-1009-4b81-ab0a-3892e9a1febe",
+        "id": "30324f99-8fd6-4116-b00d-09078f9b6540",
         "enabled": true,
         "initial_failure_delay": 1,
         "name": "www.example.com:SSH",
@@ -296,13 +296,13 @@ http://localhost:3081/checks
 <span class="c1"># optional: id</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_checks</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'bd49ef0b-02d3-4f17-873c-2e49ec9a771e'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'2937ba38-c26b-4ffc-9db1-6a6fb353d7bb'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
   <span class="ss">:initial_failure_delay</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="ss">:repeat_failure_delay</span> <span class="o">=&gt;</span> <span class="mi">1</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'e840b2e7-1009-4b81-ab0a-3892e9a1febe'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'30324f99-8fd6-4116-b00d-09078f9b6540'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
   <span class="ss">:initial_failure_delay</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'www.example.com:SSH'</span><span class="p">,</span>
@@ -571,14 +571,14 @@ See <strong>Responses</strong> tab
 
 <pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X GET <span class="se">\</span>
 -H <span class="s2">"Content-type: application/vnd.api+json; ext=bulk"</span> -d <span class="se">\</span>
-http://localhost:3081/checks/bd49ef0b-02d3-4f17-873c-2e49ec9a771e
+http://localhost:3081/checks/2937ba38-c26b-4ffc-9db1-6a6fb353d7bb
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">checks</span><span class="p">(</span>
-  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'bd49ef0b-02d3-4f17-873c-2e49ec9a771e'</span><span class="p">}</span>
+  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'2937ba38-c26b-4ffc-9db1-6a6fb353d7bb'</span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -1109,7 +1109,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "check",
-        "id": "bd49ef0b-02d3-4f17-873c-2e49ec9a771e",
+        "id": "2937ba38-c26b-4ffc-9db1-6a6fb353d7bb",
         "enabled": true,
         "initial_failure_delay": 1,
         "name": "www.example.com:PING",
@@ -1117,7 +1117,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/checks/bd49ef0b-02d3-4f17-873c-2e49ec9a771e
+http://localhost:3081/checks/2937ba38-c26b-4ffc-9db1-6a6fb353d7bb
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
@@ -1127,7 +1127,7 @@ http://localhost:3081/checks/bd49ef0b-02d3-4f17-873c-2e49ec9a771e
 <span class="c1"># optional: enabled, initial_failure_delay, name, repeat_failure_delay</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_checks</span><span class="p">(</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'bd49ef0b-02d3-4f17-873c-2e49ec9a771e'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'2937ba38-c26b-4ffc-9db1-6a6fb353d7bb'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
   <span class="ss">:initial_failure_delay</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
@@ -1264,14 +1264,14 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "check",
-        "id": "bd49ef0b-02d3-4f17-873c-2e49ec9a771e",
+        "id": "2937ba38-c26b-4ffc-9db1-6a6fb353d7bb",
         "enabled": true,
         "initial_failure_delay": 1,
         "name": "www.example.com:PING",
         "repeat_failure_delay": 1
       }, {
         "type": "check",
-        "id": "e840b2e7-1009-4b81-ab0a-3892e9a1febe",
+        "id": "30324f99-8fd6-4116-b00d-09078f9b6540",
         "enabled": true,
         "initial_failure_delay": 1,
         "name": "www.example.com:SSH",
@@ -1289,13 +1289,13 @@ http://localhost:3081/checks
 <span class="c1"># optional: enabled, initial_failure_delay, name, repeat_failure_delay</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_checks</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'bd49ef0b-02d3-4f17-873c-2e49ec9a771e'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'2937ba38-c26b-4ffc-9db1-6a6fb353d7bb'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
   <span class="ss">:initial_failure_delay</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'www.example.com:PING'</span><span class="p">,</span>
   <span class="ss">:repeat_failure_delay</span> <span class="o">=&gt;</span> <span class="mi">1</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'e840b2e7-1009-4b81-ab0a-3892e9a1febe'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'30324f99-8fd6-4116-b00d-09078f9b6540'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
   <span class="ss">:initial_failure_delay</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'www.example.com:SSH'</span><span class="p">,</span>
@@ -1418,18 +1418,18 @@ http://localhost:3081/checks
     "data": [
       {
         "type": "check",
-        "id": "bd49ef0b-02d3-4f17-873c-2e49ec9a771e",
+        "id": "2937ba38-c26b-4ffc-9db1-6a6fb353d7bb",
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/checks/bd49ef0b-02d3-4f17-873c-2e49ec9a771e
+http://localhost:3081/checks/2937ba38-c26b-4ffc-9db1-6a6fb353d7bb
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_checks</span><span class="p">(</span>
-  <span class="s1">'bd49ef0b-02d3-4f17-873c-2e49ec9a771e'</span>
+  <span class="s1">'2937ba38-c26b-4ffc-9db1-6a6fb353d7bb'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -1521,10 +1521,10 @@ http://localhost:3081/checks/bd49ef0b-02d3-4f17-873c-2e49ec9a771e
     "data": [
       {
         "type": "check",
-        "id": "bd49ef0b-02d3-4f17-873c-2e49ec9a771e",
+        "id": "2937ba38-c26b-4ffc-9db1-6a6fb353d7bb",
       }, {
         "type": "check",
-        "id": "e840b2e7-1009-4b81-ab0a-3892e9a1febe",
+        "id": "30324f99-8fd6-4116-b00d-09078f9b6540",
       }
     ]
   }'</span> <span class="se">\</span>
@@ -1535,8 +1535,8 @@ http://localhost:3081/checks
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_checks</span><span class="p">(</span>
-  <span class="s1">'bd49ef0b-02d3-4f17-873c-2e49ec9a771e'</span><span class="p">,</span>
-  <span class="s1">'e840b2e7-1009-4b81-ab0a-3892e9a1febe'</span>
+  <span class="s1">'2937ba38-c26b-4ffc-9db1-6a6fb353d7bb'</span><span class="p">,</span>
+  <span class="s1">'30324f99-8fd6-4116-b00d-09078f9b6540'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -2570,9 +2570,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_check_link_tags</span><span class="p">({</span>
-  <span class="s1">'bd49ef0b-02d3-4f17-873c-2e49ec9a771e'</span><span class="p">,</span> <span class="c1"># check</span>
-  <span class="s1">'e840b2e7-1009-4b81-ab0a-3892e9a1febe'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'779b461b-5496-4374-9589-b7442bcbe968'</span>  <span class="c1"># tag</span>
+  <span class="s1">'2937ba38-c26b-4ffc-9db1-6a6fb353d7bb'</span><span class="p">,</span> <span class="c1"># check</span>
+  <span class="s1">'30324f99-8fd6-4116-b00d-09078f9b6540'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'24aa4440-9b37-46c1-a35b-7649a3018aa5'</span>  <span class="c1"># tag</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -2803,9 +2803,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_check_link_tags</span><span class="p">({</span>
-  <span class="s1">'bd49ef0b-02d3-4f17-873c-2e49ec9a771e'</span><span class="p">,</span> <span class="c1"># check</span>
-  <span class="s1">'e840b2e7-1009-4b81-ab0a-3892e9a1febe'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'779b461b-5496-4374-9589-b7442bcbe968'</span>  <span class="c1"># tag</span>
+  <span class="s1">'2937ba38-c26b-4ffc-9db1-6a6fb353d7bb'</span><span class="p">,</span> <span class="c1"># check</span>
+  <span class="s1">'30324f99-8fd6-4116-b00d-09078f9b6540'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'24aa4440-9b37-46c1-a35b-7649a3018aa5'</span>  <span class="c1"># tag</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -2919,9 +2919,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_check_link_tags</span><span class="p">(</span>
-  <span class="s1">'bd49ef0b-02d3-4f17-873c-2e49ec9a771e'</span><span class="p">,</span> <span class="c1"># check</span>
-  <span class="s1">'e840b2e7-1009-4b81-ab0a-3892e9a1febe'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'779b461b-5496-4374-9589-b7442bcbe968'</span>  <span class="c1"># tag</span>
+  <span class="s1">'2937ba38-c26b-4ffc-9db1-6a6fb353d7bb'</span><span class="p">,</span> <span class="c1"># check</span>
+  <span class="s1">'30324f99-8fd6-4116-b00d-09078f9b6540'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'24aa4440-9b37-46c1-a35b-7649a3018aa5'</span>  <span class="c1"># tag</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -3157,12 +3157,12 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
     "data": [
       {
         "type": "contact",
-        "id": "c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8",
+        "id": "8031bc9e-e6b4-4667-867d-694d1513319a",
         "name": "Lucia Moretti",
         "timezone": "Europe/Rome"
       }, {
         "type": "contact",
-        "id": "ae20eb51-a036-45d6-b1c1-c6816f56c774",
+        "id": "a76af83a-404a-4d12-a3e9-82ec8792a1ed",
         "name": "Vera Дурейко",
         "timezone": "Europe/Paris"
       }
@@ -3178,11 +3178,11 @@ http://localhost:3081/contacts
 <span class="c1"># optional: id, timezone</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contacts</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'8031bc9e-e6b4-4667-867d-694d1513319a'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'Lucia Moretti'</span><span class="p">,</span>
   <span class="ss">:timezone</span> <span class="o">=&gt;</span> <span class="s1">'Europe/Rome'</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'ae20eb51-a036-45d6-b1c1-c6816f56c774'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'a76af83a-404a-4d12-a3e9-82ec8792a1ed'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'Vera Дурейко'</span><span class="p">,</span>
   <span class="ss">:timezone</span> <span class="o">=&gt;</span> <span class="s1">'Europe/Paris'</span>
 <span class="p">})</span>
@@ -3382,14 +3382,14 @@ See <strong>Responses</strong> tab
 
 <pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X GET <span class="se">\</span>
 -H <span class="s2">"Content-type: application/vnd.api+json; ext=bulk"</span> -d <span class="se">\</span>
-http://localhost:3081/contacts/c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8
+http://localhost:3081/contacts/8031bc9e-e6b4-4667-867d-694d1513319a
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">contacts</span><span class="p">(</span>
-  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8'</span><span class="p">}</span>
+  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'8031bc9e-e6b4-4667-867d-694d1513319a'</span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -3790,13 +3790,13 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "contact",
-        "id": "c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8",
+        "id": "8031bc9e-e6b4-4667-867d-694d1513319a",
         "name": "Lucia Moretti",
         "timezone": "Europe/Rome"
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/contacts/c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8
+http://localhost:3081/contacts/8031bc9e-e6b4-4667-867d-694d1513319a
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
@@ -3806,7 +3806,7 @@ http://localhost:3081/contacts/c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8
 <span class="c1"># optional: name, timezone</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_contacts</span><span class="p">(</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'8031bc9e-e6b4-4667-867d-694d1513319a'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'Lucia Moretti'</span><span class="p">,</span>
   <span class="ss">:timezone</span> <span class="o">=&gt;</span> <span class="s1">'Europe/Rome'</span>
 <span class="p">)</span>
@@ -3951,12 +3951,12 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "contact",
-        "id": "c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8",
+        "id": "8031bc9e-e6b4-4667-867d-694d1513319a",
         "name": "Lucia Moretti",
         "timezone": "Europe/Rome"
       }, {
         "type": "contact",
-        "id": "ae20eb51-a036-45d6-b1c1-c6816f56c774",
+        "id": "a76af83a-404a-4d12-a3e9-82ec8792a1ed",
         "name": "Vera Дурейко",
         "timezone": "Europe/Paris"
       }
@@ -3972,11 +3972,11 @@ http://localhost:3081/contacts
 <span class="c1"># optional: name, timezone</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_contacts</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'8031bc9e-e6b4-4667-867d-694d1513319a'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'Lucia Moretti'</span><span class="p">,</span>
   <span class="ss">:timezone</span> <span class="o">=&gt;</span> <span class="s1">'Europe/Rome'</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'ae20eb51-a036-45d6-b1c1-c6816f56c774'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'a76af83a-404a-4d12-a3e9-82ec8792a1ed'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'Vera Дурейко'</span><span class="p">,</span>
   <span class="ss">:timezone</span> <span class="o">=&gt;</span> <span class="s1">'Europe/Paris'</span>
 <span class="p">})</span>
@@ -4107,18 +4107,18 @@ http://localhost:3081/contacts
     "data": [
       {
         "type": "contact",
-        "id": "c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8",
+        "id": "8031bc9e-e6b4-4667-867d-694d1513319a",
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/contacts/c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8
+http://localhost:3081/contacts/8031bc9e-e6b4-4667-867d-694d1513319a
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_contacts</span><span class="p">(</span>
-  <span class="s1">'c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8'</span>
+  <span class="s1">'8031bc9e-e6b4-4667-867d-694d1513319a'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -4210,10 +4210,10 @@ http://localhost:3081/contacts/c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8
     "data": [
       {
         "type": "contact",
-        "id": "c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8",
+        "id": "8031bc9e-e6b4-4667-867d-694d1513319a",
       }, {
         "type": "contact",
-        "id": "ae20eb51-a036-45d6-b1c1-c6816f56c774",
+        "id": "a76af83a-404a-4d12-a3e9-82ec8792a1ed",
       }
     ]
   }'</span> <span class="se">\</span>
@@ -4224,8 +4224,8 @@ http://localhost:3081/contacts
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_contacts</span><span class="p">(</span>
-  <span class="s1">'c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8'</span><span class="p">,</span>
-  <span class="s1">'ae20eb51-a036-45d6-b1c1-c6816f56c774'</span>
+  <span class="s1">'8031bc9e-e6b4-4667-867d-694d1513319a'</span><span class="p">,</span>
+  <span class="s1">'a76af83a-404a-4d12-a3e9-82ec8792a1ed'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -4674,9 +4674,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_contact_link_tags</span><span class="p">({</span>
-  <span class="s1">'c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8'</span><span class="p">,</span> <span class="c1"># contact</span>
-  <span class="s1">'ae20eb51-a036-45d6-b1c1-c6816f56c774'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'3d33ebb0-f52b-4a03-af3a-9a62d0cee3e8'</span>  <span class="c1"># tag</span>
+  <span class="s1">'8031bc9e-e6b4-4667-867d-694d1513319a'</span><span class="p">,</span> <span class="c1"># contact</span>
+  <span class="s1">'a76af83a-404a-4d12-a3e9-82ec8792a1ed'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'17da47b1-9ebd-46d0-9120-d55597936470'</span>  <span class="c1"># tag</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -4907,9 +4907,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_contact_link_tags</span><span class="p">({</span>
-  <span class="s1">'c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8'</span><span class="p">,</span> <span class="c1"># contact</span>
-  <span class="s1">'ae20eb51-a036-45d6-b1c1-c6816f56c774'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'3d33ebb0-f52b-4a03-af3a-9a62d0cee3e8'</span>  <span class="c1"># tag</span>
+  <span class="s1">'8031bc9e-e6b4-4667-867d-694d1513319a'</span><span class="p">,</span> <span class="c1"># contact</span>
+  <span class="s1">'a76af83a-404a-4d12-a3e9-82ec8792a1ed'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'17da47b1-9ebd-46d0-9120-d55597936470'</span>  <span class="c1"># tag</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -5023,9 +5023,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_contact_link_tags</span><span class="p">(</span>
-  <span class="s1">'c392e42b-a8cf-4a6e-ba20-ba59f5fdcbd8'</span><span class="p">,</span> <span class="c1"># contact</span>
-  <span class="s1">'ae20eb51-a036-45d6-b1c1-c6816f56c774'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'3d33ebb0-f52b-4a03-af3a-9a62d0cee3e8'</span>  <span class="c1"># tag</span>
+  <span class="s1">'8031bc9e-e6b4-4667-867d-694d1513319a'</span><span class="p">,</span> <span class="c1"># contact</span>
+  <span class="s1">'a76af83a-404a-4d12-a3e9-82ec8792a1ed'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'17da47b1-9ebd-46d0-9120-d55597936470'</span>  <span class="c1"># tag</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -5144,7 +5144,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
     "data": [
       {
         "type": "medium",
-        "id": "5c57cfdb-f3f8-4a51-bfb9-1884e4d78833",
+        "id": "b1bba2b3-51d7-4268-8fcb-65fa54ef0263",
         "address": "admin@example.org",
         "transport": "email",
         "interval": "120",
@@ -5154,7 +5154,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
         "rollup_threshold": "3"
       }, {
         "type": "medium",
-        "id": "7af932af-47b2-46e4-8728-8102f93c6de6",
+        "id": "111bea37-4a95-4941-827d-8b13cd0dd4fa",
         "address": "\u003cpd_service_key\u003e",
         "transport": "pagerduty",
         "interval": "nil",
@@ -5175,7 +5175,7 @@ http://localhost:3081/media
 <span class="c1"># optional: id, interval, pagerduty_ack_duration, pagerduty_subdomain, pagerduty_token, rollup_threshold</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_media</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'5c57cfdb-f3f8-4a51-bfb9-1884e4d78833'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'b1bba2b3-51d7-4268-8fcb-65fa54ef0263'</span><span class="p">,</span>
   <span class="ss">:address</span> <span class="o">=&gt;</span> <span class="s1">'admin@example.org'</span><span class="p">,</span>
   <span class="ss">:transport</span> <span class="o">=&gt;</span> <span class="s1">'email'</span><span class="p">,</span>
   <span class="ss">:interval</span> <span class="o">=&gt;</span> <span class="mi">120</span><span class="p">,</span>
@@ -5184,7 +5184,7 @@ http://localhost:3081/media
   <span class="ss">:pagerduty_token</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>
   <span class="ss">:rollup_threshold</span> <span class="o">=&gt;</span> <span class="mi">3</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'7af932af-47b2-46e4-8728-8102f93c6de6'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'111bea37-4a95-4941-827d-8b13cd0dd4fa'</span><span class="p">,</span>
   <span class="ss">:address</span> <span class="o">=&gt;</span> <span class="s1">'&lt;pd_service_key&gt;'</span><span class="p">,</span>
   <span class="ss">:transport</span> <span class="o">=&gt;</span> <span class="s1">'pagerduty'</span><span class="p">,</span>
   <span class="ss">:interval</span> <span class="o">=&gt;</span> <span class="s1">'nil'</span><span class="p">,</span>
@@ -5385,14 +5385,14 @@ See <strong>Responses</strong> tab
 
 <pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X GET <span class="se">\</span>
 -H <span class="s2">"Content-type: application/vnd.api+json; ext=bulk"</span> -d <span class="se">\</span>
-http://localhost:3081/media/5c57cfdb-f3f8-4a51-bfb9-1884e4d78833
+http://localhost:3081/media/b1bba2b3-51d7-4268-8fcb-65fa54ef0263
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">media</span><span class="p">(</span>
-  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'5c57cfdb-f3f8-4a51-bfb9-1884e4d78833'</span><span class="p">}</span>
+  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'b1bba2b3-51d7-4268-8fcb-65fa54ef0263'</span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -5763,7 +5763,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "medium",
-        "id": "5c57cfdb-f3f8-4a51-bfb9-1884e4d78833",
+        "id": "b1bba2b3-51d7-4268-8fcb-65fa54ef0263",
         "address": "admin@example.org",
         "interval": "120",
         "pagerduty_ack_duration": null,
@@ -5774,7 +5774,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/media/5c57cfdb-f3f8-4a51-bfb9-1884e4d78833
+http://localhost:3081/media/b1bba2b3-51d7-4268-8fcb-65fa54ef0263
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
@@ -5784,7 +5784,7 @@ http://localhost:3081/media/5c57cfdb-f3f8-4a51-bfb9-1884e4d78833
 <span class="c1"># optional: address, interval, pagerduty_ack_duration, pagerduty_subdomain, pagerduty_token, rollup_threshold, transport</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_media</span><span class="p">(</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'5c57cfdb-f3f8-4a51-bfb9-1884e4d78833'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'b1bba2b3-51d7-4268-8fcb-65fa54ef0263'</span><span class="p">,</span>
   <span class="ss">:address</span> <span class="o">=&gt;</span> <span class="s1">'admin@example.org'</span><span class="p">,</span>
   <span class="ss">:interval</span> <span class="o">=&gt;</span> <span class="mi">120</span><span class="p">,</span>
   <span class="ss">:pagerduty_ack_duration</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>
@@ -5927,7 +5927,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "medium",
-        "id": "5c57cfdb-f3f8-4a51-bfb9-1884e4d78833",
+        "id": "b1bba2b3-51d7-4268-8fcb-65fa54ef0263",
         "address": "admin@example.org",
         "interval": "120",
         "pagerduty_ack_duration": null,
@@ -5937,7 +5937,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
         "transport": "email"
       }, {
         "type": "medium",
-        "id": "7af932af-47b2-46e4-8728-8102f93c6de6",
+        "id": "111bea37-4a95-4941-827d-8b13cd0dd4fa",
         "address": "\u003cpd_service_key\u003e",
         "interval": "nil",
         "pagerduty_ack_duration": "30",
@@ -5958,7 +5958,7 @@ http://localhost:3081/media
 <span class="c1"># optional: address, interval, pagerduty_ack_duration, pagerduty_subdomain, pagerduty_token, rollup_threshold, transport</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_media</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'5c57cfdb-f3f8-4a51-bfb9-1884e4d78833'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'b1bba2b3-51d7-4268-8fcb-65fa54ef0263'</span><span class="p">,</span>
   <span class="ss">:address</span> <span class="o">=&gt;</span> <span class="s1">'admin@example.org'</span><span class="p">,</span>
   <span class="ss">:interval</span> <span class="o">=&gt;</span> <span class="mi">120</span><span class="p">,</span>
   <span class="ss">:pagerduty_ack_duration</span> <span class="o">=&gt;</span> <span class="kp">nil</span><span class="p">,</span>
@@ -5967,7 +5967,7 @@ http://localhost:3081/media
   <span class="ss">:rollup_threshold</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
   <span class="ss">:transport</span> <span class="o">=&gt;</span> <span class="s1">'email'</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'7af932af-47b2-46e4-8728-8102f93c6de6'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'111bea37-4a95-4941-827d-8b13cd0dd4fa'</span><span class="p">,</span>
   <span class="ss">:address</span> <span class="o">=&gt;</span> <span class="s1">'&lt;pd_service_key&gt;'</span><span class="p">,</span>
   <span class="ss">:interval</span> <span class="o">=&gt;</span> <span class="s1">'nil'</span><span class="p">,</span>
   <span class="ss">:pagerduty_ack_duration</span> <span class="o">=&gt;</span> <span class="mi">30</span><span class="p">,</span>
@@ -6096,18 +6096,18 @@ http://localhost:3081/media
     "data": [
       {
         "type": "medium",
-        "id": "5c57cfdb-f3f8-4a51-bfb9-1884e4d78833",
+        "id": "b1bba2b3-51d7-4268-8fcb-65fa54ef0263",
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/media/5c57cfdb-f3f8-4a51-bfb9-1884e4d78833
+http://localhost:3081/media/b1bba2b3-51d7-4268-8fcb-65fa54ef0263
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_media</span><span class="p">(</span>
-  <span class="s1">'5c57cfdb-f3f8-4a51-bfb9-1884e4d78833'</span>
+  <span class="s1">'b1bba2b3-51d7-4268-8fcb-65fa54ef0263'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -6199,10 +6199,10 @@ http://localhost:3081/media/5c57cfdb-f3f8-4a51-bfb9-1884e4d78833
     "data": [
       {
         "type": "medium",
-        "id": "5c57cfdb-f3f8-4a51-bfb9-1884e4d78833",
+        "id": "b1bba2b3-51d7-4268-8fcb-65fa54ef0263",
       }, {
         "type": "medium",
-        "id": "7af932af-47b2-46e4-8728-8102f93c6de6",
+        "id": "111bea37-4a95-4941-827d-8b13cd0dd4fa",
       }
     ]
   }'</span> <span class="se">\</span>
@@ -6213,8 +6213,8 @@ http://localhost:3081/media
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_media</span><span class="p">(</span>
-  <span class="s1">'5c57cfdb-f3f8-4a51-bfb9-1884e4d78833'</span><span class="p">,</span>
-  <span class="s1">'7af932af-47b2-46e4-8728-8102f93c6de6'</span>
+  <span class="s1">'b1bba2b3-51d7-4268-8fcb-65fa54ef0263'</span><span class="p">,</span>
+  <span class="s1">'111bea37-4a95-4941-827d-8b13cd0dd4fa'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -6546,9 +6546,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_medium_link_rules</span><span class="p">({</span>
-  <span class="s1">'5c57cfdb-f3f8-4a51-bfb9-1884e4d78833'</span><span class="p">,</span> <span class="c1"># medium</span>
-  <span class="s1">'7af932af-47b2-46e4-8728-8102f93c6de6'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'4e3ebeef-3002-4e7f-b337-e39424153e3d'</span>  <span class="c1"># rule</span>
+  <span class="s1">'b1bba2b3-51d7-4268-8fcb-65fa54ef0263'</span><span class="p">,</span> <span class="c1"># medium</span>
+  <span class="s1">'111bea37-4a95-4941-827d-8b13cd0dd4fa'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'9fcbfe54-390c-4c89-ad51-ece49019c833'</span>  <span class="c1"># rule</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -6779,9 +6779,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_medium_link_rules</span><span class="p">({</span>
-  <span class="s1">'5c57cfdb-f3f8-4a51-bfb9-1884e4d78833'</span><span class="p">,</span> <span class="c1"># medium</span>
-  <span class="s1">'7af932af-47b2-46e4-8728-8102f93c6de6'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'4e3ebeef-3002-4e7f-b337-e39424153e3d'</span>  <span class="c1"># rule</span>
+  <span class="s1">'b1bba2b3-51d7-4268-8fcb-65fa54ef0263'</span><span class="p">,</span> <span class="c1"># medium</span>
+  <span class="s1">'111bea37-4a95-4941-827d-8b13cd0dd4fa'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'9fcbfe54-390c-4c89-ad51-ece49019c833'</span>  <span class="c1"># rule</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -6895,9 +6895,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_medium_link_rules</span><span class="p">(</span>
-  <span class="s1">'5c57cfdb-f3f8-4a51-bfb9-1884e4d78833'</span><span class="p">,</span> <span class="c1"># medium</span>
-  <span class="s1">'7af932af-47b2-46e4-8728-8102f93c6de6'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'4e3ebeef-3002-4e7f-b337-e39424153e3d'</span>  <span class="c1"># rule</span>
+  <span class="s1">'b1bba2b3-51d7-4268-8fcb-65fa54ef0263'</span><span class="p">,</span> <span class="c1"># medium</span>
+  <span class="s1">'111bea37-4a95-4941-827d-8b13cd0dd4fa'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'9fcbfe54-390c-4c89-ad51-ece49019c833'</span>  <span class="c1"># rule</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -7153,7 +7153,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
     "data": [
       {
         "type": "rule",
-        "id": "55c096a2-a885-425b-8b30-36e6b819b80e",
+        "id": "f85db541-f294-4d83-829b-c27b171cead4",
         "blackhole": "false",
         "enabled": "true",
         "strategy": "global",
@@ -7162,7 +7162,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
         "time_restriction_ical": "nil"
       }, {
         "type": "rule",
-        "id": "eceae930-b379-4de5-88c8-26bd9ca30b07",
+        "id": "b712205c-ed6a-4d5b-9690-52956963de18",
         "blackhole": "true",
         "enabled": "true",
         "strategy": "any_tag",
@@ -7182,7 +7182,7 @@ http://localhost:3081/rules
 <span class="c1"># optional: conditions_list, id, name, time_restriction_ical</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_rules</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span>
   <span class="ss">:blackhole</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
   <span class="ss">:strategy</span> <span class="o">=&gt;</span> <span class="s1">'global'</span><span class="p">,</span>
@@ -7190,7 +7190,7 @@ http://localhost:3081/rules
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'all critical'</span><span class="p">,</span>
   <span class="ss">:time_restriction_ical</span> <span class="o">=&gt;</span> <span class="s1">'nil'</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'eceae930-b379-4de5-88c8-26bd9ca30b07'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'b712205c-ed6a-4d5b-9690-52956963de18'</span><span class="p">,</span>
   <span class="ss">:blackhole</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
   <span class="ss">:strategy</span> <span class="o">=&gt;</span> <span class="s1">'any_tag'</span><span class="p">,</span>
@@ -7404,14 +7404,14 @@ See <strong>Responses</strong> tab
 
 <pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X GET <span class="se">\</span>
 -H <span class="s2">"Content-type: application/vnd.api+json; ext=bulk"</span> -d <span class="se">\</span>
-http://localhost:3081/rules/55c096a2-a885-425b-8b30-36e6b819b80e
+http://localhost:3081/rules/f85db541-f294-4d83-829b-c27b171cead4
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">rules</span><span class="p">(</span>
-  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">}</span>
+  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -7800,7 +7800,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "rule",
-        "id": "55c096a2-a885-425b-8b30-36e6b819b80e",
+        "id": "f85db541-f294-4d83-829b-c27b171cead4",
         "blackhole": "false",
         "conditions_list": "critical",
         "enabled": "true",
@@ -7810,7 +7810,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/rules/55c096a2-a885-425b-8b30-36e6b819b80e
+http://localhost:3081/rules/f85db541-f294-4d83-829b-c27b171cead4
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
@@ -7820,7 +7820,7 @@ http://localhost:3081/rules/55c096a2-a885-425b-8b30-36e6b819b80e
 <span class="c1"># optional: blackhole, conditions_list, enabled, name, strategy, time_restriction_ical</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_rules</span><span class="p">(</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span>
   <span class="ss">:blackhole</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
   <span class="ss">:conditions_list</span> <span class="o">=&gt;</span> <span class="s1">'critical'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
@@ -7967,7 +7967,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "rule",
-        "id": "55c096a2-a885-425b-8b30-36e6b819b80e",
+        "id": "f85db541-f294-4d83-829b-c27b171cead4",
         "blackhole": "false",
         "conditions_list": "critical",
         "enabled": "true",
@@ -7976,7 +7976,7 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
         "time_restriction_ical": "nil"
       }, {
         "type": "rule",
-        "id": "eceae930-b379-4de5-88c8-26bd9ca30b07",
+        "id": "b712205c-ed6a-4d5b-9690-52956963de18",
         "blackhole": "true",
         "conditions_list": "nil",
         "enabled": "true",
@@ -7996,7 +7996,7 @@ http://localhost:3081/rules
 <span class="c1"># optional: blackhole, conditions_list, enabled, name, strategy, time_restriction_ical</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_rules</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span>
   <span class="ss">:blackhole</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">,</span>
   <span class="ss">:conditions_list</span> <span class="o">=&gt;</span> <span class="s1">'critical'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
@@ -8004,7 +8004,7 @@ http://localhost:3081/rules
   <span class="ss">:strategy</span> <span class="o">=&gt;</span> <span class="s1">'global'</span><span class="p">,</span>
   <span class="ss">:time_restriction_ical</span> <span class="o">=&gt;</span> <span class="s1">'nil'</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'eceae930-b379-4de5-88c8-26bd9ca30b07'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'b712205c-ed6a-4d5b-9690-52956963de18'</span><span class="p">,</span>
   <span class="ss">:blackhole</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
   <span class="ss">:conditions_list</span> <span class="o">=&gt;</span> <span class="s1">'nil'</span><span class="p">,</span>
   <span class="ss">:enabled</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
@@ -8137,18 +8137,18 @@ http://localhost:3081/rules
     "data": [
       {
         "type": "rule",
-        "id": "55c096a2-a885-425b-8b30-36e6b819b80e",
+        "id": "f85db541-f294-4d83-829b-c27b171cead4",
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/rules/55c096a2-a885-425b-8b30-36e6b819b80e
+http://localhost:3081/rules/f85db541-f294-4d83-829b-c27b171cead4
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_rules</span><span class="p">(</span>
-  <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span>
+  <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -8240,10 +8240,10 @@ http://localhost:3081/rules/55c096a2-a885-425b-8b30-36e6b819b80e
     "data": [
       {
         "type": "rule",
-        "id": "55c096a2-a885-425b-8b30-36e6b819b80e",
+        "id": "f85db541-f294-4d83-829b-c27b171cead4",
       }, {
         "type": "rule",
-        "id": "eceae930-b379-4de5-88c8-26bd9ca30b07",
+        "id": "b712205c-ed6a-4d5b-9690-52956963de18",
       }
     ]
   }'</span> <span class="se">\</span>
@@ -8254,8 +8254,8 @@ http://localhost:3081/rules
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_rules</span><span class="p">(</span>
-  <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span>
-  <span class="s1">'eceae930-b379-4de5-88c8-26bd9ca30b07'</span>
+  <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span>
+  <span class="s1">'b712205c-ed6a-4d5b-9690-52956963de18'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -8470,9 +8470,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_rule_link_media</span><span class="p">({</span>
-  <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'eceae930-b379-4de5-88c8-26bd9ca30b07'</span><span class="p">,</span> <span class="c1"># medium</span>
-  <span class="s1">'a7136d9f-d635-49a5-a3a2-11e9226ae3f9'</span>  <span class="c1"># medium</span>
+  <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'b712205c-ed6a-4d5b-9690-52956963de18'</span><span class="p">,</span> <span class="c1"># medium</span>
+  <span class="s1">'92aabf63-c77e-46c8-afff-1386fef23c56'</span>  <span class="c1"># medium</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -8703,9 +8703,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_rule_link_media</span><span class="p">({</span>
-  <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'eceae930-b379-4de5-88c8-26bd9ca30b07'</span><span class="p">,</span> <span class="c1"># medium</span>
-  <span class="s1">'a7136d9f-d635-49a5-a3a2-11e9226ae3f9'</span>  <span class="c1"># medium</span>
+  <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'b712205c-ed6a-4d5b-9690-52956963de18'</span><span class="p">,</span> <span class="c1"># medium</span>
+  <span class="s1">'92aabf63-c77e-46c8-afff-1386fef23c56'</span>  <span class="c1"># medium</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -8819,9 +8819,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_rule_link_media</span><span class="p">(</span>
-  <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'eceae930-b379-4de5-88c8-26bd9ca30b07'</span><span class="p">,</span> <span class="c1"># medium</span>
-  <span class="s1">'a7136d9f-d635-49a5-a3a2-11e9226ae3f9'</span>  <span class="c1"># medium</span>
+  <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'b712205c-ed6a-4d5b-9690-52956963de18'</span><span class="p">,</span> <span class="c1"># medium</span>
+  <span class="s1">'92aabf63-c77e-46c8-afff-1386fef23c56'</span>  <span class="c1"># medium</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -8935,9 +8935,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_rule_link_tags</span><span class="p">({</span>
-  <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'eceae930-b379-4de5-88c8-26bd9ca30b07'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'a7136d9f-d635-49a5-a3a2-11e9226ae3f9'</span>  <span class="c1"># tag</span>
+  <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'b712205c-ed6a-4d5b-9690-52956963de18'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'92aabf63-c77e-46c8-afff-1386fef23c56'</span>  <span class="c1"># tag</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -9168,9 +9168,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_rule_link_tags</span><span class="p">({</span>
-  <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'eceae930-b379-4de5-88c8-26bd9ca30b07'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'a7136d9f-d635-49a5-a3a2-11e9226ae3f9'</span>  <span class="c1"># tag</span>
+  <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'b712205c-ed6a-4d5b-9690-52956963de18'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'92aabf63-c77e-46c8-afff-1386fef23c56'</span>  <span class="c1"># tag</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -9284,9 +9284,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_rule_link_tags</span><span class="p">(</span>
-  <span class="s1">'55c096a2-a885-425b-8b30-36e6b819b80e'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'eceae930-b379-4de5-88c8-26bd9ca30b07'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'a7136d9f-d635-49a5-a3a2-11e9226ae3f9'</span>  <span class="c1"># tag</span>
+  <span class="s1">'f85db541-f294-4d83-829b-c27b171cead4'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'b712205c-ed6a-4d5b-9690-52956963de18'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'92aabf63-c77e-46c8-afff-1386fef23c56'</span>  <span class="c1"># tag</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -9405,12 +9405,12 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
     "data": [
       {
         "type": "scheduled_maintenance",
-        "id": "c49e9225-e8b6-4403-8824-e96621284879",
+        "id": "75a764f1-b8d1-437c-ad48-69ba8e00cdfc",
         "end_time": "2025-03-01T00:00:00+00:00",
-        "start_time": "2015-12-10T14:58:22+10:30"
+        "start_time": "2015-12-10T15:02:56+10:30"
       }, {
         "type": "scheduled_maintenance",
-        "id": "080c0ddf-9b61-4310-99c3-8d21f8723962",
+        "id": "45b8d83c-5a93-462c-bf5e-fdd4613cd845",
         "end_time": "2025-03-01T00:00:00+00:00",
         "start_time": "2025-02-01T00:00:00+00:00"
       }
@@ -9426,11 +9426,11 @@ http://localhost:3081/scheduled_maintenances
 <span class="c1"># optional: id</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_scheduled_maintenances</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'c49e9225-e8b6-4403-8824-e96621284879'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'75a764f1-b8d1-437c-ad48-69ba8e00cdfc'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2025-03-01T00:00:00+00:00'</span><span class="p">),</span>
-  <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T14:58:22+10:30'</span><span class="p">)</span>
+  <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T15:02:56+10:30'</span><span class="p">)</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'080c0ddf-9b61-4310-99c3-8d21f8723962'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'45b8d83c-5a93-462c-bf5e-fdd4613cd845'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2025-03-01T00:00:00+00:00'</span><span class="p">),</span>
   <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2025-02-01T00:00:00+00:00'</span><span class="p">)</span>
 <span class="p">})</span>
@@ -9606,13 +9606,13 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "scheduled_maintenance",
-        "id": "c49e9225-e8b6-4403-8824-e96621284879",
+        "id": "75a764f1-b8d1-437c-ad48-69ba8e00cdfc",
         "end_time": "2025-03-01T00:00:00+00:00",
-        "start_time": "2015-12-10T14:58:22+10:30"
+        "start_time": "2015-12-10T15:02:56+10:30"
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/scheduled_maintenances/c49e9225-e8b6-4403-8824-e96621284879
+http://localhost:3081/scheduled_maintenances/75a764f1-b8d1-437c-ad48-69ba8e00cdfc
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
@@ -9622,9 +9622,9 @@ http://localhost:3081/scheduled_maintenances/c49e9225-e8b6-4403-8824-e9662128487
 <span class="c1"># optional: </span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_scheduled_maintenances</span><span class="p">(</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'c49e9225-e8b6-4403-8824-e96621284879'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'75a764f1-b8d1-437c-ad48-69ba8e00cdfc'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2025-03-01T00:00:00+00:00'</span><span class="p">),</span>
-  <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T14:58:22+10:30'</span><span class="p">)</span>
+  <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T15:02:56+10:30'</span><span class="p">)</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -9747,12 +9747,12 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "scheduled_maintenance",
-        "id": "c49e9225-e8b6-4403-8824-e96621284879",
+        "id": "75a764f1-b8d1-437c-ad48-69ba8e00cdfc",
         "end_time": "2025-03-01T00:00:00+00:00",
-        "start_time": "2015-12-10T14:58:22+10:30"
+        "start_time": "2015-12-10T15:02:56+10:30"
       }, {
         "type": "scheduled_maintenance",
-        "id": "080c0ddf-9b61-4310-99c3-8d21f8723962",
+        "id": "45b8d83c-5a93-462c-bf5e-fdd4613cd845",
         "end_time": "2025-03-01T00:00:00+00:00",
         "start_time": "2025-02-01T00:00:00+00:00"
       }
@@ -9768,11 +9768,11 @@ http://localhost:3081/scheduled_maintenances
 <span class="c1"># optional: </span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_scheduled_maintenances</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'c49e9225-e8b6-4403-8824-e96621284879'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'75a764f1-b8d1-437c-ad48-69ba8e00cdfc'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2025-03-01T00:00:00+00:00'</span><span class="p">),</span>
-  <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T14:58:22+10:30'</span><span class="p">)</span>
+  <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T15:02:56+10:30'</span><span class="p">)</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'080c0ddf-9b61-4310-99c3-8d21f8723962'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'45b8d83c-5a93-462c-bf5e-fdd4613cd845'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2025-03-01T00:00:00+00:00'</span><span class="p">),</span>
   <span class="ss">:start_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2025-02-01T00:00:00+00:00'</span><span class="p">)</span>
 <span class="p">})</span>
@@ -9883,18 +9883,18 @@ http://localhost:3081/scheduled_maintenances
     "data": [
       {
         "type": "scheduled_maintenance",
-        "id": "c49e9225-e8b6-4403-8824-e96621284879",
+        "id": "75a764f1-b8d1-437c-ad48-69ba8e00cdfc",
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/scheduled_maintenances/c49e9225-e8b6-4403-8824-e96621284879
+http://localhost:3081/scheduled_maintenances/75a764f1-b8d1-437c-ad48-69ba8e00cdfc
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_scheduled_maintenances</span><span class="p">(</span>
-  <span class="s1">'c49e9225-e8b6-4403-8824-e96621284879'</span>
+  <span class="s1">'75a764f1-b8d1-437c-ad48-69ba8e00cdfc'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -9986,10 +9986,10 @@ http://localhost:3081/scheduled_maintenances/c49e9225-e8b6-4403-8824-e9662128487
     "data": [
       {
         "type": "scheduled_maintenance",
-        "id": "c49e9225-e8b6-4403-8824-e96621284879",
+        "id": "75a764f1-b8d1-437c-ad48-69ba8e00cdfc",
       }, {
         "type": "scheduled_maintenance",
-        "id": "080c0ddf-9b61-4310-99c3-8d21f8723962",
+        "id": "45b8d83c-5a93-462c-bf5e-fdd4613cd845",
       }
     ]
   }'</span> <span class="se">\</span>
@@ -10000,8 +10000,8 @@ http://localhost:3081/scheduled_maintenances
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_scheduled_maintenances</span><span class="p">(</span>
-  <span class="s1">'c49e9225-e8b6-4403-8824-e96621284879'</span><span class="p">,</span>
-  <span class="s1">'080c0ddf-9b61-4310-99c3-8d21f8723962'</span>
+  <span class="s1">'75a764f1-b8d1-437c-ad48-69ba8e00cdfc'</span><span class="p">,</span>
+  <span class="s1">'45b8d83c-5a93-462c-bf5e-fdd4613cd845'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -10215,14 +10215,14 @@ See <strong>Responses</strong> tab
 
 <pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X GET <span class="se">\</span>
 -H <span class="s2">"Content-type: application/vnd.api+json; ext=bulk"</span> -d <span class="se">\</span>
-http://localhost:3081/states/99268c3a-8efb-4047-8f3e-53879a8015a0
+http://localhost:3081/states/7cd8bba9-dd32-4c6d-8e33-569e0e40390f
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">states</span><span class="p">(</span>
-  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'99268c3a-8efb-4047-8f3e-53879a8015a0'</span><span class="p">}</span>
+  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'7cd8bba9-dd32-4c6d-8e33-569e0e40390f'</span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -10686,14 +10686,14 @@ See <strong>Responses</strong> tab
 
 <pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X GET <span class="se">\</span>
 -H <span class="s2">"Content-type: application/vnd.api+json; ext=bulk"</span> -d <span class="se">\</span>
-http://localhost:3081/statistics/a91ec044-3397-444a-8525-c14585b36025
+http://localhost:3081/statistics/5a42774b-1dc1-484c-9618-5e0edaea12a7
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">statistics</span><span class="p">(</span>
-  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'a91ec044-3397-444a-8525-c14585b36025'</span><span class="p">}</span>
+  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'5a42774b-1dc1-484c-9618-5e0edaea12a7'</span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -11014,11 +11014,11 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
     "data": [
       {
         "type": "tag",
-        "id": "6ec0506f-f934-46a1-a3db-0360847db58d",
+        "id": "6de3c340-9a60-42c4-86f1-bdc4ec8bc95a",
         "name": "database"
       }, {
         "type": "tag",
-        "id": "0bc00879-ac39-4246-a7b3-dd4be94dfd5c",
+        "id": "a353e758-556f-4ef7-8f0b-97538b477e10",
         "name": "remove_next_january"
       }
     ]
@@ -11033,10 +11033,10 @@ http://localhost:3081/tags
 <span class="c1"># optional: </span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_tags</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'database'</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'remove_next_january'</span>
 <span class="p">})</span>
 </code></pre>
@@ -11264,14 +11264,14 @@ See <strong>Responses</strong> tab
 
 <pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X GET <span class="se">\</span>
 -H <span class="s2">"Content-type: application/vnd.api+json; ext=bulk"</span> -d <span class="se">\</span>
-http://localhost:3081/tags/6ec0506f-f934-46a1-a3db-0360847db58d
+http://localhost:3081/tags/6de3c340-9a60-42c4-86f1-bdc4ec8bc95a
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">tags</span><span class="p">(</span>
-  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">}</span>
+  <span class="ss">:filter</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -11710,12 +11710,12 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "tag",
-        "id": "6ec0506f-f934-46a1-a3db-0360847db58d",
+        "id": "6de3c340-9a60-42c4-86f1-bdc4ec8bc95a",
         "name": "database"
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/tags/6ec0506f-f934-46a1-a3db-0360847db58d
+http://localhost:3081/tags/6de3c340-9a60-42c4-86f1-bdc4ec8bc95a
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
@@ -11725,7 +11725,7 @@ http://localhost:3081/tags/6ec0506f-f934-46a1-a3db-0360847db58d
 <span class="c1"># optional: name</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_tags</span><span class="p">(</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'database'</span>
 <span class="p">)</span>
 </code></pre>
@@ -11868,11 +11868,11 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "tag",
-        "id": "6ec0506f-f934-46a1-a3db-0360847db58d",
+        "id": "6de3c340-9a60-42c4-86f1-bdc4ec8bc95a",
         "name": "database"
       }, {
         "type": "tag",
-        "id": "0bc00879-ac39-4246-a7b3-dd4be94dfd5c",
+        "id": "a353e758-556f-4ef7-8f0b-97538b477e10",
         "name": "remove_next_january"
       }
     ]
@@ -11887,10 +11887,10 @@ http://localhost:3081/tags
 <span class="c1"># optional: name</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_tags</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'database'</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span>
   <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s1">'remove_next_january'</span>
 <span class="p">})</span>
 </code></pre>
@@ -12019,18 +12019,18 @@ http://localhost:3081/tags
     "data": [
       {
         "type": "tag",
-        "id": "6ec0506f-f934-46a1-a3db-0360847db58d",
+        "id": "6de3c340-9a60-42c4-86f1-bdc4ec8bc95a",
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/tags/6ec0506f-f934-46a1-a3db-0360847db58d
+http://localhost:3081/tags/6de3c340-9a60-42c4-86f1-bdc4ec8bc95a
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_tags</span><span class="p">(</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -12122,10 +12122,10 @@ http://localhost:3081/tags/6ec0506f-f934-46a1-a3db-0360847db58d
     "data": [
       {
         "type": "tag",
-        "id": "6ec0506f-f934-46a1-a3db-0360847db58d",
+        "id": "6de3c340-9a60-42c4-86f1-bdc4ec8bc95a",
       }, {
         "type": "tag",
-        "id": "0bc00879-ac39-4246-a7b3-dd4be94dfd5c",
+        "id": "a353e758-556f-4ef7-8f0b-97538b477e10",
       }
     ]
   }'</span> <span class="se">\</span>
@@ -12136,8 +12136,8 @@ http://localhost:3081/tags
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_tags</span><span class="p">(</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -12235,9 +12235,9 @@ http://localhost:3081/tags
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_tag_link_checks</span><span class="p">({</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span> <span class="c1"># check</span>
-  <span class="s1">'f9e28709-6cc5-4c63-a866-810936701302'</span>  <span class="c1"># check</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span> <span class="c1"># check</span>
+  <span class="s1">'ce71738f-e0ec-4b2e-8098-66f2c9ebd0cf'</span>  <span class="c1"># check</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -12468,9 +12468,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_tag_link_checks</span><span class="p">({</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span> <span class="c1"># check</span>
-  <span class="s1">'f9e28709-6cc5-4c63-a866-810936701302'</span>  <span class="c1"># check</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span> <span class="c1"># check</span>
+  <span class="s1">'ce71738f-e0ec-4b2e-8098-66f2c9ebd0cf'</span>  <span class="c1"># check</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -12584,9 +12584,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_tag_link_checks</span><span class="p">(</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span> <span class="c1"># check</span>
-  <span class="s1">'f9e28709-6cc5-4c63-a866-810936701302'</span>  <span class="c1"># check</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span> <span class="c1"># check</span>
+  <span class="s1">'ce71738f-e0ec-4b2e-8098-66f2c9ebd0cf'</span>  <span class="c1"># check</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -12700,9 +12700,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_tag_link_contacts</span><span class="p">({</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span> <span class="c1"># contact</span>
-  <span class="s1">'f9e28709-6cc5-4c63-a866-810936701302'</span>  <span class="c1"># contact</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span> <span class="c1"># contact</span>
+  <span class="s1">'ce71738f-e0ec-4b2e-8098-66f2c9ebd0cf'</span>  <span class="c1"># contact</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -12933,9 +12933,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_tag_link_contacts</span><span class="p">({</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span> <span class="c1"># contact</span>
-  <span class="s1">'f9e28709-6cc5-4c63-a866-810936701302'</span>  <span class="c1"># contact</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span> <span class="c1"># contact</span>
+  <span class="s1">'ce71738f-e0ec-4b2e-8098-66f2c9ebd0cf'</span>  <span class="c1"># contact</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -13049,9 +13049,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_tag_link_contacts</span><span class="p">(</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span> <span class="c1"># contact</span>
-  <span class="s1">'f9e28709-6cc5-4c63-a866-810936701302'</span>  <span class="c1"># contact</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span> <span class="c1"># contact</span>
+  <span class="s1">'ce71738f-e0ec-4b2e-8098-66f2c9ebd0cf'</span>  <span class="c1"># contact</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -13165,9 +13165,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_tag_link_rules</span><span class="p">({</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'f9e28709-6cc5-4c63-a866-810936701302'</span>  <span class="c1"># rule</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'ce71738f-e0ec-4b2e-8098-66f2c9ebd0cf'</span>  <span class="c1"># rule</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -13398,9 +13398,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_tag_link_rules</span><span class="p">({</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'f9e28709-6cc5-4c63-a866-810936701302'</span>  <span class="c1"># rule</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'ce71738f-e0ec-4b2e-8098-66f2c9ebd0cf'</span>  <span class="c1"># rule</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -13514,9 +13514,9 @@ See <strong>Responses</strong> tab
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">base_uri</span><span class="p">(</span><span class="s1">'localhost:3081'</span><span class="p">)</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">delete_tag_link_rules</span><span class="p">(</span>
-  <span class="s1">'6ec0506f-f934-46a1-a3db-0360847db58d'</span><span class="p">,</span> <span class="c1"># tag</span>
-  <span class="s1">'0bc00879-ac39-4246-a7b3-dd4be94dfd5c'</span><span class="p">,</span> <span class="c1"># rule</span>
-  <span class="s1">'f9e28709-6cc5-4c63-a866-810936701302'</span>  <span class="c1"># rule</span>
+  <span class="s1">'6de3c340-9a60-42c4-86f1-bdc4ec8bc95a'</span><span class="p">,</span> <span class="c1"># tag</span>
+  <span class="s1">'a353e758-556f-4ef7-8f0b-97538b477e10'</span><span class="p">,</span> <span class="c1"># rule</span>
+  <span class="s1">'ce71738f-e0ec-4b2e-8098-66f2c9ebd0cf'</span>  <span class="c1"># rule</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -13986,12 +13986,12 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class=
     "data": [
       {
         "type": "test_notification",
-        "id": "cce6bdf3-750f-4267-8893-fbec5fd82faf",
+        "id": "40d5d00c-060e-4123-8a5c-686457533665",
         "summary": "",
         "condition": '</span>&lt;String&gt;<span class="s1">'
       }, {
         "type": "test_notification",
-        "id": "417201d0-a54e-4bb1-bdfc-2113af55a159",
+        "id": "5856b86e-0d7d-444e-87f1-f3cdaf8c744a",
         "summary": "",
         "condition": '</span>&lt;String&gt;<span class="s1">'
       }
@@ -14007,11 +14007,11 @@ http://localhost:3081/test_notifications
 <span class="c1"># optional: condition, id</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">create_test_notifications</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'cce6bdf3-750f-4267-8893-fbec5fd82faf'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'40d5d00c-060e-4123-8a5c-686457533665'</span><span class="p">,</span>
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">,</span>
   <span class="ss">:condition</span> <span class="o">=&gt;</span> <span class="s1">'&lt;String&gt;'</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'417201d0-a54e-4bb1-bdfc-2113af55a159'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'5856b86e-0d7d-444e-87f1-f3cdaf8c744a'</span><span class="p">,</span>
   <span class="ss">:summary</span> <span class="o">=&gt;</span> <span class="s1">''</span><span class="p">,</span>
   <span class="ss">:condition</span> <span class="o">=&gt;</span> <span class="s1">'&lt;String&gt;'</span>
 <span class="p">})</span>
@@ -14201,12 +14201,12 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "unscheduled_maintenance",
-        "id": "71df6e18-07b7-453b-b6d9-0aef6a8e5beb",
-        "end_time": "2015-12-10T14:58:24+10:30"
+        "id": "186d75d2-f3f3-4374-b2b8-c77aef879493",
+        "end_time": "2015-12-10T15:02:57+10:30"
       }
     ]
   }'</span> <span class="se">\</span>
-http://localhost:3081/unscheduled_maintenances/71df6e18-07b7-453b-b6d9-0aef6a8e5beb
+http://localhost:3081/unscheduled_maintenances/186d75d2-f3f3-4374-b2b8-c77aef879493
 </code></pre>
 
 <pre><code class="highlight ruby"><span class="nb">require</span> <span class="s1">'flapjack-diner'</span>
@@ -14216,8 +14216,8 @@ http://localhost:3081/unscheduled_maintenances/71df6e18-07b7-453b-b6d9-0aef6a8e5
 <span class="c1"># optional: end_time</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_unscheduled_maintenances</span><span class="p">(</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'71df6e18-07b7-453b-b6d9-0aef6a8e5beb'</span><span class="p">,</span>
-  <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T14:58:24+10:30'</span><span class="p">)</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'186d75d2-f3f3-4374-b2b8-c77aef879493'</span><span class="p">,</span>
+  <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T15:02:57+10:30'</span><span class="p">)</span>
 <span class="p">)</span>
 </code></pre>
 
@@ -14339,11 +14339,11 @@ curl -w <span class="s1">'response: %{http_code} \n'</span> -X PATCH <span class
     "data": [
       {
         "type": "unscheduled_maintenance",
-        "id": "71df6e18-07b7-453b-b6d9-0aef6a8e5beb",
-        "end_time": "2015-12-10T14:58:24+10:30"
+        "id": "186d75d2-f3f3-4374-b2b8-c77aef879493",
+        "end_time": "2015-12-10T15:02:57+10:30"
       }, {
         "type": "unscheduled_maintenance",
-        "id": "2d07b17f-7be0-4677-9680-2099e7e9a35f",
+        "id": "dd7b38d7-a678-4e41-9bbe-af962ced9843",
         "end_time": "2050-01-01T00:00:00+00:00"
       }
     ]
@@ -14358,10 +14358,10 @@ http://localhost:3081/unscheduled_maintenances
 <span class="c1"># optional: end_time</span>
 
 <span class="no">Flapjack</span><span class="o">::</span><span class="no">Diner</span><span class="p">.</span><span class="nf">update_unscheduled_maintenances</span><span class="p">({</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'71df6e18-07b7-453b-b6d9-0aef6a8e5beb'</span><span class="p">,</span>
-  <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T14:58:24+10:30'</span><span class="p">)</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'186d75d2-f3f3-4374-b2b8-c77aef879493'</span><span class="p">,</span>
+  <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2015-12-10T15:02:57+10:30'</span><span class="p">)</span>
 <span class="p">},</span> <span class="p">{</span>
-  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'2d07b17f-7be0-4677-9680-2099e7e9a35f'</span><span class="p">,</span>
+  <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">'dd7b38d7-a678-4e41-9bbe-af962ced9843'</span><span class="p">,</span>
   <span class="ss">:end_time</span> <span class="o">=&gt;</span> <span class="no">DateTime</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="s1">'2050-01-01T00:00:00+00:00'</span><span class="p">)</span>
 <span class="p">})</span>
 </code></pre>
