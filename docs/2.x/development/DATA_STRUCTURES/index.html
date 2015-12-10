@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/github-markdown.css" type="text/css">
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .markdown-body {
+        min-width: 200px;
+        max-width: 790px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="container-fluid" id="navfluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+          <span class="name">Flapjack</span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navigationbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/support">Support</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+    <center>
+        <div class="alert alert-info" style="padding-top: 10px; padding-bottom: 0px; margin-bottom: 0px; height: 40px">
+    <strong>This is documentation for Flapjack version 2.x:</strong>
+    If you're looking for version 1.0 documentation, click <a class="alert-link" href="http://flapjack.io/docs/1.0">here.</a>
+  </div>
+
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 markdown-body">
+        <p>Generated using <code class="prettyprint">rake documentation:dump_keys</code> in the Flapjack codebase.</p>
+
+<hr>
+<h1 id='check'>Check</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">check::attrs:ids (set)
+check::indices:by_ack_hash (hash)
+check::indices:by_alertable:* (set)
+check::indices:by_enabled:* (set)
+check::indices:by_failing:* (set)
+check::indices:by_name (hash)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">check:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :name  =&gt; :string
+    :enabled  =&gt; :boolean
+    :ack_hash  =&gt; :string
+    :initial_failure_delay  =&gt; :integer
+    :repeat_failure_delay  =&gt; :integer
+    :notification_count  =&gt; :integer
+    :condition  =&gt; :string
+    :failing  =&gt; :boolean
+    :alertable  =&gt; :boolean
+  }
+check:[UUID]:assocs:alerts_ids (set)
+check:[UUID]:assocs:has_one (hash)
+check:[UUID]:assocs:latest_notifications_ids (sorted_set)
+check:[UUID]:assocs:notifications_ids (set)
+check:[UUID]:assocs:scheduled_maintenances_ids (sorted_set)
+check:[UUID]:assocs:states_ids (sorted_set)
+check:[UUID]:assocs:tags_ids (set)
+check:[UUID]:assocs:unscheduled_maintenances_ids (sorted_set)
+</code></pre>
+<h1 id='contact'>Contact</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">contact::attrs:ids (set)
+contact::indices:by_name:* (set)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">contact:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :name  =&gt; :string
+    :timezone  =&gt; :string
+  }
+contact:[UUID]:assocs:media_ids (set)
+contact:[UUID]:assocs:rules_ids (set)
+contact:[UUID]:assocs:tags_ids (set)
+</code></pre>
+<h1 id='medium'>Medium</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">medium::attrs:ids (set)
+medium::indices:by_transport:* (set)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">medium:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :transport  =&gt; :string
+    :address  =&gt; :string
+    :interval  =&gt; :integer
+    :rollup_threshold  =&gt; :integer
+    :pagerduty_subdomain  =&gt; :string
+    :pagerduty_token  =&gt; :string
+    :pagerduty_ack_duration  =&gt; :integer
+    :last_rollup_type  =&gt; :string
+  }
+medium:[UUID]:assocs:alerts_ids (set)
+medium:[UUID]:assocs:belongs_to (hash)
+medium:[UUID]:assocs:rules_ids (set)
+</code></pre>
+<h1 id='notification'>Notification</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">notification::attrs:ids (set)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">notification:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :severity  =&gt; :string
+    :duration  =&gt; :integer
+    :condition_duration  =&gt; :float
+    :event_hash  =&gt; :string
+  }
+notification:[UUID]:assocs:belongs_to (hash)
+notification:[UUID]:assocs:has_one (hash)
+</code></pre>
+<h1 id='rule'>Rule</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">rule::attrs:ids (set)
+rule::indices:by_blackhole:* (set)
+rule::indices:by_conditions_list:* (set)
+rule::indices:by_enabled:* (set)
+rule::indices:by_has_media:* (set)
+rule::indices:by_name:* (set)
+rule::indices:by_strategy:* (set)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">rule:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :name  =&gt; :string
+    :enabled  =&gt; :boolean
+    :blackhole  =&gt; :boolean
+    :strategy  =&gt; :string
+    :conditions_list  =&gt; :string
+    :has_media  =&gt; :boolean
+    :time_restriction_ical  =&gt; :string
+  }
+rule:[UUID]:assocs:belongs_to (hash)
+rule:[UUID]:assocs:media_ids (set)
+rule:[UUID]:assocs:tags_ids (set)
+</code></pre>
+<h1 id='scheduled-maintenance'>Scheduled maintenance</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">scheduled_maintenance::attrs:ids (sorted_set)
+scheduled_maintenance::indices:by_end_time (sorted_set)
+scheduled_maintenance::indices:by_start_time (sorted_set)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">scheduled_maintenance:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :start_time  =&gt; :timestamp
+    :end_time  =&gt; :timestamp
+    :summary  =&gt; :string
+  }
+scheduled_maintenance:[UUID]:assocs:belongs_to (hash)
+</code></pre>
+<h1 id='state'>State</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">state::attrs:ids (sorted_set)
+state::indices:by_action:* (set)
+state::indices:by_condition:* (set)
+state::indices:by_created_at (sorted_set)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">state:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :created_at  =&gt; :timestamp
+    :updated_at  =&gt; :timestamp
+    :condition  =&gt; :string
+    :action  =&gt; :string
+    :summary  =&gt; :string
+    :details  =&gt; :string
+    :perfdata_json  =&gt; :string
+  }
+state:[UUID]:assocs:belongs_to (hash)
+state:[UUID]:assocs:latest_media_ids (set)
+</code></pre>
+<h1 id='statistic'>Statistic</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">statistic::attrs:ids (set)
+statistic::indices:by_instance_name:* (set)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">statistic:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :instance_name  =&gt; :string
+    :created_at  =&gt; :timestamp
+    :all_events  =&gt; :integer
+    :ok_events  =&gt; :integer
+    :failure_events  =&gt; :integer
+    :action_events  =&gt; :integer
+    :invalid_events  =&gt; :integer
+  }
+</code></pre>
+<h1 id='tag'>Tag</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">tag::attrs:ids (set)
+tag::indices:by_name (hash)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">tag:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :name  =&gt; :string
+  }
+tag:[UUID]:assocs:checks_ids (set)
+tag:[UUID]:assocs:contacts_ids (set)
+tag:[UUID]:assocs:rules_ids (set)
+</code></pre>
+<h1 id='unscheduled-maintenance'>Unscheduled maintenance</h1><h2 id='global'>global</h2><pre><code class="highlight plaintext">unscheduled_maintenance::attrs:ids (sorted_set)
+unscheduled_maintenance::indices:by_end_time (sorted_set)
+unscheduled_maintenance::indices:by_start_time (sorted_set)
+</code></pre>
+<h2 id='instance'>instance</h2><pre><code class="highlight plaintext">unscheduled_maintenance:[UUID]:attrs (hash)
+  {
+    :id  =&gt; :string
+    :start_time  =&gt; :timestamp
+    :end_time  =&gt; :timestamp
+    :summary  =&gt; :string
+  }
+unscheduled_maintenance:[UUID]:assocs:belongs_to (hash)
+</code></pre>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

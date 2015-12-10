@@ -54,54 +54,36 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1> Documentation </h1>
+        <h1 id='flapjack-tutorial-attendee-preparation'>Flapjack Tutorial Attendee Preparation</h1>
+<p>If you&rsquo;re attending an upcoming Flapjack tutorial, please get the following things set up on your laptop beforehand if you wish to participate.</p>
 
-v2.0 is not yet released... The latest stable release is in the 1.x series.
+<p>Please also come back to this page closer to the time of the tutorial to check if we&rsquo;ve added any other optional preparation steps.</p>
 
-<ul style="margin-top: 1.5em">
-<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
-<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
-<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
+<p>If you have any problems ping @auxesis or @jessereynolds on twitter, jump on to #flapjack on freenode (IRC), or post to the <a href="https://groups.google.com/forum/#!forum/flapjack-project">mailing list</a>.</p>
+<h2 id='1--get-flapjack-running-locally'>1. Get flapjack running locally</h2>
+<p>You will get the most out of the tutorial if you&rsquo;ve got Flapjack running locally on your laptop beforehand. The simplest way to do this is to install flapjack as per the <a href="http://flapjack.io/quickstart">Quickstart</a>, which involves installing <a href="https://www.virtualbox.org/">VirtualBox</a> and <a href="http://www.vagrantup.com/">Vagrant</a>, cloning <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a> and running <code class="prettyprint">vagrant up</code> within it.</p>
+
+<p>You&rsquo;ll need Vagrant 1.5 or higher. A recent VirtualBox is recommended. <code class="prettyprint">vagrant-flapjack</code> is currently tested with the following versions:</p>
+
+<ul>
+<li>Vagrant 1.6.3</li>
+<li>VirtualBox 4.3.14</li>
 </ul>
 
+<p>There&rsquo;s a bit to download with that, so it&rsquo;s best to do this in your own time before the conference.</p>
 
-  <h4> Usage </h4>
+<p>You don&rsquo;t need to have done the rest of the quickstart, though it can&rsquo;t hurt. The main thing is to have Flapjack running locally and to have Icinga or Nagios sending it check execution results. This is all taken care of by the <code class="prettyprint">distro_release=trusty vagrant up</code> within <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>.</p>
 
-  <ul>
-      <li><a href=usage/Architecture>Architecture</a></li>
-      <li><a href=usage/Configuring-Nagios>Configuring nagios</a></li>
-      <li><a href=usage/Http-Broker>Http broker</a></li>
-      <li><a href=usage/Http-Checker>Http checker</a></li>
-      <li><a href=usage/IMPORTING>Importing</a></li>
-      <li><a href=usage/Installation>Installation</a></li>
-      <li><a href=usage/Notification-Routing>Notification routing</a></li>
-      <li><a href=usage/Promoting>Promoting</a></li>
-      <li><a href=usage/Tutorial>Tutorial</a></li>
-      <li><a href=usage/faq>Faq</a></li>
-      <li><a href=usage/oobetet>Oobetet</a></li>
-      <li><a href=usage/purging-history>Purging history</a></li>
-      <li><a href=usage/quickstart>Quickstart</a></li>
-  </ul>
-
-
-  <h4> Gateway configuration </h4>
-
-  <ul>
-  </ul>
-
-
-  <h4> Development </h4>
-
-  <ul>
-      <li><a href=development/DATA_STRUCTURES>Data structures</a></li>
-      <li><a href=development/DEVELOPING>Developing</a></li>
-      <li><a href=development/Gathering-internal-statistics-with-collectd>Gathering internal statistics with collectd</a></li>
-      <li><a href=development/Omnibus-In-Your-Docker>Omnibus in your docker</a></li>
-      <li><a href=development/Package-Building>Package building</a></li>
-      <li><a href=development/Release-Planning>Release planning</a></li>
-      <li><a href=development/roadmap>Roadmap</a></li>
-  </ul>
-
+<p>We are updating the vagrant-flapjack repo regularly so please ensure you go a <code class="prettyprint">git pull</code> and <code class="prettyprint">vagrant provision</code> in your vagrant-flapjack directory just before coming to the tutorial.</p>
+<h2 id='2--get-your-irc-connected-to-flapjack'>2. Get your IRC connected to #flapjack</h2>
+<p>You&rsquo;ll be able to get help from other participants during the tutorial (and afterwards) by asking in #flapjack on <a href="https://freenode.net/">freenode</a>.</p>
+<h1 id='tutorial-sessions'>Tutorial Sessions</h1>
+<ul>
+<li><a href="http://devopsdays.org/events/2014-berlin/proposals/Birger%20Schmidt%20-%20Use%20flapjack%20as%20bridge%20between%20ops%20and%20dev,%20and%20bridge%20from%20nagios%20towards%20more%20freedom/">DevOpsDays Berlin 2014</a> 24 October 2014, Berlin, Germany</li>
+<li><a href="http://velocityconf.com/velocityny2014/public/schedule/detail/35835">Velocity New York 2014</a> 15 September 2014, New York, NY, USA</li>
+<li><a href="http://monitorama.com/">Monitorama PDX 2014</a> 7 May 2014, Portland, OR, USA</li>
+<li><a href="http://lca2014.linux.org.au/schedule/30261/view_talk?day=wednesday">Linux.conf.au 2014</a> 8 January 2014, Perth, Australia</li>
+</ul>
 
       </div>
     </div>

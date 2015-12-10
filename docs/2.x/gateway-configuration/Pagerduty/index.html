@@ -54,54 +54,91 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1> Documentation </h1>
+        <h1 id='configuring-the-pagerduty-gateway'>Configuring the Pagerduty gateway</h1>
+<p><a href="https://www.pagerduty.com/">Pagerduty</a> is a provider of alert delivery via SMS, phone calls, and push notifications. They also provide escalation and oncall rotation scheduling. Flapjack&rsquo;s Pagerduty gateway is bidirectional, in that it:</p>
 
-v2.0 is not yet released... The latest stable release is in the 1.x series.
-
-<ul style="margin-top: 1.5em">
-<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
-<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
-<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
+<ul>
+<li>sends alerts to pagerduty</li>
+<li>receives acknowledgements from pagerduty</li>
 </ul>
 
+<p>Currently Flapjack polls Pagerduty for acknowledgements. A webhook listener may be added to the Flapjack Pagerduty gateway in the future.</p>
 
-  <h4> Usage </h4>
+<p>The Flapjack Pagerduty gateway does not support rollup, given Pagerduty itself supports rollup.</p>
+<h2 id='config-options'>Config Options</h2><h2 id='notifier'>notifier</h2>
+<table><thead>
+<tr>
+<th>Config</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pagerduty_queue</td>
+<td>String</td>
+<td>The name of the queue to use for sending messages to the pagerduty gateway</td>
+</tr>
+</tbody></table>
+<h2 id='gatewayspagerduty'>gateways/pagerduty</h2>
+<table><thead>
+<tr>
+<th>Config</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>enabled</td>
+<td>yes/no</td>
+<td>Enable this gateway?</td>
+</tr>
+<tr>
+<td>queue</td>
+<td>String</td>
+<td>The queue name to listen on. Must match the &lsquo;pagerduty_queue&rsquo; defined in the notitifier.</td>
+</tr>
+<tr>
+<td>logger/level</td>
+<td>FATAL/ERROR/WARN/INFO/DEBUG</td>
+<td>The logging verbosity of the gateway. Set to DEBUG, reload flapjack, and consult flapjack.log if you&rsquo;re having trouble.</td>
+</tr>
+<tr>
+<td>logger/syslog_errors</td>
+<td>yes/no</td>
+<td>Send logging messages at ERROR or FATAL to the syslog</td>
+</tr>
+<tr>
+<td>templates/alert.text</td>
+<td>String</td>
+<td>Path to a custom template for alerts about individual checks. Must be an ERB file. See the <a href="https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/pager_duty/alert.text.erb">default</a></td>
+</tr>
+</tbody></table>
+<h2 id='contact-media-setup'>Contact Media Setup</h2>
+<p>Typically you&rsquo;ll only need one contact in Flapjack that has a Pagerduty medium configured. However you can have multiple media, if you have several organisations in Pagerduty you wish to create incidents for.</p>
 
-  <ul>
-      <li><a href=usage/Architecture>Architecture</a></li>
-      <li><a href=usage/Configuring-Nagios>Configuring nagios</a></li>
-      <li><a href=usage/Http-Broker>Http broker</a></li>
-      <li><a href=usage/Http-Checker>Http checker</a></li>
-      <li><a href=usage/IMPORTING>Importing</a></li>
-      <li><a href=usage/Installation>Installation</a></li>
-      <li><a href=usage/Notification-Routing>Notification routing</a></li>
-      <li><a href=usage/Promoting>Promoting</a></li>
-      <li><a href=usage/Tutorial>Tutorial</a></li>
-      <li><a href=usage/faq>Faq</a></li>
-      <li><a href=usage/oobetet>Oobetet</a></li>
-      <li><a href=usage/purging-history>Purging history</a></li>
-      <li><a href=usage/quickstart>Quickstart</a></li>
-  </ul>
+<p>The medium takes several parameters as follows:</p>
 
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pagerduty_service_key (string)</td>
+<td>the API key for PagerDuty&rsquo;s integration API, corresponds to a &lsquo;service&rsquo; within this contact&rsquo;s PagerDuty account</td>
+</tr>
+<tr>
+<td>pagerduty_subdomain (string)</td>
+<td>the subdomain for this contact&rsquo;s PagerDuty account, eg &ldquo;foobar&rdquo; in the case of https://foobar.pagerduty.com/</td>
+</tr>
+<tr>
+<td>pagerduty_token (string)</td>
+<td>the API token for the PagerDuty REST API for reading data back out of PagerDuty</td>
+</tr>
+</tbody></table>
 
-  <h4> Gateway configuration </h4>
-
-  <ul>
-  </ul>
-
-
-  <h4> Development </h4>
-
-  <ul>
-      <li><a href=development/DATA_STRUCTURES>Data structures</a></li>
-      <li><a href=development/DEVELOPING>Developing</a></li>
-      <li><a href=development/Gathering-internal-statistics-with-collectd>Gathering internal statistics with collectd</a></li>
-      <li><a href=development/Omnibus-In-Your-Docker>Omnibus in your docker</a></li>
-      <li><a href=development/Package-Building>Package building</a></li>
-      <li><a href=development/Release-Planning>Release planning</a></li>
-      <li><a href=development/roadmap>Roadmap</a></li>
-  </ul>
-
+<p>You&rsquo;ll need to use the api to do manage. See the <a href="../jsonapi/#media">jsonapi reference</a> for details.</p>
 
       </div>
     </div>

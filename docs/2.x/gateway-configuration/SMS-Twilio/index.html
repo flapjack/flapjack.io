@@ -54,54 +54,76 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1> Documentation </h1>
-
-v2.0 is not yet released... The latest stable release is in the 1.x series.
-
-<ul style="margin-top: 1.5em">
-<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
-<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
-<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
-</ul>
-
-
-  <h4> Usage </h4>
-
-  <ul>
-      <li><a href=usage/Architecture>Architecture</a></li>
-      <li><a href=usage/Configuring-Nagios>Configuring nagios</a></li>
-      <li><a href=usage/Http-Broker>Http broker</a></li>
-      <li><a href=usage/Http-Checker>Http checker</a></li>
-      <li><a href=usage/IMPORTING>Importing</a></li>
-      <li><a href=usage/Installation>Installation</a></li>
-      <li><a href=usage/Notification-Routing>Notification routing</a></li>
-      <li><a href=usage/Promoting>Promoting</a></li>
-      <li><a href=usage/Tutorial>Tutorial</a></li>
-      <li><a href=usage/faq>Faq</a></li>
-      <li><a href=usage/oobetet>Oobetet</a></li>
-      <li><a href=usage/purging-history>Purging history</a></li>
-      <li><a href=usage/quickstart>Quickstart</a></li>
-  </ul>
-
-
-  <h4> Gateway configuration </h4>
-
-  <ul>
-  </ul>
-
-
-  <h4> Development </h4>
-
-  <ul>
-      <li><a href=development/DATA_STRUCTURES>Data structures</a></li>
-      <li><a href=development/DEVELOPING>Developing</a></li>
-      <li><a href=development/Gathering-internal-statistics-with-collectd>Gathering internal statistics with collectd</a></li>
-      <li><a href=development/Omnibus-In-Your-Docker>Omnibus in your docker</a></li>
-      <li><a href=development/Package-Building>Package building</a></li>
-      <li><a href=development/Release-Planning>Release planning</a></li>
-      <li><a href=development/roadmap>Roadmap</a></li>
-  </ul>
-
+        <h1 id='configuring-the-sms_twilio-gateway'>Configuring the SMS_Twilio gateway</h1>
+<p><a href="https://www.twilio.com/">Twilio</a> is a provider of SMS and voice communications with a rich API. This gateway only makes use of one way SMS sending. It should work to most countries in the world, and has been tested with US and Australian mobile numbers.</p>
+<h2 id='config-options'>Config Options</h2><h2 id='notifier'>notifier</h2>
+<table><thead>
+<tr>
+<th>Config</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sms_twilio_queue</td>
+<td>String</td>
+<td>The name of the queue to use for sending messages to the sms_twilio gateway</td>
+</tr>
+</tbody></table>
+<h2 id='gatewayssms_twilio'>gateways/sms_twilio</h2>
+<table><thead>
+<tr>
+<th>Config</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>enabled</td>
+<td>yes/no</td>
+<td>Enable this gateway?</td>
+</tr>
+<tr>
+<td>queue</td>
+<td>String</td>
+<td>The queue name to listen on. Must match the &lsquo;sms_twilio_queue&rsquo; defined in the notitifier.</td>
+</tr>
+<tr>
+<td>account_sid</td>
+<td>String</td>
+<td>The Account SID of your Twilio account</td>
+</tr>
+<tr>
+<td>auth_token</td>
+<td>String</td>
+<td>The authentication token for your Twilio Account</td>
+</tr>
+<tr>
+<td>from</td>
+<td>String</td>
+<td>The number to send SMS messages from. You must have this number configured in your Twilio account.</td>
+</tr>
+<tr>
+<td>logger/level</td>
+<td>FATAL/ERROR/WARN/INFO/DEBUG</td>
+<td>The logging verbosity of the gateway. Set to DEBUG, reload flapjack, and consult flapjack.log if you&rsquo;re having trouble.</td>
+</tr>
+<tr>
+<td>logger/syslog_errors</td>
+<td>yes/no</td>
+<td>Send logging messages at ERROR or FATAL to the syslog</td>
+</tr>
+<tr>
+<td>templates/alert.text</td>
+<td>String</td>
+<td>Path to a custom template for alerts about individual checks. Must ben an ERB file. See the <a href="https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/sms_twilio/alert.text.erb">default</a></td>
+</tr>
+<tr>
+<td>templates/rollup.text</td>
+<td>String</td>
+<td>Path to a custom template for rollup alerts. Must be an ERB file. See the <a href="https://github.com/flapjack/flapjack/blob/master/lib/flapjack/gateways/sms_twilio/rollup.text.erb">default</a>.</td>
+</tr>
+</tbody></table>
 
       </div>
     </div>

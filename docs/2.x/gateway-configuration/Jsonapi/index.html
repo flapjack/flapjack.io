@@ -54,54 +54,52 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1> Documentation </h1>
-
-v2.0 is not yet released... The latest stable release is in the 1.x series.
-
-<ul style="margin-top: 1.5em">
-<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
-<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
-<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
-</ul>
-
-
-  <h4> Usage </h4>
-
-  <ul>
-      <li><a href=usage/Architecture>Architecture</a></li>
-      <li><a href=usage/Configuring-Nagios>Configuring nagios</a></li>
-      <li><a href=usage/Http-Broker>Http broker</a></li>
-      <li><a href=usage/Http-Checker>Http checker</a></li>
-      <li><a href=usage/IMPORTING>Importing</a></li>
-      <li><a href=usage/Installation>Installation</a></li>
-      <li><a href=usage/Notification-Routing>Notification routing</a></li>
-      <li><a href=usage/Promoting>Promoting</a></li>
-      <li><a href=usage/Tutorial>Tutorial</a></li>
-      <li><a href=usage/faq>Faq</a></li>
-      <li><a href=usage/oobetet>Oobetet</a></li>
-      <li><a href=usage/purging-history>Purging history</a></li>
-      <li><a href=usage/quickstart>Quickstart</a></li>
-  </ul>
-
-
-  <h4> Gateway configuration </h4>
-
-  <ul>
-  </ul>
-
-
-  <h4> Development </h4>
-
-  <ul>
-      <li><a href=development/DATA_STRUCTURES>Data structures</a></li>
-      <li><a href=development/DEVELOPING>Developing</a></li>
-      <li><a href=development/Gathering-internal-statistics-with-collectd>Gathering internal statistics with collectd</a></li>
-      <li><a href=development/Omnibus-In-Your-Docker>Omnibus in your docker</a></li>
-      <li><a href=development/Package-Building>Package building</a></li>
-      <li><a href=development/Release-Planning>Release planning</a></li>
-      <li><a href=development/roadmap>Roadmap</a></li>
-  </ul>
-
+        <h1 id='configuring-the-jsonapi-gateway'>Configuring the JSONAPI gateway</h1>
+<p>The Flapjack JSONAPI gateway provides an HTTP API adhering fairly as closely as possible the <a href="http://jsonapi.org">JSONAPI</a> v1.0 specification, and also to the Swagger 1.2 documentation format.</p>
+<h2 id='config-options'>Config Options</h2><h2 id='gatewaysjsonapi'>gateways/jsonapi</h2>
+<table><thead>
+<tr>
+<th>Config</th>
+<th>Synopsis</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>enabled</td>
+<td>yes/no</td>
+<td>Enable this gateway?</td>
+</tr>
+<tr>
+<td>port</td>
+<td>Integer</td>
+<td>The TCP port to listen on</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>Integer</td>
+<td>Read timeout in seconds</td>
+</tr>
+<tr>
+<td>access_log</td>
+<td>String</td>
+<td>Path to the access log (log of all http requests)</td>
+</tr>
+<tr>
+<td>base_url</td>
+<td>String</td>
+<td>The main URL of this service, eg <code class="prettyprint">http://flapjack-api.example/</code></td>
+</tr>
+<tr>
+<td>logger/level</td>
+<td>FATAL/ERROR/WARN/INFO/DEBUG</td>
+<td>The logging verbosity of the gateway. Set to DEBUG, reload flapjack, and consult flapjack.log if you&rsquo;re having trouble.</td>
+</tr>
+<tr>
+<td>logger/syslog_errors</td>
+<td>yes/no</td>
+<td>Send logging messages at ERROR or FATAL to the syslog</td>
+</tr>
+</tbody></table>
 
       </div>
     </div>

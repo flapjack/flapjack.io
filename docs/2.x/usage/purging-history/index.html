@@ -54,54 +54,26 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1> Documentation </h1>
+        <h1 id='purging-history'>Purging History</h1>
+<p>Flapjack by default keeps the details of all state changes for all checks around in redis forever. This will cause your redis db to keep growing and over time you may run out of memory. You can use the <code class="prettyprint">purge</code> flapjack subcommand to clean up ancient history. It can be run for all checks, or specifically named checks.</p>
+<h2 id='purging-history-of-all-checks'>Purging history of all checks</h2>
+<p><code class="prettyprint">flapjack purge check_history --days DAYS</code></p>
 
-v2.0 is not yet released... The latest stable release is in the 1.x series.
+<p>This will remove all historical state changes more than DAYS old for all checks.</p>
 
-<ul style="margin-top: 1.5em">
-<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
-<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
-<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
-</ul>
+<p>Eg:</p>
+<pre><code class="highlight shell"><span class="gp">$ </span>flapjack purge check_history --days 30
+Purged 2 historical check states over 1 checks.
+</code></pre>
+<h2 id='purging-history-of-a-specific-check'>Purging history of a specific check</h2>
+<p><code class="prettyprint">flapjack purge check_history --days DAYS --check CHECK</code></p>
 
+<p>This will remove all historical state changes more than DAYS old for CHECK.</p>
 
-  <h4> Usage </h4>
-
-  <ul>
-      <li><a href=usage/Architecture>Architecture</a></li>
-      <li><a href=usage/Configuring-Nagios>Configuring nagios</a></li>
-      <li><a href=usage/Http-Broker>Http broker</a></li>
-      <li><a href=usage/Http-Checker>Http checker</a></li>
-      <li><a href=usage/IMPORTING>Importing</a></li>
-      <li><a href=usage/Installation>Installation</a></li>
-      <li><a href=usage/Notification-Routing>Notification routing</a></li>
-      <li><a href=usage/Promoting>Promoting</a></li>
-      <li><a href=usage/Tutorial>Tutorial</a></li>
-      <li><a href=usage/faq>Faq</a></li>
-      <li><a href=usage/oobetet>Oobetet</a></li>
-      <li><a href=usage/purging-history>Purging history</a></li>
-      <li><a href=usage/quickstart>Quickstart</a></li>
-  </ul>
-
-
-  <h4> Gateway configuration </h4>
-
-  <ul>
-  </ul>
-
-
-  <h4> Development </h4>
-
-  <ul>
-      <li><a href=development/DATA_STRUCTURES>Data structures</a></li>
-      <li><a href=development/DEVELOPING>Developing</a></li>
-      <li><a href=development/Gathering-internal-statistics-with-collectd>Gathering internal statistics with collectd</a></li>
-      <li><a href=development/Omnibus-In-Your-Docker>Omnibus in your docker</a></li>
-      <li><a href=development/Package-Building>Package building</a></li>
-      <li><a href=development/Release-Planning>Release planning</a></li>
-      <li><a href=development/roadmap>Roadmap</a></li>
-  </ul>
-
+<p>Eg:</p>
+<pre><code class="highlight shell"><span class="gp">$ </span>flapjack purge check_history --days 0 --check foo-app-01:HTTP
+Purged 2 historical check states over 1 checks.
+</code></pre>
 
       </div>
     </div>

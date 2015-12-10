@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/github-markdown.css" type="text/css">
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .markdown-body {
+        min-width: 200px;
+        max-width: 790px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="container-fluid" id="navfluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+          <span class="name">Flapjack</span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navigationbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/support">Support</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+    <center>
+        <div class="alert alert-info" style="padding-top: 10px; padding-bottom: 0px; margin-bottom: 0px; height: 40px">
+    <strong>This is documentation for Flapjack version 2.x:</strong>
+    If you're looking for version 1.0 documentation, click <a class="alert-link" href="http://flapjack.io/docs/1.0">here.</a>
+  </div>
+
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 markdown-body">
+        <hr>
+<h1 id='quickstart'>Quickstart</h1>
+<p>This quickstart guide will get you <a href="http://flapjack.io/">Flapjack</a> running in a VM locally using Vagrant and VirtualBox.</p>
+
+<p>You&rsquo;ll also learn the basics of how to:</p>
+
+<ul>
+<li>Configure Flapjack</li>
+<li>Simulate a failure of a monitored service</li>
+<li>Integrate Flapjack with Nagios (or Icinga), so Flapjack takes over alerting</li>
+</ul>
+
+<p>To skip this tutorial and jump straight to the code, view the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.</p>
+<h2 id='getting-flapjack-running'>Getting Flapjack running</h2><h3 id='dependencies'>Dependencies</h3>
+<ul>
+<li><a href="http://vagrantup.com/">Vagrant</a> 1.5+</li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a> 4.3+
+(or an alternative provider such as <a href="http://www.vmware.com/au/products/fusion/">VMware Fusion</a>
+and the <a href="http://www.vagrantup.com/vmware">Vagrant plugin</a></li>
+</ul>
+<h3 id='setup'>Setup</h3>
+<p>Get the repo, and build your Vagrant box, using your preferred distro_release.  Supported distro releases are &lsquo;precise&rsquo;, &lsquo;trusty&rsquo;, &lsquo;wheezy&rsquo;, and &lsquo;centos-6&rsquo;.</p>
+<pre><code class="highlight shell">git clone https://github.com/flapjack/vagrant-flapjack.git
+<span class="nb">cd </span>vagrant-flapjack
+<span class="nv">distro_release</span><span class="o">=</span>trusty vagrant up
+</code></pre>
+
+<p>For an alternative provider to VirtualBox (e.g. VMware Fusion), you can specify the provider when running <code class="prettyprint">vagrant up</code>:</p>
+<pre><code class="highlight shell"><span class="nv">distro_release</span><span class="o">=</span>trusty vagrant up --provider<span class="o">=</span>vmware_fusion
+</code></pre>
+
+<div class="alert alert-info">
+<strong>More information:</strong>
+Check out the <a class="alert-link" href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a> project on GitHub.
+</div>
+<h2 id='using-flapjack'>Using Flapjack</h2>
+<p>Flapjack will now be visible at <a href="http://localhost:3080">http://localhost:3080</a> from your host workstation.
+You should see the Flapjack Web UI:</p>
+
+<p><img alt="Screenshot of the Flapjack Web UI" src="../../../../images/2.0/quickstart/web-ui.png" /></p>
+
+<p>To continue with this guide, SSH into the vagrant box:</p>
+<pre><code class="highlight shell">vagrant ssh
+</code></pre>
+
+<p>You&rsquo;ll find the commands under <code class="prettyprint">/opt/flapjack/bin</code> and in <code class="prettyprint">PATH</code>:</p>
+<pre><code class="highlight shell">flapjack <span class="nb">help
+</span>flapjack simulate <span class="nb">help</span>
+</code></pre>
+<h3 id='the-checks'>The checks</h3>
+<p>Flapjack can receive check execution results from a number of different systems.  When it does, Flapjack creates the check, and its entity, and starts retaining history of state changes etc.</p>
+
+<p>For now, we&rsquo;ll create our own  using Flapjack&rsquo;s simulate command:</p>
+<pre><code class="highlight shell">flapjack simulate fail <span class="se">\</span>
+  --check <span class="s2">"restaurant1:bacon"</span> <span class="se">\</span>
+  --interval 1 <span class="se">\</span>
+  --time 0.1
+
+flapjack simulate ok <span class="se">\</span>
+  --check <span class="s2">"restaurant1:eggs"</span> <span class="se">\</span>
+  --interval 1 <span class="se">\</span>
+  --time 0.1
+
+flapjack simulate fail_and_recover <span class="se">\</span>
+  --check <span class="s2">"restaurant2:pancakes"</span> <span class="se">\</span>
+  --interval 1 <span class="se">\</span>
+  --time 0.1
+</code></pre>
+
+<p>The definition of these commands are as follows:</p>
+<pre><code class="highlight plaintext">flapjack simulate fail             - Generate a stream of failure events
+flapjack simulate fail_and_recover - Generate a stream of failure events, and one final recovery
+flapjack simulate ok               - Generate a stream of ok events
+</code></pre>
+
+<p>You can now see these under the <a href="http://localhost:3080/checks">list of checks</a>.</p>
+
+<p><img alt="Screenshot of the list of checks" src="../../../../images/2.0/quickstart/check-list.png" /></p>
+<h4 id='maintenance-including-acknowledgements'>Maintenance (including acknowledgements)</h4>
+<p>There are two types of maintenance - scheduled and unscheduled maintenance. An acknowledgment creates an unscheduled maintenance starting at the time of the acknowledgement.</p>
+
+<p>All checks are created with a period of scheduled maintenance, 100 years by default. This can be altered, or disabled, in the flapjack config file.</p>
+
+<p>Click the &lsquo;End Now&rsquo; button on the <a href="http://localhost:3080/checks?name=restaurant1%3Abacon">bacon check</a> to end this maintenance.</p>
+<h4 id='unscheduled-maintenance-acknowledgements'>Unscheduled maintenance (acknowledgements)</h4>
+<p>Our <code class="prettyprint">restaurant1:bacon</code> check is now critical, and sending out alerts.  To acknowledge this check, and silence the alerts, we add unscheduled maintenance for a period of time by filling out the <a href="http://localhost:3080/checks?name=restaurant1%3Abacon">Acknowledge Alert</a> box.</p>
+
+<p><img alt="Screenshot of adding unscheduled maintenance" src="../../../../images/2.0/quickstart/add-unscheduled-maintenance.png" /></p>
+<h4 id='scheduled-maintenance'>Scheduled maintenance</h4>
+<p>If you want to add scheduled maintenance (lets say we know bacon will be off the menu next Saturday), fill out the &lsquo;Add Scheduled Maintenance&rsquo; box further down the page.</p>
+<h4 id='maintenance-cli'>Maintenance CLI</h4>
+<p>You can also add, list and remove maintenance by using the CLI tool <code class="prettyprint">flapjack maintenance</code>:</p>
+<pre><code class="highlight shell">flapjack maintenance show   - Show maintenance windows according to criteria <span class="o">(</span>default: all ongoing maintenance<span class="o">)</span>
+flapjack maintenance delete - Delete maintenance windows according to criteria <span class="o">(</span>default: all ongoing maintenance<span class="o">)</span>
+flapjack maintenance create - Create a maintenance window
+</code></pre>
+<h3 id='the-people'>The people</h3>
+<p><a href="../jsonapi/#contacts">Contacts</a> and <a href="../jsonapi/#media">media</a> can be added through the API.</p>
+
+<p>The bottom of the <a href="http://localhost:3080/checks?name=restaurant1%3Abacon">check page</a> lists which contacts will be notified of events.</p>
+<h3 id='the-outputs'>The outputs</h3>
+<p>To enable gateways, edit /etc/flapjack/flapjack_config.yaml and update the enabled flag for the given gateways:</p>
+<pre><code class="highlight toml"><span class="nn">[gateways]</span>
+  <span class="c"># Generates email notifications</span>
+  <span class="nn">[gateways.email]</span>
+    <span class="py">enabled</span> <span class="p">=</span> <span class="kc">true</span>
+</code></pre>
+
+<p>Further configuration options are available in each of the gateway blocks.</p>
+<h3 id='getting-real-data-into-flapjack'>Getting real data into Flapjack</h3>
+<p>Both Nagios and Icinga are configured already to send data to Flapjack&rsquo;s broker module, which sends it to redis, in place of the earlier Flapjack Nagios receiver.</p>
+
+<p><img alt="Flapjack's architecture" src="../../../../images/2.0/quickstart/architecture.png" /></p>
+
+<p>More details on configuration are available <a href="./Configuring-Nagios">here</a>.</p>
+<h3 id='feedback'>Feedback?</h3>
+<p>Found an error in the above? Please <a href="https://github.com/flapjack/flapjack/issues/new">submit a bug report</a> and/or a pull request against the <a href="https://github.com/flapjack/flapjack.io">flapjack.io repository</a> with the fix.</p>
+
+<p>Something not clear? That&rsquo;s a bug too!</p>
+
+<p>Got questions? Suggestions? Talk to us via irc, mailing list, or twitter. See <a href="/support">Support</a> for details.</p>
+<h3 id='coming-soon'>Coming soon</h3>
+<p>Stay tuned for more info on how to configure:</p>
+
+<ul>
+<li>notification rules</li>
+<li>intervals</li>
+<li>summary thresholds</li>
+</ul>
+
+<p>In the mean time, check out:</p>
+
+<ul>
+<li><a href="../jsonapi">JSONAPI documentation</a> for working with individual contacts and entities</li>
+<li><a href="https://github.com/flapjack/flapjack-diner">flapjack-diner</a>, the ruby client interface to Flapjack&rsquo;s API</li>
+</ul>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

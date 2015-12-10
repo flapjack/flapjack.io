@@ -54,54 +54,54 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1> Documentation </h1>
+        <h2 id='gathering-internal-statistics-with-collectd'>Gathering internal statistics with collectd</h2>
+<p>Here is an example collectd configuration file:</p>
+<pre><code class="highlight plaintext">LoadPlugin "curl_json"
 
-v2.0 is not yet released... The latest stable release is in the 1.x series.
+&lt;Plugin curl_json&gt;
+  &lt;URL "http://localhost:3080/self_stats.json"&gt;
+    Instance "flapjack"
 
-<ul style="margin-top: 1.5em">
-<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
-<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
-<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
-</ul>
+    # global stats
+    &lt;Key "events_queued"&gt;
+      Type "gauge"
+    &lt;/Key&gt;
+    &lt;Key "all_entities"&gt;
+      Type "gauge"
+    &lt;/Key&gt;
+    &lt;Key "failing_entities"&gt;
+      Type "gauge"
+    &lt;/Key&gt;
+    &lt;Key "all_checks"&gt;
+      Type "gauge"
+    &lt;/Key&gt;
+    &lt;Key "failing_checks"&gt;
+      Type "gauge"
+    &lt;/Key&gt;
+    &lt;Key "total_keys"&gt;
+      Type "gauge"
+    &lt;/Key&gt;
 
+    # event processing stats
+    &lt;Key "processed_events/all_time/total"&gt;
+      Type "derive"
+    &lt;/Key&gt;
+    &lt;Key "processed_events/all_time/ok"&gt;
+      Type "derive"
+    &lt;/Key&gt;
+    &lt;Key "processed_events/all_time/failure"&gt;
+      Type "derive"
+    &lt;/Key&gt;
+    &lt;Key "processed_events/all_time/action"&gt;
+      Type "derive"
+    &lt;/Key&gt;
+  &lt;/URL&gt;
+&lt;/Plugin&gt;
+</code></pre>
 
-  <h4> Usage </h4>
+<p>An example graph:</p>
 
-  <ul>
-      <li><a href=usage/Architecture>Architecture</a></li>
-      <li><a href=usage/Configuring-Nagios>Configuring nagios</a></li>
-      <li><a href=usage/Http-Broker>Http broker</a></li>
-      <li><a href=usage/Http-Checker>Http checker</a></li>
-      <li><a href=usage/IMPORTING>Importing</a></li>
-      <li><a href=usage/Installation>Installation</a></li>
-      <li><a href=usage/Notification-Routing>Notification routing</a></li>
-      <li><a href=usage/Promoting>Promoting</a></li>
-      <li><a href=usage/Tutorial>Tutorial</a></li>
-      <li><a href=usage/faq>Faq</a></li>
-      <li><a href=usage/oobetet>Oobetet</a></li>
-      <li><a href=usage/purging-history>Purging history</a></li>
-      <li><a href=usage/quickstart>Quickstart</a></li>
-  </ul>
-
-
-  <h4> Gateway configuration </h4>
-
-  <ul>
-  </ul>
-
-
-  <h4> Development </h4>
-
-  <ul>
-      <li><a href=development/DATA_STRUCTURES>Data structures</a></li>
-      <li><a href=development/DEVELOPING>Developing</a></li>
-      <li><a href=development/Gathering-internal-statistics-with-collectd>Gathering internal statistics with collectd</a></li>
-      <li><a href=development/Omnibus-In-Your-Docker>Omnibus in your docker</a></li>
-      <li><a href=development/Package-Building>Package building</a></li>
-      <li><a href=development/Release-Planning>Release planning</a></li>
-      <li><a href=development/roadmap>Roadmap</a></li>
-  </ul>
-
+<p><img alt="graph of failures detected by Flapjack" src="http://i.imgur.com/FZOdh8G.png" /></p>
 
       </div>
     </div>

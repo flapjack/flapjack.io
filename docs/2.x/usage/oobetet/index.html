@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/github-markdown.css" type="text/css">
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .markdown-body {
+        min-width: 200px;
+        max-width: 790px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="container-fluid" id="navfluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+          <span class="name">Flapjack</span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navigationbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/support">Support</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+    <center>
+        <div class="alert alert-info" style="padding-top: 10px; padding-bottom: 0px; margin-bottom: 0px; height: 40px">
+    <strong>This is documentation for Flapjack version 2.x:</strong>
+    If you're looking for version 1.0 documentation, click <a class="alert-link" href="http://flapjack.io/docs/1.0">here.</a>
+  </div>
+
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 markdown-body">
+        <h2 id='oobetet'>Oobetet</h2>
+<p>&ldquo;Out Of Band, End To End Test&rdquo; (oobetet) is a self-check mechanism that verifies the stream of events from the upstream event producers is current, and that Flapjack is able to emit alerts in a timely fashion to a Jabber multi user chat room.</p>
+
+<p>The oobetet verifies this currency of the event stream by sitting in a Jabber multi user chat room and watching for problem and recovery notifications for a specific check.</p>
+
+<p>If the oobetet does not observe state changes within a certain timeframe, it fires an alert, via Jabber or PagerDuty.</p>
+
+<p>This helps you identify when your upstream event producers have gotten stuck, e.g. Nagios has hung, the node has gone away, etc.</p>
+<h3 id='how-it-works'>How it works</h3>
+<p>Oobetet works like this:</p>
+
+<p><img alt="oobetet high level" src="../../../../images/oobetet-high-level.png" /></p>
+
+<p>The Flapjack flapper is a process that oscillates between up (listening on a TCP port) and down (not listening). By default, the oscillation frequency is 2 minutes. This frequency is user-tunable.</p>
+
+<p>Your check execution engine (e.g. Icinga, Sensu, Nagios, &hellip;) is configured to monitor the Flapper with a high frequency (e.g every 10 seconds), and passes on the results of all checks to Flapjack&rsquo;s event processor (via <code class="prettyprint">flapjack receiver</code>).</p>
+
+<p>Flapjack is configured with a contact that is interested in the Flapper check, and who has one of the Jabber chat rooms as its Jabber contact address. Flapjack will therefore generate alerts in this Jabber chat room about Flapper going up, down, up, down, continuously.</p>
+
+<p>The oobetet pikelet connects to the Jabber server and joins the room to which Flapjack is sending alerts for Flapper. It then watches for alerts in the chat room for Flapper. If it detects that Flapper doesn&rsquo;t change state within a period of time (we recommend 5 minutes), it will fire an alert, both by Jabber back into this chat room, and to PagerDuty.</p>
+
+<p>You can find an example oobetet config in the Flapjack example configuration file.</p>
+<h3 id='event-producers'>Event producers</h3>
+<p>The upstream monitoring check is expected to switch between states within that time period. If it does not, an alert will fire.</p>
+
+<p>Assuming you&rsquo;re running Nagios as your check execution engine, and your Nagios is hooked up to Flapjack with <code class="prettyprint">flapjack receiver nagios</code>, here&rsquo;s an example Nagios config to setup a flapping service:</p>
+<pre><code class="highlight plaintext">define host {
+  use            base
+  host_name      flapper-on-nagios-01.example.org
+  alias          flapper-on-nagios-01
+  address        192.168.100.10
+}
+
+define service {
+  use                 base
+  host_name           flapper-on-nagios-01.example.org
+  service_description Flapper
+  check_command       check_tcp!12345
+  check_interval      10
+  retry_interval      10
+}
+
+define command {
+  command_name check_tcp
+  command_line $USER1$/check_tcp -H $HOSTADDRESS$ -p $ARG1$
+}
+</code></pre>
+
+<p>Flapjack ships a Flapper service that the above <code class="prettyprint">check_tcp</code> check queries. The Flapper service oscillates between opening and closing TCP port 12345, at a user-specified frequency (the default is 120 seconds).</p>
+
+<p>You start it like this:</p>
+<pre><code class="highlight shell">flapjack flapper
+</code></pre>
+<h3 id='stringing-it-all-together'>Stringing it all together</h3>
+<p>With the above configuration:</p>
+
+<ul>
+<li>Nagios checks the Flapper service is available every 10 seconds</li>
+<li>Nagios reports the events to Flapjack via the <code class="prettyprint">flapjack receiver nagios</code></li>
+<li>Flapjack generates alerts for Flapper in a Jabber chat room</li>
+<li>Oobetet watches for these alerts in the Jabber chat room</li>
+<li>Oobetet checks the notifications are coming through at least every 5 minutes</li>
+<li>If the oobetet detects the state changes aren&rsquo;t happening, it sends notifications to PagerDuty and Jabber</li>
+</ul>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

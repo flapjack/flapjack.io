@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/github-markdown.css" type="text/css">
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .markdown-body {
+        min-width: 200px;
+        max-width: 790px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="container-fluid" id="navfluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+          <span class="name">Flapjack</span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navigationbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/support">Support</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+    <center>
+        <div class="alert alert-info" style="padding-top: 10px; padding-bottom: 0px; margin-bottom: 0px; height: 40px">
+    <strong>This is documentation for Flapjack version 2.x:</strong>
+    If you're looking for version 1.0 documentation, click <a class="alert-link" href="http://flapjack.io/docs/1.0">here.</a>
+  </div>
+
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 markdown-body">
+        <h2 id='http-broker'>Http Broker</h2>
+<p>Flapjack ships with an HTTP event broker that accepts events from external check execution systems over HTTP. The events are a json blob as defined in the Data Structure documentation with the addition of a &lsquo;ttl&rsquo; attribute (time to live, in seconds).</p>
+
+<p>The http broker can be used for non-heartbeat style event streams, where you send along a TTL and the broker will then cache the last state and repeatedly emit events for this check until the TTL expires, whereupon it’ll start generating UNKNOWN events for that check.</p>
+
+<p>The HTTP Broker is available as the <code class="prettyprint">httpbroker</code> subcommand of the <code class="prettyprint">receiver</code> subcommand eg <code class="prettyprint">flapjack receiver httpbroker</code>.</p>
+
+<p>Output of <code class="prettyprint">flapjack receiver httpbroker --help</code></p>
+<pre><code class="highlight plaintext">usage: httpbroker [&lt;flags&gt;]
+
+Flags:
+  --help               Show help.
+  --port="3090"        Address to bind HTTP server (default 3090)
+  --server="localhost:6380"
+                       Redis server to connect to (default localhost:6380)
+  --database=DATABASE  Redis database to connect to (default 0)
+  --interval=10s       How often to submit events (default 10s)
+  --debug              Enable verbose output (default false)
+  --version            Show application version.
+</code></pre>
+<h3 id='example'>Example</h3>
+<p>Start up the http broker on the default listen port of 3090 with debug verbosity:</p>
+<pre><code class="highlight shell">flapjack receiver httpbroker --debug
+</code></pre>
+
+<p>Submit an event:</p>
+<pre><code class="highlight shell">curl -w <span class="s1">'response: %{http_code} \n'</span> -X POST <span class="se">\</span>
+  -H <span class="s2">"Content-type: application/json"</span> -d <span class="se">\</span>
+  <span class="s1">'{
+    "entity": "foo-app-01",
+    "check": "PING",
+    "type": "service",
+    "tags": "apps",
+    "state": "OK",
+    "summary": "3 ms round trip",
+    "ttl": 30
+  }'</span> http://localhost:3090/state
+</code></pre>
+
+<p>You should get something like the following back from the curl command:</p>
+<pre><code class="highlight plaintext">Caching state: {"entity":"foo-app-01","check":"PING","type":"service",
+"state":"OK","summary":"3 ms round trip","time":1429505587,"ttl":30}
+response: 200
+</code></pre>
+
+<p>You should see some output from http broker like this:</p>
+<pre><code class="highlight plaintext">2015/04/20 14:29:56 Booting with config: {Port::3090 Server:localhost:6380 Database:0 Interval:10s Debug:true}
+2015/04/20 14:29:56 Number of cached states: 0
+[martini] Started POST /state for 127.0.0.1:51911
+2015/04/20 14:29:58 Caching state: {"entity":"foo-app-01","check":"PING","type":"service","state":"OK","summary":"","time":1429505998,"ttl":30}
+[martini] Completed 200 OK in 330.572us
+2015/04/20 14:30:06 Number of cached states: 1
+2015/04/20 14:30:06 Sending event data for foo-app-01:PING
+2015/04/20 14:30:16 Number of cached states: 1
+2015/04/20 14:30:16 Sending event data for foo-app-01:PING
+2015/04/20 14:30:26 Number of cached states: 1
+2015/04/20 14:30:26 Sending event data for foo-app-01:PING
+2015/04/20 14:30:36 Number of cached states: 1
+2015/04/20 14:30:36 State for foo-app-01:PING is stale. Sending UNKNOWN.
+2015/04/20 14:30:36 Sending event data for foo-app-01:PING
+2015/04/20 14:30:46 Number of cached states: 1
+2015/04/20 14:30:46 State for foo-app-01:PING is stale. Sending UNKNOWN.
+2015/04/20 14:30:46 Sending event data for foo-app-01:PING
+</code></pre>
+
+<p>Notice how after the 30 second TTL expires the http broker starts sending UNKNOWN for this check.</p>
+<h3 id='event-formats'>Event formats</h3>
+<p>The broker also accepts events from Amazon SNS and NewRelic (FIXME: this section should be written by someone with experience of using these.)</p>
+<h3 id='limitations'>Limitations</h3>
+<ul>
+<li>No state is persisted between restarts. http broker will start with a clean slate each time it starts up.</li>
+</ul>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>

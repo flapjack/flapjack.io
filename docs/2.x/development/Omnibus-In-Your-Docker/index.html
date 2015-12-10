@@ -54,54 +54,62 @@
     <div class="container content">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 markdown-body">
-        <h1> Documentation </h1>
+        <h1 id='omnibus-in-your-docker'>Omnibus in your Docker</h1>
+<p>This doc covers how to get a local development environment going for building Flapjack packages.</p>
+<h2 id='set-up-a-docker-server'>Set up a docker server</h2>
+<p>The easiest way to do this is to use <a href="https://docs.docker.com/machine/">Docker Machine</a> to manage a VirtualBox VM running <a href="https://github.com/boot2docker/boot2docker">boot2docker linux</a>, a very lightweight linux distro designed to run docker server and not much else (it uses busybox for your shell if you ssh into it). The boot2docker cli is written in Go and runs on Mac OS, Windows and Linux.</p>
 
-v2.0 is not yet released... The latest stable release is in the 1.x series.
+<p>You may need to specify some configuration, in particular so the IP range is within a subnet that your VPN is not going to grab routes to:</p>
 
-<ul style="margin-top: 1.5em">
-<li>The <b><a href="usage/quickstart">quickstart guide</a></b> shows you how to get Flapjack running in a VM locally using Vagrant and VirtualBox, and teaches you the basics of working with Flapjack.</li>
-<li>The <b><a href="usage/faq">FAQ</a></b> covers common questions asked about Flapjack, and pointers to other resources.</li>
-<li>The <b><a href="jsonapi">JSONAPI documentation</a></b> covers the API for working with Flapjack data.</li>
-</ul>
+<p><strong>~/.boot2docker/profile</strong></p>
+<pre><code class="highlight plaintext">DiskSize = 20000
+Memory = 2048
+SSHPort = 2022
+DockerPort = 2375
+HostIP = "172.20.10.3"
+DHCPIP = "172.20.10.99"
+NetMask = [255, 255, 255, 0]
+LowerIP = "172.20.10.103"
+UpperIP = "172.20.10.254"
+DHCPEnabled = true
+</code></pre>
 
+<p>Create, and start up, your docker server:</p>
+<pre><code class="highlight plaintext">docker-machine start default
+eval "$(docker-machine env default)"
+</code></pre>
 
-  <h4> Usage </h4>
+<p>Test that everything is working:</p>
+<pre><code class="highlight plaintext">docker ps
+</code></pre>
 
-  <ul>
-      <li><a href=usage/Architecture>Architecture</a></li>
-      <li><a href=usage/Configuring-Nagios>Configuring nagios</a></li>
-      <li><a href=usage/Http-Broker>Http broker</a></li>
-      <li><a href=usage/Http-Checker>Http checker</a></li>
-      <li><a href=usage/IMPORTING>Importing</a></li>
-      <li><a href=usage/Installation>Installation</a></li>
-      <li><a href=usage/Notification-Routing>Notification routing</a></li>
-      <li><a href=usage/Promoting>Promoting</a></li>
-      <li><a href=usage/Tutorial>Tutorial</a></li>
-      <li><a href=usage/faq>Faq</a></li>
-      <li><a href=usage/oobetet>Oobetet</a></li>
-      <li><a href=usage/purging-history>Purging history</a></li>
-      <li><a href=usage/quickstart>Quickstart</a></li>
-  </ul>
+<p>You should see:</p>
+<pre><code class="highlight plaintext">$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+</code></pre>
 
+<p>This shows that there are no docker containers running.</p>
+<h2 id='download-omnibus-ubuntu--omnibus-debian--omnibus-centos-images'>Download omnibus-ubuntu / omnibus-debian / omnibus-centos images</h2>
+<p>Pull down the latest flapjack/omnibus-distro images from the docker registry for your preferred distribution:</p>
+<pre><code class="highlight plaintext">docker pull flapjack/omnibus-ubuntu
+docker pull flapjack/omnibus-debian
+docker pull flapjack/omnibus-centos
+</code></pre>
 
-  <h4> Gateway configuration </h4>
+<p>This will pull down several images each. If you just want an image for a particular Ubuntu release, supply either the <code class="prettyprint">trusty</code> or <code class="prettyprint">precise</code> tags to the above <code class="prettyprint">docker pull</code> command, eg:</p>
+<pre><code class="highlight plaintext">docker pull flapjack/omnibus-ubuntu:trusty
+</code></pre>
 
-  <ul>
-  </ul>
+<p>The same applies to Debian and Centos:</p>
+<pre><code class="highlight plaintext">docker pull flapjack/omnibus-debian:wheezy
+docker pull flapjack/omnibus-centos:6
+</code></pre>
 
+<p>Details of the build history and so on for omnibus-ubuntu are visible on the <a href="https://registry.hub.docker.com/u/flapjack/omnibus-ubuntu">Docker Hub</a>.</p>
 
-  <h4> Development </h4>
-
-  <ul>
-      <li><a href=development/DATA_STRUCTURES>Data structures</a></li>
-      <li><a href=development/DEVELOPING>Developing</a></li>
-      <li><a href=development/Gathering-internal-statistics-with-collectd>Gathering internal statistics with collectd</a></li>
-      <li><a href=development/Omnibus-In-Your-Docker>Omnibus in your docker</a></li>
-      <li><a href=development/Package-Building>Package building</a></li>
-      <li><a href=development/Release-Planning>Release planning</a></li>
-      <li><a href=development/roadmap>Roadmap</a></li>
-  </ul>
-
+<p>The image is rebuilt automatically when the <a href="https://github.com/flapjack/omnibus-ubuntu">omnibus-ubuntu repo</a> receives new commits.</p>
+<h2 id='build'>Build</h2>
+<p>Now you should be good to <a href="https://github.com/flapjack/omnibus-flapjack/blob/master/README.md#build">build packages</a> with the <a href="https://github.com/flapjack/omnibus-flapjack/blob/master/README.md#build">omnibus-flapjack</a> project.</p>
 
       </div>
     </div>

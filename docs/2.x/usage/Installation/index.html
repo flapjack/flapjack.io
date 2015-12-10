@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+  <title>Flapjack, monitoring notification routing + event processing</title>
+  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/stylesheets/api-screen.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/api-syntax.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="/stylesheets/github-markdown.css" type="text/css">
+  <link rel="shortcut icon" href="/images/flapjack-2013-favicon-64-32-24-16.ico" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .markdown-body {
+        min-width: 200px;
+        max-width: 790px;
+        margin: 0 auto;
+        padding: 30px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-inverse" role="navigation" style="margin-bottom: 0px">
+    <div class="container-fluid" id="navfluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <img class="logo" src="/images/flapjack-2013-notext-transparent-300-300.png"/>
+          <span class="name">Flapjack</span>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="navigationbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/docs/1.0/usage/quickstart">Quickstart</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/support">Support</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+    <center>
+        <div class="alert alert-info" style="padding-top: 10px; padding-bottom: 0px; margin-bottom: 0px; height: 40px">
+    <strong>This is documentation for Flapjack version 2.x:</strong>
+    If you're looking for version 1.0 documentation, click <a class="alert-link" href="http://flapjack.io/docs/1.0">here.</a>
+  </div>
+
+    </center>
+    <div class="container content">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 markdown-body">
+        <h1 id='installation'>Installation</h1><h2 id='distribution-packages-ubuntu-debian-centos'>Distribution packages (Ubuntu, Debian, Centos)</h2>
+<p>The recommended platform to run Flapjack on (other than development) is one of the following:
+- Ubuntu Precise 64 (Ubuntu 12.04)
+- Ubuntu Trusty (Ubuntu 14.04)
+- Debian Wheezy (Debian 7)
+- Centos 6</p>
+
+<p>We provide packages for these platforms on our <a href="http://packages.flapjack.io">package repository</a>.
+The packages include all runtime dependencies, so you shouldn&rsquo;t need to install anything else to get flapjack up and running with a vanilla configuration.</p>
+
+<p>If you just want to have a quick play with Flapjack, use <a href="https://github.com/flapjack/vagrant-flapjack">vagrant-flapjack</a>, as this will also take care of creating and setting up a virtual machine using one of the above platforms, and installing flapjack for you.</p>
+
+<p>To install the package on one of the platforms above, add the Flapjack repository to your sources, and install the flapjack package:</p>
+<h3 id='debian-and-ubuntu'>Debian and Ubuntu:</h3>
+<p>Add the Flapjack package signing key:</p>
+<pre><code class="highlight shell">sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 8406B0E3803709B6
+</code></pre>
+
+<p>Add the Flapjack package repository corresponding to your distro and release (pick one of the following to run):</p>
+<pre><code class="highlight shell"><span class="c"># Ubuntu Precise</span>
+<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb/v2 precise main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+
+<span class="c"># Ubuntu Trusty</span>
+<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb/v2 trusty main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+
+<span class="c"># Debian Wheezy</span>
+<span class="nb">echo</span> <span class="s1">'deb http://packages.flapjack.io/deb/v2 wheezy main'</span> | sudo tee  /etc/apt/sources.list.d/flapjack.list
+</code></pre>
+
+<p>Go forth and install:</p>
+<pre><code class="highlight shell">sudo apt-get update
+sudo apt-get install flapjack
+</code></pre>
+<h3 id='centos'>Centos</h3>
+<p>Copy and paste the following lines in one go to add the Flapjack package repository to your yum repository list:</p>
+<pre><code class="highlight plaintext">cat &gt;/etc/yum.repos.d/flapjack.repo &lt;&lt; EOL
+[flapjack-v2]
+name=Flapjack v2
+baseurl=http://packages.flapjack.io/rpm/v2/flapjack/centos/6/x86_64/
+enabled=1
+EOL
+</code></pre>
+
+<p>Install the package:</p>
+<pre><code class="highlight shell">yum install --nogpgcheck flapjack
+</code></pre>
+
+<p>Nb: You&rsquo;ll need to start up redis-flapjack and then flapjack on CentOS, instructions forthcoming. TODO</p>
+
+<p>More details are available at <a href="http://packages.flapjack.io/">packages.flapjack.io</a></p>
+
+<p>You should now find that flapjack and redis have started up. Try visiting the <a href="http://localhost:3080">flapjack web interface</a>.</p>
+<h2 id='installing-as-a-gem'>Installing as a gem</h2>
+<p>If you&rsquo;re determined to run Flapjack on an unsupported platform, you can install the Flapjack ruby gem as follows:</p>
+
+<p>Install build-essential, and Ruby 2.1 using <a href="https://github.com/sstephenson/rbenv">rbenv</a>, and then run:</p>
+<pre><code class="highlight shell">gem install flapjack
+</code></pre>
+<h1 id='configuration'>Configuration</h1>
+<p>The default configuration file is located at /etc/flapjack/flapjack_config.toml.</p>
+<h1 id='running'>Running</h1>
+<p>Flapjack is made of a number of components, all accessible via the Flapjack executable.</p>
+
+<p>Information on each command can be accessed by running <code class="prettyprint">flapjack command help</code></p>
+<pre><code class="highlight plaintext">flapper  - Artificial service that oscillates up and down, for use in http://flapjack.io/docs/1.0/usage/oobetet
+receiver - Receive events from external systems and sends them to Flapjack
+server   - Server for running components (e.g. processor, notifier, gateways)
+simulate - Simulates a check by creating a stream of events for Flapjack to process
+</code></pre>
+
+      </div>
+    </div>
+  </div> <!-- container -->
+
+  <footer>
+<div class="row">
+<div class="col-md-4 col-md-offset-2">
+  Flapjack was conceptualised by
+  <a href="https://twitter.com/auxesis">Lindsay Holmwood</a>.
+  <a href="https://twitter.com/jessereynolds">Jesse Reynolds</a> and
+  <a href="https://github.com/ali-graham">Ali Graham</a>
+  are the primary developers.
+  View the project on <a href="https://github.com/flapjack/flapjack">GitHub</a>.
+</div>
+<div class="col-md-4 sponsor">
+  <a href="http://bulletproof.net.au" target="_bulletproof">
+    <img class="bulletproof" src="/images/bulletproof-logo.png"/>
+  </a>
+  <span class="bulletproof subtext">
+    Development sponsored by
+    <a href="http://bulletproof.net.au" target="_bulletproof">Bulletproof</a>.
+  </span>
+</div>
+</div>
+</footer>
+
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  try {
+    var pageTracker = _gat._getTracker("UA-388962-5");
+    pageTracker._trackPageview();
+  } catch(err) {}
+</script>
+
+</body>
+</html>
