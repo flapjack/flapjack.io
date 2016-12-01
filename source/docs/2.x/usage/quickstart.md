@@ -1,5 +1,3 @@
-FIXME: not yet revised for v2, blocked by getting experimental packages published.
-
 ---
 
 # Quickstart
@@ -95,7 +93,7 @@ flapjack simulate fail_and_recover - Generate a stream of failure events, and on
 flapjack simulate ok               - Generate a stream of ok events
 ```
 
-You can now see these under the [list of checks](http://localhost:3080/checks_all).
+You can now see these under the [list of checks](http://localhost:3080/checks).
 
 ![Screenshot of the list of checks](/images/2.0/quickstart/check-list.png)
 
@@ -105,11 +103,11 @@ There are two types of maintenance - scheduled and unscheduled maintenance. An a
 
 All checks are created with a period of scheduled maintenance, 100 years by default. This can be altered, or disabled, in the flapjack config file.
 
-Click the 'End Now' button on the [bacon check](http://localhost:3080/checks?name=restaurant1:bacon) to end this maintenance.
+Click the 'End Now' button on the [bacon check](http://localhost:3080/checks?name=restaurant1%3Abacon) to end this maintenance.
 
 #### Unscheduled maintenance (acknowledgements)
 
-Our `restaurant1:bacon` check is now critical, and sending out alerts.  To acknowledge this check, and silence the alerts, we add unscheduled maintenance for a period of time by filling out the [Acknowledge Alert](http://localhost:3080/checks?name=restaurant1:bacon) box.
+Our `restaurant1:bacon` check is now critical, and sending out alerts.  To acknowledge this check, and silence the alerts, we add unscheduled maintenance for a period of time by filling out the [Acknowledge Alert](http://localhost:3080/checks?name=restaurant1%3Abacon) box.
 
 ![Screenshot of adding unscheduled maintenance](/images/2.0/quickstart/add-unscheduled-maintenance.png)
 
@@ -131,7 +129,7 @@ flapjack maintenance create - Create a maintenance window
 
 [Contacts](../jsonapi/#contacts) and [media](../jsonapi/#media) can be added through the API.
 
-The bottom of the [check page](http://localhost:3080/checks?name=restaurant1:bacon) lists which contacts will be notified of events.
+The bottom of the [check page](http://localhost:3080/checks?name=restaurant1%3Abacon) lists which contacts will be notified of events.
 
 ### The outputs
 
@@ -172,5 +170,5 @@ Stay tuned for more info on how to configure:
 
 In the mean time, check out:
 
- - [JSONAPI documentation](../../jsonapi) for working with individual contacts and entities
+ - [JSONAPI documentation](../jsonapi) for working with individual contacts and entities
  - [flapjack-diner](https://github.com/flapjack/flapjack-diner), the ruby client interface to Flapjack's API

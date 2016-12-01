@@ -182,8 +182,6 @@ state::attrs:ids (sorted_set)
 state::indices:by_action:* (set)
 state::indices:by_condition:* (set)
 state::indices:by_created_at (sorted_set)
-state::indices:by_finished_at (sorted_set)
-state::indices:by_updated_at (sorted_set)
 ```
 
 ## instance
@@ -194,7 +192,6 @@ state:[UUID]:attrs (hash)
     :id  => :string
     :created_at  => :timestamp
     :updated_at  => :timestamp
-    :finished_at  => :timestamp
     :condition  => :string
     :action  => :string
     :summary  => :string
