@@ -69,10 +69,10 @@ We're using DNSimple for the flapjack.io domain name hosting, Amazon Route 53 fo
 Here are the nameservers `flapjack.io` is delegated to:
 
 ```
-flapjack.io name server ns4.dnsimple.com.
-flapjack.io name server ns2.dnsimple.com.
-flapjack.io name server ns3.dnsimple.com.
-flapjack.io name server ns1.dnsimple.com.
+flapjack.io name server ns.va.com.au. [primary]
+flapjack.io name server ns5.dnsmadeeasy.com.
+flapjack.io name server ns6.dnsmadeeasy.com.
+flapjack.io name server ns7.dnsmadeeasy.com.
 ```
 
 Here are the nameservers `packages.flapjack.io` is delegated to:
@@ -86,12 +86,12 @@ packages.flapjack.io name server ns-206.awsdns-25.com.
 
 Route 53 has the following records for the `packages.flapjack.io` domain:
 
-| Name               | Type | Value                                |
-|--------------------|:----:|--------------------------------------|
-|packages.flapjack.io| A    | ALIAS d3tuf7yoix2erv.cloudfront.net. |
-|packages.flapjack.io| NS   | (aws nameservers as listed above)    |
-|packages.flapjack.io| SOA  | (usual stuff)                        |
+| Name               | Type | Value                                     |
+|--------------------|:----:|-------------------------------------------|
+|packages.flapjack.io| A    | ALIAS s3-website-us-east-1.amazonaws.com. (Z3AQBSTGFYJSTF) |
+|packages.flapjack.io| NS   | (aws nameservers as listed above)         |
+|packages.flapjack.io| SOA  | (usual stuff)                             |
 
 The S3 bucket name is `packages.flapjack.io` and the endpoint is [packages.flapjack.io.s3-website-us-east-1.amazonaws.com](http://packages.flapjack.io.s3-website-us-east-1.amazonaws.com).
 
-Logging is configured to write to the bucked logs.packages.flapjack.io under `root/`
+Logging is configured to write to the bucket logs.packages.flapjack.io under `root/`
